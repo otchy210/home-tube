@@ -1,4 +1,4 @@
 import ReactDOM from 'react-dom';
-import Main from './components/Main';
+import Base from './components/layout/Base';
 
-ReactDOM.render(<Main></Main>, document.getElementById('root'));
+ReactDOM.render(<Base />, document.getElementById('root'));
