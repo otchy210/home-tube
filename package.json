@@ -1,0 +1,18 @@
+{
+  "name": "home-tube",
+  "version": "1.0.0",
+  "description": "HomeTube provides useful web UI for your videos in your local storage and local network.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otchy210/home-tube.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/otchy210/home-tube/issues"
+  },
+  "homepage": "https://github.com/otchy210/home-tube#readme"
+}
