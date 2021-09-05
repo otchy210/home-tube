@@ -1,13 +1,15 @@
 {
     "compilerOptions": {
         "sourceMap": true,
-        "target": "ES5",
-        "module": "ES2015",
-        "jsx": "react",
+        "target": "ES2020",
+        "module": "es2020",
+        "jsx": "react-jsx",
+        "rootDir": "./src",
+        "strict": true,
         "moduleResolution": "node",
-        "lib": [
-            "ES2020",
-            "DOM"
-        ]
+        "typeRoots": ["./@types"],
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     }
 }
