@@ -6,14 +6,14 @@
  * or disable the default devtool with "devtool: false".
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
-/******/ (() => { // webpackBootstrap
+/******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/client/main.ts":
 /*!****************************!*\
   !*** ./src/client/main.ts ***!
   \****************************/
-/***/ (() => {
+/***/ (function() {
 
 eval("console.log('client/main.ts');\n\n\n//# sourceURL=webpack://home-tube/./src/client/main.ts?");
 
