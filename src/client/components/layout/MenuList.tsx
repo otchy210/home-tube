@@ -1,5 +1,6 @@
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
+import i18nText from '../common/i18nText';
 
 const MenuList: React.FC<{}> = () => {
     return (
@@ -8,7 +9,7 @@ const MenuList: React.FC<{}> = () => {
                 <ListItemIcon>
                     <HomeIcon />
                 </ListItemIcon>
-                <ListItemText primary="Home" />
+                <ListItemText primary={i18nText('Home')} />
             </ListItem>
         </List>
     );
