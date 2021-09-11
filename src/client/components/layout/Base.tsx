@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import { useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import Header from './Header';
 import Content from './Content';
 import Menu from './Menu';
@@ -18,22 +19,24 @@ const Base: React.FC<{}> = () => {
     const [menuOpened, setMenuOpened] = useState(false);
     const classes = useStyles();
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <Header
-                menuOpened={menuOpened}
-                openMenu={() => {
-                    setMenuOpened(true);
-                }}
-            />
-            <Menu
-                menuOpened={menuOpened}
-                closeMenu={() => {
-                    setMenuOpened(false);
-                }}
-            />
-            <Content />
-        </div>
+        <BrowserRouter>
+            <div className={classes.root}>
+                <CssBaseline />
+                <Header
+                    menuOpened={menuOpened}
+                    openMenu={() => {
+                        setMenuOpened(true);
+                    }}
+                />
+                <Menu
+                    menuOpened={menuOpened}
+                    closeMenu={() => {
+                        setMenuOpened(false);
+                    }}
+                />
+                <Content />
+            </div>
+        </BrowserRouter>
     );
 };
 

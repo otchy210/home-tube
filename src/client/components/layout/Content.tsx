@@ -1,6 +1,8 @@
 import { Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Route, Switch } from 'react-router-dom';
 import Home from '../page/Home';
+import Settings from '../page/Settings';
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -22,7 +24,14 @@ const Content: React.FC<{}> = () => {
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
-                <Home />
+                <Switch>
+                    <Route path="/settings">
+                        <Settings />
+                    </Route>
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                </Switch>
             </Container>
         </main>
     );

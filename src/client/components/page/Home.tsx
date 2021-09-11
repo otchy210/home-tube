@@ -1,5 +1,4 @@
 import { Grid } from '@material-ui/core';
-import React from 'react';
 import Thumbnail from '../common/Thumbnail';
 
 const Home: React.FC<{}> = () => {
