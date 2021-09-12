@@ -1,9 +1,5 @@
 import { createContext } from 'react';
 
-export interface SettingsContextProps {
-    apiRoot?: string;
-}
-
-const SettingsContext = createContext<SettingsContextProps>({});
+const SettingsContext = createContext<Settings>({});
 
 export default SettingsContext;
