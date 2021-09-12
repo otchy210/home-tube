@@ -4,7 +4,8 @@
   "description": "HomeTube provides useful web UI for your videos in your local storage and local network.",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev:client": "webpack-dev-server --config webpack-client.config.js",
+    "dev:server": "webpack --config webpack-server.config.js && node bin/server.bundle.js",
     "build": "webpack",
     "watch": "webpack -w"
   },

@@ -1,10 +1,12 @@
 import { createContext } from 'react';
 
+export type Translations = {
+    [key: string]: { [context: string]: string };
+};
+
 export interface I18nContextProps {
     locale?: string;
-    translations?: {
-        [key: string]: { [context: string]: string };
-    };
+    translations?: Translations;
 }
 
 const I18nContext = createContext<I18nContextProps>({});

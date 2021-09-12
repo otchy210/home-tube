@@ -1,9 +1,6 @@
-const path = require('path');
-
 module.exports = {
     mode: 'development',
     entry: {
-        server: './src/server/main.ts',
         client: './src/client/main.tsx',
     },
     output: {
@@ -23,7 +20,7 @@ module.exports = {
             '.ts', '.tsx', '.js', '.jsx',
         ],
     },
-    target: ["web", "es5"],
+    target: ['web', 'es5'],
     devServer: {
         host: 'local-ip',
         port: 'auto',
