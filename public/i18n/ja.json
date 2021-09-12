@@ -4,5 +4,11 @@
     },
     "Settings": {
         "": "設定"
+    },
+    "Open settings": {
+        "": "設定を開く"
+    },
+    "Found no settings. Go to settings page to see the instruction.": {
+        "": "設定が見つかりません。設定ページを開き説明を参照してください。"
     }
 }

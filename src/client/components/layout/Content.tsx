@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router-dom';
 import Home from '../page/Home';
 import Settings from '../page/Settings';
+import GlobalError from './GlobalError';
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -23,6 +24,7 @@ const Content: React.FC<{}> = () => {
     return (
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            <GlobalError />
             <Container maxWidth="lg" className={classes.container}>
                 <Switch>
                     <Route path="/settings">
