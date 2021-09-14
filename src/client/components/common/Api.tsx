@@ -22,7 +22,7 @@ export class Api {
     }
 
     get(path: string): Promise<ApiResult> {
-        const apiPath = `${this.apiRoot}/${path}`;
+        const apiPath = `${this.apiRoot}${path}`;
         return new Promise<ApiResult>((resolve) => {
             fetch(apiPath)
                 .then((result) => {

@@ -7,9 +7,17 @@ module.exports = {
         path: `${__dirname}/bin`,
         filename: '[name].bundle.js',
     },
+    module: {
+        rules: [
+            {
+                test: /\.(ts)$/,
+                use: 'ts-loader',
+            },
+        ],
+    },
     resolve: {
         extensions: [
-            '.js',
+            '.js', '.ts',
         ],
     },
     target: ['node'],
