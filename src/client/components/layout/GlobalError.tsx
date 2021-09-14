@@ -1,8 +1,12 @@
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Api } from '../common/Api';
 import i18nText from '../common/i18nText';
+import { useApi } from '../common/useApi';
 import { useSettings } from '../common/useSettings';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,9 +15,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const getSettingsError = (settings: Settings) => {
+const getGlobalError = async (settings: Settings, api: Api) => {
     if (Object.keys(settings).length === 0) {
         return i18nText('Found no settings. Go to settings page to see the instruction.');
+    }
+    const apiResult = await api.ping();
+    if (!apiResult.ok) {
+        return i18nText("Api server doesn't work properly. Go to settings page to see the instruction.");
     }
     return '';
 };
@@ -21,11 +29,18 @@ const getSettingsError = (settings: Settings) => {
 const GlobalError: React.FC<{}> = () => {
     const classes = useStyles();
     const settings = useSettings();
-    const settingsError = getSettingsError(settings);
+    const api = useApi();
     const history = useHistory();
+    const [globalError, setGlobalError] = useState('');
+    useEffect(() => {
+        (async () => {
+            const globalError = await getGlobalError(settings, api);
+            setGlobalError(globalError);
+        })();
+    }, []);
     return (
         <>
-            {settingsError && (
+            {globalError && (
                 <Alert
                     variant="filled"
                     severity="error"
@@ -42,7 +57,7 @@ const GlobalError: React.FC<{}> = () => {
                         </Button>
                     }
                 >
-                    {settingsError}
+                    {globalError}
                 </Alert>
             )}
         </>

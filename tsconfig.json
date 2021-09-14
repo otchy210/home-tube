@@ -10,6 +10,7 @@
         "typeRoots": ["./@types"],
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["DOM", "ES2020"]
     }
 }

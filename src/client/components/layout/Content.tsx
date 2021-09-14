@@ -24,8 +24,8 @@ const Content: React.FC<{}> = () => {
     return (
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <GlobalError />
             <Container maxWidth="lg" className={classes.container}>
+                <GlobalError />
                 <Switch>
                     <Route path="/settings">
                         <Settings />

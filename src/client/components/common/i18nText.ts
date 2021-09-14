@@ -1,14 +1,19 @@
 import { useContext } from 'react';
-import I18nContext from './I18nContext';
+
+export const setI18n = (i18n: I18n) => {
+    window.i18n = i18n;
+}
 
 interface Props {
     context?: string;
 }
 
 const i18nText = (key: string, props?: Props): string => {
+    if (!window.i18n) {
+        return key;
+    }
     const { context } = props ?? {};
-    const i18nContext = useContext(I18nContext);
-    const translations = i18nContext?.translations;
+    const translations = window.i18n?.translations;
     const values = translations?.[key];
     const text = values?.[context ?? ''] ?? key;
     return text;

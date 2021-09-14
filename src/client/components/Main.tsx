@@ -1,20 +1,24 @@
 import { CircularProgress } from '@material-ui/core';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Api } from './common/Api';
+import ApiContext from './common/ApiContext';
 import { fetchJson } from './common/fetchJson';
-import I18nContext, { I18nContextProps, Translations } from './common/I18nContext';
+import { setI18n } from './common/i18nText';
 import SettingsContext from './common/SettingsContext';
 import Base from './layout/Base';
 
 const Main: React.FC<{}> = () => {
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState<Settings>({});
-    const [i18n, setI18n] = useState<I18nContextProps>({});
+    const [api, setApi] = useState<Api>(new Api());
     useEffect(() => {
         const locale = 'ja';
         (async () => {
             const settings = await fetchJson<Settings>('/settings.json');
             setSettings(settings);
+            const api = new Api(settings.apiPort);
+            setApi(api);
             const translations = await fetchJson<Translations>(`/i18n/${locale}.json`);
             setI18n({ locale, translations });
             setLoading(false);
@@ -26,9 +30,9 @@ const Main: React.FC<{}> = () => {
                 <CircularProgress />
             ) : (
                 <SettingsContext.Provider value={settings}>
-                    <I18nContext.Provider value={i18n}>
+                    <ApiContext.Provider value={api}>
                         <Base />
-                    </I18nContext.Provider>
+                    </ApiContext.Provider>
                 </SettingsContext.Provider>
             )}
         </>

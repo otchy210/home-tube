@@ -9,6 +9,9 @@
         "": "設定を開く"
     },
     "Found no settings. Go to settings page to see the instruction.": {
-        "": "設定が見つかりません。設定ページを開き説明を参照してください。"
+        "": "設定が見つかりません。設定ページを開いて説明を参照してください。"
+    },
+    "Api server doesn't work properly. Go to settings page to see the instruction.": {
+        "": "API サーバが正しく動作していません。設定ページを開いて説明を参照してください。"
     }
 }
