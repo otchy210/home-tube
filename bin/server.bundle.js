@@ -1009,7 +1009,29 @@ eval("/*!\n * toidentifier\n * Copyright(c) 2016 Douglas Christopher Wilson\n * 
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"start\": () => (/* binding */ start)\n/* harmony export */ });\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"./node_modules/express/index.js\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n\nconst start = (port, version = 1) => {\n    const app = express__WEBPACK_IMPORTED_MODULE_0___default()();\n    app.use(express__WEBPACK_IMPORTED_MODULE_0___default().json());\n    app.use(express__WEBPACK_IMPORTED_MODULE_0___default().urlencoded({ extended: true }));\n    // CROS for local use only\n    app.use((req, res, next) => {\n        res.header(\"Access-Control-Allow-Origin\", \"*\");\n        res.header(\"Access-Control-Allow-Methods\", \"*\");\n        res.header(\"Access-Control-Allow-Headers\", \"*\");\n        next();\n    });\n    app.get(`/v${version}/ping`, (req, res) => {\n        res.send(true);\n    });\n    app.listen(port);\n    console.log(`API server running on the port ${port}. Ctrl+C to stop.`);\n};\n\n\n//# sourceURL=webpack://home-tube/./src/server/apiServer.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"start\": () => (/* binding */ start)\n/* harmony export */ });\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"./node_modules/express/index.js\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _handlers_Handler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handlers/Handler */ \"./src/server/handlers/Handler.ts\");\n/* harmony import */ var _handlers_ping__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlers/ping */ \"./src/server/handlers/ping.ts\");\n\n\n\nconst start = (port, version = 1) => {\n    const app = express__WEBPACK_IMPORTED_MODULE_0___default()();\n    app.use(express__WEBPACK_IMPORTED_MODULE_0___default().json());\n    app.use(express__WEBPACK_IMPORTED_MODULE_0___default().urlencoded({ extended: true }));\n    // CROS for local use only\n    app.use((req, res, next) => {\n        res.header(\"Access-Control-Allow-Origin\", \"*\");\n        res.header(\"Access-Control-Allow-Methods\", \"*\");\n        res.header(\"Access-Control-Allow-Headers\", \"*\");\n        next();\n    });\n    (0,_handlers_Handler__WEBPACK_IMPORTED_MODULE_1__.registerGetHandler)(app, _handlers_ping__WEBPACK_IMPORTED_MODULE_2__.getPing);\n    app.listen(port);\n    console.log(`API server running on the port ${port}. Ctrl+C to stop.`);\n};\n\n\n//# sourceURL=webpack://home-tube/./src/server/apiServer.ts?");
+
+/***/ }),
+
+/***/ "./src/server/handlers/Handler.ts":
+/*!****************************************!*\
+  !*** ./src/server/handlers/Handler.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"registerGetHandler\": () => (/* binding */ registerGetHandler),\n/* harmony export */   \"registerPostHandler\": () => (/* binding */ registerPostHandler)\n/* harmony export */ });\nconst registerGetHandler = (app, handler, version = 1) => {\n    app.get(`/v${version}${handler.getPath()}`, (req, res) => {\n        const result = handler.handle(req, res);\n        res.send(result);\n    });\n};\nconst registerPostHandler = (app, handler, version = 1) => {\n    app.post(`/v${version}${handler.getPath()}`, (req, res) => {\n        const result = handler.handle(req, res);\n        res.send(result);\n    });\n};\n\n\n//# sourceURL=webpack://home-tube/./src/server/handlers/Handler.ts?");
+
+/***/ }),
+
+/***/ "./src/server/handlers/ping.ts":
+/*!*************************************!*\
+  !*** ./src/server/handlers/ping.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getPing\": () => (/* binding */ getPing)\n/* harmony export */ });\nconst getPing = {\n    getPath: () => '/ping',\n    handle: () => {\n        return true;\n    }\n};\n\n\n//# sourceURL=webpack://home-tube/./src/server/handlers/ping.ts?");
 
 /***/ }),
 

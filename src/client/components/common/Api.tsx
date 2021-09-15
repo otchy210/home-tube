@@ -1,11 +1,3 @@
-export type JsonSerializable =
-    | null
-    | boolean
-    | number
-    | string
-    | [JsonSerializable]
-    | { [key: string]: JsonSerializable };
-
 export interface ApiResult {
     ok: boolean;
     status: number;
