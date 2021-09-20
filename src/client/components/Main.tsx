@@ -29,7 +29,7 @@ const Main: React.FC<{}> = () => {
             {loading ? (
                 <CircularProgress />
             ) : (
-                <SettingsContext.Provider value={settings}>
+                <SettingsContext.Provider value={{ value: settings, update: setSettings }}>
                     <ApiContext.Provider value={api}>
                         <Base />
                     </ApiContext.Provider>

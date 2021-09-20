@@ -1,5 +1,10 @@
 import { createContext } from 'react';
 
-const SettingsContext = createContext<Settings>({});
+export type SettingsContextHolder = {
+    value?: Settings;
+    update?: (settings: Settings) => void;
+};
+
+const SettingsContext = createContext<SettingsContextHolder>({});
 
 export default SettingsContext;

@@ -8,6 +8,24 @@
     "Open settings": {
         "": "設定を開く"
     },
+    "Target folders": {
+        "": "対象フォルダ"
+    },
+    "Folder path": {
+        "": "フォルダのパス"
+    },
+    "Add folder": {
+        "": "フォルダを追加"
+    },
+    "Remove folder": {
+        "": "フォルダを削除"
+    },
+    "No folder path set.": {
+        "": "フォルダのパスが設定されていません。"
+    },
+    "Duplicate folder path set." : {
+        "": "重複したフォルダのパスがセットされています。"
+    },
     "Found no settings. Go to settings page to see the instruction.": {
         "": "設定が見つかりません。設定ページを開いて説明を参照してください。"
     },

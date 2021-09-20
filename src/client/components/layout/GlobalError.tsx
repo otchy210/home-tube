@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const getGlobalError = async (settings: Settings, api: Api) => {
-    if (Object.keys(settings).length === 0) {
+const getGlobalError = async (settings: Settings | undefined, api: Api) => {
+    if (!settings || Object.keys(settings).length === 0) {
         return i18nText('Found no settings. Go to settings page to see the instruction.');
     }
     const apiResult = await api.ping();
