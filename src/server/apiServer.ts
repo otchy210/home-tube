@@ -1,7 +1,7 @@
 import express from 'express';
-import { registerGetHandler } from './handlers/Handler';
+import { registerDeleteHandler, registerGetHandler, registerPostHandler } from './handlers/Handler';
 import { getPing } from './handlers/ping';
-import { getSettings } from './handlers/settings';
+import { deleteSettings, getSettings, postSettings } from './handlers/settings';
 
 export const start = (port: number): void => {
     const app: express.Express = express();
@@ -18,6 +18,8 @@ export const start = (port: number): void => {
 
     registerGetHandler(app, getPing);
     registerGetHandler(app, getSettings);
+    registerPostHandler(app, postSettings);
+    registerDeleteHandler(app, deleteSettings);
 
     app.listen(port);
     console.log(`API server running on the port ${port}. Ctrl+C to stop.`);
