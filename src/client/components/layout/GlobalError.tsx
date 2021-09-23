@@ -4,10 +4,10 @@ import { Alert } from '@material-ui/lab';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Api } from '../common/Api';
-import i18nText from '../common/i18nText';
-import { useApi } from '../common/useApi';
-import { useSettings } from '../common/useSettings';
+import { Api } from '../../common/Api';
+import i18nText from '../../common/i18nText';
+import { useApi } from '../../common/useApi';
+import { useSettings } from '../../common/useSettings';
 
 const useStyles = makeStyles((theme) => ({
     alert: {

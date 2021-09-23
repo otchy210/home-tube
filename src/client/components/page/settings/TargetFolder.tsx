@@ -3,7 +3,7 @@ import { Button, Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
-import i18nText from '../../common/i18nText';
+import i18nText from '../../../common/i18nText';
 
 const useStyles = makeStyles((theme) => ({
     button: {

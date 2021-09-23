@@ -1,8 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import i18nText from '../common/i18nText';
+import i18nText from '../../common/i18nText';
 import { useState } from 'react';
-import { useSettings } from '../common/useSettings';
+import { useSettings } from '../../common/useSettings';
 import TargetFolder from './settings/TargetFolder';
 
 const copySettings = (settings: Settings): Settings => {

@@ -1,11 +1,11 @@
 import { CircularProgress } from '@material-ui/core';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Api } from './common/Api';
-import ApiContext from './common/ApiContext';
-import { fetchJson } from './common/fetchJson';
-import { setI18n } from './common/i18nText';
-import SettingsContext from './common/SettingsContext';
+import { Api } from '../common/Api';
+import ApiContext from '../common/ApiContext';
+import { fetchJson } from '../common/fetchJson';
+import { setI18n } from '../common/i18nText';
+import SettingsContext from '../common/SettingsContext';
 import Base from './layout/Base';
 
 const Main: React.FC<{}> = () => {
