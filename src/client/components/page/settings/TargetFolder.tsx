@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import i18nText from '../../../common/i18nText';
+import TextInput from '../../common/TextInput';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -26,11 +27,8 @@ const TargetFolder: React.FC<Props> = (props: Props) => {
     return (
         <>
             <Grid item xs={12} sm={7} md={9} lg={10} xl={11}>
-                <TextField
+                <TextInput
                     label={i18nText('Folder path')}
-                    variant="outlined"
-                    fullWidth={true}
-                    size="small"
                     value={pathValue}
                     onChange={(e) => setPathValue(e.target.value)}
                     disabled={!isNew}

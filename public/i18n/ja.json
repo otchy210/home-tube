@@ -8,6 +8,12 @@
     "Open settings": {
         "": "設定を開く"
     },
+    "API server port": {
+        "": "API サーバのポート"
+    },
+    "DO NOT CHANGE unless you know what it is.": {
+        "": "これが何か分からない場合は変更しないで下さい。"
+    },
     "Target folders": {
         "": "対象フォルダ"
     },

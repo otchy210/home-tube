@@ -4,6 +4,7 @@ import i18nText from '../../common/i18nText';
 import { useState } from 'react';
 import { useSettings } from '../../common/useSettings';
 import TargetFolder from './settings/TargetFolder';
+import TextInput from '../common/TextInput';
 
 const copySettings = (settings: Settings): Settings => {
     const copy = { ...settings };
@@ -32,7 +33,21 @@ const Settings: React.FC<{}> = () => {
         const updatedTargetFolders = [...targetFolders];
         updatedTargetFolders.push(path);
         const copy = updateTargetFolders(settings, updatedTargetFolders);
-        console.log({ copy, updatedTargetFolders });
+        setSettings(copy);
+    };
+    const removeFolder = (path: string) => {
+        if (!path || path.trim().length === 0) {
+            setAddError(i18nText('No folder path set.'));
+            return;
+        }
+        const targetFolders = settings.targetFolders || [];
+        const index = targetFolders.indexOf(path);
+        if (index < 0) {
+            return;
+        }
+        const updatedTargetFolders = [...targetFolders];
+        updatedTargetFolders.splice(index, 1);
+        const copy = updateTargetFolders(settings, updatedTargetFolders);
         setSettings(copy);
     };
     return (
@@ -42,10 +57,19 @@ const Settings: React.FC<{}> = () => {
                     <Typography variant="h4">{i18nText('Settings')}</Typography>
                 </Grid>
                 <Grid item xs={12}>
+                    <Typography variant="h5">{i18nText('API server port')}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={5} md={3} lg={2} xl={1}>
+                    <TextInput value={settings.apiPort} />
+                </Grid>
+                <Grid item xs={12} sm={7} md={9} lg={10} xl={11}>
+                    {i18nText('DO NOT CHANGE unless you know what it is.')}
+                </Grid>
+                <Grid item xs={12}>
                     <Typography variant="h5">{i18nText('Target folders')}</Typography>
                 </Grid>
                 {settings.targetFolders?.map((path) => (
-                    <TargetFolder path={path} key={path} />
+                    <TargetFolder path={path} key={path} removeFolder={removeFolder} />
                 ))}
                 <TargetFolder path="" isNew={true} addFolder={addFolder} addError={addError} />
             </Grid>

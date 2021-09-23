@@ -27,7 +27,8 @@ const Content: React.FC<{}> = () => {
             <Container maxWidth="lg" className={classes.container}>
                 <GlobalError />
                 <Switch>
-                    <Route path="/settings">
+                    <Route path="/">
+                        {/* DEBUG */}
                         <Settings />
                     </Route>
                     <Route path="/">
