@@ -1,7 +1,7 @@
 module.exports = {
     mode: 'development',
     entry: {
-        server: './src/server/main.js',
+        server: './src/server/main.ts',
     },
     output: {
         path: `${__dirname}/bin`,

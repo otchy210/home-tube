@@ -1,8 +1,9 @@
 import express from 'express';
 import { registerGetHandler } from './handlers/Handler';
 import { getPing } from './handlers/ping';
+import { getSettings } from './handlers/settings';
 
-export const start = (port: number, version: number = 1): void => {
+export const start = (port: number): void => {
     const app: express.Express = express();
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
@@ -16,6 +17,7 @@ export const start = (port: number, version: number = 1): void => {
     });
 
     registerGetHandler(app, getPing);
+    registerGetHandler(app, getSettings);
 
     app.listen(port);
     console.log(`API server running on the port ${port}. Ctrl+C to stop.`);

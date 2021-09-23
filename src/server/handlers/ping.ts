@@ -2,7 +2,7 @@ import { GetHandler } from "./Handler"
 
 export const getPing: GetHandler = {
     getPath: () => '/ping',
-    handle: () => {
+    handle: async () => {
         return true;
     }
 }
