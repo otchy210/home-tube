@@ -10,12 +10,12 @@ interface Props {
     path?: string;
     isNew?: boolean;
     addFolder?: (path: string) => void;
-    addError?: string;
+    errorText?: string;
     removeFolder?: (path: string) => void;
 }
 
 const TargetFolder: React.FC<Props> = (props: Props) => {
-    const { isNew, path, addError } = props;
+    const { isNew, path, errorText } = props;
     const [pathValue, setPathValue] = useState(path);
     return (
         <>
@@ -25,8 +25,7 @@ const TargetFolder: React.FC<Props> = (props: Props) => {
                     value={pathValue}
                     onChange={(e) => setPathValue(e.target.value)}
                     disabled={!isNew}
-                    error={addError !== undefined && addError.length > 0}
-                    helperText={addError}
+                    errorText={errorText}
                 />
             </Grid>
             <Grid item xs={12} sm={5} md={3} lg={2} xl={1}>

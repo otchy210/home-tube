@@ -7,6 +7,7 @@ import TargetFolder from './settings/TargetFolder';
 import TextInput from '../common/TextInput';
 import RegularButton from '../common/RegularButton';
 import SaveIcon from '@material-ui/icons/Save';
+import NumberInput from '../common/NumberInput';
 
 const copySettings = (settings: Settings): Settings => {
     const copy = { ...settings };
@@ -20,40 +21,47 @@ const updateTargetFolders = (settings: Settings, updatedTargetFolders: string[])
 };
 
 const Settings: React.FC<{}> = () => {
-    const [settings, setSettings] = useState<Settings>(useSettings() || {});
-    const [addError, setAddError] = useState<string>('');
+    const settings = useSettings() ?? {};
+    const [apiPort, setApiPort] = useState<number>(settings.apiPort ?? 0);
+    const [apiPortError, setApiPortError] = useState<string>('');
+    const [targetFolders, setTargetFolders] = useState<string[]>(settings.targetFolders ?? []);
+    const [folderAddError, setFolderAddError] = useState<string>('');
     const [isModified, setIsModified] = useState<boolean>(false);
     const addFolder = (path: string) => {
         if (!path || path.trim().length === 0) {
-            setAddError(i18nText('No folder path set.'));
+            setFolderAddError(i18nText('No folder path set.'));
             return;
         }
-        const targetFolders = settings.targetFolders || [];
         if (targetFolders.includes(path)) {
-            setAddError(i18nText('Duplicate folder path set.'));
+            setFolderAddError(i18nText('Duplicate folder path set.'));
             return;
         }
         const updatedTargetFolders = [...targetFolders];
         updatedTargetFolders.push(path);
-        const copy = updateTargetFolders(settings, updatedTargetFolders);
-        setSettings(copy);
+        setTargetFolders(updatedTargetFolders);
+        setFolderAddError('');
         setIsModified(true);
     };
     const removeFolder = (path: string) => {
         if (!path || path.trim().length === 0) {
-            setAddError(i18nText('No folder path set.'));
+            setFolderAddError(i18nText('No folder path set.'));
             return;
         }
-        const targetFolders = settings.targetFolders || [];
         const index = targetFolders.indexOf(path);
         if (index < 0) {
             return;
         }
         const updatedTargetFolders = [...targetFolders];
         updatedTargetFolders.splice(index, 1);
-        const copy = updateTargetFolders(settings, updatedTargetFolders);
-        setSettings(copy);
+        setTargetFolders(updatedTargetFolders);
         setIsModified(true);
+    };
+    const saveSettings = () => {
+        if (apiPort < 1023 || 65535 < apiPort) {
+            setApiPortError(i18nText('HTTP port must be between 1024 and 65535.'));
+            return;
+        }
+        setApiPortError('');
     };
     return (
         <>
@@ -66,7 +74,15 @@ const Settings: React.FC<{}> = () => {
                     <Typography variant="h5">{i18nText('API server port')}</Typography>
                 </Grid>
                 <Grid item xs={12} sm={5} md={3} lg={2} xl={1}>
-                    <TextInput value={settings.apiPort} />
+                    <NumberInput
+                        value={apiPort}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setApiPort(value.length > 0 ? parseInt(value) : 0);
+                            setIsModified(true);
+                        }}
+                        errorText={apiPortError}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={7} md={9} lg={10} xl={11}>
                     {i18nText('DO NOT CHANGE unless you know what it is.')}
@@ -74,15 +90,20 @@ const Settings: React.FC<{}> = () => {
                 <Grid item xs={12}>
                     <Typography variant="h5">{i18nText('Target folders')}</Typography>
                 </Grid>
-                {settings.targetFolders?.map((path) => (
+                {targetFolders.map((path) => (
                     <TargetFolder path={path} key={path} removeFolder={removeFolder} />
                 ))}
-                <TargetFolder path="" isNew={true} addFolder={addFolder} addError={addError} />
+                <TargetFolder path="" isNew={true} addFolder={addFolder} errorText={folderAddError} />
                 <Grid item xs={12}>
                     <Divider />
                 </Grid>
                 <Grid item xs={12} sm={5} md={3} lg={2} xl={1}>
-                    <RegularButton color="primary" startIcon={<SaveIcon />} disabled={!isModified}>
+                    <RegularButton
+                        color="primary"
+                        startIcon={<SaveIcon />}
+                        disabled={!isModified}
+                        onClick={saveSettings}
+                    >
                         {i18nText('Save settings')}
                     </RegularButton>
                 </Grid>
