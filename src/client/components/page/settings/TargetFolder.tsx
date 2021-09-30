@@ -1,16 +1,10 @@
 import { useState } from 'react';
-import { Button, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import i18nText from '../../../common/i18nText';
 import TextInput from '../../common/TextInput';
-
-const useStyles = makeStyles((theme) => ({
-    button: {
-        margin: '2px 0',
-    },
-}));
+import RegularButton from '../../common/RegularButton';
 
 interface Props {
     path?: string;
@@ -23,7 +17,6 @@ interface Props {
 const TargetFolder: React.FC<Props> = (props: Props) => {
     const { isNew, path, addError } = props;
     const [pathValue, setPathValue] = useState(path);
-    const classes = useStyles();
     return (
         <>
             <Grid item xs={12} sm={7} md={9} lg={10} xl={11}>
@@ -37,13 +30,10 @@ const TargetFolder: React.FC<Props> = (props: Props) => {
                 />
             </Grid>
             <Grid item xs={12} sm={5} md={3} lg={2} xl={1}>
-                <Button
-                    variant="contained"
+                <RegularButton
                     color={isNew ? 'primary' : 'secondary'}
-                    size="medium"
+                    variant="outlined"
                     startIcon={isNew ? <AddCircleIcon /> : <DeleteIcon />}
-                    fullWidth={true}
-                    className={classes.button}
                     onClick={() => {
                         if (isNew && props.addFolder) {
                             props.addFolder(pathValue || '');
@@ -53,7 +43,7 @@ const TargetFolder: React.FC<Props> = (props: Props) => {
                     }}
                 >
                     {isNew ? i18nText('Add folder') : i18nText('Remove folder')}
-                </Button>
+                </RegularButton>
             </Grid>
         </>
     );
