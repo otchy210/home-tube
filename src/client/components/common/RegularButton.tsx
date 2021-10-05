@@ -19,16 +19,16 @@ interface Props {
 }
 
 const RegularButton: React.FC<Props> = (props: Props) => {
-    const { children } = props;
+    const { children, variant, disabled, ...subProps } = props;
     const classes = useStyles();
     return (
         <Button
-            variant={props.variant ?? 'contained'}
-            disabled={props.disabled ?? false}
+            variant={variant ?? 'contained'}
+            disabled={disabled ?? false}
             fullWidth={true}
             size="medium"
             className={classes.button}
-            {...props}
+            {...subProps}
         >
             {children}
         </Button>

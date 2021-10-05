@@ -4,29 +4,22 @@ import i18nText from '../../common/i18nText';
 import { useState } from 'react';
 import { useSettings } from '../../common/useSettings';
 import TargetFolder from './settings/TargetFolder';
-import TextInput from '../common/TextInput';
 import RegularButton from '../common/RegularButton';
 import SaveIcon from '@material-ui/icons/Save';
 import NumberInput from '../common/NumberInput';
-
-const copySettings = (settings: Settings): Settings => {
-    const copy = { ...settings };
-    return copy;
-};
-
-const updateTargetFolders = (settings: Settings, updatedTargetFolders: string[]): Settings => {
-    const copy = copySettings(settings);
-    copy.targetFolders = updatedTargetFolders;
-    return copy;
-};
+import { useApi } from '../../common/useApi';
+import Warning from '../common/Warning';
+import Error from '../common/Error';
 
 const Settings: React.FC<{}> = () => {
     const settings = useSettings() ?? {};
+    const api = useApi();
     const [apiPort, setApiPort] = useState<number>(settings.apiPort ?? 0);
     const [apiPortError, setApiPortError] = useState<string>('');
     const [targetFolders, setTargetFolders] = useState<string[]>(settings.targetFolders ?? []);
     const [folderAddError, setFolderAddError] = useState<string>('');
     const [isModified, setIsModified] = useState<boolean>(false);
+    const [saveError, setSaveError] = useState<string>('');
     const addFolder = (path: string) => {
         if (!path || path.trim().length === 0) {
             setFolderAddError(i18nText('No folder path set.'));
@@ -56,12 +49,21 @@ const Settings: React.FC<{}> = () => {
         setTargetFolders(updatedTargetFolders);
         setIsModified(true);
     };
-    const saveSettings = () => {
+    const saveSettings = async () => {
         if (apiPort < 1023 || 65535 < apiPort) {
             setApiPortError(i18nText('HTTP port must be between 1024 and 65535.'));
             return;
         }
         setApiPortError('');
+        setSaveError('');
+        const updatedSettings = {
+            apiPort,
+            targetFolders,
+        } as Settings;
+        const result = await api.postSettings(updatedSettings);
+        if (!result.ok) {
+            setSaveError(i18nText('Failed to save.'));
+        }
     };
     return (
         <>
@@ -85,7 +87,7 @@ const Settings: React.FC<{}> = () => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={7} md={9} lg={10} xl={11}>
-                    {i18nText('DO NOT CHANGE unless you know what it is.')}
+                    <Warning>{i18nText('DO NOT CHANGE unless you know what it is.')}</Warning>
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="h5">{i18nText('Target folders')}</Typography>
@@ -106,6 +108,9 @@ const Settings: React.FC<{}> = () => {
                     >
                         {i18nText('Save settings')}
                     </RegularButton>
+                </Grid>
+                <Grid item xs={12} sm={7} md={9} lg={10} xl={11}>
+                    {saveError && <Error>{saveError}</Error>}
                 </Grid>
             </Grid>
         </>

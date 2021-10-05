@@ -38,6 +38,9 @@
     "Save settings": {
         "": "設定を保存する"
     },
+    "Failed to save.": {
+        "": "保存に失敗しました。"
+    },
     "Found no settings. Go to settings page to see the instruction.": {
         "": "設定が見つかりません。設定ページを開いて説明を参照してください。"
     },
