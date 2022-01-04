@@ -15,6 +15,7 @@ module.exports = {
     "plugins": [
         "@typescript-eslint"
     ],
+    "ignorePatterns": ["**/*.html"],
     "rules": {
         "no-case-declarations": "off",
         "prettier/prettier": ["error", {
