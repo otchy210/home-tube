@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders properly 1`] = `
+<div>
+  <nav
+    class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top"
+  >
+    <div
+      class="container-fluid"
+    >
+      <a
+        class="me-auto navbar-brand"
+        href="#"
+      >
+        HomeTube
+      </a>
+      <button
+        aria-label="Toggle navigation"
+        class="navbar-toggler collapsed"
+        type="button"
+      >
+        <span
+          class="navbar-toggler-icon"
+        />
+      </button>
+      <div
+        class="justify-content-end mt-3 mt-sm-0 navbar-collapse collapse"
+      >
+        <div
+          class="navbar-nav"
+        >
+          <form
+            class="d-flex"
+          >
+            <input
+              class="form-control"
+              type="search"
+            />
+            <button
+              class="ms-2 btn btn-primary"
+              type="button"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+        <div
+          class="navbar-nav"
+        >
+          <a
+            class="ms-1 nav-link"
+            data-rr-ui-event-key="#features"
+            href="#features"
+          >
+            Config
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+`;
