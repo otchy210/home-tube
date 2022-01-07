@@ -12,12 +12,12 @@ exports[`Header renders properly 1`] = `
         class="me-auto navbar-brand"
         href="#"
       >
-        <svgrurl
-          class="d-inline d-md-none"
+        <svgr-mock
+          classname="d-inline d-md-none"
           style="height: 32px;"
         />
-        <svgrurl
-          class="d-none d-md-inline"
+        <svgr-mock
+          classname="d-none d-md-inline"
           style="height: 32px;"
         />
       </a>

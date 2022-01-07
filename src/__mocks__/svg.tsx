@@ -1,2 +1,2 @@
-export default 'SvgrURL';
-export const ReactComponent = 'div';
+export default 'svgr-mock';
+export const ReactComponent = 'svgr-mock';
