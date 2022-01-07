@@ -13,11 +13,11 @@ exports[`Header renders properly 1`] = `
         href="#"
       >
         <svgr-mock
-          classname="d-inline d-md-none"
+          classname="d-inline d-sm-none"
           style="height: 32px;"
         />
         <svgr-mock
-          classname="d-none d-md-inline"
+          classname="d-none d-sm-inline"
           style="height: 32px;"
         />
       </a>
@@ -44,10 +44,17 @@ exports[`Header renders properly 1`] = `
               type="search"
             />
             <button
-              class="ms-2 btn btn-primary"
+              class="ms-2 text-nowrap btn btn-primary"
               type="button"
             >
-              Search
+              <svgr-mock
+                style="height: 22px;"
+              />
+              <span
+                class="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle"
+              >
+                Search
+              </span>
             </button>
           </form>
         </div>
@@ -55,7 +62,7 @@ exports[`Header renders properly 1`] = `
           class="navbar-nav"
         >
           <a
-            class="ms-1 nav-link"
+            class="ms-1 py-0 nav-link"
             data-rr-ui-event-key="#features"
             href="#features"
           >
