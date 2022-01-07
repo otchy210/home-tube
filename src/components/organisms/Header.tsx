@@ -18,7 +18,8 @@ const Header: React.FC = () => {
         navigate(`/search${params.get('names') !== '' ? `?${params.toString()}` : ''}`);
     };
     const onQueryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        // cannot avoid using deprecated `e.keyCode` due to https://qiita.com/ledsun/items/31e43a97413dd3c8e38e
+        if (e.keyCode === 13) {
             e.preventDefault();
             doSearch();
             return;
