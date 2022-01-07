@@ -3,7 +3,7 @@
 exports[`Header renders properly 1`] = `
 <div>
   <nav
-    class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top"
+    class="border-bottom navbar navbar-expand-sm navbar-light bg-light fixed-top"
   >
     <div
       class="container-fluid"
@@ -12,7 +12,14 @@ exports[`Header renders properly 1`] = `
         class="me-auto navbar-brand"
         href="#"
       >
-        <svgrurl />
+        <svgrurl
+          class="d-inline d-md-none"
+          style="height: 32px;"
+        />
+        <svgrurl
+          class="d-none d-md-inline"
+          style="height: 32px;"
+        />
       </a>
       <button
         aria-label="Toggle navigation"
