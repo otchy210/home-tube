@@ -10,7 +10,7 @@ const Template: React.FC<Props> = ({ children }) => {
     return (
         <>
             <Header />
-            <main style={{ marginTop: '56px' }}>{children}</main>
+            <main style={{ marginTop: '66px' }}>{children}</main>
             <Footer />
         </>
     );

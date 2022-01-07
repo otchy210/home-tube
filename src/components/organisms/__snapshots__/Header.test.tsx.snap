@@ -12,7 +12,7 @@ exports[`Header renders properly 1`] = `
         class="me-auto navbar-brand"
         href="#"
       >
-        HomeTube
+        <svgrurl />
       </a>
       <button
         aria-label="Toggle navigation"

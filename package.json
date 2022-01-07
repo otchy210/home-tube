@@ -1,6 +1,6 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "main": "dist/index.js",
     "files": [
@@ -12,8 +12,9 @@
         "build": "npm run clean && npm run copy && webpack",
         "dev": "npm run clean && npm run copy && NODE_ENV=development webpack-dev-server",
         "test": "jest",
-        "lint": "eslint src/*",
-        "lint:fix": "eslint --fix src/*"
+        "test:u": "jest -u",
+        "lint": "eslint --no-error-on-unmatched-pattern src/*",
+        "lint:fix": "eslint --fix --no-error-on-unmatched-pattern src/*"
     },
     "repository": {
         "type": "git",
@@ -29,6 +30,7 @@
         "access": "public"
     },
     "devDependencies": {
+        "@svgr/webpack": "^6.1.2",
         "@testing-library/react": "^12.1.2",
         "@types/bootstrap": "^5.1.8",
         "@types/jest": "^27.4.0",
@@ -67,6 +69,9 @@
                 "useESM": true
             }
         },
-        "preset": "ts-jest/presets/default-esm"
+        "preset": "ts-jest/presets/default-esm",
+        "moduleNameMapper": {
+            "\\.svg": "<rootDir>/src/__mocks__/svg.tsx"
+        }
     }
 }

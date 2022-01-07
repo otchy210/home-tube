@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, Container, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
+import Icon from '../../images/icon.svg';
 
 const Header: React.FC = () => {
     return (
         <Navbar bg="dark" variant="dark" fixed="top" expand="sm">
             <Container fluid>
                 <Navbar.Brand href="#" className="me-auto">
-                    HomeTube
+                    <Icon />
                 </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end mt-3 mt-sm-0">

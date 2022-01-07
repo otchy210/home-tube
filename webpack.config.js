@@ -25,11 +25,15 @@ module.exports = {
                         options: { url: false }
                     }
                 ]
+            },
+            {
+                test: /\.svg$/,
+                use: ['@svgr/webpack'],
             }
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.json', '.css']
+        extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.svg']
     },
     target: ['web', 'es2015'],
     devServer: {
