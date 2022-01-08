@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StarIcon renders properly with variant selected 1`] = `
+<div>
+  <svgr-mock
+    height="16"
+    width="16"
+  />
+</div>
+`;
+
+exports[`StarIcon renders properly with variant unselected 1`] = `
+<div>
+  <svgr-mock
+    height="16"
+    width="16"
+  />
+</div>
+`;
+
+exports[`StarIcon renders properly with variant void 1`] = `
+<div>
+  <svgr-mock
+    height="16"
+    width="16"
+  />
+</div>
+`;
