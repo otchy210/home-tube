@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './organisms/Footer';
 import Header from './organisms/Header';
@@ -13,7 +14,7 @@ const App: React.FC = () => {
     return (
         <>
             <Header />
-            <main style={{ marginTop: '60px' }}>
+            <Container style={{ marginTop: '60px' }}>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/config" element={<ConfigPage />} />
@@ -21,7 +22,7 @@ const App: React.FC = () => {
                     <Route path="/view" element={<ViewPage />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
-            </main>
+            </Container>
             <Footer />
         </>
     );
