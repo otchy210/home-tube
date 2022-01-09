@@ -8,194 +8,224 @@ exports[`VideoTable renders properly 1`] = `
     <div
       class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
     >
-      <div
-        class="mt-4 card"
+      <a
+        href="/view?id=1"
+        style="text-decoration: none;"
       >
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
-        />
         <div
-          class="card-body"
+          class="mt-4 card"
         >
+          <img
+            class="card-img-top"
+            src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
+          />
           <div
-            class="card-title h5"
+            class="card-body"
           >
-            Video-1
+            <div
+              class="card-title h5"
+            >
+              Video-1
+            </div>
+            <div
+              class="mb-2 text-muted card-subtitle h6"
+            >
+              Video ID: 
+              1
+            </div>
+            <p
+              class="card-text"
+            >
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </p>
           </div>
-          <div
-            class="mb-2 text-muted card-subtitle h6"
-          >
-            Video ID: 
-            1
-          </div>
-          <p
-            class="card-text"
-          >
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
         </div>
-      </div>
+      </a>
     </div>
     <div
       class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
     >
-      <div
-        class="mt-4 card"
+      <a
+        href="/view?id=2"
+        style="text-decoration: none;"
       >
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
-        />
         <div
-          class="card-body"
+          class="mt-4 card"
         >
+          <img
+            class="card-img-top"
+            src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
+          />
           <div
-            class="card-title h5"
+            class="card-body"
           >
-            Video-2
+            <div
+              class="card-title h5"
+            >
+              Video-2
+            </div>
+            <div
+              class="mb-2 text-muted card-subtitle h6"
+            >
+              Video ID: 
+              2
+            </div>
+            <p
+              class="card-text"
+            >
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </p>
           </div>
-          <div
-            class="mb-2 text-muted card-subtitle h6"
-          >
-            Video ID: 
-            2
-          </div>
-          <p
-            class="card-text"
-          >
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
         </div>
-      </div>
+      </a>
     </div>
     <div
       class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
     >
-      <div
-        class="mt-4 card"
+      <a
+        href="/view?id=3"
+        style="text-decoration: none;"
       >
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
-        />
         <div
-          class="card-body"
+          class="mt-4 card"
         >
+          <img
+            class="card-img-top"
+            src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
+          />
           <div
-            class="card-title h5"
+            class="card-body"
           >
-            Video-3
+            <div
+              class="card-title h5"
+            >
+              Video-3
+            </div>
+            <div
+              class="mb-2 text-muted card-subtitle h6"
+            >
+              Video ID: 
+              3
+            </div>
+            <p
+              class="card-text"
+            >
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </p>
           </div>
-          <div
-            class="mb-2 text-muted card-subtitle h6"
-          >
-            Video ID: 
-            3
-          </div>
-          <p
-            class="card-text"
-          >
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
         </div>
-      </div>
+      </a>
     </div>
     <div
       class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
     >
-      <div
-        class="mt-4 card"
+      <a
+        href="/view?id=4"
+        style="text-decoration: none;"
       >
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
-        />
         <div
-          class="card-body"
+          class="mt-4 card"
         >
+          <img
+            class="card-img-top"
+            src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
+          />
           <div
-            class="card-title h5"
+            class="card-body"
           >
-            Video-4
+            <div
+              class="card-title h5"
+            >
+              Video-4
+            </div>
+            <div
+              class="mb-2 text-muted card-subtitle h6"
+            >
+              Video ID: 
+              4
+            </div>
+            <p
+              class="card-text"
+            >
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </p>
           </div>
-          <div
-            class="mb-2 text-muted card-subtitle h6"
-          >
-            Video ID: 
-            4
-          </div>
-          <p
-            class="card-text"
-          >
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
         </div>
-      </div>
+      </a>
     </div>
     <div
       class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
     >
-      <div
-        class="mt-4 card"
+      <a
+        href="/view?id=5"
+        style="text-decoration: none;"
       >
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
-        />
         <div
-          class="card-body"
+          class="mt-4 card"
         >
+          <img
+            class="card-img-top"
+            src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
+          />
           <div
-            class="card-title h5"
+            class="card-body"
           >
-            Video-5
+            <div
+              class="card-title h5"
+            >
+              Video-5
+            </div>
+            <div
+              class="mb-2 text-muted card-subtitle h6"
+            >
+              Video ID: 
+              5
+            </div>
+            <p
+              class="card-text"
+            >
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </p>
           </div>
-          <div
-            class="mb-2 text-muted card-subtitle h6"
-          >
-            Video ID: 
-            5
-          </div>
-          <p
-            class="card-text"
-          >
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
         </div>
-      </div>
+      </a>
     </div>
     <div
       class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
     >
-      <div
-        class="mt-4 card"
+      <a
+        href="/view?id=6"
+        style="text-decoration: none;"
       >
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
-        />
         <div
-          class="card-body"
+          class="mt-4 card"
         >
+          <img
+            class="card-img-top"
+            src="https://dummyimage.com/320x240/cccccc/ffffff.png&text=snapshot"
+          />
           <div
-            class="card-title h5"
+            class="card-body"
           >
-            Video-6
+            <div
+              class="card-title h5"
+            >
+              Video-6
+            </div>
+            <div
+              class="mb-2 text-muted card-subtitle h6"
+            >
+              Video ID: 
+              6
+            </div>
+            <p
+              class="card-text"
+            >
+              Some quick example text to build on the card title and make up the bulk of the card's content.
+            </p>
           </div>
-          <div
-            class="mb-2 text-muted card-subtitle h6"
-          >
-            Video ID: 
-            6
-          </div>
-          <p
-            class="card-text"
-          >
-            Some quick example text to build on the card title and make up the bulk of the card's content.
-          </p>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </div>

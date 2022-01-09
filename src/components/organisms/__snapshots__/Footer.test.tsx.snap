@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders properly 1`] = `
+<div>
+  <footer
+    class="bg-dark text-muted small text-white-50 mt-3 py-1 px-3"
+  >
+    HomeTube is written by
+     
+    <a
+      href="https://twitter.com/otchy"
+      target="_blank"
+    >
+      @otchy
+    </a>
+    . Find mode info in the
+     
+    <a
+      href="https://github.com/otchy210/home-tube"
+      target="_blank"
+    >
+      GitHub page
+    </a>
+    .
+  </footer>
+</div>
+`;

@@ -59,7 +59,7 @@ exports[`Header renders properly 1`] = `
           </form>
         </div>
         <div
-          class="navbar-nav"
+          class="mt-2 mt-sm-0 navbar-nav"
         >
           <a
             class="ms-1 py-0 nav-link"

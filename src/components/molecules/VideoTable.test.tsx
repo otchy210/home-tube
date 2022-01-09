@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import VideoTable from './VideoTable';
 import { VideoDocument } from '@otchy/home-tube-api/dist/types';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('VideoTable', () => {
     it('renders properly', () => {
@@ -13,7 +14,11 @@ describe('VideoTable', () => {
                 },
             };
         }) as VideoDocument[];
-        const { container } = render(<VideoTable videos={videos} />);
+        const { container } = render(
+            <BrowserRouter>
+                <VideoTable videos={videos} />
+            </BrowserRouter>
+        );
         expect(container).toMatchSnapshot();
     });
 });

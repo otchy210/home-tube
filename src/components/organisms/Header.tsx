@@ -49,7 +49,7 @@ const Header: React.FC = () => {
                             </Button>
                         </Form>
                     </Nav>
-                    <Nav>
+                    <Nav className="mt-2 mt-sm-0">
                         <LinkContainer to="/config">
                             <Nav.Link className="ms-1 py-0">
                                 <Config style={iconStyle} />
