@@ -2,13 +2,54 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
+import { Api } from './utils/Api';
+import { ApiContext } from './utils/ApiContext';
 
-const root = document.getElementById('root');
-if (root) {
+type InitialParams = {
+    apiHost: string;
+};
+
+const buildDefaultInitialParams = (): InitialParams => {
+    const url = new URL(location.href);
+    return {
+        apiHost: `${url.protocol}//${url.hostname}:8210`,
+    };
+};
+
+const getInitialParams = (): Promise<InitialParams> => {
+    // Web app initializing process provides this file when initialParams are set.
+    const initialParamsPath = `/initialParams.json`;
+    return new Promise((resolve) => {
+        fetch(initialParamsPath)
+            .then((response) => {
+                if (response.ok) {
+                    response.json().then((params) => {
+                        resolve(params);
+                    });
+                } else {
+                    resolve(buildDefaultInitialParams());
+                }
+            })
+            .catch((e) => {
+                console.warn(e);
+                resolve(buildDefaultInitialParams());
+            });
+    });
+};
+
+const initializeApp = async () => {
+    const root = document.getElementById('root');
+    if (!root) {
+        return;
+    }
+    const initialParams = await getInitialParams();
     ReactDOM.render(
         <BrowserRouter>
-            <App />
+            <ApiContext.Provider value={new Api(initialParams.apiHost)}>
+                <App />
+            </ApiContext.Provider>
         </BrowserRouter>,
         root
     );
-}
+};
+initializeApp();

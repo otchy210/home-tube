@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
+import { useApi } from '../../utils/ApiContext';
 
 const ConfigTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
     return <p className="h1 pt-3">{children}</p>;
@@ -10,6 +11,8 @@ const PropertyTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const ConfigPage: React.FC = () => {
+    const api = useApi();
+    api.getAppConfig().then(console.log);
     return (
         <>
             <ConfigTitle>Config</ConfigTitle>
