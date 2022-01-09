@@ -13,8 +13,8 @@ const StarsIndicator: React.FC<Props> = ({ stars, onClick }: Props) => {
     if (!stars) {
         return (
             <>
-                {POSSIBLE_STARS.map(() => {
-                    return <StarIcon variant="void" size={32} />;
+                {POSSIBLE_STARS.map((s) => {
+                    return <StarIcon variant="void" size={32} key={`star-${s}`} />;
                 })}
             </>
         );
@@ -29,7 +29,7 @@ const StarsIndicator: React.FC<Props> = ({ stars, onClick }: Props) => {
                         }}
                         style={{ cursor: 'pointer' }}
                     >
-                        <StarIcon variant={s <= stars ? 'selected' : 'unselected'} size={30} />
+                        <StarIcon variant={s <= stars ? 'selected' : 'unselected'} size={30} key={`star-${s}`} />
                     </span>
                 );
             })}

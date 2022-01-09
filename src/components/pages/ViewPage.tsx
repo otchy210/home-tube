@@ -44,7 +44,11 @@ const ViewPage: React.FC = () => {
                     <StarsIndicator stars={stars} onClick={(star) => console.log(`star: ${star} is clicked`)} />
                     <span className="fs-5">
                         {tags?.map((tag) => {
-                            return <Badge className="ms-1">{tag}</Badge>;
+                            return (
+                                <Badge className="ms-1" key={`tag-${tag}`}>
+                                    {tag}
+                                </Badge>
+                            );
                         })}
                     </span>
                 </p>
