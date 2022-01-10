@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
+import ToastProvider from './components/providers/ToastsProvider';
 import { Api } from './utils/Api';
 import { ApiContext } from './utils/ApiContext';
 
@@ -46,7 +47,9 @@ const initializeApp = async () => {
     ReactDOM.render(
         <BrowserRouter>
             <ApiContext.Provider value={new Api(initialParams.apiHost)}>
-                <App />
+                <ToastProvider>
+                    <App />
+                </ToastProvider>
             </ApiContext.Provider>
         </BrowserRouter>,
         root

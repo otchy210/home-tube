@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './organisms/Footer';
 import Header from './organisms/Header';
+import Toasts from './organisms/Toasts';
 import ConfigPage from './pages/ConfigPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -14,6 +15,7 @@ const App: React.FC = () => {
     return (
         <>
             <Header />
+            <Toasts />
             <Container className="mb-auto" style={{ marginTop: '60px' }}>
                 <Routes>
                     <Route path="/" element={<HomePage />} />

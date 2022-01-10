@@ -1,10 +1,10 @@
 import { AppConfig, Storage } from '@otchy/home-tube-api/dist/types';
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
 import { Button, Form, Stack } from 'react-bootstrap';
 import { useApi } from '../../utils/ApiContext';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import Spinner from '../atoms/Spinner';
+import { useToast } from '../providers/ToastsProvider';
 
 type StorageValidatinErrors = Map<number, string>;
 
@@ -43,16 +43,20 @@ const PropertyTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
 const ConfigPage: React.FC = () => {
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [appConfig, setAppConfig] = useState<AppConfig | undefined>();
-    const [loadError, setLoadError] = useState<string | undefined>();
     const [updated, setUpdated] = useState<boolean>(false);
     const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
     const api = useApi();
-    const loadAppConfig = () => {
+    const toast = useToast();
+    const loadAppConfig = (tid?: number) => {
         api.getAppConfig()
             .then(setAppConfig)
             .catch((e) => {
                 console.error(e);
-                setLoadError('Failed to load app config');
+                toast.addError('Config', 'Failed to load.');
+                if (tid) {
+                    clearTimeout(tid);
+                }
+                setShowLoading(false);
             });
         setUpdated(false);
         setStorageValidationErrors(new Map<number, string>());
@@ -61,8 +65,8 @@ const ConfigPage: React.FC = () => {
         // don't show loading until 500msec to avoid frequent flashing
         const tid = setTimeout(() => {
             setShowLoading(true);
-        }, 500);
-        loadAppConfig();
+        }, 500) as unknown as number;
+        loadAppConfig(tid);
         return () => {
             clearTimeout(tid);
         };
@@ -71,15 +75,7 @@ const ConfigPage: React.FC = () => {
         return (
             <>
                 <ConfigTitle>Config</ConfigTitle>
-                <p>
-                    {loadError && (
-                        <Alert variant="danger">
-                            <Alert.Heading>{loadError}</Alert.Heading>
-                            <div>You may want to restart the server.</div>
-                        </Alert>
-                    )}
-                    {!loadError && showLoading && <Spinner />}
-                </p>
+                <p>{showLoading && <Spinner />}</p>
             </>
         );
     }
@@ -131,9 +127,18 @@ const ConfigPage: React.FC = () => {
     const trySubmit = () => {
         const storageValidationErrors = validateStorages(appConfig.storages);
         setStorageValidationErrors(storageValidationErrors);
-        if (Object.keys(storageValidationErrors).length > 0) {
+        if (storageValidationErrors.size > 0) {
             return;
         }
+        api.postAppConfig(appConfig)
+            .then(() => {
+                toast.addSuccess('Config', 'Updated successfully.');
+                setUpdated(false);
+            })
+            .catch((e) => {
+                console.log(e);
+                toast.addError('Config', 'Failed to update.');
+            });
     };
     return (
         <>
@@ -143,8 +148,8 @@ const ConfigPage: React.FC = () => {
                 <Form.Text className="text-muted">Add your video storage path which has your videos.</Form.Text>
                 {appConfig.storages.map((storage, i) => {
                     return (
-                        <Stack>
-                            <Stack direction="horizontal" gap={2} key={`storage-${i}`} className="mt-1">
+                        <Stack key={`storage-${i}`}>
+                            <Stack direction="horizontal" gap={2} className="mt-1">
                                 <Form.Control
                                     type="text"
                                     value={storage.path}

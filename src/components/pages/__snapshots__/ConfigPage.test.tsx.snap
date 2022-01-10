@@ -54,7 +54,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
         class="btn btn-primary"
         data-testid="save-config"
         disabled=""
-        type="submit"
+        type="button"
       >
         Save config
       </button>
