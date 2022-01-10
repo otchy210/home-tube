@@ -1,9 +1,34 @@
 import React from 'react';
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react';
-import ConfigPage from './ConfigPage';
+import ConfigPage, { validateStorages } from './ConfigPage';
 import createMockedApi from '../../__mocks__/createMockedApi';
 import { ApiContext } from '../../utils/ApiContext';
 import { AppConfig } from '@otchy/home-tube-api/dist/types';
+
+describe('validateStorages', () => {
+    it('works properly', () => {
+        expect(validateStorages([]).size).toBe(0);
+        expect(
+            validateStorages([
+                { path: '/path/to/1/', enabled: true },
+                { path: '/path/to/2/', enabled: false },
+            ]).size
+        ).toBe(0);
+
+        expect(
+            validateStorages([
+                { path: '', enabled: true },
+                { path: '/path/to/2/', enabled: false },
+            ]).get(0)
+        ).toBe('Path is empty.');
+        const errors = validateStorages([
+            { path: '/path/to/2/', enabled: true },
+            { path: '/path/to/2/', enabled: false },
+        ]);
+        expect(errors.get(0)).toBe('Path is duplicated.');
+        expect(errors.get(1)).toBe('Path is duplicated.');
+    });
+});
 
 describe('ConfigPage', () => {
     const mockedApi = createMockedApi();

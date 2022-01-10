@@ -6,6 +6,32 @@ import { useApi } from '../../utils/ApiContext';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import Spinner from '../atoms/Spinner';
 
+type StorageValidatinErrors = Map<number, string>;
+
+export const validateStorages = (storages: Storage[]): StorageValidatinErrors => {
+    const errors = new Map<number, string>();
+    const seenPaths: { [path: string]: number[] } = {};
+    storages.forEach((storage, index) => {
+        const { path } = storage;
+        if (path.length === 0) {
+            errors.set(index, 'Path is empty.');
+            return;
+        }
+        if (seenPaths[path] === undefined) {
+            seenPaths[path] = [];
+        }
+        seenPaths[path].push(index);
+    });
+    Object.values(seenPaths)
+        .filter((indexes) => indexes.length > 1)
+        .forEach((indexes) => {
+            indexes.forEach((index) => {
+                errors.set(index, 'Path is duplicated.');
+            });
+        });
+    return errors;
+};
+
 const ConfigTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
     return <p className="h1 pt-3">{children}</p>;
 };
@@ -19,6 +45,7 @@ const ConfigPage: React.FC = () => {
     const [appConfig, setAppConfig] = useState<AppConfig | undefined>();
     const [loadError, setLoadError] = useState<string | undefined>();
     const [updated, setUpdated] = useState<boolean>(false);
+    const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
     const api = useApi();
     const loadAppConfig = () => {
         api.getAppConfig()
@@ -28,6 +55,7 @@ const ConfigPage: React.FC = () => {
                 setLoadError('Failed to load app config');
             });
         setUpdated(false);
+        setStorageValidationErrors(new Map<number, string>());
     };
     useEffect(() => {
         // don't show loading until 500msec to avoid frequent flashing
@@ -66,7 +94,7 @@ const ConfigPage: React.FC = () => {
     };
     const updateStoragePath = (i: number, value: string) => {
         updateStorageValue(i, (storage) => {
-            storage.path = value;
+            storage.path = value.trim();
         });
         setUpdated(true);
     };
@@ -96,9 +124,16 @@ const ConfigPage: React.FC = () => {
     };
     const updateFfmpeg = (value: string) => {
         const copy = getAppConfigDeepCopy(appConfig);
-        copy.ffmpeg = value;
+        copy.ffmpeg = value.trim();
         setAppConfig(copy);
         setUpdated(true);
+    };
+    const trySubmit = () => {
+        const storageValidationErrors = validateStorages(appConfig.storages);
+        setStorageValidationErrors(storageValidationErrors);
+        if (Object.keys(storageValidationErrors).length > 0) {
+            return;
+        }
     };
     return (
         <>
@@ -108,33 +143,37 @@ const ConfigPage: React.FC = () => {
                 <Form.Text className="text-muted">Add your video storage path which has your videos.</Form.Text>
                 {appConfig.storages.map((storage, i) => {
                     return (
-                        <Stack direction="horizontal" gap={2} key={`storage-${i}`} className="mt-1">
-                            <Form.Control
-                                type="text"
-                                value={storage.path}
-                                onChange={(e) => {
-                                    updateStoragePath(i, e.target.value);
-                                }}
-                                data-testid={`storage-${i}-path`}
-                            />
-                            <Form.Check
-                                type="checkbox"
-                                label="enabled"
-                                checked={storage.enabled}
-                                onChange={(e) => {
-                                    updateStorageEnabled(i, e.target.checked);
-                                }}
-                                data-testid={`storage-${i}-enabled`}
-                            />
-                            <Button
-                                variant="danger"
-                                onClick={() => {
-                                    removeStorage(i);
-                                }}
-                                data-testid={`storage-${i}-delete`}
-                            >
-                                Delete
-                            </Button>
+                        <Stack>
+                            <Stack direction="horizontal" gap={2} key={`storage-${i}`} className="mt-1">
+                                <Form.Control
+                                    type="text"
+                                    value={storage.path}
+                                    isInvalid={storageValidationErrors.get(i) !== undefined}
+                                    onChange={(e) => {
+                                        updateStoragePath(i, e.target.value);
+                                    }}
+                                    data-testid={`storage-${i}-path`}
+                                />
+                                <Form.Check
+                                    type="checkbox"
+                                    label="enabled"
+                                    checked={storage.enabled}
+                                    onChange={(e) => {
+                                        updateStorageEnabled(i, e.target.checked);
+                                    }}
+                                    data-testid={`storage-${i}-enabled`}
+                                />
+                                <Button
+                                    variant="danger"
+                                    onClick={() => {
+                                        removeStorage(i);
+                                    }}
+                                    data-testid={`storage-${i}-delete`}
+                                >
+                                    Delete
+                                </Button>
+                            </Stack>
+                            {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
                         </Stack>
                     );
                 })}
@@ -157,7 +196,7 @@ const ConfigPage: React.FC = () => {
                 />
 
                 <Stack direction="horizontal" gap={2} className="mt-3">
-                    <Button variant="primary" type="submit" disabled={!updated} data-testid="save-config">
+                    <Button variant="primary" disabled={!updated} data-testid="save-config" onClick={trySubmit}>
                         Save config
                     </Button>
                     <Button
