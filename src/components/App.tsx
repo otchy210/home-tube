@@ -14,7 +14,7 @@ const App: React.FC = () => {
     return (
         <>
             <Header />
-            <Container style={{ marginTop: '60px' }}>
+            <Container className="mb-auto" style={{ marginTop: '60px' }}>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/config" element={<ConfigPage />} />

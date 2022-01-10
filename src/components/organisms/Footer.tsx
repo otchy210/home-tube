@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
             <a href="https://twitter.com/otchy" target="_blank">
                 @otchy
             </a>
-            . Find mode info in the{' '}
+            . Find more info in the{' '}
             <a href="https://github.com/otchy210/home-tube" target="_blank">
                 GitHub page
             </a>
