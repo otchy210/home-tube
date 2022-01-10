@@ -1,14 +1,29 @@
-import { AppConfig } from '@otchy/home-tube-api/dist/types';
+import { AppConfig, Json } from '@otchy/home-tube-api/dist/types';
+
+type Method = 'GET' | 'POST';
+
+type FetchOptions = {
+    method: Method;
+    headers?: { [name: string]: string };
+    body?: string;
+};
 
 export class Api {
     private apiHost;
     constructor(apiHost: string) {
         this.apiHost = apiHost;
     }
-    get<T>(apiPath: string): Promise<T> {
+    private call<T>(method: Method, apiPath: string, body?: Json): Promise<T> {
         const apiUrl = `${this.apiHost}${apiPath}`;
+        const fetchOptions: FetchOptions = { method };
+        if (body) {
+            fetchOptions.headers = {
+                'Content-Type': 'application/json',
+            };
+            fetchOptions.body = JSON.stringify(body);
+        }
         return new Promise((resolve, reject) => {
-            fetch(apiUrl)
+            fetch(apiUrl, fetchOptions)
                 .then((response) => {
                     if (!response.ok) {
                         const reason = `Api "${apiPath}" doesn't return 200.`;
@@ -25,7 +40,16 @@ export class Api {
                 });
         });
     }
+    private get<T>(apiPath: string): Promise<T> {
+        return this.call('GET', apiPath);
+    }
+    private post<T>(apiPath: string, body: Json): Promise<T> {
+        return this.call('POST', apiPath, body);
+    }
     getAppConfig(): Promise<AppConfig> {
         return this.get<AppConfig>('/appConfig');
+    }
+    postAppConfig(appConfig: AppConfig): Promise<AppConfig> {
+        return this.post<AppConfig>('/appConfig', appConfig);
     }
 }
