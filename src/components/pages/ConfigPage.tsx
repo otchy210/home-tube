@@ -31,10 +31,13 @@ const ConfigPage: React.FC = () => {
     };
     useEffect(() => {
         // don't show loading until 500msec to avoid frequent flashing
-        setTimeout(() => {
+        const tid = setTimeout(() => {
             setShowLoading(true);
         }, 500);
         loadAppConfig();
+        return () => {
+            clearTimeout(tid);
+        };
     }, []);
     if (!appConfig) {
         return (
@@ -78,7 +81,7 @@ const ConfigPage: React.FC = () => {
         if (copy.storages.length < i + 1) {
             return;
         }
-        copy.storages.splice(i);
+        copy.storages.splice(i, 1);
         setAppConfig(copy);
         setUpdated(true);
     };
@@ -112,6 +115,7 @@ const ConfigPage: React.FC = () => {
                                 onChange={(e) => {
                                     updateStoragePath(i, e.target.value);
                                 }}
+                                data-testid={`storage-${i}-path`}
                             />
                             <Form.Check
                                 type="checkbox"
@@ -120,12 +124,14 @@ const ConfigPage: React.FC = () => {
                                 onChange={(e) => {
                                     updateStorageEnabled(i, e.target.checked);
                                 }}
+                                data-testid={`storage-${i}-enabled`}
                             />
                             <Button
                                 variant="danger"
                                 onClick={() => {
                                     removeStorage(i);
                                 }}
+                                data-testid={`storage-${i}-delete`}
                             >
                                 Delete
                             </Button>
@@ -133,7 +139,7 @@ const ConfigPage: React.FC = () => {
                     );
                 })}
                 <Stack direction="horizontal" gap={2} className="mt-1">
-                    <Button variant="secondary" onClick={addStorage}>
+                    <Button variant="secondary" onClick={addStorage} data-testid={`add-storage`}>
                         Add video storage path
                     </Button>
                 </Stack>
@@ -147,6 +153,7 @@ const ConfigPage: React.FC = () => {
                     onChange={(e) => {
                         updateFfmpeg(e.target.value);
                     }}
+                    data-testid={`ffmpeg`}
                 />
 
                 <Stack direction="horizontal" gap={2} className="mt-3">
@@ -159,6 +166,7 @@ const ConfigPage: React.FC = () => {
                             loadAppConfig();
                         }}
                         disabled={!updated}
+                        data-testid="cancel"
                     >
                         Cancel
                     </Button>

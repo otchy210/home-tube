@@ -25,6 +25,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
     >
       <button
         class="btn btn-secondary"
+        data-testid="add-storage"
         type="button"
       >
         Add video storage path
@@ -42,6 +43,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
     </small>
     <input
       class="mt-1 form-control"
+      data-testid="ffmpeg"
       type="text"
       value=""
     />
@@ -58,6 +60,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
       </button>
       <button
         class="btn btn-link"
+        data-testid="cancel"
         disabled=""
         type="button"
       >
