@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
+import ApiProvider from './components/providers/ApiProvider';
 import ToastProvider from './components/providers/ToastsProvider';
 import { Api } from './utils/Api';
-import { ApiContext } from './utils/ApiContext';
 
 type InitialParams = {
     apiHost: string;
@@ -46,11 +46,11 @@ const initializeApp = async () => {
     const initialParams = await getInitialParams();
     ReactDOM.render(
         <BrowserRouter>
-            <ApiContext.Provider value={new Api(initialParams.apiHost)}>
+            <ApiProvider api={new Api(initialParams.apiHost)}>
                 <ToastProvider>
                     <App />
                 </ToastProvider>
-            </ApiContext.Provider>
+            </ApiProvider>
         </BrowserRouter>,
         root
     );

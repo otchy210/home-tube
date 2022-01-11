@@ -2,8 +2,8 @@ import React from 'react';
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react';
 import ConfigPage, { validateStorages } from './ConfigPage';
 import createMockedApi from '../../__mocks__/createMockedApi';
-import { ApiContext } from '../../utils/ApiContext';
 import { AppConfig } from '@otchy/home-tube-api/dist/types';
+import ApiProvider from '../providers/ApiProvider';
 
 describe('validateStorages', () => {
     it('works properly', () => {
@@ -42,9 +42,9 @@ describe('ConfigPage', () => {
         );
         (async () => {
             const renderResult = render(
-                <ApiContext.Provider value={mockedApi}>
+                <ApiProvider api={mockedApi}>
                     <ConfigPage />
-                </ApiContext.Provider>
+                </ApiProvider>
             );
             await waitFor(() => renderResult.queryByTestId('save-config') !== null);
             await test(renderResult);
