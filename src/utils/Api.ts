@@ -1,4 +1,5 @@
-import { AppConfig, Json } from '@otchy/home-tube-api/dist/types';
+import { AppConfig, Json, VideoDetails, VideoDocument } from '@otchy/home-tube-api/dist/types';
+import { createSearchParams } from 'react-router-dom';
 
 type Method = 'GET' | 'POST';
 
@@ -13,8 +14,15 @@ export class Api {
     constructor(apiHost: string) {
         this.apiHost = apiHost;
     }
-    private call<T>(method: Method, apiPath: string, body?: Json): Promise<T> {
-        const apiUrl = `${this.apiHost}${apiPath}`;
+    private call<T>(method: Method, apiPath: string, options: { body?: Json; params?: Record<string, string | string[]> } = {}): Promise<T> {
+        const { body, params } = options;
+        const apiUrl = (() => {
+            if (!params || Object.keys(params).length === 0) {
+                return `${this.apiHost}${apiPath}`;
+            }
+            const searchParams = createSearchParams(params);
+            return `${this.apiHost}${apiPath}?${searchParams}`;
+        })();
         const fetchOptions: FetchOptions = { method };
         if (body) {
             fetchOptions.headers = {
@@ -40,16 +48,22 @@ export class Api {
                 });
         });
     }
-    private get<T>(apiPath: string): Promise<T> {
-        return this.call('GET', apiPath);
+    private get<T>(apiPath: string, params?: Record<string, string | string[]>): Promise<T> {
+        return this.call('GET', apiPath, { params });
     }
-    private post<T>(apiPath: string, body: Json): Promise<T> {
-        return this.call('POST', apiPath, body);
+    private post<T>(apiPath: string, body: Json, params?: Record<string, string | string[]>): Promise<T> {
+        return this.call('POST', apiPath, { body, params });
     }
     getAppConfig(): Promise<AppConfig> {
         return this.get<AppConfig>('/appConfig');
     }
     postAppConfig(appConfig: AppConfig): Promise<AppConfig> {
         return this.post<AppConfig>('/appConfig', appConfig);
+    }
+    search(): Promise<Set<VideoDocument>> {
+        return this.get<Set<VideoDocument>>('/search');
+    }
+    getVideo(id: string): Promise<VideoDetails> {
+        return this.get<VideoDetails>('/video', { id });
     }
 }

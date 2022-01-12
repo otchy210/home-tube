@@ -1,25 +1,35 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Badge, Col, Form, Image, Row, Stack } from 'react-bootstrap';
+import { useSearchParams } from 'react-router-dom';
 import StarsIndicator from '../molecules/StarsIndicator';
+import { useApi } from '../providers/ApiProvider';
+import { useToast } from '../providers/ToastsProvider';
 
 type Mode = 'default' | 'theater' | 'fullScreen';
 
 const ViewPage: React.FC = () => {
     const [mode, setMode] = useState<Mode>('default');
-    const video = {
-        name: 'test-video.mp4',
-        names: ['path', 'to', 'test-movie.mp4'],
-        duration: '1:23:45',
-        length: 60 * 60 + 60 * 23 + 45,
-        vcodec: 'h.246',
-        width: 1600,
-        height: 900,
-        acodec: 'acc',
-        size: 'fhd',
-        stars: 4,
-        tags: ['tag1', 'tag2', 'tag3'],
-    } as VideoDetails;
+    const [video, setVideo] = useState<VideoDetails>();
+    const [searchParams] = useSearchParams();
+    const api = useApi();
+    const toast = useToast();
+    useEffect(() => {
+        const id = searchParams.get('id');
+        if (!id) {
+            toast.addError('Video', 'id parameter is required.');
+            return;
+        }
+        api.getVideo(id)
+            .then(setVideo)
+            .catch((e) => {
+                console.error(e);
+                toast.addError('Video', `No video found. id: ${id}`);
+            });
+    }, []);
+    if (!video) {
+        return null;
+    }
     const { name, names, vcodec, width, height, acodec, size, stars, tags } = video;
     const visiblePaths = [...names.slice(0, names.length - 1), ''];
     return (
