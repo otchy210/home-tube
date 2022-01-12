@@ -33,11 +33,6 @@ exports[`VideoTable renders properly 1`] = `
               Video ID: 
               1
             </div>
-            <p
-              class="card-text"
-            >
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
           </div>
         </div>
       </a>
@@ -70,11 +65,6 @@ exports[`VideoTable renders properly 1`] = `
               Video ID: 
               2
             </div>
-            <p
-              class="card-text"
-            >
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
           </div>
         </div>
       </a>
@@ -107,11 +97,6 @@ exports[`VideoTable renders properly 1`] = `
               Video ID: 
               3
             </div>
-            <p
-              class="card-text"
-            >
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
           </div>
         </div>
       </a>
@@ -144,11 +129,6 @@ exports[`VideoTable renders properly 1`] = `
               Video ID: 
               4
             </div>
-            <p
-              class="card-text"
-            >
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
           </div>
         </div>
       </a>
@@ -181,11 +161,6 @@ exports[`VideoTable renders properly 1`] = `
               Video ID: 
               5
             </div>
-            <p
-              class="card-text"
-            >
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
           </div>
         </div>
       </a>
@@ -218,11 +193,6 @@ exports[`VideoTable renders properly 1`] = `
               Video ID: 
               6
             </div>
-            <p
-              class="card-text"
-            >
-              Some quick example text to build on the card title and make up the bulk of the card's content.
-            </p>
           </div>
         </div>
       </a>

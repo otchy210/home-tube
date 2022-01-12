@@ -60,8 +60,8 @@ export class Api {
     postAppConfig(appConfig: AppConfig): Promise<AppConfig> {
         return this.post<AppConfig>('/appConfig', appConfig);
     }
-    search(): Promise<Set<VideoDocument>> {
-        return this.get<Set<VideoDocument>>('/search');
+    search(params?: Record<string, string | string[]>): Promise<Set<VideoDocument>> {
+        return this.get<Set<VideoDocument>>('/search', params);
     }
     getVideo(id: string): Promise<VideoDetails> {
         return this.get<VideoDetails>('/video', { id });
