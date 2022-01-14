@@ -1,11 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
-import ApiProvider from './components/providers/ApiProvider';
-import SearchQueryProvider from './components/providers/SearchQueryProvier';
-import ToastProvider from './components/providers/ToastsProvider';
-import { Api } from './utils/Api';
 
 type InitialParams = {
     apiHost: string;
@@ -45,17 +40,6 @@ const initializeApp = async () => {
         return;
     }
     const initialParams = await getInitialParams();
-    ReactDOM.render(
-        <BrowserRouter>
-            <ApiProvider api={new Api(initialParams.apiHost)}>
-                <ToastProvider>
-                    <SearchQueryProvider>
-                        <App />
-                    </SearchQueryProvider>
-                </ToastProvider>
-            </ApiProvider>
-        </BrowserRouter>,
-        root
-    );
+    ReactDOM.render(<App {...initialParams} />, root);
 };
 initializeApp();
