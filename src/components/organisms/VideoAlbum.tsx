@@ -1,5 +1,5 @@
 import { VideoDocument } from '@otchy/home-tube-api/dist/types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import VideoPagination from '../molecules/VideoPagination';
@@ -31,10 +31,10 @@ export const calcPages = (
 
 type Props = {
     videos: VideoDocument[];
-    page?: number;
 };
 
-const VideoAlbum: React.FC<Props> = ({ videos, page }: Props) => {
+const VideoAlbum: React.FC<Props> = ({ videos }: Props) => {
+    const [page, setPage] = useState<number>(1);
     if (videos.length === 0) {
         return (
             <Row className="mt-4">
@@ -51,8 +51,9 @@ const VideoAlbum: React.FC<Props> = ({ videos, page }: Props) => {
         );
     }
     const pagesInfo = calcPages(videos, page);
-    const onClickPage = (page: number): void => {
-        console.log(`page ${page} clicked`);
+    const onClickPage = (page: number) => {
+        window.scrollTo(0, 0);
+        setPage(page);
     };
     return (
         <>
