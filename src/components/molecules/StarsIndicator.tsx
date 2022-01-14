@@ -28,6 +28,7 @@ const StarsIndicator: React.FC<Props> = ({ stars, onClick }: Props) => {
                             onClick(s);
                         }}
                         style={{ cursor: 'pointer' }}
+                        key={`star-${s}`}
                     >
                         <StarIcon variant={s <= stars ? 'selected' : 'unselected'} size={30} key={`star-${s}`} />
                     </span>

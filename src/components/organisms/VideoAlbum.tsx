@@ -1,5 +1,7 @@
 import { VideoDocument } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
+import { Alert, Col, Row } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
 
@@ -33,6 +35,21 @@ type Props = {
 };
 
 const VideoAlbum: React.FC<Props> = ({ videos, page }: Props) => {
+    if (videos.length === 0) {
+        return (
+            <Row className="mt-4">
+                <Col xs={12}>
+                    <Alert variant="primary">
+                        No videos found. Go to{' '}
+                        <LinkContainer to="/">
+                            <Alert.Link>home</Alert.Link>
+                        </LinkContainer>
+                        .
+                    </Alert>
+                </Col>
+            </Row>
+        );
+    }
     const pagesInfo = calcPages(videos, page);
     const onClickPage = (page: number): void => {
         console.log(`page ${page} clicked`);
