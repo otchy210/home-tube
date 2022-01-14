@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 import ApiProvider from './components/providers/ApiProvider';
+import SearchQueryProvider from './components/providers/SearchQueryProvier';
 import ToastProvider from './components/providers/ToastsProvider';
 import { Api } from './utils/Api';
 
@@ -48,7 +49,9 @@ const initializeApp = async () => {
         <BrowserRouter>
             <ApiProvider api={new Api(initialParams.apiHost)}>
                 <ToastProvider>
-                    <App />
+                    <SearchQueryProvider>
+                        <App />
+                    </SearchQueryProvider>
                 </ToastProvider>
             </ApiProvider>
         </BrowserRouter>,

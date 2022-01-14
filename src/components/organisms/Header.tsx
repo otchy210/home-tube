@@ -5,17 +5,36 @@ import Icon from '../../images/icon.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
 import Config from '../../images/config.svg';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvier';
 
 const iconStyle = { height: '32px' };
 
+const setIfExist = (name: string, refs: { [name: string]: React.RefObject<HTMLInputElement> }, setter: (value: string) => void) => {
+    const ref = refs[name];
+    if (!ref || !ref.current?.value) {
+        return;
+    }
+    setter(ref.current.value);
+};
+
+const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInputElement> }): SearchQuery => {
+    const searchQuery = {} as SearchQuery;
+    setIfExist('names', refs, (value) => (searchQuery.names = value));
+    setIfExist('length', refs, (value) => (searchQuery.length = value));
+    setIfExist('size', refs, (value) => (searchQuery.size = value));
+    setIfExist('stars', refs, (value) => (searchQuery.stars = value));
+    setIfExist('tags', refs, (value) => (searchQuery.tags = value));
+    return searchQuery;
+};
+
 const Header: React.FC = () => {
-    const queryRef = useRef<HTMLInputElement>(null);
-    const navigate = useNavigate();
+    const namesRef = useRef<HTMLInputElement>(null);
+    const { setSearchQuery } = useSearchQuery();
     const doSearch = () => {
-        const params = createSearchParams();
-        params.append('names', queryRef.current?.value ?? '');
-        navigate(`/search${params.get('names') !== '' ? `?${params.toString()}` : ''}`);
+        const updatedSearchQuery = getSearchQueryFromRefs({
+            names: namesRef,
+        });
+        setSearchQuery(updatedSearchQuery);
     };
     const onQueryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         // cannot avoid using deprecated `e.keyCode` due to https://qiita.com/ledsun/items/31e43a97413dd3c8e38e
@@ -42,7 +61,7 @@ const Header: React.FC = () => {
                 <Navbar.Collapse className="justify-content-end mt-3 mt-sm-0">
                     <Nav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
-                            <FormControl type="search" onKeyDown={onQueryKeyDown} ref={queryRef} />
+                            <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
                             <Button variant="primary" className="ms-2 text-nowrap" onClick={onSearchSubmit}>
                                 <Search style={{ height: '22px' }} />
                                 <span className="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle">Search</span>
