@@ -9,20 +9,23 @@ type FetchOptions = {
     body?: string;
 };
 
+type Params = Record<string, string | string[]>;
+
 export class Api {
     private apiHost;
     constructor(apiHost: string) {
         this.apiHost = apiHost;
     }
-    private call<T>(method: Method, apiPath: string, options: { body?: Json; params?: Record<string, string | string[]> } = {}): Promise<T> {
+    private getApiUrl(apiPath: string, params?: Params): string {
+        if (!params || Object.keys(params).length === 0) {
+            return `${this.apiHost}${apiPath}`;
+        }
+        const searchParams = createSearchParams(params);
+        return `${this.apiHost}${apiPath}?${searchParams}`;
+    }
+    private call<T>(method: Method, apiPath: string, options: { body?: Json; params?: Params } = {}): Promise<T> {
         const { body, params } = options;
-        const apiUrl = (() => {
-            if (!params || Object.keys(params).length === 0) {
-                return `${this.apiHost}${apiPath}`;
-            }
-            const searchParams = createSearchParams(params);
-            return `${this.apiHost}${apiPath}?${searchParams}`;
-        })();
+        const apiUrl = this.getApiUrl(apiPath, params);
         const fetchOptions: FetchOptions = { method };
         if (body) {
             fetchOptions.headers = {
@@ -65,5 +68,11 @@ export class Api {
     }
     getVideo(id: string): Promise<VideoDetails> {
         return this.get<VideoDetails>('/video', { id });
+    }
+    getThumbnailsUrl(id: string, minute: string): string {
+        return this.getApiUrl('/thumbnails', { id, minute });
+    }
+    getSnapshotUrl(id: string): string {
+        return this.getApiUrl('/snapshot', { id });
     }
 }
