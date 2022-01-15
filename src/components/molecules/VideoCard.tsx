@@ -17,7 +17,7 @@ const VideoCard: React.FC<Props> = ({ video }: Props) => {
                 <VideoCardImg video={video} />
                 <Card.Body>
                     <Card.Title className="fs-6 text-truncate">{values.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
+                    <Card.Subtitle className="text-muted">
                         <StarsIndicator size={16} stars={values.stars} />
                     </Card.Subtitle>
                     {/* <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text> */}

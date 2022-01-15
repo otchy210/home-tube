@@ -12,7 +12,7 @@ const VideoTable: React.FC<Props> = ({ videos }: Props) => {
         <Row>
             {videos.map((video) => {
                 return (
-                    <Col xs={12} sm={6} md={4} xxl={3} className="px-1" key={`video-card-${video.id}`}>
+                    <Col xs={12} md={6} lg={4} xxl={3} className="px-1" key={`video-card-${video.id}`}>
                         <VideoCard video={video} />
                     </Col>
                 );

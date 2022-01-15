@@ -6,7 +6,7 @@ exports[`VideoTable renders properly 1`] = `
     class="row"
   >
     <div
-      class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
+      class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
         href="/view?id=1"
@@ -31,7 +31,7 @@ exports[`VideoTable renders properly 1`] = `
               Video-1
             </div>
             <div
-              class="mb-2 text-muted card-subtitle h6"
+              class="text-muted card-subtitle h6"
             >
               <span>
                 <svgr-mock
@@ -69,7 +69,7 @@ exports[`VideoTable renders properly 1`] = `
       </a>
     </div>
     <div
-      class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
+      class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
         href="/view?id=2"
@@ -94,7 +94,7 @@ exports[`VideoTable renders properly 1`] = `
               Video-2
             </div>
             <div
-              class="mb-2 text-muted card-subtitle h6"
+              class="text-muted card-subtitle h6"
             >
               <span>
                 <svgr-mock
@@ -132,7 +132,7 @@ exports[`VideoTable renders properly 1`] = `
       </a>
     </div>
     <div
-      class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
+      class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
         href="/view?id=3"
@@ -157,7 +157,7 @@ exports[`VideoTable renders properly 1`] = `
               Video-3
             </div>
             <div
-              class="mb-2 text-muted card-subtitle h6"
+              class="text-muted card-subtitle h6"
             >
               <span>
                 <svgr-mock
@@ -195,7 +195,7 @@ exports[`VideoTable renders properly 1`] = `
       </a>
     </div>
     <div
-      class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
+      class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
         href="/view?id=4"
@@ -220,7 +220,7 @@ exports[`VideoTable renders properly 1`] = `
               Video-4
             </div>
             <div
-              class="mb-2 text-muted card-subtitle h6"
+              class="text-muted card-subtitle h6"
             >
               <span>
                 <svgr-mock
@@ -258,7 +258,7 @@ exports[`VideoTable renders properly 1`] = `
       </a>
     </div>
     <div
-      class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
+      class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
         href="/view?id=5"
@@ -283,7 +283,7 @@ exports[`VideoTable renders properly 1`] = `
               Video-5
             </div>
             <div
-              class="mb-2 text-muted card-subtitle h6"
+              class="text-muted card-subtitle h6"
             >
               <span>
                 <svgr-mock
@@ -321,7 +321,7 @@ exports[`VideoTable renders properly 1`] = `
       </a>
     </div>
     <div
-      class="px-1 col-xxl-3 col-md-4 col-sm-6 col-12"
+      class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
         href="/view?id=6"
@@ -346,7 +346,7 @@ exports[`VideoTable renders properly 1`] = `
               Video-6
             </div>
             <div
-              class="mb-2 text-muted card-subtitle h6"
+              class="text-muted card-subtitle h6"
             >
               <span>
                 <svgr-mock
