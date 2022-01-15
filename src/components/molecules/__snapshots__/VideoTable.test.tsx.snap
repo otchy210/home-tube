@@ -33,36 +33,30 @@ exports[`VideoTable renders properly 1`] = `
             <div
               class="text-muted card-subtitle h6"
             >
-              <span>
+              <div
+                class="sc-dkPtRN cdhPSs"
+              >
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -96,36 +90,30 @@ exports[`VideoTable renders properly 1`] = `
             <div
               class="text-muted card-subtitle h6"
             >
-              <span>
+              <div
+                class="sc-dkPtRN cdhPSs"
+              >
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -159,36 +147,30 @@ exports[`VideoTable renders properly 1`] = `
             <div
               class="text-muted card-subtitle h6"
             >
-              <span>
+              <div
+                class="sc-dkPtRN cdhPSs"
+              >
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -222,36 +204,30 @@ exports[`VideoTable renders properly 1`] = `
             <div
               class="text-muted card-subtitle h6"
             >
-              <span>
+              <div
+                class="sc-dkPtRN cdhPSs"
+              >
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -285,36 +261,30 @@ exports[`VideoTable renders properly 1`] = `
             <div
               class="text-muted card-subtitle h6"
             >
-              <span>
+              <div
+                class="sc-dkPtRN cdhPSs"
+              >
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -348,36 +318,30 @@ exports[`VideoTable renders properly 1`] = `
             <div
               class="text-muted card-subtitle h6"
             >
-              <span>
+              <div
+                class="sc-dkPtRN cdhPSs"
+              >
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
-              <span>
                 <svgr-mock
                   height="16"
                   width="16"
                 />
-              </span>
+              </div>
             </div>
           </div>
         </div>
