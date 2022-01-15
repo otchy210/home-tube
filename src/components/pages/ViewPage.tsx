@@ -1,4 +1,4 @@
-import { VideoDetails } from '@otchy/home-tube-api/dist/types';
+import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
@@ -31,11 +31,18 @@ const ViewPage: React.FC = () => {
     if (!details) {
         return null;
     }
+    const onClickStars = (stars: Stars): void => {
+        api.postProperties(id, { stars }).then((updatedProperties) => {
+            const updatedDetails = { ...details, ...updatedProperties };
+            setDetails(updatedDetails);
+        });
+    };
+
     return (
         <Row className="pt-4">
             <Col xs={12} lg={mode === 'default' ? 9 : 12}>
                 <VideoPlayer src={api.getVideoUrl(id)} />
-                <VideoBasicInfo details={details} />
+                <VideoBasicInfo details={details} onClickStars={onClickStars} />
             </Col>
             <Col xs={12} lg={mode === 'default' ? 3 : 12}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />

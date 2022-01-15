@@ -39,7 +39,7 @@ type Props = {
     onClick?: (stars: Stars) => void;
 };
 
-const StarsIndicator2: React.FC<Props> = ({ size, stars, onClick }: Props) => {
+const StarsIndicator: React.FC<Props> = ({ size, stars, onClick }: Props) => {
     const wrapperRef = useRef<HTMLDivElement>();
     const [selectedStars, setSelectedStars] = useState<number>(stars ?? 0);
     const [unselectedStars, setUnselectedStars] = useState<number>(stars ? 5 - stars : 0);
@@ -106,4 +106,4 @@ const StarsIndicator2: React.FC<Props> = ({ size, stars, onClick }: Props) => {
     );
 };
 
-export default StarsIndicator2;
+export default StarsIndicator;

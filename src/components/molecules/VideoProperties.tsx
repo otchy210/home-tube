@@ -6,12 +6,13 @@ import { Badge, Stack } from 'react-bootstrap';
 type Props = {
     stars: Stars | undefined;
     tags: string[] | undefined;
+    onClickStars: (stars: Stars) => void;
 };
 
-const VideoProperties: React.FC<Props> = ({ stars, tags }: Props) => {
+const VideoProperties: React.FC<Props> = ({ stars, tags, onClickStars }: Props) => {
     return (
         <Stack direction="horizontal">
-            <StarsIndicator size={30} stars={stars} onClick={(star) => console.log(`star: ${star} is clicked`)} />
+            <StarsIndicator size={30} stars={stars} onClick={onClickStars} />
             <span className="fs-5">
                 {tags?.map((tag) => {
                     return (
