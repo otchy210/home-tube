@@ -19,7 +19,7 @@ const setIfExist = (name: string, refs: { [name: string]: React.RefObject<HTMLIn
 
 const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInputElement> }): SearchQuery => {
     const searchQuery = {} as SearchQuery;
-    setIfExist('names', refs, (value) => (searchQuery.names = value));
+    setIfExist('names', refs, (value) => (searchQuery.names = JSON.stringify(value.split(/\s/))));
     setIfExist('length', refs, (value) => (searchQuery.length = value));
     setIfExist('size', refs, (value) => (searchQuery.size = value));
     setIfExist('stars', refs, (value) => (searchQuery.stars = value));
