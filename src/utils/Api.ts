@@ -75,4 +75,7 @@ export class Api {
     getSnapshotUrl(id: string): string {
         return this.getApiUrl('/snapshot', { id });
     }
+    getVideoUrl(id: string): string {
+        return this.getApiUrl('/video', { id });
+    }
 }

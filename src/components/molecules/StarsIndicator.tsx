@@ -1,6 +1,6 @@
 import { Stars } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
-import StarIcon from '../atoms/StarIcon';
+import StarIcon, { StarIconVariant } from '../atoms/StarIcon';
 
 type Props = {
     size: number;
@@ -10,20 +10,19 @@ type Props = {
 
 const POSSIBLE_STARS = [1, 2, 3, 4, 5] as Stars[];
 
-const StarsIndicator: React.FC<Props> = ({ size, stars, onClick }: Props) => {
-    if (!stars) {
-        return (
-            <>
-                {POSSIBLE_STARS.map((s) => {
-                    return <StarIcon variant="void" size={size} key={`star-${s}`} />;
-                })}
-            </>
-        );
+const getVariant = (currentStart: Stars, selectedStar: Stars | undefined): StarIconVariant => {
+    if (!selectedStar) {
+        return 'void';
     }
+    return currentStart <= selectedStar ? 'selected' : 'unselected';
+};
+
+const StarsIndicator: React.FC<Props> = ({ size, stars, onClick }: Props) => {
+    const style: React.CSSProperties = onClick ? { cursor: 'pointer' } : {};
     return (
         <>
             {POSSIBLE_STARS.map((s) => {
-                const style: React.CSSProperties = onClick ? { cursor: 'pointer' } : {};
+                const variant = getVariant(s, stars);
                 return (
                     <span
                         onClick={() => {
@@ -32,7 +31,7 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, onClick }: Props) => {
                         style={style}
                         key={`star-${s}`}
                     >
-                        <StarIcon variant={s <= stars ? 'selected' : 'unselected'} size={size} key={`star-${s}`} />
+                        <StarIcon variant={variant} size={size} key={`star-${s}`} />
                     </span>
                 );
             })}
