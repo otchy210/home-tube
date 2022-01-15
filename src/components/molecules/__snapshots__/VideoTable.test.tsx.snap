@@ -15,23 +15,44 @@ exports[`VideoTable renders properly 1`] = `
         <div
           class="mt-4 card"
         >
-          <img
-            class="card-img-top"
-            src="http://dummy-api-host/snapshot?id=1"
-          />
+          <div
+            class="sc-bdvvtL iRLeeU card-img-top"
+          >
+            <img
+              src="http://dummy-api-host/snapshot?id=1"
+            />
+          </div>
           <div
             class="card-body"
           >
             <div
-              class="card-title h5"
+              class="fs-6 text-truncate card-title h5"
             >
               Video-1
             </div>
             <div
               class="mb-2 text-muted card-subtitle h6"
             >
-              Video ID: 
-              1
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
             </div>
           </div>
         </div>
@@ -47,23 +68,44 @@ exports[`VideoTable renders properly 1`] = `
         <div
           class="mt-4 card"
         >
-          <img
-            class="card-img-top"
-            src="http://dummy-api-host/snapshot?id=2"
-          />
+          <div
+            class="sc-bdvvtL iRLeeU card-img-top"
+          >
+            <img
+              src="http://dummy-api-host/snapshot?id=2"
+            />
+          </div>
           <div
             class="card-body"
           >
             <div
-              class="card-title h5"
+              class="fs-6 text-truncate card-title h5"
             >
               Video-2
             </div>
             <div
               class="mb-2 text-muted card-subtitle h6"
             >
-              Video ID: 
-              2
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
             </div>
           </div>
         </div>
@@ -79,23 +121,44 @@ exports[`VideoTable renders properly 1`] = `
         <div
           class="mt-4 card"
         >
-          <img
-            class="card-img-top"
-            src="http://dummy-api-host/snapshot?id=3"
-          />
+          <div
+            class="sc-bdvvtL iRLeeU card-img-top"
+          >
+            <img
+              src="http://dummy-api-host/snapshot?id=3"
+            />
+          </div>
           <div
             class="card-body"
           >
             <div
-              class="card-title h5"
+              class="fs-6 text-truncate card-title h5"
             >
               Video-3
             </div>
             <div
               class="mb-2 text-muted card-subtitle h6"
             >
-              Video ID: 
-              3
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
             </div>
           </div>
         </div>
@@ -111,23 +174,44 @@ exports[`VideoTable renders properly 1`] = `
         <div
           class="mt-4 card"
         >
-          <img
-            class="card-img-top"
-            src="http://dummy-api-host/snapshot?id=4"
-          />
+          <div
+            class="sc-bdvvtL iRLeeU card-img-top"
+          >
+            <img
+              src="http://dummy-api-host/snapshot?id=4"
+            />
+          </div>
           <div
             class="card-body"
           >
             <div
-              class="card-title h5"
+              class="fs-6 text-truncate card-title h5"
             >
               Video-4
             </div>
             <div
               class="mb-2 text-muted card-subtitle h6"
             >
-              Video ID: 
-              4
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
             </div>
           </div>
         </div>
@@ -143,23 +227,44 @@ exports[`VideoTable renders properly 1`] = `
         <div
           class="mt-4 card"
         >
-          <img
-            class="card-img-top"
-            src="http://dummy-api-host/snapshot?id=5"
-          />
+          <div
+            class="sc-bdvvtL iRLeeU card-img-top"
+          >
+            <img
+              src="http://dummy-api-host/snapshot?id=5"
+            />
+          </div>
           <div
             class="card-body"
           >
             <div
-              class="card-title h5"
+              class="fs-6 text-truncate card-title h5"
             >
               Video-5
             </div>
             <div
               class="mb-2 text-muted card-subtitle h6"
             >
-              Video ID: 
-              5
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
             </div>
           </div>
         </div>
@@ -175,23 +280,44 @@ exports[`VideoTable renders properly 1`] = `
         <div
           class="mt-4 card"
         >
-          <img
-            class="card-img-top"
-            src="http://dummy-api-host/snapshot?id=6"
-          />
+          <div
+            class="sc-bdvvtL iRLeeU card-img-top"
+          >
+            <img
+              src="http://dummy-api-host/snapshot?id=6"
+            />
+          </div>
           <div
             class="card-body"
           >
             <div
-              class="card-title h5"
+              class="fs-6 text-truncate card-title h5"
             >
               Video-6
             </div>
             <div
               class="mb-2 text-muted card-subtitle h6"
             >
-              Video ID: 
-              6
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
+              <svgr-mock
+                height="16"
+                width="16"
+              />
             </div>
           </div>
         </div>

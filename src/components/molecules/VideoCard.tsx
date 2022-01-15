@@ -2,7 +2,8 @@ import React from 'react';
 import { VideoDocument } from '@otchy/home-tube-api/dist/types';
 import { Card } from 'react-bootstrap';
 import { createSearchParams, Link } from 'react-router-dom';
-import { useApi } from '../providers/ApiProvider';
+import VideoCardImg from '../atoms/VideoCardImg';
+import StarsIndicator from './StarsIndicator';
 
 type Props = {
     video: VideoDocument;
@@ -10,14 +11,15 @@ type Props = {
 
 const VideoCard: React.FC<Props> = ({ video }: Props) => {
     const { id, values } = video;
-    const api = useApi();
     return (
         <Link to={`/view?${createSearchParams({ id: String(id) })}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <Card className="mt-4">
-                <Card.Img variant="top" src={api.getSnapshotUrl(String(id))} />
+                <VideoCardImg video={video} />
                 <Card.Body>
-                    <Card.Title>{values.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">Video ID: {id}</Card.Subtitle>
+                    <Card.Title className="fs-6 text-truncate">{values.name}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                        <StarsIndicator size={16} stars={values.stars} />
+                    </Card.Subtitle>
                     {/* <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text> */}
                 </Card.Body>
             </Card>

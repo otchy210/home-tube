@@ -3,18 +3,19 @@ import React from 'react';
 import StarIcon from '../atoms/StarIcon';
 
 type Props = {
+    size: number;
     stars?: Stars;
-    onClick: (stars: Stars) => void;
+    onClick?: (stars: Stars) => void;
 };
 
 const POSSIBLE_STARS = [1, 2, 3, 4, 5] as Stars[];
 
-const StarsIndicator: React.FC<Props> = ({ stars, onClick }: Props) => {
+const StarsIndicator: React.FC<Props> = ({ size, stars, onClick }: Props) => {
     if (!stars) {
         return (
             <>
                 {POSSIBLE_STARS.map((s) => {
-                    return <StarIcon variant="void" size={32} key={`star-${s}`} />;
+                    return <StarIcon variant="void" size={size} key={`star-${s}`} />;
                 })}
             </>
         );
@@ -22,15 +23,16 @@ const StarsIndicator: React.FC<Props> = ({ stars, onClick }: Props) => {
     return (
         <>
             {POSSIBLE_STARS.map((s) => {
+                const style: React.CSSProperties = onClick ? { cursor: 'pointer' } : {};
                 return (
                     <span
                         onClick={() => {
-                            onClick(s);
+                            onClick && onClick(s);
                         }}
-                        style={{ cursor: 'pointer' }}
+                        style={style}
                         key={`star-${s}`}
                     >
-                        <StarIcon variant={s <= stars ? 'selected' : 'unselected'} size={30} key={`star-${s}`} />
+                        <StarIcon variant={s <= stars ? 'selected' : 'unselected'} size={size} key={`star-${s}`} />
                     </span>
                 );
             })}

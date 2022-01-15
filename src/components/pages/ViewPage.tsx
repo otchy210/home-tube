@@ -41,17 +41,21 @@ const ViewPage: React.FC = () => {
                 <Stack direction="horizontal">
                     <div className="fs-6 mt-2 mb-0 me-auto text-muted">{visiblePaths.join(' / ')}</div>
                     <div>
-                        <Badge bg="secondary">
-                            {width}x{height}
-                        </Badge>
-                        <Badge bg="secondary" className="ms-1">
-                            {size?.toUpperCase()}
-                        </Badge>
+                        {width && height && (
+                            <Badge bg="secondary">
+                                {width}x{height}
+                            </Badge>
+                        )}
+                        {size && (
+                            <Badge bg="secondary" className="ms-1 text-uppercase">
+                                {size}
+                            </Badge>
+                        )}
                     </div>
                 </Stack>
                 <p className="fs-4 my-0">{name}</p>
                 <p>
-                    <StarsIndicator stars={stars} onClick={(star) => console.log(`star: ${star} is clicked`)} />
+                    <StarsIndicator size={30} stars={stars} onClick={(star) => console.log(`star: ${star} is clicked`)} />
                     <span className="fs-5">
                         {tags?.map((tag) => {
                             return (

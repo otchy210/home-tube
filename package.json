@@ -1,6 +1,6 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.0.33",
+    "version": "0.0.34",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "main": "dist/index.js",
     "files": [
@@ -39,6 +39,7 @@
         "@types/react-bootstrap": "^0.32.29",
         "@types/react-dom": "^17.0.11",
         "@types/react-router-bootstrap": "^0.24.5",
+        "@types/styled-components": "^5.1.20",
         "@typescript-eslint/eslint-plugin": "^5.9.0",
         "@typescript-eslint/parser": "^5.9.0",
         "css-loader": "^6.5.1",
@@ -65,7 +66,8 @@
         "react-bootstrap": "^2.1.0",
         "react-dom": "^17.0.2",
         "react-router-bootstrap": "^0.26.0",
-        "react-router-dom": "^6.2.1"
+        "react-router-dom": "^6.2.1",
+        "styled-components": "^5.3.3"
     },
     "jest": {
         "testEnvironment": "jsdom",

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-dark text-muted small text-white-50 mt-3 py-1 px-3">
+        <footer className="bg-dark text-muted small text-center text-white-50 mt-3 py-1 px-3">
             HomeTube is written by{' '}
             <a href="https://twitter.com/otchy" target="_blank">
                 @otchy
