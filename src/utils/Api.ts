@@ -66,8 +66,8 @@ export class Api {
     search(params?: Record<string, string | string[]>): Promise<Set<VideoDocument>> {
         return this.get<Set<VideoDocument>>('/search', params);
     }
-    getVideo(id: string): Promise<VideoDetails> {
-        return this.get<VideoDetails>('/video', { id });
+    getDetails(id: string): Promise<VideoDetails> {
+        return this.get<VideoDetails>('/details', { id });
     }
     getThumbnailsUrl(id: string, minute: string): string {
         return this.getApiUrl('/thumbnails', { id, minute });

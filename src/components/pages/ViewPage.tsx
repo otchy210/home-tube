@@ -20,7 +20,7 @@ const ViewPage: React.FC = () => {
             toast.addError('Video', 'id parameter is required.');
             return;
         }
-        api.getVideo(id)
+        api.getDetails(id)
             .then(setVideo)
             .catch((e) => {
                 console.error(e);
