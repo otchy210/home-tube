@@ -1,6 +1,6 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.0.49",
+    "version": "0.0.50",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "main": "dist/index.js",
     "files": [
@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "clean": "rm -rf dist/*",
-        "copy": "cp src/index.html dist/index.html",
+        "copy": "node bin/cp.js",
         "build": "npm run clean && npm run copy && webpack",
         "dev": "npm run clean && npm run copy && NODE_ENV=development webpack-dev-server",
         "test": "jest",
