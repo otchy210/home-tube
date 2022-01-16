@@ -1,6 +1,6 @@
 import { VideoDocument } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
-import { Badge, Stack } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
 import { useApi } from '../providers/ApiProvider';
 import styled from 'styled-components';
 
