@@ -6,7 +6,7 @@ import { useApi } from '../providers/ApiProvider';
 import { useSearchQuery } from '../providers/SearchQueryProvier';
 
 const SearchPage: React.FC = () => {
-    const [videos, setVideos] = useState<VideoDocument[]>([]);
+    const [videos, setVideos] = useState<VideoDocument[] | undefined>();
     const api = useApi();
     const { searchQuery } = useSearchQuery();
     useEffect(() => {

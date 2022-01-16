@@ -2,7 +2,7 @@ import { AppConfig, Storage } from '@otchy/home-tube-api/dist/types';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
-import Spinner from '../atoms/Spinner';
+import DelayedSpinner from '../molecules/DelayedSpinner';
 import { useApi } from '../providers/ApiProvider';
 import { useToast } from '../providers/ToastsProvider';
 
@@ -41,41 +41,31 @@ const PropertyTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const ConfigPage: React.FC = () => {
-    const [showLoading, setShowLoading] = useState<boolean>(false);
     const [appConfig, setAppConfig] = useState<AppConfig | undefined>();
     const [updated, setUpdated] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
     const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
     const api = useApi();
     const toast = useToast();
-    const loadAppConfig = (tid?: number) => {
+    const loadAppConfig = () => {
         api.getAppConfig()
             .then(setAppConfig)
             .catch((e) => {
                 console.error(e);
                 toast.addError('Config', 'Failed to load.');
-                if (tid) {
-                    clearTimeout(tid);
-                }
-                setShowLoading(false);
+                setHasError(true);
             });
         setUpdated(false);
         setStorageValidationErrors(new Map<number, string>());
     };
     useEffect(() => {
-        // don't show loading until 500msec to avoid frequent flashing
-        const tid = setTimeout(() => {
-            setShowLoading(true);
-        }, 500) as unknown as number;
-        loadAppConfig(tid);
-        return () => {
-            clearTimeout(tid);
-        };
+        loadAppConfig();
     }, []);
     if (!appConfig) {
         return (
             <>
                 <ConfigTitle>Config</ConfigTitle>
-                <p>{showLoading && <Spinner />}</p>
+                <p>{!hasError && <DelayedSpinner />}</p>
             </>
         );
     }

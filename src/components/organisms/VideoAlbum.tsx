@@ -2,6 +2,7 @@ import { VideoDocument } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
 import { Alert, Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
 
@@ -30,11 +31,20 @@ export const calcPages = (
 };
 
 type Props = {
-    videos: VideoDocument[];
+    videos: VideoDocument[] | undefined;
 };
 
 const VideoAlbum: React.FC<Props> = ({ videos }: Props) => {
     const [page, setPage] = useState<number>(1);
+    if (!videos) {
+        return (
+            <Row className="mt-4">
+                <Col xs={12}>
+                    <DelayedSpinner />
+                </Col>
+            </Row>
+        );
+    }
     if (videos.length === 0) {
         return (
             <Row className="mt-4">

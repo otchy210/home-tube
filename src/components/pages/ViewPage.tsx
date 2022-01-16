@@ -9,12 +9,14 @@ import { useToast } from '../providers/ToastsProvider';
 import { VideoViewMode } from '../../types';
 import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
 import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
+import DelayedSpinner from '../molecules/DelayedSpinner';
 
 const ViewPage: React.FC = () => {
     const [mode, setMode] = useState<VideoViewMode>('default');
     const [details, setDetails] = useState<VideoDetails>();
     const orgStars = useRef<Stars | undefined>();
     const [searchParams] = useSearchParams();
+    const [hasError, setHasError] = useState<boolean>(false);
     const api = useApi();
     const toast = useToast();
     const id = searchParams.get('id');
@@ -31,10 +33,15 @@ const ViewPage: React.FC = () => {
             .catch((e) => {
                 console.error(e);
                 toast.addError('Video', `No video found. id: ${id}`);
+                setHasError(true);
             });
     }, []);
     if (!details || !orgStars) {
-        return null;
+        return (
+            <Row className="pt-4">
+                <Col xs={12}>{!hasError && <DelayedSpinner />}</Col>
+            </Row>
+        );
     }
     const setStars = (stars: Stars | undefined) => {
         const updatedDetails = { ...details, stars };

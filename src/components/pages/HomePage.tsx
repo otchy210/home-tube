@@ -5,7 +5,7 @@ import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 
 const HomePage: React.FC = () => {
-    const [videos, setVideos] = useState<VideoDocument[]>([]);
+    const [videos, setVideos] = useState<VideoDocument[] | undefined>();
     const api = useApi();
     useEffect(() => {
         api.search().then((videoSet) => {
