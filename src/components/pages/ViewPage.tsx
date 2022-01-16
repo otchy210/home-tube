@@ -10,6 +10,7 @@ import { VideoViewMode } from '../../types';
 import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
 import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
 import DelayedSpinner from '../molecules/DelayedSpinner';
+import { RemoveStars } from '../molecules/VideoProperties';
 
 const ViewPage: React.FC = () => {
     const [mode, setMode] = useState<VideoViewMode>('default');
@@ -27,8 +28,8 @@ const ViewPage: React.FC = () => {
     useEffect(() => {
         api.getDetails(id)
             .then((details) => {
-                setDetails(details);
                 orgStars.current = details.stars;
+                setDetails(details);
             })
             .catch((e) => {
                 console.error(e);
@@ -36,7 +37,7 @@ const ViewPage: React.FC = () => {
                 setHasError(true);
             });
     }, []);
-    if (!details || !orgStars) {
+    if (!details) {
         return (
             <Row className="pt-4">
                 <Col xs={12}>{!hasError && <DelayedSpinner />}</Col>
@@ -60,12 +61,22 @@ const ViewPage: React.FC = () => {
             setStars(orgStars.current);
         },
     };
+    const removeStars: RemoveStars = {
+        able: () => {
+            return orgStars.current ? true : false;
+        },
+        do: () => {
+            setStars(undefined);
+            orgStars.current = undefined;
+            api.postProperties(id, { stars: null });
+        },
+    };
 
     return (
         <Row className="pt-4">
             <Col xs={12} lg={mode === 'default' ? 9 : 12}>
                 <VideoPlayer src={api.getVideoUrl(id)} />
-                <VideoBasicInfo details={details} onStars={onStars} />
+                <VideoBasicInfo details={details} onStars={onStars} removeStars={removeStars} />
             </Col>
             <Col xs={12} lg={mode === 'default' ? 3 : 12}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />

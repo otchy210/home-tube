@@ -13,17 +13,23 @@ const TrashcanIcon = styled(Trashcan).attrs({ className: 'ms-1', width: '20', he
     }
 `;
 
+export type RemoveStars = {
+    able: () => boolean;
+    do: () => void;
+};
+
 type Props = {
     stars: Stars | undefined;
     tags: string[] | undefined;
     onStars: StarsMouseEventHandlers;
+    removeStars: RemoveStars;
 };
 
-const VideoProperties: React.FC<Props> = ({ stars, tags, onStars }: Props) => {
+const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars }: Props) => {
     return (
         <Stack direction="horizontal">
             <StarsIndicator size={30} stars={stars} on={onStars} />
-            {stars && <TrashcanIcon />}
+            {removeStars.able() && <TrashcanIcon onClick={removeStars.do} />}
             <span className="fs-5 ms-3">
                 {tags?.map((tag) => {
                     return (

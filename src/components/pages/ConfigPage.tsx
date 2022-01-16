@@ -126,7 +126,7 @@ const ConfigPage: React.FC = () => {
                 setUpdated(false);
             })
             .catch((e) => {
-                console.log(e);
+                console.error(e);
                 toast.addError('Config', 'Failed to update.');
             });
     };

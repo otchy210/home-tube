@@ -21,6 +21,9 @@ exports[`VideoTable renders properly 1`] = `
             <img
               src="http://dummy-api-host/snapshot?id=1"
             />
+            <div
+              class="sc-gsDKAQ iLWPhM hstack m-1"
+            />
           </div>
           <div
             class="card-body"
@@ -34,7 +37,7 @@ exports[`VideoTable renders properly 1`] = `
               class="text-muted card-subtitle h6"
             >
               <div
-                class="sc-dkPtRN cdhPSs"
+                class="sc-hKwDye bkEUOP"
               >
                 [MockedStarVoidSvg width="16" height="16" /]
                 [MockedStarVoidSvg width="16" height="16" /]
@@ -63,6 +66,9 @@ exports[`VideoTable renders properly 1`] = `
             <img
               src="http://dummy-api-host/snapshot?id=2"
             />
+            <div
+              class="sc-gsDKAQ iLWPhM hstack m-1"
+            />
           </div>
           <div
             class="card-body"
@@ -76,7 +82,7 @@ exports[`VideoTable renders properly 1`] = `
               class="text-muted card-subtitle h6"
             >
               <div
-                class="sc-dkPtRN cdhPSs"
+                class="sc-hKwDye bkEUOP"
               >
                 [MockedStarVoidSvg width="16" height="16" /]
                 [MockedStarVoidSvg width="16" height="16" /]
@@ -105,6 +111,9 @@ exports[`VideoTable renders properly 1`] = `
             <img
               src="http://dummy-api-host/snapshot?id=3"
             />
+            <div
+              class="sc-gsDKAQ iLWPhM hstack m-1"
+            />
           </div>
           <div
             class="card-body"
@@ -118,7 +127,7 @@ exports[`VideoTable renders properly 1`] = `
               class="text-muted card-subtitle h6"
             >
               <div
-                class="sc-dkPtRN cdhPSs"
+                class="sc-hKwDye bkEUOP"
               >
                 [MockedStarVoidSvg width="16" height="16" /]
                 [MockedStarVoidSvg width="16" height="16" /]
@@ -147,6 +156,9 @@ exports[`VideoTable renders properly 1`] = `
             <img
               src="http://dummy-api-host/snapshot?id=4"
             />
+            <div
+              class="sc-gsDKAQ iLWPhM hstack m-1"
+            />
           </div>
           <div
             class="card-body"
@@ -160,7 +172,7 @@ exports[`VideoTable renders properly 1`] = `
               class="text-muted card-subtitle h6"
             >
               <div
-                class="sc-dkPtRN cdhPSs"
+                class="sc-hKwDye bkEUOP"
               >
                 [MockedStarVoidSvg width="16" height="16" /]
                 [MockedStarVoidSvg width="16" height="16" /]
@@ -189,6 +201,9 @@ exports[`VideoTable renders properly 1`] = `
             <img
               src="http://dummy-api-host/snapshot?id=5"
             />
+            <div
+              class="sc-gsDKAQ iLWPhM hstack m-1"
+            />
           </div>
           <div
             class="card-body"
@@ -202,7 +217,7 @@ exports[`VideoTable renders properly 1`] = `
               class="text-muted card-subtitle h6"
             >
               <div
-                class="sc-dkPtRN cdhPSs"
+                class="sc-hKwDye bkEUOP"
               >
                 [MockedStarVoidSvg width="16" height="16" /]
                 [MockedStarVoidSvg width="16" height="16" /]
@@ -231,6 +246,9 @@ exports[`VideoTable renders properly 1`] = `
             <img
               src="http://dummy-api-host/snapshot?id=6"
             />
+            <div
+              class="sc-gsDKAQ iLWPhM hstack m-1"
+            />
           </div>
           <div
             class="card-body"
@@ -244,7 +262,7 @@ exports[`VideoTable renders properly 1`] = `
               class="text-muted card-subtitle h6"
             >
               <div
-                class="sc-dkPtRN cdhPSs"
+                class="sc-hKwDye bkEUOP"
               >
                 [MockedStarVoidSvg width="16" height="16" /]
                 [MockedStarVoidSvg width="16" height="16" /]

@@ -4,15 +4,16 @@ import { Stack } from 'react-bootstrap';
 import VideoPaths from '../atoms/VideoPaths';
 import VideoSizeBadges from './VideoSizeBadges';
 import VideoTitle from '../atoms/VideoTitle';
-import VideoProperties from './VideoProperties';
+import VideoProperties, { RemoveStars } from './VideoProperties';
 import { StarsMouseEventHandlers } from './StarsIndicator';
 
 type Props = {
     details: VideoDetails;
     onStars: StarsMouseEventHandlers;
+    removeStars: RemoveStars;
 };
 
-const VideoBasicInfo: React.FC<Props> = ({ details, onStars }: Props) => {
+const VideoBasicInfo: React.FC<Props> = ({ details, onStars, removeStars }: Props) => {
     const { name, names, width, height, size, stars, tags } = details;
     return (
         <>
@@ -21,7 +22,7 @@ const VideoBasicInfo: React.FC<Props> = ({ details, onStars }: Props) => {
                 <VideoSizeBadges {...{ width, height, size }} />
             </Stack>
             <VideoTitle name={name} />
-            <VideoProperties {...{ stars, tags, onStars }} />
+            <VideoProperties {...{ stars, tags, onStars, removeStars }} />
         </>
     );
 };
