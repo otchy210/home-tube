@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stars } from '@otchy/home-tube-api/dist/types';
 import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
 import { Badge, Stack } from 'react-bootstrap';
 import Trashcan from '../../images/trashcan.svg';
 import styled from 'styled-components';
+import Confirm from './Confirm';
 
 const TrashcanIcon = styled(Trashcan).attrs({ className: 'ms-1', width: '20', height: '20' })`
     cursor: pointer;
@@ -26,20 +27,30 @@ type Props = {
 };
 
 const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars }: Props) => {
+    const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
     return (
-        <Stack direction="horizontal">
-            <StarsIndicator size={30} stars={stars} on={onStars} />
-            {removeStars.able() && <TrashcanIcon onClick={removeStars.do} />}
-            <span className="fs-5 ms-3">
-                {tags?.map((tag) => {
-                    return (
-                        <Badge className="ms-1" key={`tag-${tag}`}>
-                            {tag}
-                        </Badge>
-                    );
-                })}
-            </span>
-        </Stack>
+        <>
+            <Confirm
+                show={showRemovalConfirm}
+                setShow={setShowRemovalConfirm}
+                title="Confirmation"
+                body="Are you sure to remove stars?"
+                submit={{ variant: 'danger', label: 'Remove', onClick: removeStars.do }}
+            />
+            <Stack direction="horizontal">
+                <StarsIndicator size={30} stars={stars} on={onStars} />
+                {removeStars.able() && <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />}
+                <span className="fs-5 ms-3">
+                    {tags?.map((tag) => {
+                        return (
+                            <Badge className="ms-1" key={`tag-${tag}`}>
+                                {tag}
+                            </Badge>
+                        );
+                    })}
+                </span>
+            </Stack>
+        </>
     );
 };
 
