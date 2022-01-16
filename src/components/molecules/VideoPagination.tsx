@@ -11,6 +11,10 @@ type Props = {
 const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage, onClick }: Props) => {
     const firstVisiblePage = visiblePages[0];
     const lastVisiblePage = visiblePages[visiblePages.length - 1];
+    const internalOnClick = (page: number) => {
+        window.scrollTo(0, 0);
+        onClick(page);
+    };
     return (
         <Row>
             <Col xs={12} className="mt-4">
@@ -18,7 +22,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                     <Pagination.First
                         disabled={currentPage === 1}
                         onClick={() => {
-                            onClick(1);
+                            internalOnClick(1);
                         }}
                         key="page-first"
                         data-testid="page-first"
@@ -26,7 +30,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                     <Pagination.Prev
                         disabled={currentPage === 1}
                         onClick={() => {
-                            onClick(currentPage - 1);
+                            internalOnClick(currentPage - 1);
                         }}
                         key="page-prev"
                         data-testid="page-prev"
@@ -37,7 +41,9 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                             <Pagination.Item
                                 active={currentPage === page}
                                 onClick={() => {
-                                    onClick(page);
+                                    if (currentPage !== page) {
+                                        internalOnClick(page);
+                                    }
                                 }}
                                 key={`page-${page}`}
                                 data-testid="page-visible"
@@ -50,7 +56,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                     <Pagination.Next
                         disabled={currentPage === lastPage}
                         onClick={() => {
-                            onClick(currentPage + 1);
+                            internalOnClick(currentPage + 1);
                         }}
                         key="page-next"
                         data-testid="page-next"
@@ -58,7 +64,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                     <Pagination.Last
                         disabled={currentPage === lastPage}
                         onClick={() => {
-                            onClick(lastPage);
+                            internalOnClick(lastPage);
                         }}
                         key="page-last"
                         data-testid="page-last"

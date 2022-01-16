@@ -5,7 +5,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
-import { useSearchQuery } from '../providers/SearchQueryProvier';
 
 const MAX_VIDEO_COUNT = 24;
 
@@ -33,9 +32,11 @@ export const calcPages = (
 
 type Props = {
     videos: VideoDocument[] | undefined;
+    page: number;
+    onClickPage: (page: number) => void;
 };
 
-const VideoAlbum: React.FC<Props> = ({ videos }: Props) => {
+const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     if (!videos) {
         return (
             <Row className="mt-4">
@@ -60,13 +61,7 @@ const VideoAlbum: React.FC<Props> = ({ videos }: Props) => {
             </Row>
         );
     }
-    const { searchQuery, setPage } = useSearchQuery();
-    const page = searchQuery.page ? parseInt(searchQuery.page) : 1;
     const pagesInfo = calcPages(videos, page);
-    const onClickPage = (page: number) => {
-        window.scrollTo(0, 0);
-        setPage(String(page));
-    };
     return (
         <>
             <VideoTable videos={pagesInfo.slicedVideos} />
