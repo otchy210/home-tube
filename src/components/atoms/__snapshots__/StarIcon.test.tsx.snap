@@ -2,27 +2,18 @@
 
 exports[`StarIcon renders properly with variant selected 1`] = `
 <div>
-  <svgr-mock
-    height="16"
-    width="16"
-  />
+  [MockedStarSelectedSvg width="16" height="16" /]
 </div>
 `;
 
 exports[`StarIcon renders properly with variant unselected 1`] = `
 <div>
-  <svgr-mock
-    height="16"
-    width="16"
-  />
+  [MockedStarUnselectedSvg width="16" height="16" /]
 </div>
 `;
 
 exports[`StarIcon renders properly with variant void 1`] = `
 <div>
-  <svgr-mock
-    height="16"
-    width="16"
-  />
+  [MockedStarVoidSvg width="16" height="16" /]
 </div>
 `;

@@ -36,26 +36,11 @@ exports[`VideoTable renders properly 1`] = `
               <div
                 class="sc-dkPtRN cdhPSs"
               >
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
               </div>
             </div>
           </div>
@@ -93,26 +78,11 @@ exports[`VideoTable renders properly 1`] = `
               <div
                 class="sc-dkPtRN cdhPSs"
               >
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
               </div>
             </div>
           </div>
@@ -150,26 +120,11 @@ exports[`VideoTable renders properly 1`] = `
               <div
                 class="sc-dkPtRN cdhPSs"
               >
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
               </div>
             </div>
           </div>
@@ -207,26 +162,11 @@ exports[`VideoTable renders properly 1`] = `
               <div
                 class="sc-dkPtRN cdhPSs"
               >
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
               </div>
             </div>
           </div>
@@ -264,26 +204,11 @@ exports[`VideoTable renders properly 1`] = `
               <div
                 class="sc-dkPtRN cdhPSs"
               >
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
               </div>
             </div>
           </div>
@@ -321,26 +246,11 @@ exports[`VideoTable renders properly 1`] = `
               <div
                 class="sc-dkPtRN cdhPSs"
               >
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
-                <svgr-mock
-                  height="16"
-                  width="16"
-                />
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
+                [MockedStarVoidSvg width="16" height="16" /]
               </div>
             </div>
           </div>
