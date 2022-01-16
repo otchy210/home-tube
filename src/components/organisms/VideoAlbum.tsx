@@ -1,10 +1,11 @@
 import { VideoDocument } from '@otchy/home-tube-api/dist/types';
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
+import { useSearchQuery } from '../providers/SearchQueryProvier';
 
 const MAX_VIDEO_COUNT = 24;
 
@@ -35,7 +36,6 @@ type Props = {
 };
 
 const VideoAlbum: React.FC<Props> = ({ videos }: Props) => {
-    const [page, setPage] = useState<number>(1);
     if (!videos) {
         return (
             <Row className="mt-4">
@@ -60,10 +60,12 @@ const VideoAlbum: React.FC<Props> = ({ videos }: Props) => {
             </Row>
         );
     }
+    const { searchQuery, setPage } = useSearchQuery();
+    const page = searchQuery.page ? parseInt(searchQuery.page) : 1;
     const pagesInfo = calcPages(videos, page);
     const onClickPage = (page: number) => {
         window.scrollTo(0, 0);
-        setPage(page);
+        setPage(String(page));
     };
     return (
         <>
