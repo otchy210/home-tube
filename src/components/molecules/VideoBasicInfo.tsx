@@ -1,17 +1,18 @@
-import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
+import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
 import { Stack } from 'react-bootstrap';
 import VideoPaths from '../atoms/VideoPaths';
 import VideoSizeBadges from './VideoSizeBadges';
 import VideoTitle from '../atoms/VideoTitle';
 import VideoProperties from './VideoProperties';
+import { StarsMouseEventHandlers } from './StarsIndicator';
 
 type Props = {
     details: VideoDetails;
-    onClickStars: (stars: Stars) => void;
+    onStars: StarsMouseEventHandlers;
 };
 
-const VideoBasicInfo: React.FC<Props> = ({ details, onClickStars }: Props) => {
+const VideoBasicInfo: React.FC<Props> = ({ details, onStars }: Props) => {
     const { name, names, width, height, size, stars, tags } = details;
     return (
         <>
@@ -20,7 +21,7 @@ const VideoBasicInfo: React.FC<Props> = ({ details, onClickStars }: Props) => {
                 <VideoSizeBadges {...{ width, height, size }} />
             </Stack>
             <VideoTitle name={name} />
-            <VideoProperties {...{ stars, tags, onClickStars }} />
+            <VideoProperties {...{ stars, tags, onStars }} />
         </>
     );
 };

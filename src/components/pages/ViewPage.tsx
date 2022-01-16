@@ -1,5 +1,5 @@
 import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import VideoPlayer from '../molecules/VideoPlayer';
@@ -8,10 +8,12 @@ import { useApi } from '../providers/ApiProvider';
 import { useToast } from '../providers/ToastsProvider';
 import { VideoViewMode } from '../../types';
 import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
+import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
 
 const ViewPage: React.FC = () => {
     const [mode, setMode] = useState<VideoViewMode>('default');
     const [details, setDetails] = useState<VideoDetails>();
+    const orgStars = useRef<Stars | undefined>();
     const [searchParams] = useSearchParams();
     const api = useApi();
     const toast = useToast();
@@ -22,27 +24,41 @@ const ViewPage: React.FC = () => {
     }
     useEffect(() => {
         api.getDetails(id)
-            .then(setDetails)
+            .then((details) => {
+                setDetails(details);
+                orgStars.current = details.stars;
+            })
             .catch((e) => {
                 console.error(e);
                 toast.addError('Video', `No video found. id: ${id}`);
             });
     }, []);
-    if (!details) {
+    if (!details || !orgStars) {
         return null;
     }
-    const onClickStars = (stars: Stars): void => {
-        api.postProperties(id, { stars }).then((updatedProperties) => {
-            const updatedDetails = { ...details, ...updatedProperties };
-            setDetails(updatedDetails);
-        });
+    const setStars = (stars: Stars | undefined) => {
+        const updatedDetails = { ...details, stars };
+        setDetails(updatedDetails);
+    };
+    const onStars: StarsMouseEventHandlers = {
+        click: (stars: Stars) => {
+            setStars(stars);
+            orgStars.current = stars;
+            api.postProperties(id, { stars });
+        },
+        hover: (stars: Stars) => {
+            setStars(stars);
+        },
+        out: () => {
+            setStars(orgStars.current);
+        },
     };
 
     return (
         <Row className="pt-4">
             <Col xs={12} lg={mode === 'default' ? 9 : 12}>
                 <VideoPlayer src={api.getVideoUrl(id)} />
-                <VideoBasicInfo details={details} onClickStars={onClickStars} />
+                <VideoBasicInfo details={details} onStars={onStars} />
             </Col>
             <Col xs={12} lg={mode === 'default' ? 3 : 12}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />
