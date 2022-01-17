@@ -71,12 +71,17 @@ const ViewPage: React.FC = () => {
             api.postProperties(id, { stars: null });
         },
     };
+    const updateTags = (tags: string[]) => {
+        const updatedDetails = { ...details, tags };
+        setDetails(updatedDetails);
+        api.postProperties(id, { tags });
+    };
 
     return (
         <Row className="pt-4">
             <Col xs={12} lg={mode === 'default' ? 9 : 12}>
                 <VideoPlayer src={api.getVideoUrl(id)} />
-                <VideoBasicInfo details={details} onStars={onStars} removeStars={removeStars} />
+                <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
             </Col>
             <Col xs={12} lg={mode === 'default' ? 3 : 12}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />

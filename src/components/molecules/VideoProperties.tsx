@@ -6,6 +6,7 @@ import Trashcan from '../../images/trashcan.svg';
 import Edit from '../../images/edit.svg';
 import styled, { css } from 'styled-components';
 import Confirm from './Confirm';
+import TagsEditor from '../organisms/TagsEditor';
 
 const clickableIconStyles = css`
     cursor: pointer;
@@ -35,10 +36,12 @@ type Props = {
     tags: string[] | undefined;
     onStars: StarsMouseEventHandlers;
     removeStars: RemoveStars;
+    updateTags: (tags: string[]) => void;
 };
 
-const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars }: Props) => {
+const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars, updateTags }: Props) => {
     const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
+    const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
     return (
         <>
             <Confirm
@@ -48,6 +51,7 @@ const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars }:
                 body="Are you sure to remove stars?"
                 submit={{ variant: 'danger', label: 'Remove', onClick: removeStars.do }}
             />
+            <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
             <Stack direction="horizontal">
                 <StarsIndicator size={30} stars={stars} on={onStars} />
                 {removeStars.able() && <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />}
@@ -60,7 +64,7 @@ const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars }:
                             </Badge>
                         );
                     })}
-                    <EditIcon />
+                    <EditIcon onClick={() => setShowTagsEditor(true)} />
                 </span>
             </Stack>
         </>

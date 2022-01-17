@@ -11,9 +11,10 @@ type Props = {
     details: VideoDetails;
     onStars: StarsMouseEventHandlers;
     removeStars: RemoveStars;
+    updateTags: (tags: string[]) => void;
 };
 
-const VideoBasicInfo: React.FC<Props> = ({ details, onStars, removeStars }: Props) => {
+const VideoBasicInfo: React.FC<Props> = ({ details, onStars, removeStars, updateTags }: Props) => {
     const { name, names, width, height, size, stars, tags } = details;
     return (
         <>
@@ -22,7 +23,7 @@ const VideoBasicInfo: React.FC<Props> = ({ details, onStars, removeStars }: Prop
                 <VideoSizeBadges {...{ width, height, size }} />
             </Stack>
             <VideoTitle name={name} />
-            <VideoProperties {...{ stars, tags, onStars, removeStars }} />
+            <VideoProperties {...{ stars, tags, onStars, removeStars, updateTags }} />
         </>
     );
 };
