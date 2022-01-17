@@ -12,9 +12,10 @@ type TrashcanIconProps = {
 const TrashcanIcon: React.FC<TrashcanIconProps> = ({ enabled, onClick }: TrashcanIconProps) => {
     return (
         <Trashcan
-            width={24}
-            height={24}
-            style={{ cursor: enabled ? 'pointer' : 'default', opacity: enabled ? '1' : '0.5' }}
+            width={32}
+            height={32}
+            className="ms-2"
+            style={{ cursor: enabled ? 'pointer' : 'default', opacity: enabled ? '1' : '0.4' }}
             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
                 if (enabled) {
                     onClick(e);
@@ -108,26 +109,22 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                     <Button variant="primary" className="ms-2 text-nowrap" onClick={add}>
                         Add
                     </Button>
+                    <TrashcanIcon enabled={selectedTags.size > 0} onClick={removeSelectedTags} />
                 </Stack>
-                <Stack direction="horizontal" className="mt-2">
-                    <Stack direction="horizontal" className="me-auto">
-                        {tags &&
-                            tags.map((tag) => {
-                                return (
-                                    <SelectableTag
-                                        name={tag}
-                                        checked={selectedTags.has(tag)}
-                                        onChange={() => {
-                                            onChangeSelected(tag);
-                                        }}
-                                        key={`tag-${tag}`}
-                                    />
-                                );
-                            })}
-                    </Stack>
-                    <div>
-                        <TrashcanIcon enabled={selectedTags.size > 0} onClick={removeSelectedTags} />
-                    </div>
+                <Stack direction="horizontal" className="mt-2 flex-wrap">
+                    {tags &&
+                        tags.map((tag) => {
+                            return (
+                                <SelectableTag
+                                    name={tag}
+                                    checked={selectedTags.has(tag)}
+                                    onChange={() => {
+                                        onChangeSelected(tag);
+                                    }}
+                                    key={`tag-${tag}`}
+                                />
+                            );
+                        })}
                 </Stack>
             </Modal.Body>
             <Modal.Footer>
