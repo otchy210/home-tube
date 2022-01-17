@@ -31,6 +31,7 @@ const StarsWrapper = styled.div<StarsWrapperProps>`
     width: ${(props) => `${props.size * props.stars}px`};
     height: ${(props) => `${props.size}px`};
     overflow: hidden;
+    pointer-events: none;
 `;
 
 export type StarsMouseEventHandlers = {
