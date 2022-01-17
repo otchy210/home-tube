@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Stars } from '@otchy/home-tube-api/dist/types';
 import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
-import { Badge, Stack } from 'react-bootstrap';
+import { Stack } from 'react-bootstrap';
 import Trashcan from '../../images/trashcan.svg';
 import Edit from '../../images/edit.svg';
 import styled, { css } from 'styled-components';
 import Confirm from './Confirm';
 import TagsEditor from '../organisms/TagsEditor';
+import StaticTag from '../atoms/StaticTag';
 
 const clickableIconStyles = css`
     cursor: pointer;
@@ -55,14 +56,10 @@ const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars, u
             <Stack direction="horizontal">
                 <StarsIndicator size={30} stars={stars} on={onStars} />
                 {removeStars.able() && <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />}
-                <span className="fs-5 ms-3">
+                <span className="ms-3">
                     Tags:
                     {tags?.map((tag) => {
-                        return (
-                            <Badge className="ms-1" key={`tag-${tag}`}>
-                                {tag}
-                            </Badge>
-                        );
+                        return <StaticTag name={tag} key={`tag-${tag}`} />;
                     })}
                     <EditIcon onClick={() => setShowTagsEditor(true)} />
                 </span>
