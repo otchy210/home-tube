@@ -156,6 +156,7 @@ const ConfigPage: React.FC = () => {
                                     onChange={(e) => {
                                         updateStorageEnabled(i, e.target.checked);
                                     }}
+                                    id={`storage-${i}-enabled`}
                                     data-testid={`storage-${i}-enabled`}
                                 />
                                 <Button
