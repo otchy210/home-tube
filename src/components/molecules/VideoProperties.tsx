@@ -8,6 +8,7 @@ import styled, { css } from 'styled-components';
 import Confirm from './Confirm';
 import TagsEditor from '../organisms/TagsEditor';
 import StaticTag from '../atoms/StaticTag';
+import { useAllTags } from '../providers/AllTagsProvider';
 
 const clickableIconStyles = css`
     cursor: pointer;
@@ -40,9 +41,20 @@ type Props = {
     updateTags: (tags: string[]) => void;
 };
 
-const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars, updateTags }: Props) => {
+const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, removeStars, updateTags }: Props) => {
     const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
     const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
+    const { allTags } = useAllTags();
+    const tags = givenTags
+        ? givenTags.sort((left, right) => {
+              const leftCount = allTags[left];
+              const rightCount = allTags[right];
+              if (leftCount !== rightCount) {
+                  return rightCount - leftCount;
+              }
+              return left.localeCompare(right);
+          })
+        : [];
     return (
         <>
             <Confirm
@@ -58,8 +70,8 @@ const VideoProperties: React.FC<Props> = ({ stars, tags, onStars, removeStars, u
                 {removeStars.able() && <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />}
                 <span className="ms-3">
                     Tags:
-                    {tags?.map((tag) => {
-                        return <StaticTag name={tag} key={`tag-${tag}`} />;
+                    {tags.map((tag) => {
+                        return <StaticTag name={`${tag} (${allTags[tag]})`} key={`tag-${tag}`} />;
                     })}
                     <EditIcon onClick={() => setShowTagsEditor(true)} />
                 </span>
