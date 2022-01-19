@@ -1,9 +1,8 @@
-import { AllTags } from '@otchy/home-tube-api/dist/types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, FormControl, Modal, Stack } from 'react-bootstrap';
 import SelectableTag from '../atoms/SelectableTag';
-import { useApi } from '../providers/ApiProvider';
 import Trashcan from '../../images/trashcan.svg';
+import { useAllTags } from '../providers/AllTagsProvider';
 
 type TrashcanIconProps = {
     enabled: boolean;
@@ -34,20 +33,9 @@ type Props = {
 
 const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTags }: Props) => {
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
-    const [allTags, setAllTags] = useState<AllTags>([]);
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     const inputRef = useRef<HTMLInputElement>(null);
-    const api = useApi();
-    useEffect(() => {
-        api.getAllTags()
-            .then((allTags) => {
-                setAllTags(allTags);
-            })
-            .catch((e) => {
-                console.error(e);
-                setAllTags([]); // fallback
-            });
-    }, []);
+    const { sortedTags } = useAllTags();
     const onHide = () => {
         setShow(false);
     };
@@ -98,11 +86,11 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                 <Stack direction="horizontal">
                     <FormControl list="all-tags" ref={inputRef} onKeyDown={onInputKeyDown} />
                     <datalist id="all-tags">
-                        {allTags
+                        {sortedTags
                             .filter((tag) => {
-                                return !tags.includes(tag[0]);
+                                return !tags.includes(tag);
                             })
-                            .map(([tag]) => {
+                            .map((tag) => {
                                 return <option value={tag} key={`tag-opt-${tag}`} />;
                             })}
                     </datalist>

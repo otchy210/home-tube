@@ -11,6 +11,7 @@ import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
 import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import { RemoveStars } from '../molecules/VideoProperties';
+import { useAllTags } from '../providers/AllTagsProvider';
 
 const ViewPage: React.FC = () => {
     const [mode, setMode] = useState<VideoViewMode>('default');
@@ -18,6 +19,7 @@ const ViewPage: React.FC = () => {
     const orgStars = useRef<Stars | undefined>();
     const [searchParams] = useSearchParams();
     const [hasError, setHasError] = useState<boolean>(false);
+    const { reload: reloadAllTags } = useAllTags();
     const api = useApi();
     const toast = useToast();
     const id = searchParams.get('id');
@@ -74,7 +76,9 @@ const ViewPage: React.FC = () => {
     const updateTags = (tags: string[]) => {
         const updatedDetails = { ...details, tags };
         setDetails(updatedDetails);
-        api.postProperties(id, { tags });
+        api.postProperties(id, { tags }).then(() => {
+            reloadAllTags();
+        });
     };
 
     return (
