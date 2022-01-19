@@ -64,6 +64,7 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     const pagesInfo = calcPages(videos, page);
     return (
         <>
+            <VideoPagination currentPage={pagesInfo.page} visiblePages={pagesInfo.visiblePages} lastPage={pagesInfo.lastPage} onClick={onClickPage} />
             <VideoTable videos={pagesInfo.slicedVideos} />
             <VideoPagination currentPage={pagesInfo.page} visiblePages={pagesInfo.visiblePages} lastPage={pagesInfo.lastPage} onClick={onClickPage} />
         </>

@@ -18,7 +18,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
     return (
         <Row>
             <Col xs={12} className="mt-4">
-                <Pagination className="justify-content-center">
+                <Pagination className="justify-content-center my-0">
                     <Pagination.First
                         disabled={currentPage === 1}
                         onClick={() => {
