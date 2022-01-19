@@ -7,7 +7,7 @@ type Props = {
 
 const Tag: React.FC<Props> = ({ name }: Props) => {
     return (
-        <Badge bg="success" className="ms-1 fs-6">
+        <Badge bg="success" className="ms-1 mt-1 fs-6">
             {name}
         </Badge>
     );

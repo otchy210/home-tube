@@ -65,16 +65,18 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
                 submit={{ variant: 'danger', label: 'Remove', onClick: removeStars.do }}
             />
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
-            <Stack direction="horizontal">
+            <Stack direction="horizontal" className="align-items-start">
                 <StarsIndicator size={30} stars={stars} on={onStars} />
                 {removeStars.able() && <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />}
-                <span className="ms-3">
+                <div className="ms-3" style={{ lineHeight: '32px' }}>
                     Tags:
+                </div>
+                <div>
                     {tags.map((tag) => {
                         return <StaticTag name={`${tag} (${allTags[tag]})`} key={`tag-${tag}`} />;
                     })}
                     <EditIcon onClick={() => setShowTagsEditor(true)} />
-                </span>
+                </div>
             </Stack>
         </>
     );
