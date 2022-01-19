@@ -73,7 +73,7 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
                 </div>
                 <div>
                     {tags.map((tag) => {
-                        return <StaticTag name={`${tag} (${allTags[tag]})`} key={`tag-${tag}`} />;
+                        return <StaticTag tag={tag} count={allTags[tag]} key={`tag-${tag}`} />;
                     })}
                     <EditIcon onClick={() => setShowTagsEditor(true)} />
                 </div>

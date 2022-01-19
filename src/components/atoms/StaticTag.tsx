@@ -1,15 +1,32 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useSearchQuery } from '../providers/SearchQueryProvier';
+
+const Link = styled.a`
+    cursor: pointer;
+`;
 
 type Props = {
-    name: string;
+    tag: string;
+    count: number;
 };
 
-const Tag: React.FC<Props> = ({ name }: Props) => {
+const Tag: React.FC<Props> = ({ tag, count }: Props) => {
+    const { setSearchQuery } = useSearchQuery();
+    const navigate = useNavigate();
     return (
-        <Badge bg="success" className="ms-1 mt-1 fs-6">
-            {name}
-        </Badge>
+        <Link
+            onClick={() => {
+                setSearchQuery({ tags: tag });
+                navigate(`/search?tags=${tag}`);
+            }}
+        >
+            <Badge bg="success" className="ms-1 mt-1 fs-6">
+                {`${tag} (${count})`}
+            </Badge>
+        </Link>
     );
 };
 
