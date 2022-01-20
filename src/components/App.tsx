@@ -14,7 +14,7 @@ import SearchPage from './pages/SearchPage';
 import ViewPage from './pages/ViewPage';
 import AllTagsProvider from './providers/AllTagsProvider';
 import ApiProvider from './providers/ApiProvider';
-import SearchQueryProvider from './providers/SearchQueryProvier';
+import SearchQueryProvider from './providers/SearchQueryProvider';
 import ToastProvider from './providers/ToastsProvider';
 
 const GlobalStyle = createGlobalStyle`

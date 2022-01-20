@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSearchQuery } from '../providers/SearchQueryProvier';
+import { useSearchQuery } from '../providers/SearchQueryProvider';
 
 const Link = styled.a`
     cursor: pointer;

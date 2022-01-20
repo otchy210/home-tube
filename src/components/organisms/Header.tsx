@@ -5,7 +5,7 @@ import Icon from '../../images/icon.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
 import Config from '../../images/config.svg';
-import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvier';
+import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 
 const iconStyle = { height: '32px' };
 

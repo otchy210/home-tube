@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getSortedVideos } from '../../utils/sortVideos';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
-import { useSearchQuery } from '../providers/SearchQueryProvier';
+import { useSearchQuery } from '../providers/SearchQueryProvider';
 
 const SearchPage: React.FC = () => {
     const [videos, setVideos] = useState<VideoDocument[] | undefined>();
