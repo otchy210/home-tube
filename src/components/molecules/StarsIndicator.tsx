@@ -84,7 +84,7 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
             wrapperRef.current?.removeEventListener('mouseout', onMouseOut);
             wrapperRef.current?.removeEventListener('click', onMouseClick);
         };
-    }, []);
+    }, [on]);
     return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         <Wrapper clickable={on !== undefined} ref={wrapperRef as any}>
