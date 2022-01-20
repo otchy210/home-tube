@@ -6,6 +6,7 @@ import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
 import Config from '../../images/config.svg';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
+import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 
 const iconStyle = { height: '32px' };
 
@@ -29,6 +30,7 @@ const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInpu
 
 const Header: React.FC = () => {
     const namesRef = useRef<HTMLInputElement>(null);
+    const { setPage } = useHomePageQuery();
     const { setSearchQuery } = useSearchQuery();
     const doSearch = () => {
         const updatedSearchQuery = getSearchQueryFromRefs({
@@ -51,12 +53,16 @@ const Header: React.FC = () => {
     return (
         <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
             <Container fluid>
-                <LinkContainer to="/">
-                    <Navbar.Brand className="me-auto">
-                        <Icon className="d-inline d-sm-none" style={iconStyle} />
-                        <Logo className="d-none d-sm-inline" style={iconStyle} />
-                    </Navbar.Brand>
-                </LinkContainer>
+                <Navbar.Brand
+                    className="me-auto"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                        setPage('1');
+                    }}
+                >
+                    <Icon className="d-inline d-sm-none" style={iconStyle} />
+                    <Logo className="d-none d-sm-inline" style={iconStyle} />
+                </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end mt-3 mt-sm-0">
                     <Nav>

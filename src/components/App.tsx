@@ -14,6 +14,7 @@ import SearchPage from './pages/SearchPage';
 import ViewPage from './pages/ViewPage';
 import AllTagsProvider from './providers/AllTagsProvider';
 import ApiProvider from './providers/ApiProvider';
+import HomePageQueryProvider from './providers/HomePageQueryProvider';
 import SearchQueryProvider from './providers/SearchQueryProvider';
 import ToastProvider from './providers/ToastsProvider';
 
@@ -40,20 +41,22 @@ const App: React.FC<Props> = ({ apiHost }) => {
                 <ApiProvider api={new Api(apiHost)}>
                     <ToastProvider>
                         <AllTagsProvider>
-                            <SearchQueryProvider>
-                                <Header />
-                                <Toasts />
-                                <Container className="mb-auto" style={{ marginTop: '60px' }}>
-                                    <Routes>
-                                        <Route path="/" element={<HomePage />} />
-                                        <Route path="/config" element={<ConfigPage />} />
-                                        <Route path="/search" element={<SearchPage />} />
-                                        <Route path="/view" element={<ViewPage />} />
-                                        <Route path="*" element={<NotFoundPage />} />
-                                    </Routes>
-                                </Container>
-                                <Footer />
-                            </SearchQueryProvider>
+                            <HomePageQueryProvider>
+                                <SearchQueryProvider>
+                                    <Header />
+                                    <Toasts />
+                                    <Container className="mb-auto" style={{ marginTop: '60px' }}>
+                                        <Routes>
+                                            <Route path="/" element={<HomePage />} />
+                                            <Route path="/config" element={<ConfigPage />} />
+                                            <Route path="/search" element={<SearchPage />} />
+                                            <Route path="/view" element={<ViewPage />} />
+                                            <Route path="*" element={<NotFoundPage />} />
+                                        </Routes>
+                                    </Container>
+                                    <Footer />
+                                </SearchQueryProvider>
+                            </HomePageQueryProvider>
                         </AllTagsProvider>
                     </ToastProvider>
                 </ApiProvider>

@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { setIfExist } from '../../utils/SearchParamsUtils';
 
 export type SearchQuery = {
     page?: string;
@@ -8,14 +9,6 @@ export type SearchQuery = {
     size?: string;
     stars?: string;
     tags?: string;
-};
-
-const setIfExist = (name: string, searchParams: URLSearchParams, setter: (value: string) => void) => {
-    const value = searchParams.get(name);
-    if (!value) {
-        return;
-    }
-    setter(value);
 };
 
 const getSearchQueryFromUrl = (): SearchQuery => {
