@@ -3,6 +3,7 @@ import { Button, FormControl, Modal, Stack } from 'react-bootstrap';
 import SelectableTag from '../atoms/SelectableTag';
 import Trashcan from '../../images/trashcan.svg';
 import { useAllTags } from '../providers/AllTagsProvider';
+import { useBrowserInfo } from '../../utils/useBowser';
 
 type TrashcanIconProps = {
     enabled: boolean;
@@ -36,6 +37,8 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     const inputRef = useRef<HTMLInputElement>(null);
     const { sortedTags } = useAllTags();
+    const browserInfo = useBrowserInfo();
+    const isMacOS = browserInfo.os.name === 'macOS';
     const onHide = () => {
         setShow(false);
     };
@@ -54,8 +57,11 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
     const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         // cannot avoid using deprecated `e.keyCode` due to https://qiita.com/ledsun/items/31e43a97413dd3c8e38e
         if (e.keyCode === 13) {
-            e.preventDefault();
-            add();
+            if ((isMacOS && e.metaKey) || (!isMacOS && e.ctrlKey)) {
+                onSubmit();
+            } else {
+                add();
+            }
             return;
         }
     };
@@ -80,7 +86,14 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         onHide();
     };
     return (
-        <Modal show={show} onHide={onHide} size="lg" centered>
+        <Modal
+            show={show}
+            onHide={onHide}
+            size="lg"
+            onShow={() => {
+                inputRef.current?.focus();
+            }}
+        >
             <Modal.Header closeButton>Edit tags</Modal.Header>
             <Modal.Body>
                 <Stack direction="horizontal">
@@ -99,7 +112,8 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                     </Button>
                     <TrashcanIcon enabled={selectedTags.size > 0} onClick={removeSelectedTags} />
                 </Stack>
-                <Stack direction="horizontal" className="mt-2 flex-wrap">
+                <div className="text-muted small">{isMacOS ? 'Cmd' : 'Ctrl'}+Enter to submit</div>
+                <Stack direction="horizontal" className="flex-wrap">
                     {tags &&
                         tags.map((tag) => {
                             return (
@@ -120,7 +134,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                     Close
                 </Button>
                 <Button variant="primary" onClick={onSubmit}>
-                    Save
+                    Submit
                 </Button>
             </Modal.Footer>
         </Modal>
