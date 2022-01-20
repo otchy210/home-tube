@@ -47,10 +47,17 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             return;
         }
         const tag = inputRef.current.value.trim() ?? '';
-        if (tag.length === 0 || tags.includes(tag)) {
+        if (tag.length === 0) {
             return;
         }
-        const updatedTags = [...tags, tag];
+        const newTags = tag.split(/\s/).filter((newTag) => {
+            return !tags.includes(newTag);
+        });
+        if (newTags.length === 0) {
+            inputRef.current.value = '';
+            return;
+        }
+        const updatedTags = [...tags, ...newTags];
         setTags(updatedTags);
         inputRef.current.value = '';
     };
