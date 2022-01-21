@@ -87,7 +87,7 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
     }, [on]);
     return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <Wrapper clickable={on !== undefined} ref={wrapperRef as any}>
+        <Wrapper clickable={on !== undefined} ref={wrapperRef as any} className="text-nowrap">
             <StarsWrapper size={size} stars={selectedStars}>
                 {POSSIBLE_STARS.map((s) => {
                     return <StarIcon variant="selected" size={size} key={`star-selected-${s}`} />;

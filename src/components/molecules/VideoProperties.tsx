@@ -18,7 +18,9 @@ const clickableIconStyles = css`
     }
 `;
 
-const clickableIconAttrs = { className: 'ms-1', width: '20', height: '20' };
+const ICON_SIZE = 20;
+
+const clickableIconAttrs = { className: 'ms-1', width: ICON_SIZE, height: ICON_SIZE };
 
 const TrashcanIcon = styled(Trashcan).attrs(clickableIconAttrs)`
     ${clickableIconStyles};
@@ -26,6 +28,10 @@ const TrashcanIcon = styled(Trashcan).attrs(clickableIconAttrs)`
 
 const EditIcon = styled(Edit).attrs(clickableIconAttrs)`
     ${clickableIconStyles}
+`;
+
+const IconWrapper = styled.div`
+    min-width: ${ICON_SIZE}px;
 `;
 
 export type RemoveStars = {
@@ -67,7 +73,11 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
             <Stack direction="horizontal" className="align-items-start">
                 <StarsIndicator size={30} stars={stars} on={onStars} />
-                {removeStars.able() && <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />}
+                {removeStars.able() && (
+                    <IconWrapper>
+                        <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />
+                    </IconWrapper>
+                )}
                 <div className="ms-3" style={{ lineHeight: '32px' }}>
                     Tags:
                 </div>
