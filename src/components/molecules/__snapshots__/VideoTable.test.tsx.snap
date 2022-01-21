@@ -9,7 +9,7 @@ exports[`VideoTable renders properly 1`] = `
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
-        href="/view?id=1"
+        href="/view?key=key-1"
         style="text-decoration: none;"
       >
         <div
@@ -19,7 +19,7 @@ exports[`VideoTable renders properly 1`] = `
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
-              src="http://dummy-api-host/snapshot?id=1"
+              src="http://dummy-api-host/snapshot?key=key-1"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
@@ -54,7 +54,7 @@ exports[`VideoTable renders properly 1`] = `
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
-        href="/view?id=2"
+        href="/view?key=key-2"
         style="text-decoration: none;"
       >
         <div
@@ -64,7 +64,7 @@ exports[`VideoTable renders properly 1`] = `
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
-              src="http://dummy-api-host/snapshot?id=2"
+              src="http://dummy-api-host/snapshot?key=key-2"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
@@ -99,7 +99,7 @@ exports[`VideoTable renders properly 1`] = `
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
-        href="/view?id=3"
+        href="/view?key=key-3"
         style="text-decoration: none;"
       >
         <div
@@ -109,7 +109,7 @@ exports[`VideoTable renders properly 1`] = `
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
-              src="http://dummy-api-host/snapshot?id=3"
+              src="http://dummy-api-host/snapshot?key=key-3"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
@@ -144,7 +144,7 @@ exports[`VideoTable renders properly 1`] = `
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
-        href="/view?id=4"
+        href="/view?key=key-4"
         style="text-decoration: none;"
       >
         <div
@@ -154,7 +154,7 @@ exports[`VideoTable renders properly 1`] = `
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
-              src="http://dummy-api-host/snapshot?id=4"
+              src="http://dummy-api-host/snapshot?key=key-4"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
@@ -189,7 +189,7 @@ exports[`VideoTable renders properly 1`] = `
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
-        href="/view?id=5"
+        href="/view?key=key-5"
         style="text-decoration: none;"
       >
         <div
@@ -199,7 +199,7 @@ exports[`VideoTable renders properly 1`] = `
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
-              src="http://dummy-api-host/snapshot?id=5"
+              src="http://dummy-api-host/snapshot?key=key-5"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
@@ -234,7 +234,7 @@ exports[`VideoTable renders properly 1`] = `
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
       <a
-        href="/view?id=6"
+        href="/view?key=key-6"
         style="text-decoration: none;"
       >
         <div
@@ -244,7 +244,7 @@ exports[`VideoTable renders properly 1`] = `
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
-              src="http://dummy-api-host/snapshot?id=6"
+              src="http://dummy-api-host/snapshot?key=key-6"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"

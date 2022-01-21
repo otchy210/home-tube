@@ -22,20 +22,20 @@ const ViewPage: React.FC = () => {
     const { reload: reloadAllTags } = useAllTags();
     const api = useApi();
     const toast = useToast();
-    const id = searchParams.get('id');
-    if (!id) {
-        toast.addError('Video', 'id parameter is required.');
+    const key = searchParams.get('key');
+    if (!key) {
+        toast.addError('Video', 'key parameter is required.');
         return null;
     }
     useEffect(() => {
-        api.getDetails(id)
+        api.getDetails(key)
             .then((details) => {
                 orgStars.current = details.stars;
                 setDetails(details);
             })
             .catch((e) => {
                 console.error(e);
-                toast.addError('Video', `No video found. id: ${id}`);
+                toast.addError('Video', `No video found. key: ${key}`);
                 setHasError(true);
             });
     }, []);
@@ -54,7 +54,7 @@ const ViewPage: React.FC = () => {
         click: (stars: Stars) => {
             setStars(stars);
             orgStars.current = stars;
-            api.postProperties(id, { stars });
+            api.postProperties(key, { stars });
         },
         hover: (stars: Stars) => {
             setStars(stars);
@@ -70,13 +70,13 @@ const ViewPage: React.FC = () => {
         do: () => {
             setStars(undefined);
             orgStars.current = undefined;
-            api.postProperties(id, { stars: null });
+            api.postProperties(key, { stars: null });
         },
     };
     const updateTags = (tags: string[]) => {
         const updatedDetails = { ...details, tags };
         setDetails(updatedDetails);
-        api.postProperties(id, { tags }).then(() => {
+        api.postProperties(key, { tags }).then(() => {
             reloadAllTags();
         });
     };
@@ -84,7 +84,7 @@ const ViewPage: React.FC = () => {
     return (
         <Row className="pt-4">
             <Col xs={12} lg={mode === 'default' ? 9 : 12}>
-                <VideoPlayer src={api.getVideoUrl(id)} />
+                <VideoPlayer src={api.getVideoUrl(key)} />
                 <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
             </Col>
             <Col xs={12} lg={mode === 'default' ? 3 : 12}>

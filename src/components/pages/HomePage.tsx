@@ -1,4 +1,4 @@
-import { VideoDocument } from '@otchy/home-tube-api/dist/types';
+import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { getSortedVideos } from '../../utils/sortVideos';
@@ -9,7 +9,7 @@ import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import StaticTag from '../atoms/StaticTag';
 
 const HomePage: React.FC = () => {
-    const [videos, setVideos] = useState<VideoDocument[] | undefined>();
+    const [videos, setVideos] = useState<VideoValues[] | undefined>();
     const { homePageQuery, setPage } = useHomePageQuery();
     const api = useApi();
     const { allTags, sortedTags } = useAllTags();

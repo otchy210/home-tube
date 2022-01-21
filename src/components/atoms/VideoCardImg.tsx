@@ -1,4 +1,4 @@
-import { VideoDocument } from '@otchy/home-tube-api/dist/types';
+import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
 import { Badge } from 'react-bootstrap';
 import { useApi } from '../providers/ApiProvider';
@@ -23,18 +23,18 @@ const BadgeHolder = styled.div.attrs({ className: 'hstack m-1' })`
 const SmallBadge = styled(Badge).attrs({ className: 'ms-1 bg-secondary fw-normal text-uppercase' })``;
 
 type Props = {
-    video: VideoDocument;
+    video: VideoValues;
 };
 
 const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
-    const { id, values } = video;
+    const { key, duration, size } = video;
     const api = useApi();
     return (
         <VideoCardImgWrapper className="card-img-top">
-            <img src={api.getSnapshotUrl(String(id))} />
+            <img src={api.getSnapshotUrl(key)} />
             <BadgeHolder>
-                {values.duration && <SmallBadge>{values.duration}</SmallBadge>}
-                {values.size && <SmallBadge>{values.size}</SmallBadge>}
+                {duration && <SmallBadge>{duration}</SmallBadge>}
+                {size && <SmallBadge>{size}</SmallBadge>}
             </BadgeHolder>
         </VideoCardImgWrapper>
     );

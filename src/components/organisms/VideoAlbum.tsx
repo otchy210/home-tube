@@ -1,4 +1,4 @@
-import { VideoDocument } from '@otchy/home-tube-api/dist/types';
+import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
 import { Alert, Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -9,10 +9,10 @@ import VideoTable from '../molecules/VideoTable';
 const MAX_VIDEO_COUNT = 24;
 
 export const calcPages = (
-    videos: VideoDocument[],
+    videos: VideoValues[],
     page = 1,
     maxVideoCount: number = MAX_VIDEO_COUNT
-): { page: number; slicedVideos: VideoDocument[]; lastPage: number; visiblePages: number[] } => {
+): { page: number; slicedVideos: VideoValues[]; lastPage: number; visiblePages: number[] } => {
     const firstIndex = (page - 1) * maxVideoCount;
     const slicedVideos = videos.slice(firstIndex, firstIndex + maxVideoCount);
     const lastPage = Math.trunc((videos.length - 1) / maxVideoCount) + 1;
@@ -31,7 +31,7 @@ export const calcPages = (
 };
 
 type Props = {
-    videos: VideoDocument[] | undefined;
+    videos: VideoValues[] | undefined;
     page: number;
     onClickPage: (page: number) => void;
 };

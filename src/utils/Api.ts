@@ -66,20 +66,20 @@ export class Api {
     search(params?: Record<string, string | string[]>): Promise<Set<VideoDocument>> {
         return this.get<Set<VideoDocument>>('/search', params);
     }
-    getDetails(id: string): Promise<VideoDetails> {
-        return this.get<VideoDetails>('/details', { id });
+    getDetails(key: string): Promise<VideoDetails> {
+        return this.get<VideoDetails>('/details', { key });
     }
-    getThumbnailsUrl(id: string, minute: string): string {
-        return this.getApiUrl('/thumbnails', { id, minute });
+    getThumbnailsUrl(key: string, minute: string): string {
+        return this.getApiUrl('/thumbnails', { key, minute });
     }
-    getSnapshotUrl(id: string): string {
-        return this.getApiUrl('/snapshot', { id });
+    getSnapshotUrl(key: string): string {
+        return this.getApiUrl('/snapshot', { key });
     }
-    getVideoUrl(id: string): string {
-        return this.getApiUrl('/video', { id });
+    getVideoUrl(key: string): string {
+        return this.getApiUrl('/video', { key });
     }
-    postProperties(id: string, properties: VideoProperties): Promise<VideoProperties> {
-        return this.post<VideoProperties>('/properties', properties, { id });
+    postProperties(key: string, properties: VideoProperties): Promise<VideoProperties> {
+        return this.post<VideoProperties>('/properties', properties, { key });
     }
     getAllTags(): Promise<AllTags> {
         return this.get<AllTags>('/allTags');
