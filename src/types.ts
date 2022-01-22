@@ -1,1 +1,1 @@
-export type VideoViewMode = 'default' | 'theater' | 'fullScreen';
+export type VideoViewMode = 'normal' | 'theater' | 'fullScreen';

@@ -22,7 +22,7 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode, setMode }: Props) =
             <Form.Switch
                 label="theater"
                 onChange={(e) => {
-                    setMode(e.target.checked ? 'theater' : 'default');
+                    setMode(e.target.checked ? 'theater' : 'normal');
                 }}
             />
         </>

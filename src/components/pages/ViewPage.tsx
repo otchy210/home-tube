@@ -2,7 +2,7 @@ import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
-import VideoPlayer from '../molecules/VideoPlayer';
+import VideoPlayer from '../organisms/VideoPlayer';
 import VideoBasicInfo from '../molecules/VideoBasicInfo';
 import { useApi } from '../providers/ApiProvider';
 import { useToast } from '../providers/ToastsProvider';
@@ -14,7 +14,7 @@ import { RemoveStars } from '../molecules/VideoProperties';
 import { useAllTags } from '../providers/AllTagsProvider';
 
 const ViewPage: React.FC = () => {
-    const [mode, setMode] = useState<VideoViewMode>('default');
+    const [mode, setMode] = useState<VideoViewMode>('normal');
     const [details, setDetails] = useState<VideoDetails>();
     const orgStars = useRef<Stars | undefined>();
     const [searchParams] = useSearchParams();
@@ -83,11 +83,11 @@ const ViewPage: React.FC = () => {
 
     return (
         <Row className="pt-4">
-            <Col xs={12} lg={mode === 'default' ? 9 : 12}>
+            <Col xs={12} lg={mode === 'normal' ? 9 : 12}>
                 <VideoPlayer src={api.getVideoUrl(key)} />
                 <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
             </Col>
-            <Col xs={12} lg={mode === 'default' ? 3 : 12}>
+            <Col xs={12} lg={mode === 'normal' ? 3 : 12}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />
             </Col>
         </Row>
