@@ -30,7 +30,31 @@ const VideoControl = styled(Stack)`
 `;
 
 const SeekBarWrapper = styled.div.attrs({ className: 'mt-auto' })`
-    height: 32px;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: padding 0.2s;
+    &:hover div.handle {
+        width: 16px;
+        height: 16px;
+        transition: width 0.2s, height 0.2s;
+    }
+`;
+const SeekBarOuter = styled.div.attrs({ className: 'mx-3 rounded-pill' })`
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.3);
+`;
+const SeekBarInner = styled.div.attrs({ className: 'bar rounded-pill' })`
+    height: 4px;
+    background-color: #f90;
+`;
+const SeekHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
+    position: absolute;
+    top: 2px;
+    width: 4px;
+    height: 4px;
+    transform: translate(-50%, -50%);
+    background-color: #f90;
+    transition: width 0.2s, height 0.2s;
 `;
 
 const ICON_SIZE = 24;
@@ -61,8 +85,11 @@ const FullScreenIcon = styled(FullScreen).attrs(iconSttrs)`
 `;
 const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-circle', role: 'button' })`
     position: relative;
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 0.2s;
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
+        transition: background-color 0.2s;
         & > div {
             display: block;
         }
@@ -85,6 +112,7 @@ const LastIconToolTip = styled(IconTooltip)`
 `;
 const Time = styled.div.attrs({ className: 'me-auto p-2 font-monospace text-white' })`
     font-size: 0.9rem;
+    pointer-events: none;
 `;
 
 const modeProps: Record<VideoViewMode, [string, React.FC]> = {
@@ -104,6 +132,7 @@ type Props = {
 const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => {
     const [playing, setPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<string>('00:00');
+    const [currentPercentage, setCurrentPercentage] = useState<string>('0%');
     const videoRef = useRef<HTMLVideoElement>();
     const duration = formatTimeInSecond(length);
     useEffect(() => {
@@ -112,14 +141,15 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
             return;
         }
         let iid: number;
-        const updateCurrentTime = () => {
-            const currentTime = formatTimeInSecond(videoRef.current?.currentTime);
-            setCurrentTime(currentTime);
+        const updateCurrent = () => {
+            const currentTime = videoRef.current?.currentTime ?? 0;
+            setCurrentTime(formatTimeInSecond(currentTime));
+            setCurrentPercentage(`${(currentTime / length) * 100}%`);
         };
-        updateCurrentTime();
+        updateCurrent();
         const onPlay = () => {
             setPlaying(true);
-            iid = setInterval(updateCurrentTime, 10) as unknown as number;
+            iid = setInterval(updateCurrent, 10) as unknown as number;
         };
         const onPause = () => {
             setPlaying(false);
@@ -151,7 +181,12 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
                 <Video src={src} controls ref={videoRef as any} />
             </VideoWrapper>
             <VideoControl>
-                <SeekBarWrapper></SeekBarWrapper>
+                <SeekBarWrapper>
+                    <SeekBarOuter>
+                        <SeekBarInner style={{ width: currentPercentage }} />
+                        <SeekHandle style={{ left: currentPercentage }} />
+                    </SeekBarOuter>
+                </SeekBarWrapper>
                 <Stack direction="horizontal" className="m-1">
                     {playing ? (
                         <IconWrapper onClick={onClickPause}>
