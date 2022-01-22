@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import styled, { css } from 'styled-components';
 import Play from '../../images/play.svg';
@@ -8,6 +8,7 @@ import Theater from '../../images/theater.svg';
 import Normal from '../../images/normal.svg';
 import FullScreen from '../../images/full-screen.svg';
 import { VideoViewMode } from '../../types';
+import { formatTimeInSecond } from '../../utils/TimeUtils';
 
 const VideoWrapper = styled.div`
     position: relative;
@@ -74,11 +75,17 @@ const IconTooltip = styled.div.attrs({ className: 'px-2 py-1 rounded text-nowrap
     background-color: rgba(0, 0, 0, 0.8);
     display: none;
 `;
+const FirstIconToolTip = styled(IconTooltip)`
+    transform: translate(0, -50px);
+    left: 0;
+`;
 const LastIconToolTip = styled(IconTooltip)`
     transform: translate(-100%, -50px);
     left: 100%;
 `;
-const Time = styled.div.attrs({ className: 'me-auto p-2 text-white' })``;
+const Time = styled.div.attrs({ className: 'me-auto p-2 font-monospace text-white' })`
+    font-size: 0.9rem;
+`;
 
 const modeProps: Record<VideoViewMode, [string, React.FC]> = {
     normal: ['Normal view', NormalIcon],
@@ -89,36 +96,87 @@ const allVideoMode: VideoViewMode[] = ['normal', 'theater', 'fullScreen'];
 
 type Props = {
     src: string;
+    length: number;
     mode: VideoViewMode;
     setMode: (mode: VideoViewMode) => void;
 };
 
-const VideoPlayer: React.FC<Props> = ({ src, mode, setMode }: Props) => {
+const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => {
+    const [playing, setPlaying] = useState<boolean>(false);
+    const [currentTime, setCurrentTime] = useState<string>('00:00');
+    const videoRef = useRef<HTMLVideoElement>();
+    const duration = formatTimeInSecond(length);
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) {
+            return;
+        }
+        let iid: number;
+        const updateCurrentTime = () => {
+            const currentTime = formatTimeInSecond(videoRef.current?.currentTime);
+            setCurrentTime(currentTime);
+        };
+        updateCurrentTime();
+        const onPlay = () => {
+            setPlaying(true);
+            iid = setInterval(updateCurrentTime, 10) as unknown as number;
+        };
+        const onPause = () => {
+            setPlaying(false);
+            clearInterval(iid);
+        };
+        video.addEventListener('play', onPlay);
+        video.addEventListener('pause', onPause);
+        return () => {
+            video.removeEventListener('play', onPlay);
+            video.removeEventListener('pause', onPause);
+            clearInterval(iid);
+        };
+    }, [src]);
+
+    const onClickPause = () => {
+        if (videoRef) {
+            videoRef.current?.pause();
+        }
+    };
+    const onClickPlay = () => {
+        if (videoRef) {
+            videoRef.current?.play();
+        }
+    };
     return (
         <Stack>
             <VideoWrapper>
-                <Video src={src} controls />
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+                <Video src={src} controls ref={videoRef as any} />
             </VideoWrapper>
             <VideoControl>
                 <SeekBarWrapper></SeekBarWrapper>
                 <Stack direction="horizontal" className="m-1">
-                    <IconWrapper>
-                        <PlayIcon />
-                    </IconWrapper>
-                    <IconWrapper>
-                        <PauseIcon />
-                    </IconWrapper>
+                    {playing ? (
+                        <IconWrapper onClick={onClickPause}>
+                            <FirstIconToolTip>Pause</FirstIconToolTip>
+                            <PauseIcon />
+                        </IconWrapper>
+                    ) : (
+                        <IconWrapper onClick={onClickPlay}>
+                            <FirstIconToolTip>Play</FirstIconToolTip>
+                            <PlayIcon />
+                        </IconWrapper>
+                    )}
                     <IconWrapper>
                         <SpeakerIcon />
                     </IconWrapper>
-                    <Time>00:00 / 59:59</Time>
+                    <Time>
+                        {currentTime}/{duration}
+                    </Time>
                     {allVideoMode
                         .filter((m) => m !== mode)
                         .map((m, i, arr) => {
                             const [tooltip, Icon] = modeProps[m];
                             const isLast = arr.length === i + 1;
                             return (
-                                <IconWrapper onClick={() => setMode(m)}>
+                                <IconWrapper onClick={() => setMode(m)} key={`icon-${m}`}>
                                     {isLast ? <LastIconToolTip>{tooltip}</LastIconToolTip> : <IconTooltip>{tooltip}</IconTooltip>}
                                     <Icon />
                                 </IconWrapper>
