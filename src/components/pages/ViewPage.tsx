@@ -83,11 +83,11 @@ const ViewPage: React.FC = () => {
 
     return (
         <Row className="pt-4">
-            <Col xs={12} lg={mode === 'normal' ? 9 : 12}>
-                <VideoPlayer src={api.getVideoUrl(key)} />
+            <Col xs={12} lg={mode === 'theater' ? 12 : 9}>
+                <VideoPlayer src={api.getVideoUrl(key)} {...{ mode, setMode }} />
                 <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
             </Col>
-            <Col xs={12} lg={mode === 'normal' ? 3 : 12}>
+            <Col xs={12} lg={mode === 'theater' ? 12 : 3}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />
             </Col>
         </Row>
