@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
                     <h1>All tags</h1>
                     {sortedTags.length === 0 && 'No tags are defined'}
                     {sortedTags.map((tag) => {
-                        return <StaticTag tag={tag} count={allTags[tag]} />;
+                        return <StaticTag tag={tag} count={allTags[tag]} key={`tag-${tag}`} />;
                     })}
                 </Col>
             </Row>

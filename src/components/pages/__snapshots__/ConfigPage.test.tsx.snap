@@ -3,7 +3,7 @@
 exports[`ConfigPage renders initial state properly 1`] = `
 <div>
   <p
-    class="h1 pt-3"
+    class="sc-bdvvtL h1 pt-3"
   >
     Config
   </p>
@@ -11,7 +11,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
     class=""
   >
     <p
-      class="h5 mt-3"
+      class="sc-gsDKAQ h5 mt-3"
     >
       Video storage path
     </p>
@@ -32,7 +32,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
       </button>
     </div>
     <p
-      class="h5 mt-3"
+      class="sc-gsDKAQ h5 mt-3"
     >
       ffmpeg path
     </p>

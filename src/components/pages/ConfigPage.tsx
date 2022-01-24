@@ -1,10 +1,15 @@
 import { AppConfig, Storage } from '@otchy/home-tube-api/dist/types';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
+import styled from 'styled-components';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import { useApi } from '../providers/ApiProvider';
 import { useToast } from '../providers/ToastsProvider';
+
+const ConfigTitle = styled.p.attrs({ className: 'h1 pt-3' })``;
+
+const PropertyTitle = styled.p.attrs({ className: 'h5 mt-3' })``;
 
 type StorageValidatinErrors = Map<number, string>;
 
@@ -30,14 +35,6 @@ export const validateStorages = (storages: Storage[]): StorageValidatinErrors =>
             });
         });
     return errors;
-};
-
-const ConfigTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
-    return <p className="h1 pt-3">{children}</p>;
-};
-
-const PropertyTitle: React.FC<{ children: ReactNode }> = ({ children }) => {
-    return <p className="h5 mt-3">{children}</p>;
 };
 
 const ConfigPage: React.FC = () => {
