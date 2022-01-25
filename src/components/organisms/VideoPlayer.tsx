@@ -29,23 +29,26 @@ const VideoControl = styled(Stack)`
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
 `;
 
-const SeekBarWrapper = styled.div.attrs({ className: 'mt-auto' })`
+const SeekBarWrapper = styled.div.attrs({ className: 'px-3 mt-auto' })`
     padding: 8px 0;
     cursor: pointer;
     transition: padding 0.2s;
-    &:hover div.handle {
+    &:hover div.handle,
+    &.dragging div.handle {
         width: 16px;
         height: 16px;
         transition: width 0.2s, height 0.2s;
     }
 `;
-const SeekBarOuter = styled.div.attrs({ className: 'mx-3 rounded-pill' })`
+const SeekBarOuter = styled.div.attrs({ className: 'rounded-pill' })`
     position: relative;
     background-color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
 `;
 const SeekBarInner = styled.div.attrs({ className: 'bar rounded-pill' })`
     height: 4px;
     background-color: #f90;
+    pointer-events: none;
 `;
 const SeekHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
     position: absolute;
@@ -55,6 +58,7 @@ const SeekHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
     transform: translate(-50%, -50%);
     background-color: #f90;
     transition: width 0.2s, height 0.2s;
+    pointer-events: none;
 `;
 
 const ICON_SIZE = 24;
@@ -134,6 +138,8 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
     const [currentTime, setCurrentTime] = useState<string>('00:00');
     const [currentPercentage, setCurrentPercentage] = useState<string>('0%');
     const videoRef = useRef<HTMLVideoElement>();
+    const seekbarWrapperRef = useRef<HTMLDivElement>();
+    const seekbarOuterRef = useRef<HTMLDivElement>();
     const duration = formatTimeInSecond(length);
     useEffect(() => {
         const video = videoRef.current;
@@ -157,10 +163,57 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
         };
         video.addEventListener('play', onPlay);
         video.addEventListener('pause', onPause);
+
+        let isDragging = false;
+        let seekbarX = 0;
+        let seekbarWidth = 0;
+        const onStartDragging = () => {
+            if (!seekbarOuterRef.current) {
+                return;
+            }
+            const rect = seekbarOuterRef.current.getBoundingClientRect();
+            seekbarX = rect.left + window.pageXOffset;
+            seekbarWidth = rect.right - rect.left;
+            isDragging = true;
+            seekbarWrapperRef.current?.classList.add('dragging');
+        };
+        const onMouseMove = (e: MouseEvent) => {
+            if (!isDragging || !videoRef.current) {
+                return;
+            }
+            const cursorX = e.pageX;
+            const seekbarRate = Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
+            videoRef.current.currentTime = seekbarRate * length;
+            updateCurrent();
+        };
+        const onMouseOut = (e: MouseEvent) => {
+            if (!e.target) {
+                return;
+            }
+            const targetEl = e.target as Element;
+            const id = targetEl.getAttribute('id');
+            if (id !== 'root') {
+                return;
+            }
+            onStopDragging(e);
+        };
+        const onStopDragging = (e: MouseEvent) => {
+            onMouseMove(e);
+            isDragging = false;
+            seekbarWrapperRef.current?.classList.remove('dragging');
+        };
+        seekbarWrapperRef.current?.addEventListener('mousedown', onStartDragging);
+        document.body.addEventListener('mousemove', onMouseMove);
+        document.body.addEventListener('mouseout', onMouseOut);
+        document.body.addEventListener('mouseup', onStopDragging);
         return () => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
             clearInterval(iid);
+            seekbarWrapperRef.current?.removeEventListener('mousedown', onStartDragging);
+            document.body.removeEventListener('mousemove', onMouseMove);
+            document.body.removeEventListener('mouseout', onStopDragging);
+            document.body.removeEventListener('mouseup', onStopDragging);
         };
     }, [src]);
 
@@ -181,8 +234,10 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
                 <Video src={src} controls ref={videoRef as any} />
             </VideoWrapper>
             <VideoControl>
-                <SeekBarWrapper>
-                    <SeekBarOuter>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+                <SeekBarWrapper ref={seekbarWrapperRef as any}>
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
+                    <SeekBarOuter ref={seekbarOuterRef as any}>
                         <SeekBarInner style={{ width: currentPercentage }} />
                         <SeekHandle style={{ left: currentPercentage }} />
                     </SeekBarOuter>
