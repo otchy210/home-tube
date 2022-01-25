@@ -8,7 +8,7 @@ import Theater from '../../images/theater.svg';
 import Normal from '../../images/normal.svg';
 import FullScreen from '../../images/full-screen.svg';
 import { VideoViewMode } from '../../types';
-import { formatTimeInSecond } from '../../utils/TimeUtils';
+import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 
 const VideoWrapper = styled.div`
     position: relative;
