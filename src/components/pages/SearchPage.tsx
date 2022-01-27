@@ -1,6 +1,6 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
-import { getSortedVideos } from '../../utils/sortVideos';
+import { getSortedVideos } from '../../utils/VideoUtils';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { useSearchQuery } from '../providers/SearchQueryProvider';

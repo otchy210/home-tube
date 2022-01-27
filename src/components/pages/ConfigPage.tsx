@@ -7,6 +7,8 @@ import DelayedSpinner from '../molecules/DelayedSpinner';
 import { useApi } from '../providers/ApiProvider';
 import { useToast } from '../providers/ToastsProvider';
 import Reload from '../../images/reload.svg';
+import Spinner from '../atoms/Spinner';
+import { waitFor } from '../../utils/TimerUtils';
 
 const Title = styled.p.attrs({ className: 'h1 pt-3' })``;
 
@@ -62,7 +64,10 @@ const ConfigPage: React.FC = () => {
         setStorageValidationErrors(new Map<number, string>());
     };
     const loadServerStatus = () => {
-        api.getServerStatus().then(setServerStatus);
+        setServerStatus(undefined);
+        Promise.all([api.getServerStatus(), waitFor(500)]).then(([serverStatus]) => {
+            setServerStatus(serverStatus);
+        });
     };
     useEffect(() => {
         loadAppConfig();
@@ -131,6 +136,7 @@ const ConfigPage: React.FC = () => {
             .then(() => {
                 toast.addSuccess('Config', 'Updated successfully.');
                 setUpdated(false);
+                loadServerStatus();
             })
             .catch((e) => {
                 console.error(e);
@@ -217,7 +223,7 @@ const ConfigPage: React.FC = () => {
             <Title>
                 Server status <ReloadIcon onClick={loadServerStatus} />
             </Title>
-            {!serverStatus && <DelayedSpinner />}
+            {!serverStatus && <Spinner />}
             {serverStatus && (
                 <>
                     <PropertyTitle>Searchable videos</PropertyTitle>

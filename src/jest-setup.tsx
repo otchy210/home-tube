@@ -36,3 +36,4 @@ mockFC('./images/star-selected.svg');
 mockFC('./images/star-unselected.svg');
 mockFC('./images/star-void.svg');
 mockFC('./images/reload.svg');
+mockFC('./images/spinner.svg');
