@@ -12,8 +12,8 @@ exports[`Header renders properly 1`] = `
         class="me-auto navbar-brand"
         style="cursor: pointer;"
       >
-        [MockedIconSvg className="d-inline d-sm-none" style="[object Object]" /]
-        [MockedLogoSvg className="d-none d-sm-inline" style="[object Object]" /]
+        [MockedIconSvg className="d-inline d-sm-none" style={obj} /]
+        [MockedLogoSvg className="d-none d-sm-inline" style={obj} /]
       </span>
       <button
         aria-label="Toggle navigation"
@@ -41,7 +41,7 @@ exports[`Header renders properly 1`] = `
               class="ms-2 text-nowrap btn btn-primary"
               type="button"
             >
-              [MockedSearchSvg style="[object Object]" /]
+              [MockedSearchSvg style={obj} /]
               <span
                 class="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle"
               >
@@ -58,7 +58,7 @@ exports[`Header renders properly 1`] = `
             data-rr-ui-event-key="/config"
             href="/config"
           >
-            [MockedConfigSvg style="[object Object]" /]
+            [MockedConfigSvg style={obj} /]
             <span
               class="d-inline d-sm-none d-lg-inline ms-2 ms-sm-0 ms-lg-2 align-middle"
             >

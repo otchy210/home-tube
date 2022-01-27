@@ -18,7 +18,15 @@ const mockFC = (path: string): void => {
         const propsStr = !props
             ? ''
             : ` ${Object.entries(props)
-                  .map(([name, value]) => `${name}="${value.toString()}"`)
+                  .map(([name, value]) => {
+                      switch (typeof value) {
+                          case 'function':
+                              return `${name}={fn}`;
+                          case 'object':
+                              return `${name}={obj}`;
+                      }
+                      return `${name}="${value.toString()}"`;
+                  })
                   .join(' ')}`;
         return <>{`[${mockName}${propsStr} /]`}</>;
     });
