@@ -12,11 +12,12 @@ const HomePage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
     const { homePageQuery, setPage } = useHomePageQuery();
     const api = useApi();
-    const { allTags, sortedTags } = useAllTags();
+    const { allTags, sortedTags, reload: reloadAllTags } = useAllTags();
     useEffect(() => {
         api.search().then((videoSet) => {
             setVideos(getSortedVideos(videoSet));
         });
+        reloadAllTags();
     }, []);
     const onClickPage = (page: number) => {
         setPage(String(page));

@@ -38,6 +38,7 @@ const ViewPage: React.FC = () => {
                 toast.addError('Video', `No video found. key: ${key}`);
                 setHasError(true);
             });
+        reloadAllTags();
     }, []);
     if (!details) {
         return (
