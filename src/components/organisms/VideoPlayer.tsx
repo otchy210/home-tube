@@ -1,3 +1,4 @@
+import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import styled, { css } from 'styled-components';
@@ -9,6 +10,8 @@ import Normal from '../../images/normal.svg';
 import FullScreen from '../../images/full-screen.svg';
 import { VideoViewMode } from '../../types';
 import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
+import VideoThumbnail from '../molecules/VideoThumbnail';
+import { useApi } from '../providers/ApiProvider';
 
 const VideoWrapper = styled.div`
     position: relative;
@@ -127,19 +130,25 @@ const modeProps: Record<VideoViewMode, [string, React.FC]> = {
 const allVideoMode: VideoViewMode[] = ['normal', 'theater', 'fullScreen'];
 
 type Props = {
-    src: string;
-    length: number;
+    details: VideoDetails;
     mode: VideoViewMode;
     setMode: (mode: VideoViewMode) => void;
 };
 
-const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => {
+const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
+    const videoKey = details.key;
+    const length = details.length ?? 0;
     const [playing, setPlaying] = useState<boolean>(false);
-    const [currentTime, setCurrentTime] = useState<string>('00:00');
+    const [currentTime, setCurrentTime] = useState<number>(0);
     const [currentPercentage, setCurrentPercentage] = useState<string>('0%');
-    const videoRef = useRef<HTMLVideoElement>();
-    const seekbarWrapperRef = useRef<HTMLDivElement>();
-    const seekbarOuterRef = useRef<HTMLDivElement>();
+    const [thumbnailLeft, setThumbnailLeft] = useState<number>(0);
+    const [thumbnailDisplay, setThumbnailDisplay] = useState<string>('none');
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const seekbarWrapperRef = useRef<HTMLDivElement>(null);
+    const seekbarOuterRef = useRef<HTMLDivElement>(null);
+    const thumbnailRef = useRef<HTMLDivElement>(null);
+    const api = useApi();
+    const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
     useEffect(() => {
         const video = videoRef.current;
@@ -149,7 +158,7 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
         let iid: number;
         const updateCurrent = () => {
             const currentTime = videoRef.current?.currentTime ?? 0;
-            setCurrentTime(formatTimeInSecond(currentTime));
+            setCurrentTime(currentTime);
             setCurrentPercentage(`${(currentTime / length) * 100}%`);
         };
         updateCurrent();
@@ -167,13 +176,17 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
         let isDragging = false;
         let seekbarX = 0;
         let seekbarWidth = 0;
+        let thumbnailWidth = 0;
         const onStartDragging = () => {
-            if (!seekbarOuterRef.current) {
+            if (!seekbarOuterRef.current || !thumbnailRef.current) {
                 return;
             }
-            const rect = seekbarOuterRef.current.getBoundingClientRect();
-            seekbarX = rect.left + window.pageXOffset;
-            seekbarWidth = rect.right - rect.left;
+            const seekbarRect = seekbarOuterRef.current.getBoundingClientRect();
+            seekbarX = seekbarRect.left + window.pageXOffset;
+            seekbarWidth = seekbarRect.right - seekbarRect.left;
+            setThumbnailDisplay('block');
+            const thumbnailRect = thumbnailRef.current.getBoundingClientRect();
+            thumbnailWidth = thumbnailRect.right - thumbnailRect.left;
             isDragging = true;
             seekbarWrapperRef.current?.classList.add('dragging');
         };
@@ -184,6 +197,8 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
             const cursorX = e.pageX;
             const seekbarRate = Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
             videoRef.current.currentTime = seekbarRate * length;
+            const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
+            setThumbnailLeft(thumbnailLeft);
             updateCurrent();
         };
         const onMouseOut = (e: MouseEvent) => {
@@ -199,6 +214,7 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
         };
         const onStopDragging = (e: MouseEvent) => {
             onMouseMove(e);
+            setThumbnailDisplay('none');
             isDragging = false;
             seekbarWrapperRef.current?.classList.remove('dragging');
         };
@@ -238,6 +254,7 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
                 <SeekBarWrapper ref={seekbarWrapperRef as any}>
                     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
                     <SeekBarOuter ref={seekbarOuterRef as any}>
+                        <VideoThumbnail details={details} currentTime={currentTime} display={thumbnailDisplay} left={thumbnailLeft} ref={thumbnailRef} />
                         <SeekBarInner style={{ width: currentPercentage }} />
                         <SeekHandle style={{ left: currentPercentage }} />
                     </SeekBarOuter>
@@ -258,7 +275,7 @@ const VideoPlayer: React.FC<Props> = ({ src, length, mode, setMode }: Props) => 
                         <SpeakerIcon />
                     </IconWrapper>
                     <Time>
-                        {currentTime}/{duration}
+                        {formatTimeInSecond(currentTime)}/{duration}
                     </Time>
                     {allVideoMode
                         .filter((m) => m !== mode)
