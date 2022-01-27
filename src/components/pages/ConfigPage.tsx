@@ -1,15 +1,20 @@
-import { AppConfig, Storage } from '@otchy/home-tube-api/dist/types';
+import { AppConfig, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Stack } from 'react-bootstrap';
+import { Badge, Button, Form, Stack } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import { useApi } from '../providers/ApiProvider';
 import { useToast } from '../providers/ToastsProvider';
+import Reload from '../../images/reload.svg';
 
-const ConfigTitle = styled.p.attrs({ className: 'h1 pt-3' })``;
+const Title = styled.p.attrs({ className: 'h1 pt-3' })``;
 
 const PropertyTitle = styled.p.attrs({ className: 'h5 mt-3' })``;
+
+const ReloadIcon = styled(Reload).attrs({ width: 32, height: 32 })`
+    cursor: pointer;
+`;
 
 type StorageValidatinErrors = Map<number, string>;
 
@@ -38,7 +43,8 @@ export const validateStorages = (storages: Storage[]): StorageValidatinErrors =>
 };
 
 const ConfigPage: React.FC = () => {
-    const [appConfig, setAppConfig] = useState<AppConfig | undefined>();
+    const [appConfig, setAppConfig] = useState<AppConfig>();
+    const [serverStatus, setServerStatus] = useState<ServerStatus>();
     const [updated, setUpdated] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
     const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
@@ -55,13 +61,17 @@ const ConfigPage: React.FC = () => {
         setUpdated(false);
         setStorageValidationErrors(new Map<number, string>());
     };
+    const loadServerStatus = () => {
+        api.getServerStatus().then(setServerStatus);
+    };
     useEffect(() => {
         loadAppConfig();
+        loadServerStatus();
     }, []);
     if (!appConfig) {
         return (
             <>
-                <ConfigTitle>Config</ConfigTitle>
+                <Title>Config</Title>
                 <p>{!hasError && <DelayedSpinner />}</p>
             </>
         );
@@ -129,7 +139,7 @@ const ConfigPage: React.FC = () => {
     };
     return (
         <>
-            <ConfigTitle>Config</ConfigTitle>
+            <Title>Config</Title>
             <Form>
                 <PropertyTitle>Video storage path</PropertyTitle>
                 <Form.Text className="text-muted">Add your video storage path which has your videos.</Form.Text>
@@ -204,6 +214,57 @@ const ConfigPage: React.FC = () => {
                     </Button>
                 </Stack>
             </Form>
+            <Title>
+                Server status <ReloadIcon onClick={loadServerStatus} />
+            </Title>
+            {!serverStatus && <DelayedSpinner />}
+            {serverStatus && (
+                <>
+                    <PropertyTitle>Searchable videos</PropertyTitle>
+                    <p>{serverStatus.indexedVideo}</p>
+                    <PropertyTitle>Storages</PropertyTitle>
+                    {Object.entries(serverStatus.storages).map(([path, info]) => {
+                        const badgeBg = (() => {
+                            switch (info.status) {
+                                case 'initialized':
+                                    return 'primary';
+                                case 'waiting':
+                                    return 'secondary';
+                                case 'reading':
+                                    return 'warning';
+                                case 'stopped':
+                                    return 'danger';
+                            }
+                        })();
+                        return (
+                            <p key={`storage-${path}`}>
+                                <b>{path}</b>
+                                <br />
+                                <Badge bg={badgeBg}>{info.status}</Badge> {info.size} movies found
+                                <br />
+                            </p>
+                        );
+                    })}
+                    <PropertyTitle>Meta data</PropertyTitle>
+                    <p>
+                        {serverStatus.meta.count} movies queued.
+                        <br />
+                        {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
+                    </p>
+                    <PropertyTitle>Thumbnails</PropertyTitle>
+                    <p>
+                        {serverStatus.thumbnails.count} movies queued.
+                        <br />
+                        {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
+                    </p>
+                    <PropertyTitle>Snapshot</PropertyTitle>
+                    <p>
+                        {serverStatus.snapshot.count} movies queued.
+                        <br />
+                        {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
+                    </p>
+                </>
+            )}
         </>
     );
 };

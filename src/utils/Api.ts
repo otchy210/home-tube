@@ -1,4 +1,4 @@
-import { AllTags, AppConfig, Json, VideoDetails, VideoDocument, VideoProperties } from '@otchy/home-tube-api/dist/types';
+import { AllTags, AppConfig, Json, ServerStatus, VideoDetails, VideoDocument, VideoProperties } from '@otchy/home-tube-api/dist/types';
 import { createSearchParams } from 'react-router-dom';
 
 type Method = 'GET' | 'POST';
@@ -62,6 +62,9 @@ export class Api {
     }
     postAppConfig(appConfig: AppConfig): Promise<AppConfig> {
         return this.post<AppConfig>('/appConfig', appConfig);
+    }
+    getServerStatus(): Promise<ServerStatus> {
+        return this.get('/serverStatus');
     }
     search(params?: Record<string, string | string[]>): Promise<Set<VideoDocument>> {
         return this.get<Set<VideoDocument>>('/search', params);

@@ -68,5 +68,71 @@ exports[`ConfigPage renders initial state properly 1`] = `
       </button>
     </div>
   </form>
+  <p
+    class="sc-bdvvtL h1 pt-3"
+  >
+    Server status 
+    [MockedReloadSvg onClick="() =&gt; {
+        api.getServerStatus().then(setServerStatus);
+    }" width="32" height="32" className="sc-dkPtRN fYeJEY" /]
+  </p>
+  <p
+    class="sc-gsDKAQ h5 mt-3"
+  >
+    Searchable videos
+  </p>
+  <p>
+    1
+  </p>
+  <p
+    class="sc-gsDKAQ h5 mt-3"
+  >
+    Storages
+  </p>
+  <p>
+    <b>
+      dummyPath
+    </b>
+    <br />
+    <span
+      class="badge bg-secondary"
+    >
+      waiting
+    </span>
+     
+    1
+     movies found
+    <br />
+  </p>
+  <p
+    class="sc-gsDKAQ h5 mt-3"
+  >
+    Meta data
+  </p>
+  <p>
+    0
+     movies queued.
+    <br />
+  </p>
+  <p
+    class="sc-gsDKAQ h5 mt-3"
+  >
+    Thumbnails
+  </p>
+  <p>
+    0
+     movies queued.
+    <br />
+  </p>
+  <p
+    class="sc-gsDKAQ h5 mt-3"
+  >
+    Snapshot
+  </p>
+  <p>
+    0
+     movies queued.
+    <br />
+  </p>
 </div>
 `;

@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react';
 import ConfigPage, { validateStorages } from './ConfigPage';
 import createMockedApi from '../../__mocks__/createMockedApi';
-import { AppConfig } from '@otchy/home-tube-api/dist/types';
+import { AppConfig, ServerStatus } from '@otchy/home-tube-api/dist/types';
 import ApiProvider from '../providers/ApiProvider';
 
 describe('validateStorages', () => {
@@ -33,11 +33,37 @@ describe('validateStorages', () => {
 describe('ConfigPage', () => {
     const mockedApi = createMockedApi();
     const mockedApiGetAppConfig = mockedApi.getAppConfig as jest.Mock;
+    const mockedApiGetServerStatus = mockedApi.getServerStatus as jest.Mock;
 
     const testWithAppConfig = async (appConfig: AppConfig, test: (renderResult: RenderResult) => Promise<void>, done: jest.DoneCallback) => {
         mockedApiGetAppConfig.mockReturnValue(
             new Promise((resolve) => {
                 resolve(appConfig);
+            })
+        );
+        mockedApiGetServerStatus.mockReturnValue(
+            new Promise<ServerStatus>((resolve) => {
+                resolve({
+                    storages: {
+                        dummyPath: {
+                            size: 1,
+                            status: 'waiting',
+                        },
+                    },
+                    indexedVideo: 1,
+                    meta: {
+                        count: 0,
+                        current: null,
+                    },
+                    thumbnails: {
+                        count: 0,
+                        current: null,
+                    },
+                    snapshot: {
+                        count: 0,
+                        current: null,
+                    },
+                });
             })
         );
         (async () => {
