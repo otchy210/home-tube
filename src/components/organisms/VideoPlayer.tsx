@@ -14,6 +14,20 @@ import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import VideoThumbnail from '../molecules/VideoThumbnail';
 import { useApi } from '../providers/ApiProvider';
 
+const VideoPlayerWrapper = styled.div`
+    position: relative;
+    &.hide-control {
+        cursor: none;
+        .video-control {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    }
+    &.remove-control .video-control {
+        display: none;
+    }
+`;
+
 const VideoWrapper = styled.div`
     position: relative;
     display: flex;
@@ -28,9 +42,14 @@ const Video = styled.video`
     max-width: 100%;
 `;
 
-const VideoControl = styled(Stack)`
+const VideoControl = styled(Stack).attrs({ className: 'video-control' })`
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     height: 120px;
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    opacity: 1;
+    transition: opacity 0.2s;
 `;
 
 const barWrapperStyle = css`
@@ -166,6 +185,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const [thumbnailDisplay, setThumbnailDisplay] = useState<string>('none');
     const [muted, setMuted] = useState<boolean>(false);
     const [volumePercentage, setVolumePercentage] = useState<string>('100%');
+    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const seekbarWrapperRef = useRef<HTMLDivElement>(null);
     const seekbarOuterRef = useRef<HTMLDivElement>(null);
@@ -173,6 +193,8 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const speakerIcnoWrapperRef = useRef<HTMLDivElement>(null);
     const volumeWrapperRef = useRef<HTMLDivElement>(null);
     const volumeOuterRef = useRef<HTMLDivElement>(null);
+    const hideControlTidRec = useRef<number>(0);
+    const videoMouseMoveTidRef = useRef<number>(0);
     const api = useApi();
     const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
@@ -195,11 +217,9 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         };
         updateCurrent();
         const onPlay = () => {
-            setPlaying(true);
             iid = setInterval(updateCurrent, 10) as unknown as number;
         };
         const onPause = () => {
-            setPlaying(false);
             clearInterval(iid);
         };
         const onFullscreenChange = () => {
@@ -300,28 +320,78 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         };
     }, [src]);
 
-    const onClickPause = () => {
-        if (videoRef.current) {
-            videoRef.current.pause();
+    const withVideoPlayerWrapper = (func: (videoPlayerWrapper: HTMLDivElement) => void) => {
+        const videoPlayerWrapper = videoPlayerWrapperRef.current;
+        if (videoPlayerWrapper) {
+            func(videoPlayerWrapper);
         }
     };
-    const onClickPlay = () => {
-        if (videoRef.current) {
-            videoRef.current.play();
-        }
+    const hideControl = () => {
+        withVideoPlayerWrapper((videoPlayerWrapper) => {
+            videoPlayerWrapper.classList.add('hide-control');
+            hideControlTidRec.current = setTimeout(() => {
+                videoPlayerWrapper.classList.add('remove-control');
+            }, 200) as unknown as number;
+        });
     };
-    const onClickMute = () => {
+    const showControl = () => {
+        clearTimeout(hideControlTidRec.current);
+        clearTimeout(videoMouseMoveTidRef.current);
+        withVideoPlayerWrapper((videoPlayerWrapper) => {
+            videoPlayerWrapper.classList.remove('hide-control');
+            videoPlayerWrapper.classList.remove('remove-control');
+        });
+    };
+    const withVideo = (func: (video: HTMLVideoElement) => void) => {
         const video = videoRef.current;
         if (video) {
+            func(video);
+        }
+    };
+    const onClickPause = () => {
+        withVideo((video) => {
+            video.pause();
+            setPlaying(false);
+            showControl();
+        });
+    };
+    const onClickPlay = () => {
+        withVideo((video) => {
+            video.play();
+            setPlaying(true);
+            showControlTemporary();
+        });
+    };
+    const onClickMute = () => {
+        withVideo((video) => {
             video.muted = !muted;
             setMuted(!muted);
+        });
+    };
+    const onClickVideo = () => {
+        if (playing) {
+            onClickPause();
+        } else {
+            onClickPlay();
         }
+    };
+    const showControlTemporary = () => {
+        showControl();
+        videoMouseMoveTidRef.current = setTimeout(() => {
+            hideControl();
+        }, 1000) as unknown as number;
+    };
+    const onVideoMouseMove = () => {
+        if (!playing) {
+            return;
+        }
+        showControlTemporary();
     };
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
-        <Stack>
+        <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
             <VideoWrapper>
-                <Video src={src} controls ref={videoRef as any} />
+                <Video src={src} ref={videoRef as any} onClick={onClickVideo} />
             </VideoWrapper>
             <VideoControl>
                 <div className="mt-auto"></div>
@@ -381,7 +451,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                         })}
                 </Stack>
             </VideoControl>
-        </Stack>
+        </VideoPlayerWrapper>
     );
     /* eslint-enable  @typescript-eslint/no-explicit-any */
 };
