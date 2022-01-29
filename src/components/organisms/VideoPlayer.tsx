@@ -33,28 +33,34 @@ const VideoControl = styled(Stack)`
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
 `;
 
-const SeekBarWrapper = styled.div.attrs({ className: 'px-3 mt-auto' })`
+const barWrapperStyle = css`
     padding: 8px 0;
     cursor: pointer;
     transition: padding 0.2s;
-    &:hover div.handle,
-    &.dragging div.handle {
+    &:hover .handle,
+    &.dragging .handle {
         width: 16px;
         height: 16px;
         transition: width 0.2s, height 0.2s;
     }
 `;
-const SeekBarOuter = styled.div.attrs({ className: 'rounded-pill' })`
+const SeekbarWrapper = styled.div.attrs({ className: 'px-3' })`
+    ${barWrapperStyle};
+`;
+const VolumebarWrapper = styled.div.attrs({ className: 'px-3 volume-bar' })`
+    ${barWrapperStyle};
+`;
+const BarOuter = styled.div.attrs({ className: 'rounded-pill' })`
     position: relative;
     background-color: rgba(255, 255, 255, 0.3);
     pointer-events: none;
 `;
-const SeekBarInner = styled.div.attrs({ className: 'bar rounded-pill' })`
+const BarInner = styled.div.attrs({ className: 'bar rounded-pill' })`
     height: 4px;
     background-color: #f90;
     pointer-events: none;
 `;
-const SeekHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
+const BarHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
     position: absolute;
     top: 2px;
     width: 4px;
@@ -94,18 +100,26 @@ const NormalIcon = styled(Normal).attrs(iconSttrs)`
 const FullScreenIcon = styled(FullScreen).attrs(iconSttrs)`
     ${iconStyle};
 `;
-const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-circle', role: 'button' })`
+const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-pill', role: 'button' })`
     position: relative;
     background-color: rgba(255, 255, 255, 0);
     transition: background-color 0.2s;
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
         transition: background-color 0.2s;
-        & > div {
-            display: block;
-        }
     }
 `;
+const SpeakerIconWrapper = styled(IconWrapper)`
+    & .volume-bar {
+        display: none;
+    }
+    &:hover .volume-bar,
+    &.dragging .volume-bar {
+        width: 100px;
+        display: block;
+    }
+`;
+
 const IconTooltip = styled.div.attrs({ className: 'px-2 py-1 rounded text-nowrap text-white' })`
     position: absolute;
     transform: translate(-50%, -50px);
@@ -145,14 +159,17 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const [playing, setPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [currentPercentage, setCurrentPercentage] = useState<string>('0%');
-    // const [volume, setVolume] = useState<number>(1);
-    const [muted, setMuted] = useState<boolean>(false);
     const [thumbnailLeft, setThumbnailLeft] = useState<number>(0);
     const [thumbnailDisplay, setThumbnailDisplay] = useState<string>('none');
+    const [muted, setMuted] = useState<boolean>(false);
+    const [volumePercentage, setVolumePercentage] = useState<string>('100%');
     const videoRef = useRef<HTMLVideoElement>(null);
     const seekbarWrapperRef = useRef<HTMLDivElement>(null);
     const seekbarOuterRef = useRef<HTMLDivElement>(null);
     const thumbnailRef = useRef<HTMLDivElement>(null);
+    const speakerIcnoWrapperRef = useRef<HTMLDivElement>(null);
+    const volumeWrapperRef = useRef<HTMLDivElement>(null);
+    const volumeOuterRef = useRef<HTMLDivElement>(null);
     const api = useApi();
     const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
@@ -179,11 +196,16 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         video.addEventListener('play', onPlay);
         video.addEventListener('pause', onPause);
 
-        let isDragging = false;
+        const updateVolume = () => {
+            const volume = videoRef.current?.volume ?? 0;
+            setVolumePercentage(`${volume * 100}%`);
+        };
+
+        let isSeekbarDragging = false;
         let seekbarX = 0;
         let seekbarWidth = 0;
         let thumbnailWidth = 0;
-        const onStartDragging = () => {
+        const onSeekbarStartDragging = (e: MouseEvent) => {
             if (!seekbarOuterRef.current || !thumbnailRef.current) {
                 return;
             }
@@ -193,19 +215,43 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             setThumbnailDisplay('block');
             const thumbnailRect = thumbnailRef.current.getBoundingClientRect();
             thumbnailWidth = thumbnailRect.right - thumbnailRect.left;
-            isDragging = true;
+            isSeekbarDragging = true;
             seekbarWrapperRef.current?.classList.add('dragging');
+            onMouseMove(e);
         };
+        let isVolumeDragging = false;
+        let volumeX = 0;
+        let volumeWidth = 0;
+        const onVolumeStartDragging = (e: MouseEvent) => {
+            if (!volumeOuterRef.current) {
+                return;
+            }
+            const volumeRect = volumeOuterRef.current.getBoundingClientRect();
+            volumeX = volumeRect.left + window.pageXOffset;
+            volumeWidth = volumeRect.right - volumeRect.left;
+            isVolumeDragging = true;
+            speakerIcnoWrapperRef.current?.classList.add('dragging');
+            volumeWrapperRef.current?.classList.add('dragging');
+            onMouseMove(e);
+        };
+
         const onMouseMove = (e: MouseEvent) => {
-            if (!isDragging || !videoRef.current) {
+            if (!videoRef.current) {
                 return;
             }
             const cursorX = e.pageX;
-            const seekbarRate = Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
-            videoRef.current.currentTime = seekbarRate * length;
-            const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
-            setThumbnailLeft(thumbnailLeft);
-            updateCurrent();
+            if (isSeekbarDragging) {
+                const seekbarRate = Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
+                videoRef.current.currentTime = seekbarRate * length;
+                const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
+                setThumbnailLeft(thumbnailLeft);
+                updateCurrent();
+            }
+            if (isVolumeDragging) {
+                const volume = Math.max(0, Math.min((cursorX - volumeX) / volumeWidth, 1));
+                videoRef.current.volume = volume;
+                updateVolume();
+            }
         };
         const onMouseOut = (e: MouseEvent) => {
             if (!e.target) {
@@ -221,10 +267,14 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         const onStopDragging = (e: MouseEvent) => {
             onMouseMove(e);
             setThumbnailDisplay('none');
-            isDragging = false;
+            isSeekbarDragging = false;
+            isVolumeDragging = false;
             seekbarWrapperRef.current?.classList.remove('dragging');
+            speakerIcnoWrapperRef.current?.classList.remove('dragging');
+            volumeWrapperRef.current?.classList.remove('dragging');
         };
-        seekbarWrapperRef.current?.addEventListener('mousedown', onStartDragging);
+        seekbarWrapperRef.current?.addEventListener('mousedown', onSeekbarStartDragging);
+        volumeWrapperRef.current?.addEventListener('mousedown', onVolumeStartDragging);
         document.body.addEventListener('mousemove', onMouseMove);
         document.body.addEventListener('mouseout', onMouseOut);
         document.body.addEventListener('mouseup', onStopDragging);
@@ -232,7 +282,8 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
             clearInterval(iid);
-            seekbarWrapperRef.current?.removeEventListener('mousedown', onStartDragging);
+            seekbarWrapperRef.current?.removeEventListener('mousedown', onSeekbarStartDragging);
+            volumeWrapperRef.current?.removeEventListener('mousedown', onVolumeStartDragging);
             document.body.removeEventListener('mousemove', onMouseMove);
             document.body.removeEventListener('mouseout', onStopDragging);
             document.body.removeEventListener('mouseup', onStopDragging);
@@ -256,23 +307,22 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             setMuted(!muted);
         }
     };
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <Stack>
             <VideoWrapper>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
                 <Video src={src} controls ref={videoRef as any} />
             </VideoWrapper>
             <VideoControl>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-                <SeekBarWrapper ref={seekbarWrapperRef as any}>
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-                    <SeekBarOuter ref={seekbarOuterRef as any}>
+                <div className="mt-auto"></div>
+                <SeekbarWrapper ref={seekbarWrapperRef as any}>
+                    <BarOuter ref={seekbarOuterRef as any}>
                         <VideoThumbnail details={details} currentTime={currentTime} display={thumbnailDisplay} left={thumbnailLeft} ref={thumbnailRef} />
-                        <SeekBarInner style={{ width: currentPercentage }} />
-                        <SeekHandle style={{ left: currentPercentage }} />
-                    </SeekBarOuter>
-                </SeekBarWrapper>
-                <Stack direction="horizontal" className="m-1">
+                        <BarInner style={{ width: currentPercentage }} />
+                        <BarHandle style={{ left: currentPercentage }} />
+                    </BarOuter>
+                </SeekbarWrapper>
+                <Stack direction="horizontal" className="m-2">
                     {playing ? (
                         <IconWrapper onClick={onClickPause}>
                             <FirstIconToolTip>Pause</FirstIconToolTip>
@@ -284,7 +334,17 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                             <PlayIcon />
                         </IconWrapper>
                     )}
-                    <IconWrapper onClick={onClickMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</IconWrapper>
+                    <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
+                        <Stack direction="horizontal">
+                            <span onClick={onClickMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
+                            <VolumebarWrapper ref={volumeWrapperRef as any}>
+                                <BarOuter ref={volumeOuterRef as any}>
+                                    <BarInner style={{ width: volumePercentage }} />
+                                    <BarHandle style={{ left: volumePercentage }} />
+                                </BarOuter>
+                            </VolumebarWrapper>
+                        </Stack>
+                    </SpeakerIconWrapper>
                     <Time>
                         {formatTimeInSecond(currentTime)}/{duration}
                     </Time>
@@ -304,6 +364,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             </VideoControl>
         </Stack>
     );
+    /* eslint-enable  @typescript-eslint/no-explicit-any */
 };
 
 export default VideoPlayer;
