@@ -175,12 +175,18 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const duration = formatTimeInSecond(length);
     useEffect(() => {
         const video = videoRef.current;
-        if (!video) {
+        const seekbarOuter = seekbarOuterRef.current;
+        const thumbnail = thumbnailRef.current;
+        const seekbarWrapper = seekbarWrapperRef.current;
+        const volumeOuter = volumeOuterRef.current;
+        const speakerIcnoWrapper = speakerIcnoWrapperRef.current;
+        const volumeWrapper = volumeWrapperRef.current;
+        if (!video || !seekbarOuter || !thumbnail || !seekbarWrapper || !volumeOuter || !speakerIcnoWrapper || !volumeWrapper) {
             return;
         }
         let iid: number;
         const updateCurrent = () => {
-            const currentTime = videoRef.current?.currentTime ?? 0;
+            const currentTime = video.currentTime;
             setCurrentTime(currentTime);
             setCurrentPercentage(`${(currentTime / length) * 100}%`);
         };
@@ -193,11 +199,20 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             setPlaying(false);
             clearInterval(iid);
         };
+        const onFullscreenChange = () => {
+            // TODO: handle mode
+            if (document.fullscreenElement) {
+                // fullscreen
+            } else {
+                // back to normal
+            }
+        };
         video.addEventListener('play', onPlay);
         video.addEventListener('pause', onPause);
+        video.addEventListener('fullscreenchange', onFullscreenChange);
 
         const updateVolume = () => {
-            const volume = videoRef.current?.volume ?? 0;
+            const volume = video.volume;
             setVolumePercentage(`${volume * 100}%`);
         };
 
@@ -206,50 +221,41 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         let seekbarWidth = 0;
         let thumbnailWidth = 0;
         const onSeekbarStartDragging = (e: MouseEvent) => {
-            if (!seekbarOuterRef.current || !thumbnailRef.current) {
-                return;
-            }
-            const seekbarRect = seekbarOuterRef.current.getBoundingClientRect();
+            const seekbarRect = seekbarOuter.getBoundingClientRect();
             seekbarX = seekbarRect.left + window.pageXOffset;
             seekbarWidth = seekbarRect.right - seekbarRect.left;
             setThumbnailDisplay('block');
-            const thumbnailRect = thumbnailRef.current.getBoundingClientRect();
+            const thumbnailRect = thumbnail.getBoundingClientRect();
             thumbnailWidth = thumbnailRect.right - thumbnailRect.left;
             isSeekbarDragging = true;
-            seekbarWrapperRef.current?.classList.add('dragging');
+            seekbarWrapper.classList.add('dragging');
             onMouseMove(e);
         };
         let isVolumeDragging = false;
         let volumeX = 0;
         let volumeWidth = 0;
         const onVolumeStartDragging = (e: MouseEvent) => {
-            if (!volumeOuterRef.current) {
-                return;
-            }
-            const volumeRect = volumeOuterRef.current.getBoundingClientRect();
+            const volumeRect = volumeOuter.getBoundingClientRect();
             volumeX = volumeRect.left + window.pageXOffset;
             volumeWidth = volumeRect.right - volumeRect.left;
             isVolumeDragging = true;
-            speakerIcnoWrapperRef.current?.classList.add('dragging');
-            volumeWrapperRef.current?.classList.add('dragging');
+            speakerIcnoWrapper.classList.add('dragging');
+            volumeWrapper.classList.add('dragging');
             onMouseMove(e);
         };
 
         const onMouseMove = (e: MouseEvent) => {
-            if (!videoRef.current) {
-                return;
-            }
             const cursorX = e.pageX;
             if (isSeekbarDragging) {
                 const seekbarRate = Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
-                videoRef.current.currentTime = seekbarRate * length;
+                video.currentTime = seekbarRate * length;
                 const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
                 setThumbnailLeft(thumbnailLeft);
                 updateCurrent();
             }
             if (isVolumeDragging) {
                 const volume = Math.max(0, Math.min((cursorX - volumeX) / volumeWidth, 1));
-                videoRef.current.volume = volume;
+                video.volume = volume;
                 updateVolume();
             }
         };
@@ -269,21 +275,22 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             setThumbnailDisplay('none');
             isSeekbarDragging = false;
             isVolumeDragging = false;
-            seekbarWrapperRef.current?.classList.remove('dragging');
-            speakerIcnoWrapperRef.current?.classList.remove('dragging');
-            volumeWrapperRef.current?.classList.remove('dragging');
+            seekbarWrapper.classList.remove('dragging');
+            speakerIcnoWrapper.classList.remove('dragging');
+            volumeWrapper.classList.remove('dragging');
         };
-        seekbarWrapperRef.current?.addEventListener('mousedown', onSeekbarStartDragging);
-        volumeWrapperRef.current?.addEventListener('mousedown', onVolumeStartDragging);
+        seekbarWrapper.addEventListener('mousedown', onSeekbarStartDragging);
+        volumeWrapper.addEventListener('mousedown', onVolumeStartDragging);
         document.body.addEventListener('mousemove', onMouseMove);
         document.body.addEventListener('mouseout', onMouseOut);
         document.body.addEventListener('mouseup', onStopDragging);
         return () => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
+            video.removeEventListener('fullscreenchange', onFullscreenChange);
             clearInterval(iid);
-            seekbarWrapperRef.current?.removeEventListener('mousedown', onSeekbarStartDragging);
-            volumeWrapperRef.current?.removeEventListener('mousedown', onVolumeStartDragging);
+            seekbarWrapper.removeEventListener('mousedown', onSeekbarStartDragging);
+            volumeWrapper.removeEventListener('mousedown', onVolumeStartDragging);
             document.body.removeEventListener('mousemove', onMouseMove);
             document.body.removeEventListener('mouseout', onStopDragging);
             document.body.removeEventListener('mouseup', onStopDragging);
@@ -291,13 +298,13 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     }, [src]);
 
     const onClickPause = () => {
-        if (videoRef) {
-            videoRef.current?.pause();
+        if (videoRef.current) {
+            videoRef.current.pause();
         }
     };
     const onClickPlay = () => {
-        if (videoRef) {
-            videoRef.current?.play();
+        if (videoRef.current) {
+            videoRef.current.play();
         }
     };
     const onClickMute = () => {
@@ -354,7 +361,16 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                             const [tooltip, Icon] = modeProps[m];
                             const isLast = arr.length === i + 1;
                             return (
-                                <IconWrapper onClick={() => setMode(m)} key={`icon-${m}`}>
+                                <IconWrapper
+                                    onClick={() => {
+                                        if (m === 'fullScreen') {
+                                            videoRef.current?.requestFullscreen();
+                                        } else {
+                                            setMode(m);
+                                        }
+                                    }}
+                                    key={`icon-${m}`}
+                                >
                                     {isLast ? <LastIconToolTip>{tooltip}</LastIconToolTip> : <IconTooltip>{tooltip}</IconTooltip>}
                                     <Icon />
                                 </IconWrapper>
