@@ -44,7 +44,7 @@ const VideoThumbnail = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
         height: `${height}px`,
         backgroundColor: '#000',
         backgroundImage: `url(${src})`,
-        backgroundPositionX: `${sec * width}px`,
+        backgroundPositionX: `${-sec * width}px`,
         zoom: '.5',
     };
     return (
