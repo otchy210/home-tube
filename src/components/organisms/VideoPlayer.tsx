@@ -107,6 +107,9 @@ const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-pill',
     &:hover {
         background-color: rgba(255, 255, 255, 0.3);
         transition: background-color 0.2s;
+        & .icon-tooltip {
+            display: block;
+        }
     }
 `;
 const SpeakerIconWrapper = styled(IconWrapper)`
@@ -120,7 +123,7 @@ const SpeakerIconWrapper = styled(IconWrapper)`
     }
 `;
 
-const IconTooltip = styled.div.attrs({ className: 'px-2 py-1 rounded text-nowrap text-white' })`
+const IconTooltip = styled.div.attrs({ className: 'px-2 py-1 rounded text-nowrap text-white icon-tooltip' })`
     position: absolute;
     transform: translate(-50%, -50px);
     left: 50%;
