@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import Play from '../../images/play.svg';
 import Pause from '../../images/pause.svg';
 import Speaker from '../../images/speaker.svg';
+import Muted from '../../images/muted.svg';
 import Theater from '../../images/theater.svg';
 import Normal from '../../images/normal.svg';
 import FullScreen from '../../images/full-screen.svg';
@@ -81,6 +82,9 @@ const PauseIcon = styled(Pause).attrs(iconSttrs)`
 const SpeakerIcon = styled(Speaker).attrs(iconSttrs)`
     ${iconStyle};
 `;
+const MutedIcon = styled(Muted).attrs(iconSttrs)`
+    ${iconStyle};
+`;
 const TheaterIcon = styled(Theater).attrs(iconSttrs)`
     ${iconStyle};
 `;
@@ -141,6 +145,8 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const [playing, setPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [currentPercentage, setCurrentPercentage] = useState<string>('0%');
+    // const [volume, setVolume] = useState<number>(1);
+    const [muted, setMuted] = useState<boolean>(false);
     const [thumbnailLeft, setThumbnailLeft] = useState<number>(0);
     const [thumbnailDisplay, setThumbnailDisplay] = useState<string>('none');
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -243,6 +249,13 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             videoRef.current?.play();
         }
     };
+    const onClickMute = () => {
+        const video = videoRef.current;
+        if (video) {
+            video.muted = !muted;
+            setMuted(!muted);
+        }
+    };
     return (
         <Stack>
             <VideoWrapper>
@@ -271,9 +284,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                             <PlayIcon />
                         </IconWrapper>
                     )}
-                    <IconWrapper>
-                        <SpeakerIcon />
-                    </IconWrapper>
+                    <IconWrapper onClick={onClickMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</IconWrapper>
                     <Time>
                         {formatTimeInSecond(currentTime)}/{duration}
                     </Time>
