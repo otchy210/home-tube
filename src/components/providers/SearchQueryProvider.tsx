@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { setIfExist } from '../../utils/SearchParamsUtils';
+import { setIfArrayExist, setIfExist } from '../../utils/SearchParamsUtils';
 
 export type SearchQuery = {
     page?: string;
@@ -8,7 +8,7 @@ export type SearchQuery = {
     length?: string;
     size?: string;
     stars?: string;
-    tags?: string;
+    tags?: string[];
 };
 
 const getSearchQueryFromUrl = (): SearchQuery => {
@@ -19,7 +19,7 @@ const getSearchQueryFromUrl = (): SearchQuery => {
     setIfExist('length', searchParams, (value) => (searchQuery.length = value));
     setIfExist('size', searchParams, (value) => (searchQuery.size = value));
     setIfExist('stars', searchParams, (value) => (searchQuery.stars = value));
-    setIfExist('tags', searchParams, (value) => (searchQuery.tags = value));
+    setIfArrayExist('tags', searchParams, (value) => (searchQuery.tags = value));
     return searchQuery;
 };
 
@@ -70,7 +70,11 @@ const SearchQueryProvider: React.FC<Props> = ({ children }: Props) => {
             if (!value) {
                 return;
             }
-            params.append(name, value);
+            if (name === 'tags') {
+                params.append(name, JSON.stringify(value as string[]));
+            } else {
+                params.append(name, value as string);
+            }
             hasParams = true;
         });
         navigate(`/search${hasParams ? `?${params.toString()}` : ''}`);

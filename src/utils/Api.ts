@@ -11,6 +11,8 @@ type FetchOptions = {
 
 type Params = Record<string, string | string[]>;
 
+type ApiSafeParams = Record<string, string>;
+
 export class Api {
     private apiHost;
     constructor(apiHost: string) {
@@ -20,7 +22,15 @@ export class Api {
         if (!params || Object.keys(params).length === 0) {
             return `${this.apiHost}${apiPath}`;
         }
-        const searchParams = createSearchParams(params);
+        const apiSafeParams = Object.entries(params).reduce((map, [name, value]) => {
+            if (Array.isArray(value)) {
+                map[name] = JSON.stringify(value);
+            } else {
+                map[name] = value;
+            }
+            return map;
+        }, {} as ApiSafeParams);
+        const searchParams = createSearchParams(apiSafeParams);
         return `${this.apiHost}${apiPath}?${searchParams}`;
     }
     private call<T>(method: Method, apiPath: string, options: { body?: Json; params?: Params } = {}): Promise<T> {

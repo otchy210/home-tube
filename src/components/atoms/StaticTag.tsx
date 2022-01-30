@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSearchQuery } from '../providers/SearchQueryProvider';
 
@@ -15,12 +14,10 @@ type Props = {
 
 const Tag: React.FC<Props> = ({ tag, count }: Props) => {
     const { setSearchQuery } = useSearchQuery();
-    const navigate = useNavigate();
     return (
         <Link
             onClick={() => {
-                setSearchQuery({ tags: tag });
-                navigate(`/search?tags=${tag}`);
+                setSearchQuery({ tags: [tag] });
             }}
         >
             <Badge bg="success" className="ms-1 mt-1 fs-6">
