@@ -145,15 +145,15 @@ const SpeakerIconWrapper = styled(IconWrapper)`
 const IconTooltip = styled.div.attrs({ className: 'px-2 py-1 rounded text-nowrap text-white icon-tooltip' })`
     position: absolute;
     transform: translate(-50%, -50px);
-    left: 50%;
+    left: 20px;
     background-color: rgba(0, 0, 0, 0.8);
     display: none;
 `;
-const FirstIconToolTip = styled(IconTooltip)`
+const FirstIconTooltip = styled(IconTooltip)`
     transform: translate(0, -50px);
     left: 0;
 `;
-const LastIconToolTip = styled(IconTooltip)`
+const LastIconTooltip = styled(IconTooltip)`
     transform: translate(-100%, -50px);
     left: 100%;
 `;
@@ -162,12 +162,12 @@ const Time = styled.div.attrs({ className: 'me-auto p-2 font-monospace text-whit
     pointer-events: none;
 `;
 
-const modeProps: Record<VideoViewMode, [string, React.FC]> = {
-    normal: ['Normal view', NormalIcon],
-    theater: ['Theater mode', TheaterIcon],
-    fullScreen: ['Full screen', FullScreenIcon],
+type ClickHandlers = {
+    togglePlaying: () => void;
+    toggleMute: () => void;
+    toggleTheaterMode: () => void;
+    onClickFullscreen: () => void;
 };
-const allVideoMode: VideoViewMode[] = ['normal', 'theater', 'fullScreen'];
 
 type Props = {
     details: VideoDetails;
@@ -195,6 +195,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const volumeOuterRef = useRef<HTMLDivElement>(null);
     const hideControlTidRec = useRef<number>(0);
     const videoMouseMoveTidRef = useRef<number>(0);
+    const clickHandlersRef = useRef<ClickHandlers>();
     const api = useApi();
     const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
@@ -362,14 +363,14 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             showControlTemporary();
         });
     };
-    const onClickMute = () => {
+    const toggleMute = () => {
         withVideo((video) => {
             video.muted = !muted;
             setMuted(!muted);
             onVideoMouseMove();
         });
     };
-    const onClickVideo = () => {
+    const togglePlaying = () => {
         if (playing) {
             onClickPause();
         } else {
@@ -388,11 +389,65 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         }
         showControlTemporary();
     };
+    const onClickNormal = () => {
+        setMode('normal');
+    };
+    const onClickTheater = () => {
+        setMode('theater');
+    };
+    const toggleTheaterMode = () => {
+        if (mode !== 'theater') {
+            onClickTheater();
+        } else {
+            onClickNormal();
+        }
+    };
+    const onClickFullscreen = () => {
+        videoRef.current?.requestFullscreen();
+    };
+    clickHandlersRef.current = {
+        togglePlaying,
+        toggleMute,
+        toggleTheaterMode,
+        onClickFullscreen,
+    };
+    useEffect(() => {
+        const handleShortcuts = (e: KeyboardEvent) => {
+            const target = e.target as Element | null;
+            if (target && target.tagName === 'INPUT') {
+                return;
+            }
+            const clickHandlers = clickHandlersRef.current;
+            if (!clickHandlers) {
+                return;
+            }
+            e.preventDefault();
+            switch (e.code) {
+                case 'Space':
+                    clickHandlers.togglePlaying();
+                    break;
+                case 'KeyM':
+                    clickHandlers.toggleMute();
+                    break;
+                case 'KeyT':
+                    clickHandlers.toggleTheaterMode();
+                    break;
+                case 'KeyF':
+                    clickHandlers.onClickFullscreen();
+                    break;
+            }
+            console.log(e);
+        };
+        document.body.addEventListener('keydown', handleShortcuts);
+        return () => {
+            document.body.removeEventListener('keydown', handleShortcuts);
+        };
+    }, []);
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
             <VideoWrapper>
-                <Video src={src} ref={videoRef as any} onClick={onClickVideo} />
+                <Video src={src} ref={videoRef as any} onClick={togglePlaying} />
             </VideoWrapper>
             <VideoControl>
                 <div className="mt-auto"></div>
@@ -406,18 +461,19 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                 <Stack direction="horizontal" className="m-2">
                     {playing ? (
                         <IconWrapper onClick={onClickPause}>
-                            <FirstIconToolTip>Pause</FirstIconToolTip>
+                            <FirstIconTooltip>Pause (space)</FirstIconTooltip>
                             <PauseIcon />
                         </IconWrapper>
                     ) : (
                         <IconWrapper onClick={onClickPlay}>
-                            <FirstIconToolTip>Play</FirstIconToolTip>
+                            <FirstIconTooltip>Play (space)</FirstIconTooltip>
                             <PlayIcon />
                         </IconWrapper>
                     )}
                     <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
+                        <IconTooltip>Mute (m)</IconTooltip>
                         <Stack direction="horizontal">
-                            <span onClick={onClickMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
+                            <span onClick={toggleMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
                             <VolumebarWrapper ref={volumeWrapperRef as any}>
                                 <BarOuter ref={volumeOuterRef as any}>
                                     <BarInner style={{ width: volumePercentage }} />
@@ -429,27 +485,24 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                     <Time>
                         {formatTimeInSecond(currentTime)}/{duration}
                     </Time>
-                    {allVideoMode
-                        .filter((m) => m !== mode)
-                        .map((m, i, arr) => {
-                            const [tooltip, Icon] = modeProps[m];
-                            const isLast = arr.length === i + 1;
-                            return (
-                                <IconWrapper
-                                    onClick={() => {
-                                        if (m === 'fullScreen') {
-                                            videoRef.current?.requestFullscreen();
-                                        } else {
-                                            setMode(m);
-                                        }
-                                    }}
-                                    key={`icon-${m}`}
-                                >
-                                    {isLast ? <LastIconToolTip>{tooltip}</LastIconToolTip> : <IconTooltip>{tooltip}</IconTooltip>}
-                                    <Icon />
-                                </IconWrapper>
-                            );
-                        })}
+                    {mode !== 'normal' && (
+                        <IconWrapper onClick={onClickNormal}>
+                            <IconTooltip>Normal (t)</IconTooltip>
+                            <NormalIcon />
+                        </IconWrapper>
+                    )}
+                    {mode !== 'theater' && (
+                        <IconWrapper onClick={onClickTheater}>
+                            <IconTooltip>Theater (t)</IconTooltip>
+                            <TheaterIcon />
+                        </IconWrapper>
+                    )}
+                    {mode !== 'fullScreen' && (
+                        <IconWrapper onClick={onClickFullscreen}>
+                            <LastIconTooltip>Full screen (f)</LastIconTooltip>
+                            <FullScreenIcon />
+                        </IconWrapper>
+                    )}
                 </Stack>
             </VideoControl>
         </VideoPlayerWrapper>
