@@ -366,6 +366,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         withVideo((video) => {
             video.muted = !muted;
             setMuted(!muted);
+            onVideoMouseMove();
         });
     };
     const onClickVideo = () => {
