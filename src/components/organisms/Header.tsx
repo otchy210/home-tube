@@ -21,10 +21,6 @@ const setIfExist = (name: string, refs: { [name: string]: React.RefObject<HTMLIn
 const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInputElement> }): SearchQuery => {
     const searchQuery = {} as SearchQuery;
     setIfExist('names', refs, (value) => (searchQuery.names = JSON.stringify(value.split(/\s/))));
-    // setIfExist('length', refs, (value) => (searchQuery.length = value));
-    // setIfExist('size', refs, (value) => (searchQuery.size = value));
-    // setIfExist('stars', refs, (value) => (searchQuery.stars = value));
-    // setIfArrayExist('tags', refs, (value) => (searchQuery.tags = value));
     return searchQuery;
 };
 
@@ -68,7 +64,7 @@ const Header: React.FC = () => {
                     <Nav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
                             <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
-                            <Button variant="primary" className="ms-2 text-nowrap" onClick={onSearchSubmit}>
+                            <Button className="ms-2 text-nowrap" onClick={onSearchSubmit}>
                                 <Search style={{ height: '22px' }} />
                                 <span className="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle">Search</span>
                             </Button>
