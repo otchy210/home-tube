@@ -8,13 +8,13 @@ exports[`Header renders properly 1`] = `
     <div
       class="container-fluid"
     >
-      <span
+      <a
         class="me-auto navbar-brand"
-        style="cursor: pointer;"
+        href="/"
       >
         [MockedIconSvg className="d-inline d-sm-none" style={obj} /]
         [MockedLogoSvg className="d-none d-sm-inline" style={obj} /]
-      </span>
+      </a>
       <button
         aria-label="Toggle navigation"
         class="navbar-toggler collapsed"

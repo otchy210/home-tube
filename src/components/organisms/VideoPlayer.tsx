@@ -436,7 +436,6 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                     clickHandlers.onClickFullscreen();
                     break;
             }
-            console.log(e);
         };
         document.body.addEventListener('keydown', handleShortcuts);
         return () => {

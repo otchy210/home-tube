@@ -1,11 +1,8 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
-import styled from 'styled-components';
+import { createSearchParams } from 'react-router-dom';
+import { partiallyPreventDefault } from '../../utils/EventUtils';
 import { useSearchQuery } from '../providers/SearchQueryProvider';
-
-const Link = styled.a`
-    cursor: pointer;
-`;
 
 type Props = {
     tag: string;
@@ -14,16 +11,20 @@ type Props = {
 
 const Tag: React.FC<Props> = ({ tag, count }: Props) => {
     const { setSearchQuery } = useSearchQuery();
+    const params = createSearchParams();
+    params.append('tags', JSON.stringify([tag]));
+    const url = `/search?${params.toString()}`;
     return (
-        <Link
-            onClick={() => {
+        <a
+            href={url}
+            onClick={partiallyPreventDefault(() => {
                 setSearchQuery({ tags: [tag] });
-            }}
+            })}
         >
             <Badge bg="success" className="ms-1 mt-1 fs-6">
                 {`${tag} (${count})`}
             </Badge>
-        </Link>
+        </a>
     );
 };
 

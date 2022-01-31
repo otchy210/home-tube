@@ -7,6 +7,7 @@ import Search from '../../images/search.svg';
 import Config from '../../images/config.svg';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
+import { partiallyPreventDefault } from '../../utils/EventUtils';
 
 const iconStyle = { height: '32px' };
 
@@ -49,13 +50,7 @@ const Header: React.FC = () => {
     return (
         <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
             <Container fluid>
-                <Navbar.Brand
-                    className="me-auto"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                        setPage('1');
-                    }}
-                >
+                <Navbar.Brand className="me-auto" href="/" onClick={partiallyPreventDefault(() => setPage('1'))}>
                     <Icon className="d-inline d-sm-none" style={iconStyle} />
                     <Logo className="d-none d-sm-inline" style={iconStyle} />
                 </Navbar.Brand>
