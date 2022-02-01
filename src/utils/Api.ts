@@ -19,10 +19,13 @@ export class Api {
         this.apiHost = apiHost;
     }
     private getApiUrl(apiPath: string, params?: Params): string {
-        if (!params || Object.keys(params).length === 0) {
+        if (!params) {
             return `${this.apiHost}${apiPath}`;
         }
         const apiSafeParams = Object.entries(params).reduce((map, [name, value]) => {
+            if (!value) {
+                return map;
+            }
             if (Array.isArray(value)) {
                 map[name] = JSON.stringify(value);
             } else {
@@ -30,6 +33,9 @@ export class Api {
             }
             return map;
         }, {} as ApiSafeParams);
+        if (Object.keys(apiSafeParams).length === 0) {
+            return `${this.apiHost}${apiPath}`;
+        }
         const searchParams = createSearchParams(apiSafeParams);
         return `${this.apiHost}${apiPath}?${searchParams}`;
     }
