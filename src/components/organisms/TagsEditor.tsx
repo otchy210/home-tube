@@ -35,7 +35,7 @@ type Props = {
 const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTags }: Props) => {
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-    const inputRef = useRef<HTMLInputElement>(null);
+    const tagBoxRef = useRef<HTMLInputElement>(null);
     const { sortedTags } = useAllTags();
     const browserInfo = useBrowserInfo();
     const isMacOS = browserInfo.os.name === 'macOS';
@@ -43,10 +43,10 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         setShow(false);
     };
     const add = (): void => {
-        if (!inputRef.current) {
+        if (!tagBoxRef.current) {
             return;
         }
-        const tag = inputRef.current.value.trim() ?? '';
+        const tag = tagBoxRef.current.value.trim() ?? '';
         if (tag.length === 0) {
             return;
         }
@@ -54,14 +54,14 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             return !tags.includes(newTag);
         });
         if (newTags.length === 0) {
-            inputRef.current.value = '';
+            tagBoxRef.current.value = '';
             return;
         }
         const updatedTags = [...tags, ...newTags];
         setTags(updatedTags);
-        inputRef.current.value = '';
+        tagBoxRef.current.value = '';
     };
-    const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onTagBoxKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         // cannot avoid using deprecated `e.keyCode` due to https://qiita.com/ledsun/items/31e43a97413dd3c8e38e
         if (e.keyCode === 13) {
             if ((isMacOS && e.metaKey) || (!isMacOS && e.ctrlKey)) {
@@ -70,6 +70,27 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                 add();
             }
             return;
+        }
+    };
+    const onTagBoxInput = () => {
+        const tagBox = tagBoxRef.current;
+        if (!tagBox) {
+            return;
+        }
+        const value = tagBox.value.trim();
+        if (!value) {
+            return;
+        }
+        const datalist = tagBox.nextSibling;
+        if (!datalist) {
+            return;
+        }
+        const options = Array.from(datalist.childNodes) as HTMLOptionElement[];
+        for (const option of options) {
+            if (option.value === value) {
+                add();
+                return;
+            }
         }
     };
     const onChangeSelected = (tag: string) => {
@@ -98,13 +119,13 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             onHide={onHide}
             size="lg"
             onShow={() => {
-                inputRef.current?.focus();
+                tagBoxRef.current?.focus();
             }}
         >
             <Modal.Header closeButton>Edit tags</Modal.Header>
             <Modal.Body>
                 <Stack direction="horizontal">
-                    <FormControl list="all-tags" ref={inputRef} onKeyDown={onInputKeyDown} />
+                    <FormControl list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} onInput={onTagBoxInput} />
                     <datalist id="all-tags">
                         {sortedTags
                             .filter((tag) => {
