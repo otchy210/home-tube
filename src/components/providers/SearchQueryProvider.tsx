@@ -4,7 +4,7 @@ import { setIfArrayExist, setIfExist } from '../../utils/SearchParamsUtils';
 
 export type SearchQuery = {
     page?: string;
-    names?: string;
+    names?: string[];
     length?: string;
     size?: string;
     stars?: string;
@@ -15,7 +15,7 @@ const getSearchQueryFromUrl = (): SearchQuery => {
     const [searchParams] = useSearchParams();
     const searchQuery = {} as SearchQuery;
     setIfExist('page', searchParams, (value) => (searchQuery.page = value));
-    setIfExist('names', searchParams, (value) => (searchQuery.names = value));
+    setIfArrayExist('names', searchParams, (value) => (searchQuery.names = value));
     setIfExist('length', searchParams, (value) => (searchQuery.length = value));
     setIfExist('size', searchParams, (value) => (searchQuery.size = value));
     setIfExist('stars', searchParams, (value) => (searchQuery.stars = value));
@@ -70,8 +70,13 @@ const SearchQueryProvider: React.FC<Props> = ({ children }: Props) => {
             if (!value) {
                 return;
             }
-            if (name === 'tags') {
-                params.append(name, JSON.stringify(value as string[]));
+            if (name === 'tags' || name === 'names') {
+                const arrayValue = (value as string[]).filter((item) => {
+                    return item.trim().length > 0;
+                });
+                if (arrayValue.length > 0) {
+                    params.append(name, JSON.stringify(arrayValue));
+                }
             } else {
                 params.append(name, value as string);
             }

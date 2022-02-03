@@ -27,7 +27,12 @@ export class Api {
                 return map;
             }
             if (Array.isArray(value)) {
-                map[name] = JSON.stringify(value);
+                const filteredValue = value.filter((item) => {
+                    return item.trim().length > 0;
+                });
+                if (filteredValue.length > 0) {
+                    map[name] = JSON.stringify(filteredValue);
+                }
             } else {
                 map[name] = value;
             }

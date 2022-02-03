@@ -11,15 +11,27 @@ const SearchPage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
     const api = useApi();
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
+    const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
+    const namesRef = useRef<HTMLInputElement>(null);
     const lengthRef = useRef<HTMLSelectElement>(null);
     const sizeRef = useRef<HTMLSelectElement>(null);
     const onClickPage = (page: number) => {
         setPage(String(page));
     };
+    const onNamesKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        // cannot avoid using deprecated `e.keyCode` due to https://qiita.com/ledsun/items/31e43a97413dd3c8e38e
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            doSearch();
+            return;
+        }
+    };
     const doSearch = () => {
+        const names = namesRef.current?.value?.split(/\s/);
         const size = sizeRef.current?.value;
         const length = lengthRef.current?.value;
         const searchQuery: SearchQuery = {
+            names,
             size,
             length,
         };
@@ -37,7 +49,14 @@ const SearchPage: React.FC = () => {
                 <Col xs={12} sm={6} lg={3}>
                     <Form.Group className="mt-2" controlId="names">
                         <Form.Label>File / directory name</Form.Label>
-                        <Form.Control />
+                        <Form.Control
+                            value={localNames}
+                            ref={namesRef}
+                            onChange={(e) => {
+                                setLocalNames(e.target?.value);
+                            }}
+                            onKeyDown={onNamesKeyDown}
+                        />
                     </Form.Group>
                     <Form.Group className="mt-2" controlId="stars">
                         <Form.Label>Raiting</Form.Label>
