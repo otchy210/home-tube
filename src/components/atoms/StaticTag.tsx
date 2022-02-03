@@ -9,7 +9,7 @@ type Props = {
     count: number;
 };
 
-const Tag: React.FC<Props> = ({ tag, count }: Props) => {
+const StaticTag: React.FC<Props> = ({ tag, count }: Props) => {
     const { setSearchQuery } = useSearchQuery();
     const params = createSearchParams();
     params.append('tags', JSON.stringify([tag]));
@@ -28,4 +28,4 @@ const Tag: React.FC<Props> = ({ tag, count }: Props) => {
     );
 };
 
-export default Tag;
+export default StaticTag;

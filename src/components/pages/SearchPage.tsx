@@ -6,16 +6,24 @@ import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
+import ClickableTag from '../atoms/ClickableTag';
+
+type CandiateTag = {
+    tag: string;
+    count: number;
+};
 
 const SearchPage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
     const api = useApi();
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
+    const [candidateTags, setCandidateTags] = useState<CandiateTag[]>([]);
     const namesRef = useRef<HTMLInputElement>(null);
     const starsRef = useRef<HTMLSelectElement>(null);
     const lengthRef = useRef<HTMLSelectElement>(null);
     const sizeRef = useRef<HTMLSelectElement>(null);
+    const tagsRef = useRef<string[]>(searchQuery?.tags ?? []);
     const onClickPage = (page: number) => {
         setPage(String(page));
     };
@@ -27,23 +35,63 @@ const SearchPage: React.FC = () => {
             return;
         }
     };
+    const addTag = (tag: string) => {
+        tagsRef.current = [...tagsRef.current, tag];
+        doSearch();
+    };
+    const removeTag = (tag: string) => {
+        tagsRef.current = tagsRef.current.filter((localTag) => localTag !== tag);
+        doSearch();
+    };
     const doSearch = () => {
         const names = namesRef.current?.value?.split(/\s/);
         const stars = starsRef.current?.value;
         const size = sizeRef.current?.value;
         const length = lengthRef.current?.value;
+        const tags = tagsRef.current;
         const searchQuery: SearchQuery = {
             names,
             stars,
             size,
             length,
+            tags,
         };
         setSearchQuery(searchQuery);
     };
 
     useEffect(() => {
         api.search(searchQuery).then((videoSet) => {
-            setVideos(getSortedVideos(videoSet));
+            const videos = getSortedVideos(videoSet);
+            setVideos(videos);
+            const tagsMap = videos
+                .map((video) => {
+                    return video.tags;
+                })
+                .filter((tags) => !!tags)
+                .reduce((map, tags) => {
+                    tags?.forEach((tag) => {
+                        const current = map.get(tag) ?? 0;
+                        map.set(tag, current + 1);
+                    });
+                    return map;
+                }, new Map<string, number>());
+            searchQuery.tags?.forEach((selectedTag) => {
+                tagsMap.delete(selectedTag);
+            });
+            const candidateTags = Array.from(tagsMap.entries())
+                .sort((left, right) => {
+                    const [leftTag, leftCount] = left;
+                    const [rightTag, rightCount] = right;
+                    const diff = rightCount - leftCount;
+                    if (diff !== 0) {
+                        return diff;
+                    }
+                    return leftTag.localeCompare(rightTag);
+                })
+                .map(([tag, count]) => {
+                    return { tag, count };
+                });
+            setCandidateTags(candidateTags);
         });
     }, [searchQuery]);
     return (
@@ -113,11 +161,33 @@ const SearchPage: React.FC = () => {
                 <Col xs={12} sm={4} lg={2}>
                     <Form.Group className="mt-2" controlId="tags">
                         <Form.Label>Tags</Form.Label>
-                        <Form.Control />
+                        {candidateTags && candidateTags.length > 0 ? (
+                            <Form.Select
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                    addTag(e.target.value);
+                                }}
+                            >
+                                <option value=""></option>
+                                {candidateTags.map(({ tag, count }) => {
+                                    return (
+                                        <option value={tag} key={`tag-${tag}`}>
+                                            {`${tag} (${count})`}
+                                        </option>
+                                    );
+                                })}
+                            </Form.Select>
+                        ) : (
+                            <div className="text-muted small">No candidates</div>
+                        )}
                     </Form.Group>
                 </Col>
                 <Col xs={12} sm={8} lg={4}>
-                    <div className="mt-2">Tag1, Tag2, ...</div>
+                    <div className="mt-2">
+                        {searchQuery.tags?.map((tag) => {
+                            return <ClickableTag tag={tag} onClick={removeTag} key={`tag-${tag}`} />;
+                        })}
+                    </div>
+                    {searchQuery.tags && searchQuery.tags.length > 0 && <div className="text-muted small">Click to remove</div>}
                 </Col>
             </Row>
             <VideoAlbum videos={videos} page={parseInt(searchQuery.page ?? '1')} onClickPage={onClickPage} />
