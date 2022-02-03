@@ -2,78 +2,92 @@
 
 exports[`ConfigPage renders initial state properly 1`] = `
 <div>
-  <p
-    class="sc-bdvvtL h1 pt-3"
+  <div
+    class="row"
   >
-    Config
-  </p>
-  <form
-    class=""
-  >
-    <p
-      class="sc-gsDKAQ h5 mt-3"
-    >
-      Video storage path
-    </p>
-    <small
-      class="text-muted form-text"
-    >
-      Add your video storage path which has your videos.
-    </small>
     <div
-      class="mt-1 hstack gap-2"
+      class="col-lg-7 col-12"
     >
-      <button
-        class="btn btn-secondary"
-        data-testid="add-storage"
-        type="button"
+      <p
+        class="sc-bdvvtL h1 pt-3"
       >
-        Add video storage path
-      </button>
+        Config
+      </p>
+      <form
+        class=""
+      >
+        <p
+          class="sc-gsDKAQ h5 mt-3"
+        >
+          Video storage path
+        </p>
+        <small
+          class="text-muted form-text"
+        >
+          Add your video storage path which has your videos.
+        </small>
+        <div
+          class="mt-1 hstack gap-2"
+        >
+          <button
+            class="btn btn-secondary"
+            data-testid="add-storage"
+            type="button"
+          >
+            Add video storage path
+          </button>
+        </div>
+        <p
+          class="sc-gsDKAQ h5 mt-3"
+        >
+          ffmpeg path
+        </p>
+        <small
+          class="text-muted form-text"
+        >
+          No need to set unless you want to change it from default.
+        </small>
+        <input
+          class="mt-1 form-control"
+          data-testid="ffmpeg"
+          type="text"
+          value=""
+        />
+        <div
+          class="mt-3 hstack gap-2"
+        >
+          <button
+            class="btn btn-primary"
+            data-testid="save-config"
+            disabled=""
+            type="button"
+          >
+            Save config
+          </button>
+          <button
+            class="btn btn-link"
+            data-testid="cancel"
+            disabled=""
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+       
     </div>
-    <p
-      class="sc-gsDKAQ h5 mt-3"
-    >
-      ffmpeg path
-    </p>
-    <small
-      class="text-muted form-text"
-    >
-      No need to set unless you want to change it from default.
-    </small>
-    <input
-      class="mt-1 form-control"
-      data-testid="ffmpeg"
-      type="text"
-      value=""
-    />
     <div
-      class="mt-3 hstack gap-2"
+      class="ps-0 ps-lg-5 col-lg-5 col-12"
     >
-      <button
-        class="btn btn-primary"
-        data-testid="save-config"
-        disabled=""
-        type="button"
+       
+      <p
+        class="sc-bdvvtL h1 pt-3"
       >
-        Save config
-      </button>
-      <button
-        class="btn btn-link"
-        data-testid="cancel"
-        disabled=""
-        type="button"
-      >
-        Cancel
-      </button>
+        Server status 
+        [MockedReloadSvg onClick={fn} width="32" height="32" className="sc-dkPtRN fYeJEY" /]
+      </p>
+      [MockedSpinnerSvg width="32" height="32" style={obj} /]
     </div>
-  </form>
-  <p
-    class="sc-bdvvtL h1 pt-3"
-  >
-    Server status 
-    [MockedReloadSvg onClick={fn} width="32" height="32" className="sc-dkPtRN fYeJEY" /]
-  </p>
-  [MockedSpinnerSvg width="32" height="32" style={obj} /]
+  </div>
 </div>
 `;

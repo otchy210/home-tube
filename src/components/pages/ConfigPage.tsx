@@ -1,6 +1,6 @@
 import { AppConfig, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Form, Stack } from 'react-bootstrap';
+import { Badge, Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import DelayedSpinner from '../molecules/DelayedSpinner';
@@ -145,132 +145,139 @@ const ConfigPage: React.FC = () => {
     };
     return (
         <>
-            <Title>Config</Title>
-            <Form>
-                <PropertyTitle>Video storage path</PropertyTitle>
-                <Form.Text className="text-muted">Add your video storage path which has your videos.</Form.Text>
-                {appConfig.storages.map((storage, i) => {
-                    return (
-                        <Stack key={`storage-${i}`}>
-                            <Stack direction="horizontal" gap={2} className="mt-1">
-                                <Form.Control
-                                    type="text"
-                                    value={storage.path}
-                                    isInvalid={storageValidationErrors.get(i) !== undefined}
-                                    onChange={(e) => {
-                                        updateStoragePath(i, e.target.value);
-                                    }}
-                                    data-testid={`storage-${i}-path`}
-                                />
-                                <Form.Check
-                                    type="checkbox"
-                                    label="enabled"
-                                    checked={storage.enabled}
-                                    onChange={(e) => {
-                                        updateStorageEnabled(i, e.target.checked);
-                                    }}
-                                    id={`storage-${i}-enabled`}
-                                    data-testid={`storage-${i}-enabled`}
-                                />
-                                <Button
-                                    variant="danger"
-                                    onClick={() => {
-                                        removeStorage(i);
-                                    }}
-                                    data-testid={`storage-${i}-delete`}
-                                >
-                                    Delete
-                                </Button>
-                            </Stack>
-                            {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
+            <Row>
+                <Col xs={12} lg={7}>
+                    <Title>Config</Title>
+                    <Form>
+                        <PropertyTitle>Video storage path</PropertyTitle>
+                        <Form.Text className="text-muted">Add your video storage path which has your videos.</Form.Text>
+                        {appConfig.storages.map((storage, i) => {
+                            return (
+                                <Stack key={`storage-${i}`}>
+                                    <Stack direction="horizontal" gap={2} className="mt-1">
+                                        <Form.Control
+                                            type="text"
+                                            value={storage.path}
+                                            isInvalid={storageValidationErrors.get(i) !== undefined}
+                                            onChange={(e) => {
+                                                updateStoragePath(i, e.target.value);
+                                            }}
+                                            data-testid={`storage-${i}-path`}
+                                        />
+                                        <Form.Check
+                                            type="checkbox"
+                                            label="enabled"
+                                            checked={storage.enabled}
+                                            onChange={(e) => {
+                                                updateStorageEnabled(i, e.target.checked);
+                                            }}
+                                            id={`storage-${i}-enabled`}
+                                            data-testid={`storage-${i}-enabled`}
+                                        />
+                                        <Button
+                                            variant="danger"
+                                            onClick={() => {
+                                                removeStorage(i);
+                                            }}
+                                            data-testid={`storage-${i}-delete`}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Stack>
+                                    {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
+                                </Stack>
+                            );
+                        })}
+                        <Stack direction="horizontal" gap={2} className="mt-1">
+                            <Button variant="secondary" onClick={addStorage} data-testid={`add-storage`}>
+                                Add video storage path
+                            </Button>
                         </Stack>
-                    );
-                })}
-                <Stack direction="horizontal" gap={2} className="mt-1">
-                    <Button variant="secondary" onClick={addStorage} data-testid={`add-storage`}>
-                        Add video storage path
-                    </Button>
-                </Stack>
 
-                <PropertyTitle>ffmpeg path</PropertyTitle>
-                <Form.Text className="text-muted">No need to set unless you want to change it from default.</Form.Text>
-                <Form.Control
-                    type="text"
-                    value={appConfig.ffmpeg}
-                    className="mt-1"
-                    onChange={(e) => {
-                        updateFfmpeg(e.target.value);
-                    }}
-                    data-testid={`ffmpeg`}
-                />
+                        <PropertyTitle>ffmpeg path</PropertyTitle>
+                        <Form.Text className="text-muted">No need to set unless you want to change it from default.</Form.Text>
+                        <Form.Control
+                            type="text"
+                            value={appConfig.ffmpeg}
+                            className="mt-1"
+                            onChange={(e) => {
+                                updateFfmpeg(e.target.value);
+                            }}
+                            data-testid={`ffmpeg`}
+                        />
 
-                <Stack direction="horizontal" gap={2} className="mt-3">
-                    <Button variant="primary" disabled={!updated} data-testid="save-config" onClick={trySubmit}>
-                        Save config
-                    </Button>
-                    <Button
-                        variant="link"
-                        onClick={() => {
-                            loadAppConfig();
-                        }}
-                        disabled={!updated}
-                        data-testid="cancel"
-                    >
-                        Cancel
-                    </Button>
-                </Stack>
-            </Form>
-            <Title>
-                Server status <ReloadIcon onClick={loadServerStatus} />
-            </Title>
-            {!serverStatus && <Spinner />}
-            {serverStatus && (
-                <>
-                    <PropertyTitle>Searchable videos</PropertyTitle>
-                    <p>{serverStatus.indexedVideo}</p>
-                    <PropertyTitle>Storages</PropertyTitle>
-                    {Object.entries(serverStatus.storages).map(([path, info]) => {
-                        const badgeBg = (() => {
-                            switch (info.status) {
-                                case 'initialized':
-                                    return 'primary';
-                                case 'waiting':
-                                    return 'secondary';
-                                case 'reading':
-                                    return 'warning';
-                                case 'stopped':
-                                    return 'danger';
-                            }
-                        })();
-                        return (
-                            <p key={`storage-${path}`}>
-                                <b>{path}</b>
+                        <Stack direction="horizontal" gap={2} className="mt-3">
+                            <Button variant="primary" disabled={!updated} data-testid="save-config" onClick={trySubmit}>
+                                Save config
+                            </Button>
+                            <Button
+                                variant="link"
+                                onClick={() => {
+                                    loadAppConfig();
+                                }}
+                                disabled={!updated}
+                                data-testid="cancel"
+                            >
+                                Cancel
+                            </Button>
+                        </Stack>
+                    </Form>{' '}
+                </Col>
+                <Col xs={12} lg={5} className="ps-0 ps-lg-5">
+                    {' '}
+                    <Title>
+                        Server status <ReloadIcon onClick={loadServerStatus} />
+                    </Title>
+                    {!serverStatus && <Spinner />}
+                    {serverStatus && (
+                        <>
+                            <PropertyTitle>Searchable videos</PropertyTitle>
+                            <p>{serverStatus.indexedVideo}</p>
+                            <PropertyTitle>Storages</PropertyTitle>
+                            {Object.entries(serverStatus.storages).map(([path, info]) => {
+                                const badgeBg = (() => {
+                                    switch (info.status) {
+                                        case 'initialized':
+                                            return 'primary';
+                                        case 'waiting':
+                                            return 'secondary';
+                                        case 'reading':
+                                            return 'warning';
+                                        case 'stopped':
+                                            return 'danger';
+                                    }
+                                })();
+                                return (
+                                    <p key={`storage-${path}`}>
+                                        <b>{path}</b>
+                                        <br />
+                                        <Badge bg={badgeBg}>{info.status}</Badge> {info.size} movies found
+                                        <br />
+                                    </p>
+                                );
+                            })}
+                            <PropertyTitle>Meta data</PropertyTitle>
+                            <p>
+                                {serverStatus.meta.count} movies queued.
                                 <br />
-                                <Badge bg={badgeBg}>{info.status}</Badge> {info.size} movies found
-                                <br />
+                                {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
                             </p>
-                        );
-                    })}
-                    <PropertyTitle>Meta data</PropertyTitle>
-                    <p>
-                        {serverStatus.meta.count} movies queued.
-                        <br />
-                        {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
-                    </p>
-                    <PropertyTitle>Thumbnails</PropertyTitle>
-                    <p>
-                        {serverStatus.thumbnails.count} movies queued.
-                        <br />
-                        {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
-                    </p>
-                    <PropertyTitle>Snapshot</PropertyTitle>
-                    <p>
-                        {serverStatus.snapshot.count} movies queued.
-                        <br />
-                        {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
-                    </p>
-                </>
-            )}
+                            <PropertyTitle>Thumbnails</PropertyTitle>
+                            <p>
+                                {serverStatus.thumbnails.count} movies queued.
+                                <br />
+                                {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
+                            </p>
+                            <PropertyTitle>Snapshot</PropertyTitle>
+                            <p>
+                                {serverStatus.snapshot.count} movies queued.
+                                <br />
+                                {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
+                            </p>
+                        </>
+                    )}
+                </Col>
+            </Row>
         </>
     );
 };
