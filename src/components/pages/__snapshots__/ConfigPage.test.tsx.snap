@@ -77,7 +77,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
        
     </div>
     <div
-      class="ps-0 ps-lg-5 col-lg-5 col-12"
+      class="ps-lg-5 col-lg-5 col-12"
     >
        
       <p

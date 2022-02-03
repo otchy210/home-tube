@@ -223,7 +223,7 @@ const ConfigPage: React.FC = () => {
                         </Stack>
                     </Form>{' '}
                 </Col>
-                <Col xs={12} lg={5} className="ps-0 ps-lg-5">
+                <Col xs={12} lg={5} className="ps-lg-5">
                     {' '}
                     <Title>
                         Server status <ReloadIcon onClick={loadServerStatus} />

@@ -5,7 +5,7 @@ import { getSortedVideos } from '../../utils/VideoUtils';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
-import { LENGTH_TAGS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
+import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
 
 const SearchPage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
@@ -13,6 +13,7 @@ const SearchPage: React.FC = () => {
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
     const namesRef = useRef<HTMLInputElement>(null);
+    const starsRef = useRef<HTMLSelectElement>(null);
     const lengthRef = useRef<HTMLSelectElement>(null);
     const sizeRef = useRef<HTMLSelectElement>(null);
     const onClickPage = (page: number) => {
@@ -28,10 +29,12 @@ const SearchPage: React.FC = () => {
     };
     const doSearch = () => {
         const names = namesRef.current?.value?.split(/\s/);
+        const stars = starsRef.current?.value;
         const size = sizeRef.current?.value;
         const length = lengthRef.current?.value;
         const searchQuery: SearchQuery = {
             names,
+            stars,
             size,
             length,
         };
@@ -60,7 +63,23 @@ const SearchPage: React.FC = () => {
                     </Form.Group>
                     <Form.Group className="mt-2" controlId="stars">
                         <Form.Label>Raiting</Form.Label>
-                        <Form.Control />
+                        <Form.Select ref={starsRef} value={searchQuery.stars} onChange={doSearch}>
+                            <option value=""></option>
+                            {POSSIBLE_STARS.map((stars) => {
+                                const starArray: string[] = [];
+                                for (let s = 0; s < stars; s++) {
+                                    starArray.push('★');
+                                }
+                                for (let s = 5; s > stars; s--) {
+                                    starArray.push('☆');
+                                }
+                                return (
+                                    <option value={stars} key={`stars-${stars}`}>
+                                        {starArray.join('')}
+                                    </option>
+                                );
+                            }).reverse()}
+                        </Form.Select>
                     </Form.Group>
                 </Col>
                 <Col xs={12} sm={6} lg={3}>
