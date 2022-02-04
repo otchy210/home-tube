@@ -62,9 +62,16 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
         );
     }
     const pagesInfo = calcPages(videos, page);
+    const total = videos.length;
+    const first = (page - 1) * MAX_VIDEO_COUNT + 1;
+    const last = Math.min(first + MAX_VIDEO_COUNT - 1, total);
     return (
         <>
-            <VideoPagination currentPage={pagesInfo.page} visiblePages={pagesInfo.visiblePages} lastPage={pagesInfo.lastPage} onClick={onClickPage} />
+            <Row>
+                <Col xs={12} className="mt-4 px-1">
+                    Showing {first} - {last} of {total}
+                </Col>
+            </Row>
             <VideoTable videos={pagesInfo.slicedVideos} />
             <VideoPagination currentPage={pagesInfo.page} visiblePages={pagesInfo.visiblePages} lastPage={pagesInfo.lastPage} onClick={onClickPage} />
         </>
