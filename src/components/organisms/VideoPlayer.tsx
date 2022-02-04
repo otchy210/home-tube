@@ -180,6 +180,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const length = details.length ?? 0;
     const [playing, setPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
+    const [thumbnailCurrentTime, setThumbnailCurrentTime] = useState<number>(0);
     const [currentPercentage, setCurrentPercentage] = useState<string>('0%');
     const [thumbnailLeft, setThumbnailLeft] = useState<number>(0);
     const [thumbnailDisplay, setThumbnailDisplay] = useState<string>('none');
@@ -243,16 +244,25 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         let isSeekbarDragging = false;
         let seekbarX = 0;
         let seekbarWidth = 0;
+        let isThubmnailShowing = false;
         let thumbnailWidth = 0;
-        const onSeekbarStartDragging = (e: MouseEvent) => {
+        const setSeekbarValues = () => {
             const seekbarRect = seekbarOuter.getBoundingClientRect();
             seekbarX = seekbarRect.left + window.pageXOffset;
             seekbarWidth = seekbarRect.right - seekbarRect.left;
+        };
+        const onThumbnailStartShowing = (e: MouseEvent) => {
             setThumbnailDisplay('block');
+            setSeekbarValues();
             const thumbnailRect = thumbnail.getBoundingClientRect();
             thumbnailWidth = thumbnailRect.right - thumbnailRect.left;
-            isSeekbarDragging = true;
+            isThubmnailShowing = true;
+            onMouseMove(e);
+        };
+        const onSeekbarStartDragging = (e: MouseEvent) => {
             seekbarWrapper.classList.add('dragging');
+            setSeekbarValues();
+            isSeekbarDragging = true;
             onMouseMove(e);
         };
         let isVolumeDragging = false;
@@ -270,12 +280,19 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
 
         const onMouseMove = (e: MouseEvent) => {
             const cursorX = e.pageX;
+            const calcSeekbarRate = () => {
+                return Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
+            };
             if (isSeekbarDragging) {
-                const seekbarRate = Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
+                const seekbarRate = calcSeekbarRate();
                 video.currentTime = seekbarRate * length;
+                updateCurrent();
+            }
+            if (isThubmnailShowing) {
+                const seekbarRate = calcSeekbarRate();
                 const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
                 setThumbnailLeft(thumbnailLeft);
-                updateCurrent();
+                setThumbnailCurrentTime(seekbarRate * length);
             }
             if (isVolumeDragging) {
                 const volume = Math.max(0, Math.min((cursorX - volumeX) / volumeWidth, 1));
@@ -294,16 +311,20 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             }
             onStopDragging(e);
         };
+        const onStopThumbnailShowing = () => {
+            setThumbnailDisplay('none');
+        };
         const onStopDragging = (e: MouseEvent) => {
             onMouseMove(e);
-            setThumbnailDisplay('none');
             isSeekbarDragging = false;
             isVolumeDragging = false;
             seekbarWrapper.classList.remove('dragging');
             speakerIcnoWrapper.classList.remove('dragging');
             volumeWrapper.classList.remove('dragging');
         };
+        seekbarWrapper.addEventListener('mouseover', onThumbnailStartShowing);
         seekbarWrapper.addEventListener('mousedown', onSeekbarStartDragging);
+        seekbarWrapper.addEventListener('mouseout', onStopThumbnailShowing);
         volumeWrapper.addEventListener('mousedown', onVolumeStartDragging);
         document.body.addEventListener('mousemove', onMouseMove);
         document.body.addEventListener('mouseout', onMouseOut);
@@ -313,7 +334,9 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             video.removeEventListener('pause', onPause);
             video.removeEventListener('fullscreenchange', onFullscreenChange);
             clearInterval(iid);
+            seekbarWrapper.removeEventListener('mouseover', onThumbnailStartShowing);
             seekbarWrapper.removeEventListener('mousedown', onSeekbarStartDragging);
+            seekbarWrapper.removeEventListener('mouseout', onStopThumbnailShowing);
             volumeWrapper.removeEventListener('mousedown', onVolumeStartDragging);
             document.body.removeEventListener('mousemove', onMouseMove);
             document.body.removeEventListener('mouseout', onStopDragging);
@@ -421,18 +444,21 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             if (!clickHandlers) {
                 return;
             }
-            e.preventDefault();
             switch (e.code) {
                 case 'Space':
+                    e.preventDefault();
                     clickHandlers.togglePlaying();
                     break;
                 case 'KeyM':
+                    e.preventDefault();
                     clickHandlers.toggleMute();
                     break;
                 case 'KeyT':
+                    e.preventDefault();
                     clickHandlers.toggleTheaterMode();
                     break;
                 case 'KeyF':
+                    e.preventDefault();
                     clickHandlers.onClickFullscreen();
                     break;
             }
@@ -452,7 +478,13 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                 <div className="mt-auto"></div>
                 <SeekbarWrapper ref={seekbarWrapperRef as any}>
                     <BarOuter ref={seekbarOuterRef as any}>
-                        <VideoThumbnail details={details} currentTime={currentTime} display={thumbnailDisplay} left={thumbnailLeft} ref={thumbnailRef} />
+                        <VideoThumbnail
+                            details={details}
+                            currentTime={thumbnailCurrentTime}
+                            display={thumbnailDisplay}
+                            left={thumbnailLeft}
+                            ref={thumbnailRef}
+                        />
                         <BarInner style={{ width: currentPercentage }} />
                         <BarHandle style={{ left: currentPercentage }} />
                     </BarOuter>
