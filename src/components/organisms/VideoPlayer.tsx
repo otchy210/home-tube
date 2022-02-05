@@ -28,6 +28,36 @@ const VideoPlayerWrapper = styled.div`
     }
 `;
 
+const VideoPlayIndicator = styled.div`
+    display: none;
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    z-index: 1;
+    transition: opacity 0.5s, transform 0.5s;
+    &.animate {
+        display: block;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(150%);
+    }
+`;
+
+const INDICATOR_ICON_SIZE = 48;
+const indicatorIconAttrs = {
+    width: INDICATOR_ICON_SIZE,
+    height: INDICATOR_ICON_SIZE,
+};
+const PlayIndicatorIcon = styled(Play).attrs(indicatorIconAttrs)`
+    margin: 12px 8px 12px 16px;
+`;
+const PauseIndicatorIcon = styled(Pause).attrs(indicatorIconAttrs)`
+    margin: 12px;
+`;
+
 const VideoWrapper = styled.div`
     position: relative;
     display: flex;
@@ -91,32 +121,32 @@ const BarHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
 `;
 
 const ICON_SIZE = 24;
-const iconSttrs = {
+const iconAttrs = {
     width: ICON_SIZE,
     height: ICON_SIZE,
 };
 const iconStyle = css`
     pointer-events: none;
 `;
-const PlayIcon = styled(Play).attrs(iconSttrs)`
+const PlayIcon = styled(Play).attrs(iconAttrs)`
     ${iconStyle};
 `;
-const PauseIcon = styled(Pause).attrs(iconSttrs)`
+const PauseIcon = styled(Pause).attrs(iconAttrs)`
     ${iconStyle};
 `;
-const SpeakerIcon = styled(Speaker).attrs(iconSttrs)`
+const SpeakerIcon = styled(Speaker).attrs(iconAttrs)`
     ${iconStyle};
 `;
-const MutedIcon = styled(Muted).attrs(iconSttrs)`
+const MutedIcon = styled(Muted).attrs(iconAttrs)`
     ${iconStyle};
 `;
-const TheaterIcon = styled(Theater).attrs(iconSttrs)`
+const TheaterIcon = styled(Theater).attrs(iconAttrs)`
     ${iconStyle};
 `;
-const NormalIcon = styled(Normal).attrs(iconSttrs)`
+const NormalIcon = styled(Normal).attrs(iconAttrs)`
     ${iconStyle};
 `;
-const FullScreenIcon = styled(FullScreen).attrs(iconSttrs)`
+const FullScreenIcon = styled(FullScreen).attrs(iconAttrs)`
     ${iconStyle};
 `;
 const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-pill', role: 'button' })`
@@ -187,6 +217,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const [muted, setMuted] = useState<boolean>(false);
     const [volumePercentage, setVolumePercentage] = useState<string>('100%');
     const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
+    const videoPlayIndicatorRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const seekbarWrapperRef = useRef<HTMLDivElement>(null);
     const seekbarOuterRef = useRef<HTMLDivElement>(null);
@@ -366,22 +397,35 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             videoPlayerWrapper.classList.remove('remove-control');
         });
     };
-    const withVideo = (func: (video: HTMLVideoElement) => void) => {
+    const withVideo = (func: (video: HTMLVideoElement, indicator: HTMLDivElement) => void) => {
         const video = videoRef.current;
-        if (video) {
-            func(video);
+        const videoPlayIndicator = videoPlayIndicatorRef.current;
+        if (video && videoPlayIndicator) {
+            func(video, videoPlayIndicator);
         }
     };
+    const animateIndicator = (indicator: HTMLDivElement) => {
+        indicator.style.display = 'block';
+        setTimeout(() => {
+            indicator.classList.add('animate');
+        }, 10);
+        setTimeout(() => {
+            indicator.classList.remove('animate');
+            indicator.style.display = 'none';
+        }, 510);
+    };
     const onClickPause = () => {
-        withVideo((video) => {
+        withVideo((video, indicator) => {
             video.pause();
+            animateIndicator(indicator);
             setPlaying(false);
             showControl();
         });
     };
     const onClickPlay = () => {
-        withVideo((video) => {
+        withVideo((video, indicator) => {
             video.play();
+            animateIndicator(indicator);
             setPlaying(true);
             showControlTemporary();
         });
@@ -476,6 +520,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
+            <VideoPlayIndicator ref={videoPlayIndicatorRef as any}>{playing ? <PlayIndicatorIcon /> : <PauseIndicatorIcon />}</VideoPlayIndicator>
             <VideoWrapper>
                 <Video src={src} ref={videoRef as any} onClick={togglePlaying} />
             </VideoWrapper>
