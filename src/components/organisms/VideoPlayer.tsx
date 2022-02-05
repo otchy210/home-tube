@@ -2,17 +2,22 @@ import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import styled, { css } from 'styled-components';
-import Play from '../../images/play.svg';
-import Pause from '../../images/pause.svg';
-import Speaker from '../../images/speaker.svg';
-import Muted from '../../images/muted.svg';
-import Theater from '../../images/theater.svg';
-import Normal from '../../images/normal.svg';
-import FullScreen from '../../images/full-screen.svg';
 import { VideoViewMode } from '../../types';
 import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import VideoThumbnail from '../molecules/VideoThumbnail';
 import { useApi } from '../providers/ApiProvider';
+import {
+    FullScreenIcon,
+    MutedIcon,
+    NormalIcon,
+    PauseIcon,
+    PauseIndicatorIcon,
+    PlayIcon,
+    PlayIndicatorIcon,
+    SnapshotIcon,
+    SpeakerIcon,
+    TheaterIcon,
+} from '../atoms/VideoPlayerIcons';
 
 const VideoPlayerWrapper = styled.div`
     position: relative;
@@ -44,18 +49,6 @@ const VideoPlayIndicator = styled.div`
         opacity: 0;
         transform: translate(-50%, -50%) scale(150%);
     }
-`;
-
-const INDICATOR_ICON_SIZE = 48;
-const indicatorIconAttrs = {
-    width: INDICATOR_ICON_SIZE,
-    height: INDICATOR_ICON_SIZE,
-};
-const PlayIndicatorIcon = styled(Play).attrs(indicatorIconAttrs)`
-    margin: 12px 8px 12px 16px;
-`;
-const PauseIndicatorIcon = styled(Pause).attrs(indicatorIconAttrs)`
-    margin: 12px;
 `;
 
 const VideoWrapper = styled.div`
@@ -120,35 +113,6 @@ const BarHandle = styled.div.attrs({ className: 'rounded-circle handle' })`
     pointer-events: none;
 `;
 
-const ICON_SIZE = 24;
-const iconAttrs = {
-    width: ICON_SIZE,
-    height: ICON_SIZE,
-};
-const iconStyle = css`
-    pointer-events: none;
-`;
-const PlayIcon = styled(Play).attrs(iconAttrs)`
-    ${iconStyle};
-`;
-const PauseIcon = styled(Pause).attrs(iconAttrs)`
-    ${iconStyle};
-`;
-const SpeakerIcon = styled(Speaker).attrs(iconAttrs)`
-    ${iconStyle};
-`;
-const MutedIcon = styled(Muted).attrs(iconAttrs)`
-    ${iconStyle};
-`;
-const TheaterIcon = styled(Theater).attrs(iconAttrs)`
-    ${iconStyle};
-`;
-const NormalIcon = styled(Normal).attrs(iconAttrs)`
-    ${iconStyle};
-`;
-const FullScreenIcon = styled(FullScreen).attrs(iconAttrs)`
-    ${iconStyle};
-`;
 const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-pill', role: 'button' })`
     position: relative;
     background-color: rgba(255, 255, 255, 0);
@@ -461,6 +425,11 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         }
         showControlTemporary();
     };
+    const onClickSnapshot = () => {
+        withVideo((video) => {
+            console.log('onClickSnapshot', { vw: video.videoWidth, vh: video.videoHeight, dw: details.width, dh: details.height });
+        });
+    };
     const onClickNormal = () => {
         setMode('normal');
     };
@@ -566,6 +535,10 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                     <Time>
                         {formatTimeInSecond(currentTime)}/{duration}
                     </Time>
+                    <IconWrapper onClick={onClickSnapshot}>
+                        <IconTooltip>Snapshot</IconTooltip>
+                        <SnapshotIcon />
+                    </IconWrapper>
                     {mode !== 'normal' && (
                         <IconWrapper onClick={onClickNormal}>
                             <IconTooltip>Normal (t)</IconTooltip>
