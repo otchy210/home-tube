@@ -403,6 +403,11 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const showControlTemporary = () => {
         showControl();
         videoMouseMoveTidRef.current = setTimeout(() => {
+            if (seekbarWrapperRef.current?.classList.contains('dragging') || thumbnailDisplay === 'block') {
+                // don't hide control while dragging seekbar or showing thumbnail even no pointer move
+                showControlTemporary();
+                return;
+            }
             hideControl();
         }, 1000) as unknown as number;
     };
