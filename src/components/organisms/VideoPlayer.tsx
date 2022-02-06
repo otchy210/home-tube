@@ -430,6 +430,10 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const onClickSnapshot = () => {
         setShowSnapshotPreview(true);
     };
+    const updateSnapshot = (canvas: HTMLCanvasElement) => {
+        const dataURL = canvas.toDataURL();
+        api.postSnapshot(videoKey, dataURL);
+    };
     const onClickNormal = () => {
         setMode('normal');
     };
@@ -489,7 +493,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <>
-            <SnapshotPreview show={showSnapshotPreview} setShow={setShowSnapshotPreview} video={videoRef.current} updateSnapshot={console.log} />
+            <SnapshotPreview show={showSnapshotPreview} setShow={setShowSnapshotPreview} video={videoRef.current} updateSnapshot={updateSnapshot} />
             <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
                 <VideoPlayIndicator ref={videoPlayIndicatorRef as any}>{playing ? <PlayIndicatorIcon /> : <PauseIndicatorIcon />}</VideoPlayIndicator>
                 <VideoWrapper>

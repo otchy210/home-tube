@@ -159,7 +159,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Cancel
                 </Button>
                 <Button variant="primary" onClick={onSubmit}>
                     Submit

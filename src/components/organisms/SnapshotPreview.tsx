@@ -6,7 +6,6 @@ const takeSnapshot = (video: HTMLVideoElement, canvas: HTMLCanvasElement, image:
     const height = video.videoHeight;
     canvas.width = width;
     canvas.height = height;
-    canvas.style.display = 'none';
     const context = canvas.getContext('2d');
     if (!context) {
         return;
@@ -62,7 +61,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, video, updateSnapshot
         <Modal show={show} onHide={onHide} size="lg">
             <Modal.Header closeButton>Snapshot preview</Modal.Header>
             <Modal.Body>
-                <canvas ref={canvasRef} />
+                <canvas ref={canvasRef} className="d-none" />
                 <div>Are you sure to update the snapshot representing this video with following image?</div>
                 <div className="mt-3">
                     <Image fluid ref={imageRef} rounded thumbnail />
@@ -70,7 +69,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, video, updateSnapshot
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Close
+                    Cancel
                 </Button>
                 <Button variant="primary" onClick={onUpdate}>
                     Update

@@ -99,6 +99,9 @@ export class Api {
     getSnapshotUrl(key: string): string {
         return this.getApiUrl('/snapshot', { key });
     }
+    postSnapshot(key: string, dataURL: string): Promise<void> {
+        return this.post<void>('/snapshot', { dataURL }, { key });
+    }
     getVideoUrl(key: string): string {
         return this.getApiUrl('/video', { key });
     }
