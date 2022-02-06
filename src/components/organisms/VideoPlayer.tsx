@@ -18,6 +18,7 @@ import {
     SpeakerIcon,
     TheaterIcon,
 } from '../atoms/VideoPlayerIcons';
+import SnapshotPreview from './SnapshotPreview';
 
 const VideoPlayerWrapper = styled.div`
     position: relative;
@@ -61,7 +62,7 @@ const VideoWrapper = styled.div`
     width: 100%;
 `;
 
-const Video = styled.video`
+const Video = styled.video.attrs({ crossOrigin: 'anonymous' })`
     max-width: 100%;
 `;
 
@@ -180,6 +181,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const [thumbnailDisplay, setThumbnailDisplay] = useState<string>('none');
     const [muted, setMuted] = useState<boolean>(false);
     const [volumePercentage, setVolumePercentage] = useState<string>('100%');
+    const [showSnapshotPreview, setShowSnapshotPreview] = useState<boolean>(false);
     const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
     const videoPlayIndicatorRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -426,9 +428,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         showControlTemporary();
     };
     const onClickSnapshot = () => {
-        withVideo((video) => {
-            console.log('onClickSnapshot', { vw: video.videoWidth, vh: video.videoHeight, dw: details.width, dh: details.height });
-        });
+        setShowSnapshotPreview(true);
     };
     const onClickNormal = () => {
         setMode('normal');
@@ -488,78 +488,81 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     }, []);
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
-        <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
-            <VideoPlayIndicator ref={videoPlayIndicatorRef as any}>{playing ? <PlayIndicatorIcon /> : <PauseIndicatorIcon />}</VideoPlayIndicator>
-            <VideoWrapper>
-                <Video src={src} ref={videoRef as any} onClick={togglePlaying} />
-            </VideoWrapper>
-            <VideoControl>
-                <div className="mt-auto"></div>
-                <SeekbarWrapper ref={seekbarWrapperRef as any}>
-                    <BarOuter ref={seekbarOuterRef as any}>
-                        <VideoThumbnail
-                            details={details}
-                            currentTime={thumbnailCurrentTime}
-                            display={thumbnailDisplay}
-                            left={thumbnailLeft}
-                            ref={thumbnailRef}
-                        />
-                        <BarInner style={{ width: currentPercentage }} />
-                        <BarHandle style={{ left: currentPercentage }} />
-                    </BarOuter>
-                </SeekbarWrapper>
-                <Stack direction="horizontal" className="m-2">
-                    {playing ? (
-                        <IconWrapper onClick={onClickPause}>
-                            <FirstIconTooltip>Pause (space)</FirstIconTooltip>
-                            <PauseIcon />
+        <>
+            <SnapshotPreview show={showSnapshotPreview} setShow={setShowSnapshotPreview} video={videoRef.current} updateSnapshot={console.log} />
+            <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
+                <VideoPlayIndicator ref={videoPlayIndicatorRef as any}>{playing ? <PlayIndicatorIcon /> : <PauseIndicatorIcon />}</VideoPlayIndicator>
+                <VideoWrapper>
+                    <Video src={src} ref={videoRef as any} onClick={togglePlaying} />
+                </VideoWrapper>
+                <VideoControl>
+                    <div className="mt-auto"></div>
+                    <SeekbarWrapper ref={seekbarWrapperRef as any}>
+                        <BarOuter ref={seekbarOuterRef as any}>
+                            <VideoThumbnail
+                                details={details}
+                                currentTime={thumbnailCurrentTime}
+                                display={thumbnailDisplay}
+                                left={thumbnailLeft}
+                                ref={thumbnailRef}
+                            />
+                            <BarInner style={{ width: currentPercentage }} />
+                            <BarHandle style={{ left: currentPercentage }} />
+                        </BarOuter>
+                    </SeekbarWrapper>
+                    <Stack direction="horizontal" className="m-2">
+                        {playing ? (
+                            <IconWrapper onClick={onClickPause}>
+                                <FirstIconTooltip>Pause (space)</FirstIconTooltip>
+                                <PauseIcon />
+                            </IconWrapper>
+                        ) : (
+                            <IconWrapper onClick={onClickPlay}>
+                                <FirstIconTooltip>Play (space)</FirstIconTooltip>
+                                <PlayIcon />
+                            </IconWrapper>
+                        )}
+                        <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
+                            <IconTooltip>Mute (m)</IconTooltip>
+                            <Stack direction="horizontal">
+                                <span onClick={toggleMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
+                                <VolumebarWrapper ref={volumeWrapperRef as any}>
+                                    <BarOuter ref={volumeOuterRef as any}>
+                                        <BarInner style={{ width: volumePercentage }} />
+                                        <BarHandle style={{ left: volumePercentage }} />
+                                    </BarOuter>
+                                </VolumebarWrapper>
+                            </Stack>
+                        </SpeakerIconWrapper>
+                        <Time>
+                            {formatTimeInSecond(currentTime)}/{duration}
+                        </Time>
+                        <IconWrapper onClick={onClickSnapshot}>
+                            <IconTooltip>Snapshot</IconTooltip>
+                            <SnapshotIcon />
                         </IconWrapper>
-                    ) : (
-                        <IconWrapper onClick={onClickPlay}>
-                            <FirstIconTooltip>Play (space)</FirstIconTooltip>
-                            <PlayIcon />
-                        </IconWrapper>
-                    )}
-                    <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
-                        <IconTooltip>Mute (m)</IconTooltip>
-                        <Stack direction="horizontal">
-                            <span onClick={toggleMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
-                            <VolumebarWrapper ref={volumeWrapperRef as any}>
-                                <BarOuter ref={volumeOuterRef as any}>
-                                    <BarInner style={{ width: volumePercentage }} />
-                                    <BarHandle style={{ left: volumePercentage }} />
-                                </BarOuter>
-                            </VolumebarWrapper>
-                        </Stack>
-                    </SpeakerIconWrapper>
-                    <Time>
-                        {formatTimeInSecond(currentTime)}/{duration}
-                    </Time>
-                    <IconWrapper onClick={onClickSnapshot}>
-                        <IconTooltip>Snapshot</IconTooltip>
-                        <SnapshotIcon />
-                    </IconWrapper>
-                    {mode !== 'normal' && (
-                        <IconWrapper onClick={onClickNormal}>
-                            <IconTooltip>Normal (t)</IconTooltip>
-                            <NormalIcon />
-                        </IconWrapper>
-                    )}
-                    {mode !== 'theater' && (
-                        <IconWrapper onClick={onClickTheater}>
-                            <IconTooltip>Theater (t)</IconTooltip>
-                            <TheaterIcon />
-                        </IconWrapper>
-                    )}
-                    {mode !== 'fullScreen' && (
-                        <IconWrapper onClick={onClickFullscreen}>
-                            <LastIconTooltip>Full screen (f)</LastIconTooltip>
-                            <FullScreenIcon />
-                        </IconWrapper>
-                    )}
-                </Stack>
-            </VideoControl>
-        </VideoPlayerWrapper>
+                        {mode !== 'normal' && (
+                            <IconWrapper onClick={onClickNormal}>
+                                <IconTooltip>Normal (t)</IconTooltip>
+                                <NormalIcon />
+                            </IconWrapper>
+                        )}
+                        {mode !== 'theater' && (
+                            <IconWrapper onClick={onClickTheater}>
+                                <IconTooltip>Theater (t)</IconTooltip>
+                                <TheaterIcon />
+                            </IconWrapper>
+                        )}
+                        {mode !== 'fullScreen' && (
+                            <IconWrapper onClick={onClickFullscreen}>
+                                <LastIconTooltip>Full screen (f)</LastIconTooltip>
+                                <FullScreenIcon />
+                            </IconWrapper>
+                        )}
+                    </Stack>
+                </VideoControl>
+            </VideoPlayerWrapper>
+        </>
     );
     /* eslint-enable  @typescript-eslint/no-explicit-any */
 };
