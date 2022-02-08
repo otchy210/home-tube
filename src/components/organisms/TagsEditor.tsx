@@ -72,27 +72,6 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             return;
         }
     };
-    const onTagBoxInput = () => {
-        const tagBox = tagBoxRef.current;
-        if (!tagBox) {
-            return;
-        }
-        const value = tagBox.value.trim();
-        if (!value) {
-            return;
-        }
-        const datalist = tagBox.nextSibling;
-        if (!datalist) {
-            return;
-        }
-        const options = Array.from(datalist.childNodes) as HTMLOptionElement[];
-        for (const option of options) {
-            if (option.value === value) {
-                add();
-                return;
-            }
-        }
-    };
     const onChangeSelected = (tag: string) => {
         const updatedSelectedTags = new Set(selectedTags);
         if (selectedTags.has(tag)) {
@@ -125,7 +104,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             <Modal.Header closeButton>Edit tags</Modal.Header>
             <Modal.Body>
                 <Stack direction="horizontal">
-                    <FormControl list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} onInput={onTagBoxInput} />
+                    <FormControl list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} />
                     <datalist id="all-tags">
                         {sortedTags
                             .filter((tag) => {
