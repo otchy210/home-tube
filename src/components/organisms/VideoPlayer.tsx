@@ -7,6 +7,7 @@ import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import VideoThumbnail from '../molecules/VideoThumbnail';
 import { useApi } from '../providers/ApiProvider';
 import {
+    ForwardIcon,
     FullScreenIcon,
     MutedIcon,
     NormalIcon,
@@ -14,6 +15,7 @@ import {
     PauseIndicatorIcon,
     PlayIcon,
     PlayIndicatorIcon,
+    RewindIcon,
     SnapshotIcon,
     SpeakerIcon,
     TheaterIcon,
@@ -159,6 +161,8 @@ const Time = styled.div.attrs({ className: 'me-auto p-2 font-monospace text-whit
 
 type ClickHandlers = {
     togglePlaying: () => void;
+    onClickRewind: () => void;
+    onClickForward: () => void;
     toggleMute: () => void;
     toggleTheaterMode: () => void;
     onClickFullscreen: () => void;
@@ -209,11 +213,6 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             return;
         }
         let iid: number;
-        const updateCurrent = () => {
-            const currentTime = video.currentTime;
-            setCurrentTime(currentTime);
-            setCurrentPercentage(`${(currentTime / length) * 100}%`);
-        };
         updateCurrent();
         const onPlay = () => {
             iid = setInterval(updateCurrent, 10) as unknown as number;
@@ -341,34 +340,30 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         };
     }, [src]);
 
-    const withVideoPlayerWrapper = (func: (videoPlayerWrapper: HTMLDivElement) => void) => {
-        const videoPlayerWrapper = videoPlayerWrapperRef.current;
-        if (videoPlayerWrapper) {
-            func(videoPlayerWrapper);
+    const withCurrent = (func: (values: { video: HTMLVideoElement; playerWrapper: HTMLDivElement; indicator: HTMLDivElement }) => void) => {
+        const video = videoRef.current;
+        const playerWrapper = videoPlayerWrapperRef.current;
+        const indicator = videoPlayIndicatorRef.current;
+        if (!video || !playerWrapper || !indicator) {
+            return;
         }
+        func({ video, playerWrapper, indicator });
     };
     const hideControl = () => {
-        withVideoPlayerWrapper((videoPlayerWrapper) => {
-            videoPlayerWrapper.classList.add('hide-control');
+        withCurrent(({ playerWrapper }) => {
+            playerWrapper.classList.add('hide-control');
             hideControlTidRec.current = setTimeout(() => {
-                videoPlayerWrapper.classList.add('remove-control');
+                playerWrapper.classList.add('remove-control');
             }, 200) as unknown as number;
         });
     };
     const showControl = () => {
         clearTimeout(hideControlTidRec.current);
         clearTimeout(videoMouseMoveTidRef.current);
-        withVideoPlayerWrapper((videoPlayerWrapper) => {
-            videoPlayerWrapper.classList.remove('hide-control');
-            videoPlayerWrapper.classList.remove('remove-control');
+        withCurrent(({ playerWrapper }) => {
+            playerWrapper.classList.remove('hide-control');
+            playerWrapper.classList.remove('remove-control');
         });
-    };
-    const withVideo = (func: (video: HTMLVideoElement, indicator: HTMLDivElement) => void) => {
-        const video = videoRef.current;
-        const videoPlayIndicator = videoPlayIndicatorRef.current;
-        if (video && videoPlayIndicator) {
-            func(video, videoPlayIndicator);
-        }
     };
     const animateIndicator = (indicator: HTMLDivElement) => {
         indicator.style.display = 'block';
@@ -380,8 +375,15 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             indicator.style.display = 'none';
         }, 510);
     };
+    const updateCurrent = () => {
+        withCurrent(({ video }) => {
+            const currentTime = video.currentTime;
+            setCurrentTime(currentTime);
+            setCurrentPercentage(`${(currentTime / length) * 100}%`);
+        });
+    };
     const onClickPause = () => {
-        withVideo((video, indicator) => {
+        withCurrent(({ video, indicator }) => {
             video.pause();
             animateIndicator(indicator);
             setPlaying(false);
@@ -389,15 +391,27 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         });
     };
     const onClickPlay = () => {
-        withVideo((video, indicator) => {
+        withCurrent(({ video, indicator }) => {
             video.play();
             animateIndicator(indicator);
             setPlaying(true);
             showControlTemporary();
         });
     };
+    const onClickRewind = () => {
+        withCurrent(({ video }) => {
+            video.currentTime = Math.max(video.currentTime - 10, 0);
+            updateCurrent();
+        });
+    };
+    const onClickForward = () => {
+        withCurrent(({ video }) => {
+            video.currentTime = Math.min(video.currentTime + 30, details.length ?? 0);
+            updateCurrent();
+        });
+    };
     const toggleMute = () => {
-        withVideo((video) => {
+        withCurrent(({ video }) => {
             video.muted = !muted;
             setMuted(!muted);
             onVideoMouseMove();
@@ -452,6 +466,8 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     };
     clickHandlersRef.current = {
         togglePlaying,
+        onClickRewind,
+        onClickForward,
         toggleMute,
         toggleTheaterMode,
         onClickFullscreen,
@@ -470,6 +486,14 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                 case 'Space':
                     e.preventDefault();
                     clickHandlers.togglePlaying();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    clickHandlers.onClickRewind();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    clickHandlers.onClickForward();
                     break;
                 case 'KeyM':
                     e.preventDefault();
@@ -526,6 +550,14 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                                 <PlayIcon />
                             </IconWrapper>
                         )}
+                        <IconWrapper onClick={onClickRewind}>
+                            <IconTooltip>Rewind (←)</IconTooltip>
+                            <RewindIcon />
+                        </IconWrapper>
+                        <IconWrapper onClick={onClickForward}>
+                            <IconTooltip>Forward (→)</IconTooltip>
+                            <ForwardIcon />
+                        </IconWrapper>
                         <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
                             <IconTooltip>Mute (m)</IconTooltip>
                             <Stack direction="horizontal">

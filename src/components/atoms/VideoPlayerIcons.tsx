@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 import Play from '../../images/play.svg';
 import Pause from '../../images/pause.svg';
+import Rewind from '../../images/rewind.svg';
+import Forward from '../../images/forward.svg';
 import Speaker from '../../images/speaker.svg';
 import Muted from '../../images/muted.svg';
 import Snapshot from '../../images/snapshot.svg';
@@ -32,6 +34,12 @@ export const PlayIcon = styled(Play).attrs(iconAttrs)`
     ${iconStyle};
 `;
 export const PauseIcon = styled(Pause).attrs(iconAttrs)`
+    ${iconStyle};
+`;
+export const RewindIcon = styled(Rewind).attrs(iconAttrs)`
+    ${iconStyle};
+`;
+export const ForwardIcon = styled(Forward).attrs(iconAttrs)`
     ${iconStyle};
 `;
 export const SpeakerIcon = styled(Speaker).attrs(iconAttrs)`
