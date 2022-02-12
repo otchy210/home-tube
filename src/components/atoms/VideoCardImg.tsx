@@ -3,6 +3,7 @@ import React from 'react';
 import { Badge } from 'react-bootstrap';
 import { useApi } from '../providers/ApiProvider';
 import styled from 'styled-components';
+import Spinner from './Spinner';
 
 const VideoCardImgWrapper = styled.div`
     position: relative;
@@ -22,20 +23,36 @@ const BadgeHolder = styled.div.attrs({ className: 'hstack m-1' })`
 
 const SmallBadge = styled(Badge).attrs({ className: 'ms-1 bg-secondary fw-normal text-uppercase' })``;
 
+const SpinnerWrapper = styled.div`
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+`;
+
 type Props = {
     video: VideoValues;
+    loading: boolean;
+    opacity: number;
 };
 
-const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
+const VideoCardImg: React.FC<Props> = ({ video, loading, opacity }: Props) => {
     const { key, duration, size } = video;
     const api = useApi();
     return (
         <VideoCardImgWrapper className="card-img-top">
-            <img src={api.getSnapshotUrl(key)} />
+            <img src={api.getSnapshotUrl(key)} style={{ opacity }} />
             <BadgeHolder>
                 {duration && <SmallBadge>{duration}</SmallBadge>}
                 {size && <SmallBadge>{size}</SmallBadge>}
             </BadgeHolder>
+            {loading && (
+                <SpinnerWrapper>
+                    <Spinner />
+                </SpinnerWrapper>
+            )}
         </VideoCardImgWrapper>
     );
 };

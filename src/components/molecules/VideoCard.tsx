@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import { Card } from 'react-bootstrap';
 import { createSearchParams, Link } from 'react-router-dom';
@@ -12,12 +12,19 @@ type Props = {
 };
 
 const VideoCard: React.FC<Props> = ({ video }: Props) => {
+    const [loading, setLoading] = useState<boolean>(false);
     const { key, name, stars } = video;
     const viewUrl = `/view?${createSearchParams({ key })}`;
+    const onMouseOver = () => {
+        setLoading(true);
+    };
+    const onMouseOut = () => {
+        setLoading(false);
+    };
     return (
         <Card className="mt-4">
-            <Link to={viewUrl} style={noDecorationStyle}>
-                <VideoCardImg video={video} />
+            <Link to={viewUrl} style={noDecorationStyle} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+                <VideoCardImg video={video} loading={loading} opacity={loading ? 0.5 : 1} />
             </Link>
             <Card.Body>
                 <Card.Title className="fs-6 text-truncate" title={name}>

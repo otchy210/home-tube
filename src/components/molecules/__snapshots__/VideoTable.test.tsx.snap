@@ -8,272 +8,314 @@ exports[`VideoTable renders properly 1`] = `
     <div
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
-      <a
-        href="/view?key=key-1"
-        style="text-decoration: none;"
+      <div
+        class="mt-4 card"
       >
-        <div
-          class="mt-4 card"
+        <a
+          href="/view?key=key-1"
+          style="text-decoration: none;"
         >
           <div
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
               src="http://dummy-api-host/snapshot?key=key-1"
+              style="opacity: 1;"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
             />
           </div>
+        </a>
+        <div
+          class="card-body"
+        >
           <div
-            class="card-body"
+            class="fs-6 text-truncate card-title h5"
+            title="Video-1"
           >
-            <div
-              class="fs-6 text-truncate card-title h5"
+            <a
+              href="/view?key=key-1"
+              style="text-decoration: none;"
             >
               Video-1
-            </div>
+            </a>
+          </div>
+          <div
+            class="text-muted card-subtitle h6"
+          >
             <div
-              class="text-muted card-subtitle h6"
+              class="sc-eCImPb hQjenX"
             >
-              <div
-                class="sc-hKwDye bkEUOP"
-              >
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-              </div>
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </div>
     <div
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
-      <a
-        href="/view?key=key-2"
-        style="text-decoration: none;"
+      <div
+        class="mt-4 card"
       >
-        <div
-          class="mt-4 card"
+        <a
+          href="/view?key=key-2"
+          style="text-decoration: none;"
         >
           <div
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
               src="http://dummy-api-host/snapshot?key=key-2"
+              style="opacity: 1;"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
             />
           </div>
+        </a>
+        <div
+          class="card-body"
+        >
           <div
-            class="card-body"
+            class="fs-6 text-truncate card-title h5"
+            title="Video-2"
           >
-            <div
-              class="fs-6 text-truncate card-title h5"
+            <a
+              href="/view?key=key-2"
+              style="text-decoration: none;"
             >
               Video-2
-            </div>
+            </a>
+          </div>
+          <div
+            class="text-muted card-subtitle h6"
+          >
             <div
-              class="text-muted card-subtitle h6"
+              class="sc-eCImPb hQjenX"
             >
-              <div
-                class="sc-hKwDye bkEUOP"
-              >
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-              </div>
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </div>
     <div
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
-      <a
-        href="/view?key=key-3"
-        style="text-decoration: none;"
+      <div
+        class="mt-4 card"
       >
-        <div
-          class="mt-4 card"
+        <a
+          href="/view?key=key-3"
+          style="text-decoration: none;"
         >
           <div
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
               src="http://dummy-api-host/snapshot?key=key-3"
+              style="opacity: 1;"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
             />
           </div>
+        </a>
+        <div
+          class="card-body"
+        >
           <div
-            class="card-body"
+            class="fs-6 text-truncate card-title h5"
+            title="Video-3"
           >
-            <div
-              class="fs-6 text-truncate card-title h5"
+            <a
+              href="/view?key=key-3"
+              style="text-decoration: none;"
             >
               Video-3
-            </div>
+            </a>
+          </div>
+          <div
+            class="text-muted card-subtitle h6"
+          >
             <div
-              class="text-muted card-subtitle h6"
+              class="sc-eCImPb hQjenX"
             >
-              <div
-                class="sc-hKwDye bkEUOP"
-              >
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-              </div>
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </div>
     <div
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
-      <a
-        href="/view?key=key-4"
-        style="text-decoration: none;"
+      <div
+        class="mt-4 card"
       >
-        <div
-          class="mt-4 card"
+        <a
+          href="/view?key=key-4"
+          style="text-decoration: none;"
         >
           <div
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
               src="http://dummy-api-host/snapshot?key=key-4"
+              style="opacity: 1;"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
             />
           </div>
+        </a>
+        <div
+          class="card-body"
+        >
           <div
-            class="card-body"
+            class="fs-6 text-truncate card-title h5"
+            title="Video-4"
           >
-            <div
-              class="fs-6 text-truncate card-title h5"
+            <a
+              href="/view?key=key-4"
+              style="text-decoration: none;"
             >
               Video-4
-            </div>
+            </a>
+          </div>
+          <div
+            class="text-muted card-subtitle h6"
+          >
             <div
-              class="text-muted card-subtitle h6"
+              class="sc-eCImPb hQjenX"
             >
-              <div
-                class="sc-hKwDye bkEUOP"
-              >
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-              </div>
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </div>
     <div
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
-      <a
-        href="/view?key=key-5"
-        style="text-decoration: none;"
+      <div
+        class="mt-4 card"
       >
-        <div
-          class="mt-4 card"
+        <a
+          href="/view?key=key-5"
+          style="text-decoration: none;"
         >
           <div
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
               src="http://dummy-api-host/snapshot?key=key-5"
+              style="opacity: 1;"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
             />
           </div>
+        </a>
+        <div
+          class="card-body"
+        >
           <div
-            class="card-body"
+            class="fs-6 text-truncate card-title h5"
+            title="Video-5"
           >
-            <div
-              class="fs-6 text-truncate card-title h5"
+            <a
+              href="/view?key=key-5"
+              style="text-decoration: none;"
             >
               Video-5
-            </div>
+            </a>
+          </div>
+          <div
+            class="text-muted card-subtitle h6"
+          >
             <div
-              class="text-muted card-subtitle h6"
+              class="sc-eCImPb hQjenX"
             >
-              <div
-                class="sc-hKwDye bkEUOP"
-              >
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-              </div>
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </div>
     <div
       class="px-1 col-xxl-3 col-lg-4 col-md-6 col-12"
     >
-      <a
-        href="/view?key=key-6"
-        style="text-decoration: none;"
+      <div
+        class="mt-4 card"
       >
-        <div
-          class="mt-4 card"
+        <a
+          href="/view?key=key-6"
+          style="text-decoration: none;"
         >
           <div
             class="sc-bdvvtL iRLeeU card-img-top"
           >
             <img
               src="http://dummy-api-host/snapshot?key=key-6"
+              style="opacity: 1;"
             />
             <div
               class="sc-gsDKAQ iLWPhM hstack m-1"
             />
           </div>
+        </a>
+        <div
+          class="card-body"
+        >
           <div
-            class="card-body"
+            class="fs-6 text-truncate card-title h5"
+            title="Video-6"
           >
-            <div
-              class="fs-6 text-truncate card-title h5"
+            <a
+              href="/view?key=key-6"
+              style="text-decoration: none;"
             >
               Video-6
-            </div>
+            </a>
+          </div>
+          <div
+            class="text-muted card-subtitle h6"
+          >
             <div
-              class="text-muted card-subtitle h6"
+              class="sc-eCImPb hQjenX"
             >
-              <div
-                class="sc-hKwDye bkEUOP"
-              >
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-                [MockedStarVoidSvg width="16" height="16" /]
-              </div>
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
+              [MockedStarVoidSvg width="16" height="16" /]
             </div>
           </div>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </div>
