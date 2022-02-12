@@ -9,26 +9,33 @@ import { loadAllImages } from '../../utils/ImageUtils';
 
 const noDecorationStyle = { textDecoration: 'none', color: 'inherit' };
 
+const maxScenes = 4;
+
 type Props = {
     video: VideoValues;
 };
 
 const VideoCard: React.FC<Props> = ({ video }: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [opacity, setOpacity] = useState<number>(1);
     const api = useApi();
     const { key, name, stars } = video;
     const viewUrl = `/view?${createSearchParams({ key })}`;
-    const onMouseOver = async () => {
-        setLoading(true);
+    const setState = (loading: boolean, opacity: number) => {
+        setLoading(loading);
+        setOpacity(opacity);
+    };
+    const onMouseOver = async (mouseOverEvent: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        setState(true, 0.5);
         const details = await api.getDetails(key);
         const length = details.length;
         if (!length) {
-            setLoading(false);
+            setState(false, 1);
             return;
         }
         const eachMinute = (() => {
             for (let i = 1; i < 150; i++) {
-                const min = i * 4 + 1;
+                const min = i * maxScenes + 1;
                 const sec = 60 * min;
                 if (length < sec) {
                     return i;
@@ -42,18 +49,34 @@ const VideoCard: React.FC<Props> = ({ video }: Props) => {
             .filter((minute) => minute % eachMinute === 0)
             .map((minute) => {
                 return api.getThumbnailsUrl(key, minute.toString());
-            });
-        const images = await loadAllImages(srcList);
+            })
+            .slice(0, maxScenes);
+        await loadAllImages(srcList);
+        setState(false, 0);
 
-        console.log(length, eachMinute, srcList, images);
-    };
-    const onMouseOut = () => {
-        setLoading(false);
+        let frame = 0;
+        const maxSceneFrames = 5;
+        const tid = setInterval(() => {
+            const sceneFrame = frame % maxSceneFrames;
+            const srcIndex = Math.trunc(frame / maxSceneFrames) % maxScenes;
+            const src = srcList[srcIndex];
+            frame++;
+        }, 1000) as unknown as number;
+
+        const onMouseMove = (e: MouseEvent) => {
+            if (mouseOverEvent.target === e.target) {
+                return;
+            }
+            setState(false, 1);
+            clearInterval(tid);
+            document.body.removeEventListener('mousemove', onMouseMove);
+        };
+        document.body.addEventListener('mousemove', onMouseMove);
     };
     return (
         <Card className="mt-4">
-            <Link to={viewUrl} style={noDecorationStyle} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
-                <VideoCardImg video={video} loading={loading} opacity={loading ? 0.5 : 1} />
+            <Link to={viewUrl} style={noDecorationStyle} onMouseOver={onMouseOver}>
+                <VideoCardImg video={video} loading={loading} opacity={opacity} />
             </Link>
             <Card.Body>
                 <Card.Title className="fs-6 text-truncate" title={name}>
@@ -64,7 +87,6 @@ const VideoCard: React.FC<Props> = ({ video }: Props) => {
                 <Card.Subtitle className="text-muted">
                     <StarsIndicator size={16} stars={stars} />
                 </Card.Subtitle>
-                {/* <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text> */}
             </Card.Body>
         </Card>
     );

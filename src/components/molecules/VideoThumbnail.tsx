@@ -4,6 +4,7 @@ import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import React from 'react';
 import { Stack } from 'react-bootstrap';
 import styled from 'styled-components';
+import { getThumbnailStyle } from '../../utils/ImageUtils';
 import { useApi } from '../providers/ApiProvider';
 
 const Outer = styled.div.attrs({ className: 'p-2 rounded' })`
@@ -13,16 +14,6 @@ const Outer = styled.div.attrs({ className: 'p-2 rounded' })`
 `;
 
 const Image = styled.div``;
-
-const getImageSize = (details: VideoDetails) => {
-    if (!details.width || !details.height) {
-        return [0, 0];
-    } else if (details.width >= details.height) {
-        return [THUMBNAIL.SIZE, details.height * (THUMBNAIL.SIZE / details.width)];
-    } else {
-        return [details.width * (THUMBNAIL.SIZE / details.height), THUMBNAIL.SIZE];
-    }
-};
 
 type Props = {
     details: VideoDetails;
@@ -38,15 +29,15 @@ const VideoThumbnail = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
     const sec = Math.trunc(currentTime) % 60;
     const min = (Math.trunc(currentTime) - sec) / 60;
     const src = api.getThumbnailsUrl(videoKey, String(min));
-    const [width, height] = getImageSize(details);
-    const imageStyle: React.CSSProperties = {
-        width: `${width}px`,
-        height: `${height}px`,
-        backgroundColor: '#000',
-        backgroundImage: `url(${src})`,
-        backgroundPositionX: `${-sec * width}px`,
-        zoom: '.5',
-    };
+    const maxSize = THUMBNAIL.SIZE / 2;
+    const imageStyle = getThumbnailStyle({
+        src,
+        sec,
+        width: details.width ?? 0,
+        height: details.height ?? 0,
+        maxWidth: maxSize,
+        maxHeight: maxSize,
+    });
     return (
         <>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}

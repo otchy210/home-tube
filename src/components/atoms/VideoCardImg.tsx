@@ -12,6 +12,7 @@ const VideoCardImgWrapper = styled.div`
     overflow: hidden;
     aspect-ratio: 16 / 9;
     background-color: #000;
+    pointer-events: none;
 `;
 
 const BadgeHolder = styled.div.attrs({ className: 'hstack m-1' })`
@@ -29,7 +30,6 @@ const SpinnerWrapper = styled.div`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    pointer-events: none;
 `;
 
 type Props = {
