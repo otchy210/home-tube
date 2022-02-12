@@ -37,8 +37,8 @@ const getImageSize = ({ width, height }: GetThumbnailStyleProps) => {
 
 export const getThumbnailStyle = (props: GetThumbnailStyleProps): React.CSSProperties => {
     const { src, sec, maxWidth, maxHeight } = props;
-    const zoom = Math.min(maxWidth / THUMBNAIL.SIZE, maxHeight / THUMBNAIL.SIZE);
     const [imageWidth, imageHeight] = getImageSize(props);
+    const zoom = Math.min(maxWidth / imageWidth, maxHeight / imageHeight);
     const imageStyle: React.CSSProperties = {
         width: `${imageWidth}px`,
         height: `${imageHeight}px`,
