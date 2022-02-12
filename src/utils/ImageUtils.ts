@@ -2,13 +2,14 @@ import { THUMBNAIL } from '@otchy/home-tube-api/dist/const';
 import React from 'react';
 
 export const loadImage = (src: string): Promise<HTMLImageElement> => {
-    return new Promise<HTMLImageElement>((resolve, reject) => {
+    return new Promise<HTMLImageElement>((resolve) => {
         const image = new Image();
         image.addEventListener('load', () => {
             resolve(image);
         });
         image.addEventListener('error', (error: ErrorEvent) => {
-            reject(error);
+            console.error(error);
+            resolve(new Image());
         });
         image.setAttribute('src', src);
     });
