@@ -1,14 +1,24 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
-import React from 'react';
-import { Alert, Button, ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Alert, ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
+import ls from '../../utils/LocalStorage';
 
-const SortIconButton = styled(Button).attrs({ className: 'p-1' })``;
+const SelectedIconButton = styled.button.attrs({ type: 'button', className: 'btn btn-primary p-1' })``;
+
+const UnselectedIconButton = styled.button.attrs({ type: 'button', className: 'btn btn-outline-primary p-1' })`
+    & path {
+        fill: var(--bs-primary);
+    }
+    &:hover path {
+        fill: #fff;
+    }
+`;
 
 const MAX_VIDEO_COUNT = 24;
 
@@ -34,6 +44,34 @@ export const calcPages = (
     };
 };
 
+type SortKey = 'timestamp-asc' | 'timestamp-desc' | 'name-asc' | 'name-desc';
+
+type SortOption = {
+    key: SortKey;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Icon: StyledComponent<any, any>;
+};
+
+const sortOptions: SortOption[] = [
+    { key: 'name-asc', Icon: NameAscIcon },
+    { key: 'name-desc', Icon: NameDescIcon },
+    { key: 'timestamp-asc', Icon: TimestampAscIcon },
+    { key: 'timestamp-desc', Icon: TimestampDescIcon },
+];
+
+const SORT_KEY = 'SORT_KEY';
+
+const useSelectedSortKey = (): [SortKey, (sortKey: SortKey) => void] => {
+    const [selectedSortKey, setSelectedSortKey] = useState<SortKey>(ls.getString<SortKey>(SORT_KEY, sortOptions[0].key));
+    return [
+        selectedSortKey,
+        (sortKey: SortKey) => {
+            setSelectedSortKey(sortKey);
+            ls.setString(SORT_KEY, sortKey);
+        },
+    ];
+};
+
 type Props = {
     videos: VideoValues[] | undefined;
     page: number;
@@ -41,6 +79,7 @@ type Props = {
 };
 
 const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
+    const [selectedSortKey, setSelectedSortkey] = useSelectedSortKey();
     if (!videos) {
         return (
             <Row className="mt-4">
@@ -76,18 +115,23 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
                     <Stack direction="horizontal">
                         <div>
                             <ButtonGroup size="sm">
-                                <SortIconButton>
-                                    <TimestampAscIcon />
-                                </SortIconButton>
-                                <SortIconButton>
-                                    <TimestampDescIcon />
-                                </SortIconButton>
-                                <SortIconButton>
-                                    <NameAscIcon />
-                                </SortIconButton>
-                                <SortIconButton>
-                                    <NameDescIcon />
-                                </SortIconButton>
+                                {sortOptions.map((sortOption) => {
+                                    const { key, Icon } = sortOption;
+                                    const isSelected = key === selectedSortKey;
+                                    if (isSelected) {
+                                        return (
+                                            <SelectedIconButton key={key}>
+                                                <Icon />
+                                            </SelectedIconButton>
+                                        );
+                                    } else {
+                                        return (
+                                            <UnselectedIconButton key={key} onClick={() => setSelectedSortkey(key)}>
+                                                <Icon />
+                                            </UnselectedIconButton>
+                                        );
+                                    }
+                                })}
                             </ButtonGroup>
                         </div>
                     </Stack>
