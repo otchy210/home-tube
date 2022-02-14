@@ -1,10 +1,14 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
-import { Alert, Col, Row } from 'react-bootstrap';
+import { Alert, Button, ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import styled from 'styled-components';
+import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
+
+const SortIconButton = styled(Button).attrs({ className: 'p-1' })``;
 
 const MAX_VIDEO_COUNT = 24;
 
@@ -68,7 +72,28 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     return (
         <>
             <Row>
-                <Col xs={12} className="mt-4 px-1">
+                <Col xs={12} sm={6} className="mt-4 px-1">
+                    <Stack direction="horizontal">
+                        <div>
+                            <ButtonGroup size="sm">
+                                <SortIconButton>
+                                    <TimestampAscIcon />
+                                </SortIconButton>
+                                <SortIconButton>
+                                    <TimestampDescIcon />
+                                </SortIconButton>
+                                <SortIconButton>
+                                    <NameAscIcon />
+                                </SortIconButton>
+                                <SortIconButton>
+                                    <NameDescIcon />
+                                </SortIconButton>
+                            </ButtonGroup>
+                        </div>
+                    </Stack>
+                    <Stack direction="horizontal"></Stack>
+                </Col>
+                <Col xs={12} sm={6} className="mt-4 px-1 text-end">
                     Showing {first} - {last} of {total}
                 </Col>
             </Row>
