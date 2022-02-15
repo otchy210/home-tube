@@ -1,7 +1,6 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
-import { getSortedVideos } from '../../utils/VideoUtils';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
@@ -61,7 +60,7 @@ const SearchPage: React.FC = () => {
 
     useEffect(() => {
         api.search(searchQuery).then((videoSet) => {
-            const videos = getSortedVideos(videoSet);
+            const videos = Array.from(videoSet).map((doc) => doc.values);
             setVideos(videos);
             const tagsMap = videos
                 .map((video) => {

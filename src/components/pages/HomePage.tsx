@@ -1,6 +1,5 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
-import { getSortedVideos } from '../../utils/VideoUtils';
 import AllTags from '../organisms/AllTags';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useAllTags } from '../providers/AllTagsProvider';
@@ -14,7 +13,8 @@ const HomePage: React.FC = () => {
     const { reload: reloadAllTags } = useAllTags();
     useEffect(() => {
         api.search().then((videoSet) => {
-            setVideos(getSortedVideos(videoSet));
+            const videos = Array.from(videoSet).map((doc) => doc.values);
+            setVideos(videos);
         });
         reloadAllTags();
     }, []);

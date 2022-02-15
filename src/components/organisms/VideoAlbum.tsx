@@ -50,14 +50,49 @@ type SortOption = {
     key: SortKey;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Icon: StyledComponent<any, any>;
+    compare: (left: VideoValues, right: VideoValues) => number;
+};
+
+const compareNameAsc = (left: VideoValues, right: VideoValues): number => {
+    const nameDiff = left.name.localeCompare(right.name);
+    if (nameDiff !== 0) {
+        return nameDiff;
+    }
+    return left.path.localeCompare(right.path);
+};
+const compareNameDesc = (left: VideoValues, right: VideoValues): number => {
+    return compareNameAsc(right, left);
+};
+const compareMtimeAsc = (left: VideoValues, right: VideoValues): number => {
+    if (left.mtime && right.mtime) {
+        const mtimeDiff = left.mtime - right.mtime;
+        if (mtimeDiff !== 0) {
+            return mtimeDiff;
+        }
+    }
+    if (!left.mtime && !right.mtime) {
+        return compareNameAsc(left, right);
+    }
+    if (left.mtime) {
+        return -1;
+    } else {
+        return 1;
+    }
+};
+const compareMtimeDesc = (left: VideoValues, right: VideoValues): number => {
+    return compareMtimeAsc(right, left);
 };
 
 const sortOptions: SortOption[] = [
-    { key: 'name-asc', Icon: NameAscIcon },
-    { key: 'name-desc', Icon: NameDescIcon },
-    { key: 'timestamp-asc', Icon: TimestampAscIcon },
-    { key: 'timestamp-desc', Icon: TimestampDescIcon },
+    { key: 'name-asc', Icon: NameAscIcon, compare: compareNameAsc },
+    { key: 'name-desc', Icon: NameDescIcon, compare: compareNameDesc },
+    { key: 'timestamp-asc', Icon: TimestampAscIcon, compare: compareMtimeAsc },
+    { key: 'timestamp-desc', Icon: TimestampDescIcon, compare: compareMtimeDesc },
 ];
+const sortOptionsMap: Map<SortKey, SortOption> = sortOptions.reduce((map, option) => {
+    map.set(option.key, option);
+    return map;
+}, new Map<SortKey, SortOption>());
 
 const SORT_KEY = 'SORT_KEY';
 
@@ -104,7 +139,8 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
             </Row>
         );
     }
-    const pagesInfo = calcPages(videos, page);
+    const sortedVideos = [...videos].sort(sortOptionsMap.get(selectedSortKey)?.compare);
+    const pagesInfo = calcPages(sortedVideos, page);
     const total = videos.length;
     const first = (page - 1) * MAX_VIDEO_COUNT + 1;
     const last = Math.min(first + MAX_VIDEO_COUNT - 1, total);
