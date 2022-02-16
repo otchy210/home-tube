@@ -12,6 +12,26 @@ import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import { RemoveStars } from '../molecules/VideoProperties';
 import { useAllTags } from '../providers/AllTagsProvider';
+import styled from 'styled-components';
+
+const VideoPlayerWrapper = styled.div`
+    &.theater {
+        position: absolute;
+        display: flex;
+        left: 0;
+        background-color: #000;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+`;
+
+const VideoPlayerSpacer = styled.div`
+    display: none;
+    &.theater {
+        display: block;
+    }
+`;
 
 const ViewPage: React.FC = () => {
     const [mode, setMode] = useState<VideoViewMode>('normal');
@@ -20,6 +40,9 @@ const ViewPage: React.FC = () => {
     const [searchParams] = useSearchParams();
     const [hasError, setHasError] = useState<boolean>(false);
     const { reload: reloadAllTags } = useAllTags();
+    const viewPageRootRef = useRef<HTMLDivElement>(null);
+    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
+    const videoPlayerSpacerRef = useRef<HTMLDivElement>(null);
     const api = useApi();
     const toast = useToast();
     const key = searchParams.get('key');
@@ -27,27 +50,11 @@ const ViewPage: React.FC = () => {
         toast.addError('Video', 'key parameter is required.');
         return null;
     }
-    useEffect(() => {
-        api.getDetails(key)
-            .then((details) => {
-                orgStars.current = details.stars;
-                setDetails(details);
-            })
-            .catch((e) => {
-                console.error(e);
-                toast.addError('Video', `No video found. key: ${key}`);
-                setHasError(true);
-            });
-        reloadAllTags();
-    }, []);
-    if (!details) {
-        return (
-            <Row className="pt-4">
-                <Col xs={12}>{!hasError && <DelayedSpinner />}</Col>
-            </Row>
-        );
-    }
+
     const setStars = (stars: Stars | undefined) => {
+        if (!details) {
+            return;
+        }
         const updatedDetails = { ...details, stars };
         setDetails(updatedDetails);
     };
@@ -75,6 +82,9 @@ const ViewPage: React.FC = () => {
         },
     };
     const updateTags = (tags: string[]) => {
+        if (!details) {
+            return;
+        }
         const updatedDetails = { ...details, tags };
         setDetails(updatedDetails);
         api.postProperties(key, { tags }).then(() => {
@@ -82,10 +92,76 @@ const ViewPage: React.FC = () => {
         });
     };
 
+    const calcViderPlayerHeight = () => {
+        const page = viewPageRootRef.current;
+        const wrapper = videoPlayerWrapperRef.current;
+        const spacer = videoPlayerSpacerRef.current;
+        if (!page || !wrapper || !spacer) {
+            return;
+        }
+        const video = wrapper.querySelector('video');
+        if (!video) {
+            return;
+        }
+        const [videoWidth, videoHeight] = [video.videoWidth, video.videoHeight];
+        let theaterViewHeight;
+        if (wrapper.classList.contains('theater')) {
+            const maxWidth = window.innerWidth;
+            const contentHeight = maxWidth * (videoHeight / videoWidth);
+            const spaceMinHeight = spacer.getBoundingClientRect().width * (videoHeight / videoWidth);
+            const minHeight = Math.min(spaceMinHeight, contentHeight);
+            const pageTop = page.getBoundingClientRect().top;
+            const buffer = 70;
+            const pageMaxHeight = window.innerHeight - pageTop - buffer;
+            const maxHeight = Math.min(pageMaxHeight, contentHeight);
+            if (maxHeight < spaceMinHeight) {
+                theaterViewHeight = `${spaceMinHeight}px`;
+            } else if (maxHeight < minHeight) {
+                theaterViewHeight = `${maxHeight}px`;
+            } else {
+                theaterViewHeight = `${Math.max(minHeight, maxHeight)}px`;
+            }
+        } else {
+            theaterViewHeight = 'auto';
+        }
+        wrapper.style.height = theaterViewHeight;
+        spacer.style.height = theaterViewHeight;
+    };
+    setTimeout(calcViderPlayerHeight, 10);
+
+    useEffect(() => {
+        api.getDetails(key)
+            .then((details) => {
+                orgStars.current = details.stars;
+                setDetails(details);
+            })
+            .catch((e) => {
+                console.error(e);
+                toast.addError('Video', `No video found. key: ${key}`);
+                setHasError(true);
+            });
+        reloadAllTags();
+        window.addEventListener('resize', calcViderPlayerHeight);
+        return () => {
+            window.removeEventListener('resize', calcViderPlayerHeight);
+        };
+    }, []);
+
+    if (!details) {
+        return (
+            <Row className="pt-4">
+                <Col xs={12}>{!hasError && <DelayedSpinner />}</Col>
+            </Row>
+        );
+    }
+
     return (
-        <Row className="pt-4">
+        <Row className={mode === 'theater' ? '' : 'pt-4'} ref={viewPageRootRef}>
             <Col xs={12} lg={mode === 'theater' ? 12 : 9}>
-                <VideoPlayer details={details} {...{ mode, setMode }} />
+                <VideoPlayerWrapper className={mode} ref={videoPlayerWrapperRef}>
+                    <VideoPlayer details={details} {...{ mode, setMode }} />
+                </VideoPlayerWrapper>
+                <VideoPlayerSpacer className={mode} ref={videoPlayerSpacerRef} />
                 <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
             </Col>
             <Col xs={12} lg={mode === 'theater' ? 12 : 3}>

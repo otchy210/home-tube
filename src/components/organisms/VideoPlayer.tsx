@@ -24,6 +24,8 @@ import SnapshotPreview from './SnapshotPreview';
 
 const VideoPlayerWrapper = styled.div`
     position: relative;
+    width: 100%;
+    height: inherit;
     &.hide-control {
         cursor: none;
         .video-control {
@@ -62,10 +64,12 @@ const VideoWrapper = styled.div`
     aspect-ratio: 16 / 9;
     background-color: #000;
     width: 100%;
+    height: inherit;
 `;
 
 const Video = styled.video.attrs({ crossOrigin: 'anonymous' })`
     max-width: 100%;
+    height: inherit;
 `;
 
 const VideoControl = styled(Stack).attrs({ className: 'video-control' })`
