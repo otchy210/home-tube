@@ -1,5 +1,5 @@
 export const formatFileSize = (fileSize: number): string => {
-    return ['', 'K', 'M', 'G', 'T', 'P']
+    const { prefix, exp } = ['', 'K', 'M', 'G', 'T', 'P']
         .map((prefix, index) => {
             const exp = index * 3;
             return { prefix, exp };
@@ -7,19 +7,15 @@ export const formatFileSize = (fileSize: number): string => {
         .filter(({ exp }) => {
             return fileSize < 10 ** (exp + 3);
         })
-        .reduce((prev, { prefix, exp }) => {
-            if (prev !== '') {
-                return prev;
-            }
-            if (prefix === '') {
-                return `${fileSize} B`;
-            }
-            const num = fileSize / 10 ** (exp - 1);
-            const str = String(Math.trunc(num));
-            const intPart = str.slice(0, -1);
-            const floatPart = str.slice(-1);
-            return `${intPart}.${floatPart} ${prefix}B`;
-        }, '');
+        .find(() => true) ?? { prefix: '', exp: 0 };
+    if (prefix === '') {
+        return `${fileSize} B`;
+    }
+    const num = fileSize / 10 ** (exp - 1);
+    const str = String(Math.trunc(num));
+    const intPart = str.slice(0, -1);
+    const floatPart = str.slice(-1);
+    return `${intPart}.${floatPart} ${prefix}B`;
 };
 
 export const formatTime = (time: number): string => {
