@@ -63,7 +63,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, video, updateSnapshot
             <Modal.Body>
                 <canvas ref={canvasRef} className="d-none" />
                 <div>Are you sure to update the snapshot representing this video with following image?</div>
-                <div className="mt-3">
+                <div className="mt-3 d-flex justify-content-center ">
                     <Image fluid ref={imageRef} rounded thumbnail />
                 </div>
             </Modal.Body>

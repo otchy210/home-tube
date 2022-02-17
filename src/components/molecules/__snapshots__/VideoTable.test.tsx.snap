@@ -22,7 +22,7 @@ exports[`VideoTable renders properly 1`] = `
               class="sc-gsDKAQ eUUAIL"
             />
             <img
-              class="sc-dkPtRN fPXWey"
+              class="sc-dkPtRN cQjecG"
               src="http://dummy-api-host/snapshot?key=key-1"
               style="opacity: 1;"
             />
@@ -78,7 +78,7 @@ exports[`VideoTable renders properly 1`] = `
               class="sc-gsDKAQ eUUAIL"
             />
             <img
-              class="sc-dkPtRN fPXWey"
+              class="sc-dkPtRN cQjecG"
               src="http://dummy-api-host/snapshot?key=key-2"
               style="opacity: 1;"
             />
@@ -134,7 +134,7 @@ exports[`VideoTable renders properly 1`] = `
               class="sc-gsDKAQ eUUAIL"
             />
             <img
-              class="sc-dkPtRN fPXWey"
+              class="sc-dkPtRN cQjecG"
               src="http://dummy-api-host/snapshot?key=key-3"
               style="opacity: 1;"
             />
@@ -190,7 +190,7 @@ exports[`VideoTable renders properly 1`] = `
               class="sc-gsDKAQ eUUAIL"
             />
             <img
-              class="sc-dkPtRN fPXWey"
+              class="sc-dkPtRN cQjecG"
               src="http://dummy-api-host/snapshot?key=key-4"
               style="opacity: 1;"
             />
@@ -246,7 +246,7 @@ exports[`VideoTable renders properly 1`] = `
               class="sc-gsDKAQ eUUAIL"
             />
             <img
-              class="sc-dkPtRN fPXWey"
+              class="sc-dkPtRN cQjecG"
               src="http://dummy-api-host/snapshot?key=key-5"
               style="opacity: 1;"
             />
@@ -302,7 +302,7 @@ exports[`VideoTable renders properly 1`] = `
               class="sc-gsDKAQ eUUAIL"
             />
             <img
-              class="sc-dkPtRN fPXWey"
+              class="sc-dkPtRN cQjecG"
               src="http://dummy-api-host/snapshot?key=key-6"
               style="opacity: 1;"
             />

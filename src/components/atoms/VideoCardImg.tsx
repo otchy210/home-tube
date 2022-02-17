@@ -23,6 +23,7 @@ const Digest = styled.div`
 
 const Image = styled.img`
     pointer-events: none;
+    max-width: 100%;
 `;
 
 const BadgeHolder = styled.div.attrs({ className: 'hstack m-1' })`
