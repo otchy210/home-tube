@@ -2,18 +2,30 @@
 
 exports[`StarIcon renders properly with variant selected 1`] = `
 <div>
-  [MockedStarSelectedSvg width="16" height="16" /]
+  <div
+    class="sc-bdvvtL imDser"
+  >
+    [MockedStarSelectedSvg width="16" height="16" /]
+  </div>
 </div>
 `;
 
 exports[`StarIcon renders properly with variant unselected 1`] = `
 <div>
-  [MockedStarUnselectedSvg width="16" height="16" /]
+  <div
+    class="sc-bdvvtL imDser"
+  >
+    [MockedStarUnselectedSvg width="16" height="16" /]
+  </div>
 </div>
 `;
 
 exports[`StarIcon renders properly with variant void 1`] = `
 <div>
-  [MockedStarVoidSvg width="16" height="16" /]
+  <div
+    class="sc-bdvvtL imDser"
+  >
+    [MockedStarVoidSvg width="16" height="16" /]
+  </div>
 </div>
 `;

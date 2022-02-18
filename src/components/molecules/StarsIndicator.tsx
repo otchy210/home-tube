@@ -22,18 +22,6 @@ const Wrapper = styled.div<WrapperProps>`
     cursor: ${(props) => (props.clickable ? 'pointer' : 'default')};
 `;
 
-type StarsWrapperProps = {
-    size: number;
-    stars: number;
-};
-const StarsWrapper = styled.div<StarsWrapperProps>`
-    display: inline-block;
-    width: ${(props) => `${props.size * props.stars}px`};
-    height: ${(props) => `${props.size}px`};
-    overflow: hidden;
-    pointer-events: none;
-`;
-
 export type StarsMouseEventHandlers = {
     click: (stars: Stars) => void;
     hover: (stars: Stars) => void;
@@ -58,9 +46,12 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
             </Wrapper>
         );
     }
-    const selectedStars = stars ?? 0;
-    const unselectedStars = stars ? 5 - stars : 0;
-    const voidStars = stars ? 0 : 5;
+    const starVariants: StarIconVariant[] = POSSIBLE_STARS.map((s) => {
+        if (stars === undefined) {
+            return 'void';
+        }
+        return s <= stars ? 'selected' : 'unselected';
+    });
     const getHoverStars = (e: MouseEvent): Stars => {
         const parentX = wrapperRef.current?.getBoundingClientRect().x ?? 0;
         const hoveredStars = Math.trunc((e.clientX - parentX) / size) + 1;
@@ -88,21 +79,9 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
     return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         <Wrapper clickable={on !== undefined} ref={wrapperRef as any} className="text-nowrap">
-            <StarsWrapper size={size} stars={selectedStars}>
-                {POSSIBLE_STARS.map((s) => {
-                    return <StarIcon variant="selected" size={size} key={`star-selected-${s}`} />;
-                })}
-            </StarsWrapper>
-            <StarsWrapper size={size} stars={unselectedStars}>
-                {POSSIBLE_STARS.map((s) => {
-                    return <StarIcon variant="unselected" size={size} key={`star-unselected-${s}`} />;
-                })}
-            </StarsWrapper>
-            <StarsWrapper size={size} stars={voidStars}>
-                {POSSIBLE_STARS.map((s) => {
-                    return <StarIcon variant="void" size={size} key={`star-void-${s}`} />;
-                })}
-            </StarsWrapper>
+            {starVariants.map((variant, i) => {
+                return <StarIcon variant={variant} size={size} key={`star-${i}`} />;
+            })}
         </Wrapper>
     );
 };
