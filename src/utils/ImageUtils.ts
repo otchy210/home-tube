@@ -40,12 +40,14 @@ export const getThumbnailStyle = (props: GetThumbnailStyleProps): React.CSSPrope
     const { src, sec, maxWidth, maxHeight } = props;
     const [imageWidth, imageHeight] = getImageSize(props);
     const scale = Math.min(maxWidth / imageWidth, maxHeight / imageHeight);
+    const width = imageWidth * scale;
+    const height = imageHeight * scale;
     const imageStyle: React.CSSProperties = {
-        width: `${imageWidth}px`,
-        height: `${imageHeight}px`,
+        width: `${width}px`,
+        height: `${height}px`,
         backgroundImage: `url(${src})`,
-        backgroundPositionX: `${-sec * imageWidth}px`,
-        transform: `scale(${scale})`,
+        backgroundPositionX: `${-sec * width}px`,
+        backgroundSize: `auto ${height}px`,
     };
     return imageStyle;
 };
