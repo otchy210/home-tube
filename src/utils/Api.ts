@@ -1,5 +1,6 @@
 import { AllTags, AppConfig, Json, ServerStatus, VideoDetails, VideoDocument, VideoProperties } from '@otchy/home-tube-api/dist/types';
 import { createSearchParams } from 'react-router-dom';
+import TimeSizeLimitedCache from './TimeSizeLimitedCache';
 
 type Method = 'GET' | 'POST';
 
@@ -15,8 +16,10 @@ type ApiSafeParams = Record<string, string>;
 
 export class Api {
     private apiHost;
+    private detailsCache;
     constructor(apiHost: string) {
         this.apiHost = apiHost;
+        this.detailsCache = new TimeSizeLimitedCache<string, VideoDetails>(1000 * 60 * 10, 128);
     }
     private getApiUrl(apiPath: string, params?: Params): string {
         if (!params) {
@@ -91,7 +94,16 @@ export class Api {
         return this.get<Set<VideoDocument>>('/search', params);
     }
     getDetails(key: string): Promise<VideoDetails> {
-        return this.get<VideoDetails>('/details', { key });
+        const cachedDetails = this.detailsCache.get(key);
+        if (cachedDetails) {
+            return Promise.resolve(cachedDetails);
+        }
+        return new Promise((resolve) => {
+            this.get<VideoDetails>('/details', { key }).then((videoDetails) => {
+                this.detailsCache.add(key, videoDetails);
+                resolve(videoDetails);
+            });
+        });
     }
     getThumbnailsUrl(key: string, minute: string): string {
         return this.getApiUrl('/thumbnails', { key, minute });
@@ -106,6 +118,7 @@ export class Api {
         return this.getApiUrl('/video', { key });
     }
     postProperties(key: string, properties: VideoProperties): Promise<VideoProperties> {
+        this.detailsCache.remove(key);
         return this.post<VideoProperties>('/properties', properties, { key });
     }
     getAllTags(): Promise<AllTags> {

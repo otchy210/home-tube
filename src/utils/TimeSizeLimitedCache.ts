@@ -22,7 +22,7 @@ export default class TimeSizeLimitedCache<K, V> {
         this.map.set(key, [now() + this.ttl, value]);
     }
 
-    public has(key: K) {
+    private has(key: K) {
         return this.map.has(key);
     }
 
