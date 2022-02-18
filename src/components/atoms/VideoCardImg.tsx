@@ -18,6 +18,8 @@ const VideoCardImgWrapper = styled.div`
 const Digest = styled.div`
     display: inline-block;
     position: absolute;
+    background-color: #000;
+    transform-origin: top center;
     pointer-events: none;
 `;
 
