@@ -24,7 +24,7 @@ const HomePage: React.FC = () => {
     return (
         <>
             <VideoAlbum videos={videos} page={homePageQuery.page ? parseInt(homePageQuery.page) : 1} onClickPage={onClickPage} />
-            <AllTags />
+            {videos && <AllTags />}
         </>
     );
 };
