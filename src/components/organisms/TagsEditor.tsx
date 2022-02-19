@@ -39,6 +39,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
     const { sortedTags } = useAllTags();
     const browserInfo = useBrowserInfo();
     const isMacOS = browserInfo.os.name === 'macOS';
+    const isSafari = browserInfo.browser.name === 'Safari';
     const onHide = () => {
         setShow(false);
     };
@@ -66,7 +67,8 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         if (e.keyCode === 13) {
             if ((isMacOS && e.metaKey) || (!isMacOS && e.ctrlKey)) {
                 onSubmit();
-            } else {
+            } else if (!isSafari) {
+                // Disabled for Safari because there is no way to distinguish it with selecting an item in the datalist
                 add();
             }
             return;
