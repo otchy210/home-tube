@@ -1,20 +1,26 @@
 import ApiServer from '@otchy/home-tube-api/dist/ApiServer';
 import { ServerConfig } from '@otchy/home-tube-api/dist/types';
+import { md5 } from '@otchy/home-tube-api/dist/utils/StringUtils';
+import { readFileSync } from 'fs';
 import { createServer, IncomingMessage, Server as HttpServer, ServerResponse } from 'http';
-
-const handleRequest = (request: IncomingMessage, response: ServerResponse): void => {};
 
 export default class WebServer {
     private port: number;
     private httpServer: HttpServer;
     private apiServer: ApiServer | null;
+    private mainJs: string;
+    private mainJsPath: string;
+    private indexHtml: string;
 
     public constructor(port: number, apiServerConfig?: ServerConfig) {
         this.port = port;
         this.apiServer = apiServerConfig ? new ApiServer(apiServerConfig) : null;
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {
-            handleRequest(request, response);
+            this.handleRequest(request, response);
         });
+        this.mainJs = readFileSync('dist/main.js').toString();
+        this.mainJsPath = `/main.${md5(this.mainJs)}.js`;
+        this.indexHtml = readFileSync('dist/index.html').toString().replace('main.js', this.mainJsPath);
     }
 
     public getApiServer(): ApiServer | null {
@@ -32,6 +38,34 @@ export default class WebServer {
                 });
             })();
         });
+    }
+
+    private handleRequest(request: IncomingMessage, response: ServerResponse): void {
+        const { url } = request;
+        if (url === this.mainJsPath) {
+            response.writeHead(200, {
+                'Content-Type': 'text/javascript; charset=UTF-8',
+                'Cache-Control': 'public, max-age=2592000000, immutable', // 1000 * 60 * 60 * 24 * 30 = 30 days
+            });
+            response.write(this.mainJs);
+            response.end();
+            return;
+        }
+        if (url === '/initialParams.json') {
+            response.writeHead(404);
+            response.end();
+            return;
+        }
+        if (url === '/favicon.png') {
+            response.writeHead(404);
+            response.end();
+            return;
+        }
+        response.writeHead(200, {
+            'Content-Type': 'text/html; charset=UTF-8',
+        });
+        response.write(this.indexHtml);
+        response.end();
     }
 
     public close(): WebServer {

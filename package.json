@@ -1,10 +1,11 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "main": "dist/index.js",
     "files": [
-        "dist"
+        "dist",
+        "bin"
     ],
     "scripts": {
         "clean": "rm -rf dist/*",
@@ -17,7 +18,7 @@
         "test:u": "jest -u",
         "lint": "eslint --no-error-on-unmatched-pattern src/*",
         "lint:fix": "eslint --fix --no-error-on-unmatched-pattern src/*",
-        "start": "npm run build && node bin/start.js"
+        "start": "node bin/start.js"
     },
     "repository": {
         "type": "git",
