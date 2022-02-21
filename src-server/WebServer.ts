@@ -11,6 +11,7 @@ export default class WebServer {
     private mainJs: string;
     private mainJsPath: string;
     private indexHtml: string;
+    private favicon: Buffer;
 
     public constructor(port: number, apiServerConfig?: ServerConfig) {
         this.port = port;
@@ -19,8 +20,10 @@ export default class WebServer {
             this.handleRequest(request, response);
         });
         this.mainJs = readFileSync('dist/main.js').toString();
-        this.mainJsPath = `/main.${md5(this.mainJs)}.js`;
-        this.indexHtml = readFileSync('dist/index.html').toString().replace('main.js', this.mainJsPath);
+        const mainJsFile = `main.${md5(this.mainJs)}.js`;
+        this.mainJsPath = `/${mainJsFile}`;
+        this.indexHtml = readFileSync('dist/index.html').toString().replace('main.js', mainJsFile);
+        this.favicon = readFileSync('dist/favicon.png');
     }
 
     public getApiServer(): ApiServer | null {
@@ -51,12 +54,15 @@ export default class WebServer {
             response.end();
             return;
         }
-        if (url === '/initialParams.json') {
-            response.writeHead(404);
-            response.end();
+        if (url === '/favicon.png') {
+            response.writeHead(200, {
+                'Content-Type': 'image/png',
+                'Cache-Control': 'public, max-age=60000, immutable', // 1000 * 60 = 1 min
+            });
+            response.end(this.favicon);
             return;
         }
-        if (url === '/favicon.png') {
+        if (url === '/initialParams.json') {
             response.writeHead(404);
             response.end();
             return;
