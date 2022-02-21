@@ -117,8 +117,15 @@ export default class WebServer {
                 'Content-Type': 'text/javascript; charset=UTF-8',
                 'Cache-Control': 'public, max-age=2592000000, immutable', // 1000 * 60 * 60 * 24 * 30 = 30 days
             });
-            response.write(this.mainJs);
-            response.end();
+            response.end(this.mainJs);
+            return;
+        }
+        if (url === '/main.js.LICENSE.txt') {
+            const license = readFileSync('dist/main.js.LICENSE.txt');
+            response.writeHead(200, {
+                'Content-Type': 'text/plain; charset=UTF-8',
+            });
+            response.end(license);
             return;
         }
         if (url === '/favicon.png') {
@@ -133,15 +140,13 @@ export default class WebServer {
             response.writeHead(200, {
                 'Content-Type': 'application/json; charset=UTF-8',
             });
-            response.write(JSON.stringify(this.initialParams));
-            response.end();
+            response.end(JSON.stringify(this.initialParams));
             return;
         }
         response.writeHead(200, {
             'Content-Type': 'text/html; charset=UTF-8',
         });
-        response.write(this.indexHtml);
-        response.end();
+        response.end(this.indexHtml);
     }
 
     public close(): WebServer {
