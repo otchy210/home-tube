@@ -1,9 +1,63 @@
 import ApiServer from '@otchy/home-tube-api/dist/ApiServer';
-import { DEFAULT_API_PORT } from '@otchy/home-tube-api/dist/const';
+import { DEFAULT_API_PORT, DEFAULT_APP_CONFIG_FILE } from '@otchy/home-tube-api/dist/const';
 import { md5 } from '@otchy/home-tube-api/dist/utils/StringUtils';
 import { readFileSync } from 'fs';
+import { homedir } from 'os';
+import { join } from 'path';
 import { createServer, IncomingMessage, Server as HttpServer, ServerResponse } from 'http';
 import { InitialParams } from './common';
+import * as yargs from 'yargs';
+import { ServerConfig } from '@otchy/home-tube-api/dist/types';
+
+const DEFAULT_WEB_PORT = 8080;
+
+type Argv = {
+    port?: number;
+    apiPort?: number;
+    appConfig?: string;
+    apiHost?: string;
+};
+
+const parseArgv = (): Argv => {
+    const defaultApiHost = `http://localhost:${DEFAULT_API_PORT}`;
+    const defaultAppConfig = join(homedir(), DEFAULT_APP_CONFIG_FILE);
+    return yargs
+        .option('port', {
+            type: 'number',
+            description: `Web server port [default: ${DEFAULT_WEB_PORT}]`,
+        })
+        .option('apiPort', {
+            type: 'number',
+            description: `API server port [default: ${DEFAULT_API_PORT}]`,
+        })
+        .option('appConfig', {
+            type: 'string',
+            description: `HomeTube config file path [default: ${defaultAppConfig}]`,
+        })
+        .option('apiHost', {
+            type: 'string',
+            description: `API server host, set if you run API server apart from this [default: ${defaultApiHost}]`,
+        })
+        .help().argv as Argv;
+};
+
+const getInitialParams = (argv: Argv): InitialParams => {
+    if (argv.apiHost) {
+        return {
+            apiHost: argv.apiHost,
+        };
+    }
+    return {
+        apiHost: `http://localhost:${argv.apiPort ?? DEFAULT_API_PORT}`,
+    };
+};
+
+const getServerConfig = (argv: Argv): ServerConfig => {
+    return {
+        port: argv.apiPort ?? DEFAULT_API_PORT,
+        appConfigPath: argv.appConfig,
+    };
+};
 
 export default class WebServer {
     private port: number;
@@ -15,12 +69,12 @@ export default class WebServer {
     private indexHtml: string;
     private favicon: Buffer;
 
-    public constructor(port: number, initialParams?: InitialParams) {
-        this.port = port;
-        this.initialParams = initialParams ?? {
-            apiHost: `http://localhost:${DEFAULT_API_PORT}`,
-        };
-        this.apiServer = !initialParams ? new ApiServer({ port: DEFAULT_API_PORT }) : null;
+    public constructor() {
+        const argv = parseArgv();
+
+        this.port = argv.port ?? 80;
+        this.initialParams = getInitialParams(argv);
+        this.apiServer = !argv.apiHost ? new ApiServer(getServerConfig(argv)) : null;
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {
             this.handleRequest(request, response);
         });
@@ -37,7 +91,7 @@ export default class WebServer {
         if (this.apiServer) {
             const appConfigPath = this.apiServer.getAppConfigPath();
             console.log(`ApiServer running on ${this.initialParams.apiHost}`);
-            console.log(`appConfigPath: ${appConfigPath}`);
+            console.log(`AppConfig: ${appConfigPath}`);
         }
         console.log('Press Ctrl+C to stop the server');
         console.log('================================================================');
