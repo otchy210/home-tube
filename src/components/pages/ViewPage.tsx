@@ -134,6 +134,16 @@ const ViewPage: React.FC = () => {
             .then((details) => {
                 orgStars.current = details.stars;
                 setDetails(details);
+                if (!details.length) {
+                    return;
+                }
+                // preload thumbnail images
+                const maxMin = Math.trunc(details.length / 60);
+                for (let min = 0; min <= maxMin; min++) {
+                    const src = api.getThumbnailsUrl(key, String(min));
+                    const image = new Image();
+                    image.setAttribute('src', src);
+                }
             })
             .catch((e) => {
                 console.error(e);
