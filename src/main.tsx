@@ -1,15 +1,13 @@
+import { DEFAULT_API_PORT } from '@otchy/home-tube-api/dist/const';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { InitialParams } from '../src-server/common';
 import App from './components/App';
-
-type InitialParams = {
-    apiHost: string;
-};
 
 const buildDefaultInitialParams = (): InitialParams => {
     const url = new URL(location.href);
     return {
-        apiHost: `${url.protocol}//${url.hostname}:8210`,
+        apiHost: `${url.protocol}//${url.hostname}:${DEFAULT_API_PORT}`,
     };
 };
 

@@ -1,21 +1,26 @@
 import ApiServer from '@otchy/home-tube-api/dist/ApiServer';
-import { ServerConfig } from '@otchy/home-tube-api/dist/types';
+import { DEFAULT_API_PORT } from '@otchy/home-tube-api/dist/const';
 import { md5 } from '@otchy/home-tube-api/dist/utils/StringUtils';
 import { readFileSync } from 'fs';
 import { createServer, IncomingMessage, Server as HttpServer, ServerResponse } from 'http';
+import { InitialParams } from './common';
 
 export default class WebServer {
     private port: number;
     private httpServer: HttpServer;
+    private initialParams: InitialParams;
     private apiServer: ApiServer | null;
     private mainJs: string;
     private mainJsPath: string;
     private indexHtml: string;
     private favicon: Buffer;
 
-    public constructor(port: number, apiServerConfig?: ServerConfig) {
+    public constructor(port: number, initialParams?: InitialParams) {
         this.port = port;
-        this.apiServer = apiServerConfig ? new ApiServer(apiServerConfig) : null;
+        this.initialParams = initialParams ?? {
+            apiHost: `http://localhost:${DEFAULT_API_PORT}`,
+        };
+        this.apiServer = !initialParams ? new ApiServer({ port: DEFAULT_API_PORT }) : null;
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {
             this.handleRequest(request, response);
         });
@@ -26,8 +31,16 @@ export default class WebServer {
         this.favicon = readFileSync('dist/favicon.png');
     }
 
-    public getApiServer(): ApiServer | null {
-        return this.apiServer;
+    public showInitialMessages() {
+        console.log('==== HomeTube ==================================================');
+        console.log(`WebServer running on http://localhost:${this.port}`);
+        if (this.apiServer) {
+            const appConfigPath = this.apiServer.getAppConfigPath();
+            console.log(`ApiServer running on ${this.initialParams.apiHost}`);
+            console.log(`appConfigPath: ${appConfigPath}`);
+        }
+        console.log('Press Ctrl+C to stop the server');
+        console.log('================================================================');
     }
 
     public start(): Promise<WebServer> {
@@ -63,7 +76,10 @@ export default class WebServer {
             return;
         }
         if (url === '/initialParams.json') {
-            response.writeHead(404);
+            response.writeHead(200, {
+                'Content-Type': 'application/json; charset=UTF-8',
+            });
+            response.write(JSON.stringify(this.initialParams));
             response.end();
             return;
         }
