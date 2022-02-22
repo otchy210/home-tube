@@ -1,6 +1,6 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Alert, ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
+import { Alert, Col, Pagination, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled, { StyledComponent } from 'styled-components';
 import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
@@ -9,13 +9,14 @@ import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
 import ls from '../../utils/LocalStorage';
 
-const SelectedIconButton = styled.button.attrs({ type: 'button', className: 'btn btn-primary p-1' })``;
-
-const UnselectedIconButton = styled.button.attrs({ type: 'button', className: 'btn btn-outline-primary p-1' })`
+const StyledPaginationItem = styled(Pagination.Item)`
+    & .page-link {
+        padding: 0.25rem;
+    }
     & path {
         fill: var(--bs-primary);
     }
-    &:hover path {
+    &.active path {
         fill: #fff;
     }
 `;
@@ -148,30 +149,17 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
         <>
             <Row>
                 <Col xs={12} sm={6} className="mt-4 px-1">
-                    <Stack direction="horizontal">
-                        <div>
-                            <ButtonGroup size="sm">
-                                {sortOptions.map((sortOption) => {
-                                    const { key, Icon } = sortOption;
-                                    const isSelected = key === selectedSortKey;
-                                    if (isSelected) {
-                                        return (
-                                            <SelectedIconButton key={key}>
-                                                <Icon />
-                                            </SelectedIconButton>
-                                        );
-                                    } else {
-                                        return (
-                                            <UnselectedIconButton key={key} onClick={() => setSelectedSortkey(key)}>
-                                                <Icon />
-                                            </UnselectedIconButton>
-                                        );
-                                    }
-                                })}
-                            </ButtonGroup>
-                        </div>
-                    </Stack>
-                    <Stack direction="horizontal"></Stack>
+                    <Pagination>
+                        {sortOptions.map((sortOption) => {
+                            const { key, Icon } = sortOption;
+                            const isSelected = key === selectedSortKey;
+                            return (
+                                <StyledPaginationItem active={isSelected} onClick={() => !isSelected && setSelectedSortkey(key)} key={`sort-option-${key}`}>
+                                    <Icon />
+                                </StyledPaginationItem>
+                            );
+                        })}
+                    </Pagination>
                 </Col>
                 <Col xs={12} sm={6} className="mt-4 px-1 text-end">
                     Showing {first} - {last} of {total}
