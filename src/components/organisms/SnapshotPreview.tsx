@@ -1,5 +1,7 @@
+import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect } from 'react';
 import { Button, Image, Modal } from 'react-bootstrap';
+import { useApi } from '../providers/ApiProvider';
 
 const takeSnapshot = (video: HTMLVideoElement, canvas: HTMLCanvasElement, image: HTMLImageElement) => {
     const width = video.videoWidth;
@@ -17,13 +19,16 @@ const takeSnapshot = (video: HTMLVideoElement, canvas: HTMLCanvasElement, image:
 type Props = {
     show: boolean;
     setShow: (show: boolean) => void;
+    details: VideoDetails;
     video: HTMLVideoElement | null;
     updateSnapshot: (canvas: HTMLCanvasElement) => void;
 };
 
-const SnapshotPreview: React.FC<Props> = ({ show, setShow, video, updateSnapshot }) => {
+const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updateSnapshot }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
+    const api = useApi();
+    const snapshotUrl = api.getSnapshotUrl(details.key);
     useEffect(() => {
         let count = 0;
         const drawCanvas = () => {
@@ -64,6 +69,10 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, video, updateSnapshot
                 <canvas ref={canvasRef} className="d-none" />
                 <div>Are you sure to update the snapshot representing this video with following image?</div>
                 <div className="mt-3 d-flex justify-content-center ">
+                    <Image fluid ref={imageRef} rounded thumbnail src={snapshotUrl} />
+                </div>
+                <div className="my-1 d-flex justify-content-center ">↓</div>
+                <div className="d-flex justify-content-center ">
                     <Image fluid ref={imageRef} rounded thumbnail />
                 </div>
             </Modal.Body>

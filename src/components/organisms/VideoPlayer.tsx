@@ -521,7 +521,13 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <>
-            <SnapshotPreview show={showSnapshotPreview} setShow={setShowSnapshotPreview} video={videoRef.current} updateSnapshot={updateSnapshot} />
+            <SnapshotPreview
+                show={showSnapshotPreview}
+                setShow={setShowSnapshotPreview}
+                details={details}
+                video={videoRef.current}
+                updateSnapshot={updateSnapshot}
+            />
             <VideoPlayerWrapper ref={videoPlayerWrapperRef as any} onMouseMove={onVideoMouseMove}>
                 <VideoPlayIndicator ref={videoPlayIndicatorRef as any}>{playing ? <PlayIndicatorIcon /> : <PauseIndicatorIcon />}</VideoPlayIndicator>
                 <VideoWrapper>
