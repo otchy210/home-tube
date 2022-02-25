@@ -8,6 +8,7 @@ import { createServer, IncomingMessage, Server as HttpServer, ServerResponse } f
 import { InitialParams } from './common';
 import * as yargs from 'yargs';
 import { ServerConfig } from '@otchy/home-tube-api/dist/types';
+import { resolve } from 'path';
 
 const DEFAULT_WEB_PORT = 8080;
 
@@ -59,6 +60,10 @@ const getServerConfig = (argv: Argv): ServerConfig => {
     };
 };
 
+const readCurrentDirFileSync = (path: string): Buffer => {
+    return readFileSync(resolve(__dirname, path));
+};
+
 export default class WebServer {
     private port: number;
     private httpServer: HttpServer;
@@ -78,11 +83,11 @@ export default class WebServer {
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {
             this.handleRequest(request, response);
         });
-        this.mainJs = readFileSync('dist/main.js').toString();
+        this.mainJs = readCurrentDirFileSync('main.js').toString();
         const mainJsFile = `main.${md5(this.mainJs)}.js`;
         this.mainJsPath = `/${mainJsFile}`;
-        this.indexHtml = readFileSync('dist/index.html').toString().replace('main.js', mainJsFile);
-        this.favicon = readFileSync('dist/favicon.png');
+        this.indexHtml = readCurrentDirFileSync('index.html').toString().replace('main.js', mainJsFile);
+        this.favicon = readCurrentDirFileSync('favicon.png');
     }
 
     public showInitialMessages() {
@@ -121,7 +126,7 @@ export default class WebServer {
             return;
         }
         if (url === '/main.js.LICENSE.txt') {
-            const license = readFileSync('dist/main.js.LICENSE.txt');
+            const license = readCurrentDirFileSync('main.js.LICENSE.txt');
             response.writeHead(200, {
                 'Content-Type': 'text/plain; charset=UTF-8',
             });
