@@ -39,6 +39,7 @@ mockFC('./components/molecules/DelayedSpinner');
 mockFC('./images/icon.svg');
 mockFC('./images/logo.svg');
 mockFC('./images/search.svg');
+mockFC('./images/language.svg');
 mockFC('./images/config.svg');
 mockFC('./images/star-selected.svg');
 mockFC('./images/star-unselected.svg');

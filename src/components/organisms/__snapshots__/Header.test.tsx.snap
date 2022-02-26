@@ -12,8 +12,8 @@ exports[`Header renders properly 1`] = `
         class="me-auto navbar-brand"
         href="/"
       >
-        [MockedIconSvg className="d-inline d-sm-none" style={obj} /]
-        [MockedLogoSvg className="d-none d-sm-inline" style={obj} /]
+        [MockedIconSvg className="sc-bdvvtL jLKyDm d-inline d-sm-none" /]
+        [MockedLogoSvg className="sc-gsDKAQ ljCoMj d-none d-sm-inline" /]
       </a>
       <button
         aria-label="Toggle navigation"
@@ -41,7 +41,7 @@ exports[`Header renders properly 1`] = `
               class="ms-2 text-nowrap btn btn-primary"
               type="button"
             >
-              [MockedSearchSvg style={obj} /]
+              [MockedSearchSvg className="sc-dkPtRN gtPUWC" /]
               <span
                 class="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle"
               >
@@ -51,16 +51,28 @@ exports[`Header renders properly 1`] = `
           </form>
         </div>
         <div
-          class="mt-2 mt-sm-0 navbar-nav"
+          class="ms-2 mt-2 mt-sm-0 navbar-nav"
+        >
+          <div>
+            [MockedLanguageSvg className="sc-hKwDye jjkbGY" /]
+            <span
+              class="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
+            >
+              Language
+            </span>
+          </div>
+        </div>
+        <div
+          class="ms-2 mt-2 mt-sm-0 navbar-nav"
         >
           <a
-            class="ms-1 py-0 nav-link"
+            class="p-0 nav-link"
             data-rr-ui-event-key="/config"
             href="/config"
           >
-            [MockedConfigSvg style={obj} /]
+            [MockedConfigSvg className="sc-eCImPb gpLiHk" /]
             <span
-              class="d-inline d-sm-none d-lg-inline ms-2 ms-sm-0 ms-lg-2 align-middle"
+              class="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
             >
               Config
             </span>

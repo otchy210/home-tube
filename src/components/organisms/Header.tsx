@@ -4,12 +4,35 @@ import { Button, Container, Form, FormControl, Nav, Navbar } from 'react-bootstr
 import Icon from '../../images/icon.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
+import Language from '../../images/language.svg';
 import Config from '../../images/config.svg';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
+import styled from 'styled-components';
 
-const iconStyle = { height: '32px' };
+const HomeTubeIcon = styled(Icon)`
+    width: 32px;
+    height: 32px;
+`;
+
+const HomeTubeLogo = styled(Logo)`
+    height: 32px;
+`;
+
+const SearchIcon = styled(Search)`
+    height: 22px;
+`;
+
+const LanguageIcon = styled(Language)`
+    width: 32px;
+    height: 32px;
+`;
+
+const ConfigIcon = styled(Config)`
+    width: 32px;
+    height: 32px;
+`;
 
 const setIfExist = (name: string, refs: { [name: string]: React.RefObject<HTMLInputElement> }, setter: (value: string) => void) => {
     const ref = refs[name];
@@ -51,8 +74,8 @@ const Header: React.FC = () => {
         <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
             <Container fluid>
                 <Navbar.Brand className="me-auto" href="/" onClick={partiallyPreventDefault(() => setPage('1'))}>
-                    <Icon className="d-inline d-sm-none" style={iconStyle} />
-                    <Logo className="d-none d-sm-inline" style={iconStyle} />
+                    <HomeTubeIcon className="d-inline d-sm-none" />
+                    <HomeTubeLogo className="d-none d-sm-inline" />
                 </Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end mt-3 mt-sm-0">
@@ -60,16 +83,22 @@ const Header: React.FC = () => {
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
                             <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
                             <Button className="ms-2 text-nowrap" onClick={onSearchSubmit}>
-                                <Search style={{ height: '22px' }} />
+                                <SearchIcon />
                                 <span className="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle">Search</span>
                             </Button>
                         </Form>
                     </Nav>
-                    <Nav className="mt-2 mt-sm-0">
+                    <Nav className="ms-2 mt-2 mt-sm-0">
+                        <div>
+                            <LanguageIcon />
+                            <span className="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle">Language</span>
+                        </div>
+                    </Nav>
+                    <Nav className="ms-2 mt-2 mt-sm-0">
                         <LinkContainer to="/config">
-                            <Nav.Link className="ms-1 py-0">
-                                <Config style={iconStyle} />
-                                <span className="d-inline d-sm-none d-lg-inline ms-2 ms-sm-0 ms-lg-2 align-middle">Config</span>
+                            <Nav.Link className="p-0">
+                                <ConfigIcon />
+                                <span className="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle">Config</span>
                             </Nav.Link>
                         </LinkContainer>
                     </Nav>
