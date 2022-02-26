@@ -38,7 +38,7 @@ exports[`Header renders properly 1`] = `
               type="search"
             />
             <button
-              class="btn btn-primary text-nowrap ms-2"
+              class="ms-2 text-nowrap btn btn-primary"
               type="button"
             >
               [MockedSearchSvg style={obj} /]

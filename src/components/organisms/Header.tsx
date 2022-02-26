@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Container, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
 import Icon from '../../images/icon.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
@@ -8,7 +8,6 @@ import Config from '../../images/config.svg';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
-import PrimaryButton from '../atoms/PrimaryButton';
 
 const iconStyle = { height: '32px' };
 
@@ -60,10 +59,10 @@ const Header: React.FC = () => {
                     <Nav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
                             <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
-                            <PrimaryButton className="ms-2" onClick={onSearchSubmit}>
+                            <Button className="ms-2 text-nowrap" onClick={onSearchSubmit}>
                                 <Search style={{ height: '22px' }} />
                                 <span className="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle">Search</span>
-                            </PrimaryButton>
+                            </Button>
                         </Form>
                     </Nav>
                     <Nav className="mt-2 mt-sm-0">
