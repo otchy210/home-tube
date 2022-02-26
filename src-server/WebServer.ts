@@ -7,6 +7,7 @@ import { join } from 'path';
 import { createServer, IncomingMessage, Server as HttpServer, ServerResponse } from 'http';
 import { InitialParams } from './common';
 import * as yargs from 'yargs';
+import { gzip } from 'zlib';
 import { ServerConfig } from '@otchy/home-tube-api/dist/types';
 import { resolve } from 'path';
 
@@ -69,7 +70,8 @@ export default class WebServer {
     private httpServer: HttpServer;
     private initialParams: InitialParams;
     private apiServer: ApiServer | null;
-    private mainJs: string;
+    private mainJs: Buffer;
+    private gzippedMainJs: Buffer;
     private mainJsPath: string;
     private indexHtml: string;
     private favicon: Buffer;
@@ -83,8 +85,12 @@ export default class WebServer {
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {
             this.handleRequest(request, response);
         });
-        this.mainJs = readCurrentDirFileSync('main.js').toString();
+        this.mainJs = readCurrentDirFileSync('main.js');
         const mainJsFile = `main.${md5(this.mainJs)}.js`;
+        this.gzippedMainJs = Buffer.from('');
+        gzip(this.mainJs, (_, gzipped) => {
+            this.gzippedMainJs = gzipped;
+        });
         this.mainJsPath = `/${mainJsFile}`;
         this.indexHtml = readCurrentDirFileSync('index.html').toString().replace('main.js', mainJsFile);
         this.favicon = readCurrentDirFileSync('favicon.png');
@@ -118,11 +124,21 @@ export default class WebServer {
     private handleRequest(request: IncomingMessage, response: ServerResponse): void {
         const { url } = request;
         if (url === this.mainJsPath) {
-            response.writeHead(200, {
-                'Content-Type': 'text/javascript; charset=UTF-8',
-                'Cache-Control': 'public, max-age=2592000000, immutable', // 1000 * 60 * 60 * 24 * 30 = 30 days
-            });
-            response.end(this.mainJs);
+            const acceptGzip = ((request.headers['accept-encoding'] as string) ?? '').split(/, ?/).includes('gzip');
+            if (acceptGzip) {
+                response.writeHead(200, {
+                    'Content-Type': 'text/javascript; charset=UTF-8',
+                    'Cache-Control': 'public, max-age=2592000000, immutable', // 1000 * 60 * 60 * 24 * 30 = 30 days
+                    'Content-Encoding': 'gzip',
+                });
+                response.end(this.gzippedMainJs);
+            } else {
+                response.writeHead(200, {
+                    'Content-Type': 'text/javascript; charset=UTF-8',
+                    'Cache-Control': 'public, max-age=2592000000, immutable', // 1000 * 60 * 60 * 24 * 30 = 30 days
+                });
+                response.end(this.mainJs);
+            }
             return;
         }
         if (url === '/main.js.LICENSE.txt') {
