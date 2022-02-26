@@ -34,6 +34,10 @@ const ConfigIcon = styled(Config)`
     height: 32px;
 `;
 
+const IconLabel = styled.span.attrs({ className: 'd-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle' })`
+    color: rgba(0, 0, 0, 0.55);
+`;
+
 const setIfExist = (name: string, refs: { [name: string]: React.RefObject<HTMLInputElement> }, setter: (value: string) => void) => {
     const ref = refs[name];
     if (!ref || !ref.current?.value) {
@@ -84,21 +88,21 @@ const Header: React.FC = () => {
                             <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
                             <Button className="ms-2 text-nowrap" onClick={onSearchSubmit}>
                                 <SearchIcon />
-                                <span className="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle">Search</span>
+                                <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">Search</span>
                             </Button>
                         </Form>
                     </Nav>
                     <Nav className="ms-2 mt-2 mt-sm-0">
                         <div>
                             <LanguageIcon />
-                            <span className="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle">Language</span>
+                            <IconLabel>Language</IconLabel>
                         </div>
                     </Nav>
                     <Nav className="ms-2 mt-2 mt-sm-0">
                         <LinkContainer to="/config">
                             <Nav.Link className="p-0">
                                 <ConfigIcon />
-                                <span className="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle">Config</span>
+                                <IconLabel>Config</IconLabel>
                             </Nav.Link>
                         </LinkContainer>
                     </Nav>

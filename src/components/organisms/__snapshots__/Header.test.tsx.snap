@@ -43,7 +43,7 @@ exports[`Header renders properly 1`] = `
             >
               [MockedSearchSvg className="sc-dkPtRN gtPUWC" /]
               <span
-                class="d-inline d-sm-none d-md-inline ms-2 ms-sm-0 ms-lg-2 align-middle"
+                class="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
               >
                 Search
               </span>
@@ -56,7 +56,7 @@ exports[`Header renders properly 1`] = `
           <div>
             [MockedLanguageSvg className="sc-hKwDye jjkbGY" /]
             <span
-              class="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
+              class="sc-jRQBWg fmpVRd d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
             >
               Language
             </span>
@@ -72,7 +72,7 @@ exports[`Header renders properly 1`] = `
           >
             [MockedConfigSvg className="sc-eCImPb gpLiHk" /]
             <span
-              class="d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
+              class="sc-jRQBWg fmpVRd d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
             >
               Config
             </span>
