@@ -1,7 +1,40 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect } from 'react';
-import { Button, Image, Modal } from 'react-bootstrap';
+import { Badge, Button, Col, Container, Image, Modal, Row } from 'react-bootstrap';
+import styled from 'styled-components';
 import { useApi } from '../providers/ApiProvider';
+import RightArrow from '../../images/right-arrow.svg';
+
+const ImageHolder = styled.div`
+    position: relative;
+
+    & .badge {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+`;
+
+const ArrowHolder = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(var(--bs-primary-rgb));
+    border-radius: 50%;
+    border: solid 6px #fff;
+    transform: translate(-50%, -50%);
+    box-sizing: content-box;
+`;
+
+const RightArrowIcon = styled(RightArrow)`
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+`;
 
 const takeSnapshot = (video: HTMLVideoElement, canvas: HTMLCanvasElement, image: HTMLImageElement) => {
     const width = video.videoWidth;
@@ -63,18 +96,34 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
         return null;
     }
     return (
-        <Modal show={show} onHide={onHide} size="lg">
+        <Modal show={show} onHide={onHide} size="xl">
             <Modal.Header closeButton>Snapshot preview</Modal.Header>
             <Modal.Body>
                 <canvas ref={canvasRef} className="d-none" />
                 <div>Are you sure to update the snapshot representing this video with following image?</div>
-                <div className="mt-3 d-flex justify-content-center ">
-                    <Image fluid ref={imageRef} rounded thumbnail src={snapshotUrl} />
-                </div>
-                <div className="my-1 d-flex justify-content-center ">↓</div>
-                <div className="d-flex justify-content-center ">
-                    <Image fluid ref={imageRef} rounded thumbnail />
-                </div>
+                <Container className="mt-2">
+                    <Row style={{ position: 'relative' }}>
+                        <Col xs={6} className="px-1">
+                            <ImageHolder>
+                                <Image fluid ref={imageRef} rounded src={snapshotUrl} />
+                                <Badge bg="secondary" className="m-1">
+                                    Current
+                                </Badge>
+                            </ImageHolder>
+                        </Col>
+                        <Col xs={6} className="px-1">
+                            <ImageHolder>
+                                <Image fluid ref={imageRef} rounded />
+                                <Badge bg="primary" className="m-1">
+                                    Replacement
+                                </Badge>
+                            </ImageHolder>
+                        </Col>
+                        <ArrowHolder>
+                            <RightArrowIcon />
+                        </ArrowHolder>
+                    </Row>
+                </Container>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
