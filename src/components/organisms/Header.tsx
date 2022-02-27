@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Button, Container, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import Icon from '../../images/icon.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
@@ -10,6 +10,7 @@ import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
 import styled from 'styled-components';
+import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 
 const HomeTubeIcon = styled(Icon)`
     width: 32px;
@@ -53,6 +54,7 @@ const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInpu
 };
 
 const Header: React.FC = () => {
+    const { langKey, setLangKey } = useI18n();
     const namesRef = useRef<HTMLInputElement>(null);
     const { setPage } = useHomePageQuery();
     const { setSearchQuery } = useSearchQuery();
@@ -93,10 +95,23 @@ const Header: React.FC = () => {
                         </Form>
                     </Nav>
                     <Nav className="ms-2 mt-2 mt-sm-0">
-                        <div>
-                            <LanguageIcon />
-                            <IconLabel>Language</IconLabel>
-                        </div>
+                        <NavDropdown
+                            title={
+                                <>
+                                    <LanguageIcon />
+                                    <IconLabel>Language</IconLabel>
+                                </>
+                            }
+                        >
+                            {LANGUAGES.map(({ key, label }) => {
+                                return (
+                                    <NavDropdown.Item key={`lang-${key}`} onClick={() => setLangKey(key)}>
+                                        {key === langKey ? '▸ ' : ''}
+                                        {label}
+                                    </NavDropdown.Item>
+                                );
+                            })}
+                        </NavDropdown>
                     </Nav>
                     <Nav className="ms-2 mt-2 mt-sm-0">
                         <LinkContainer to="/config">

@@ -53,13 +53,22 @@ exports[`Header renders properly 1`] = `
         <div
           class="ms-2 mt-2 mt-sm-0 navbar-nav"
         >
-          <div>
-            [MockedLanguageSvg className="sc-hKwDye jjkbGY" /]
-            <span
-              class="sc-jRQBWg fmpVRd d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
+          <div
+            class="nav-item dropdown"
+          >
+            <a
+              aria-expanded="false"
+              class="dropdown-toggle nav-link"
+              role="button"
+              tabindex="0"
             >
-              Language
-            </span>
+              [MockedLanguageSvg className="sc-hKwDye jjkbGY" /]
+              <span
+                class="sc-jRQBWg fmpVRd d-inline d-sm-none d-lg-inline ms-1 ms-sm-0 ms-lg-1 align-middle"
+              >
+                Language
+              </span>
+            </a>
           </div>
         </div>
         <div

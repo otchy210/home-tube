@@ -15,6 +15,7 @@ import ViewPage from './pages/ViewPage';
 import AllTagsProvider from './providers/AllTagsProvider';
 import ApiProvider from './providers/ApiProvider';
 import HomePageQueryProvider from './providers/HomePageQueryProvider';
+import I18nProvider from './providers/I18nProvider';
 import SearchQueryProvider from './providers/SearchQueryProvider';
 import ToastProvider from './providers/ToastsProvider';
 
@@ -39,26 +40,28 @@ const App: React.FC<Props> = ({ apiHost }) => {
             <GlobalStyle />
             <BrowserRouter>
                 <ApiProvider api={new Api(apiHost)}>
-                    <ToastProvider>
-                        <AllTagsProvider>
-                            <HomePageQueryProvider>
-                                <SearchQueryProvider>
-                                    <Header />
-                                    <Toasts />
-                                    <Container className="mb-auto" style={{ marginTop: '60px' }}>
-                                        <Routes>
-                                            <Route path="/" element={<HomePage />} />
-                                            <Route path="/config" element={<ConfigPage />} />
-                                            <Route path="/search" element={<SearchPage />} />
-                                            <Route path="/view" element={<ViewPage />} />
-                                            <Route path="*" element={<NotFoundPage />} />
-                                        </Routes>
-                                    </Container>
-                                    <Footer />
-                                </SearchQueryProvider>
-                            </HomePageQueryProvider>
-                        </AllTagsProvider>
-                    </ToastProvider>
+                    <I18nProvider>
+                        <ToastProvider>
+                            <AllTagsProvider>
+                                <HomePageQueryProvider>
+                                    <SearchQueryProvider>
+                                        <Header />
+                                        <Toasts />
+                                        <Container className="mb-auto" style={{ marginTop: '60px' }}>
+                                            <Routes>
+                                                <Route path="/" element={<HomePage />} />
+                                                <Route path="/config" element={<ConfigPage />} />
+                                                <Route path="/search" element={<SearchPage />} />
+                                                <Route path="/view" element={<ViewPage />} />
+                                                <Route path="*" element={<NotFoundPage />} />
+                                            </Routes>
+                                        </Container>
+                                        <Footer />
+                                    </SearchQueryProvider>
+                                </HomePageQueryProvider>
+                            </AllTagsProvider>
+                        </ToastProvider>
+                    </I18nProvider>
                 </ApiProvider>
             </BrowserRouter>
         </>
