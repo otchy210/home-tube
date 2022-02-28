@@ -1,6 +1,6 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.2.11",
+    "version": "0.2.12",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "bin": {
         "home-tube": "bin/home-tube"
@@ -16,6 +16,7 @@
         "build:web": "npm run copy && webpack",
         "build:server": "tsc --project tsconfig-server.json",
         "dev": "npm run clean && npm run copy && NODE_ENV=development webpack-dev-server",
+        "i18next": "npx i18next",
         "test": "jest",
         "test:u": "jest -u",
         "lint": "eslint --no-error-on-unmatched-pattern src/*",
@@ -59,6 +60,7 @@
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-promise": "^6.0.0",
+        "i18next-parser": "^5.4.0",
         "jest": "^27.4.5",
         "prettier": "^2.5.1",
         "style-loader": "^3.3.1",
