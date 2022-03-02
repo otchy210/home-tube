@@ -54,7 +54,7 @@ const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInpu
 };
 
 const Header: React.FC = () => {
-    const { langKey, setLangKey } = useI18n();
+    const { langKey, setLangKey, translationReady, t } = useI18n();
     const namesRef = useRef<HTMLInputElement>(null);
     const { setPage } = useHomePageQuery();
     const { setSearchQuery } = useSearchQuery();
@@ -76,6 +76,9 @@ const Header: React.FC = () => {
         e.preventDefault();
         doSearch();
     };
+    if (!translationReady) {
+        return null;
+    }
     return (
         <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
             <Container fluid>
@@ -90,7 +93,7 @@ const Header: React.FC = () => {
                             <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
                             <Button className="ms-2 text-nowrap" onClick={onSearchSubmit}>
                                 <SearchIcon />
-                                <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">Search</span>
+                                <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">{t('Search')}</span>
                             </Button>
                         </Form>
                     </Nav>
@@ -99,7 +102,7 @@ const Header: React.FC = () => {
                             title={
                                 <>
                                     <LanguageIcon />
-                                    <IconLabel>Language</IconLabel>
+                                    <IconLabel>{t('Language')}</IconLabel>
                                 </>
                             }
                         >
@@ -117,7 +120,7 @@ const Header: React.FC = () => {
                         <LinkContainer to="/config">
                             <Nav.Link className="p-0">
                                 <ConfigIcon />
-                                <IconLabel>Config</IconLabel>
+                                <IconLabel>{t('Config')}</IconLabel>
                             </Nav.Link>
                         </LinkContainer>
                     </Nav>

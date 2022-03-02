@@ -1,3 +1,5 @@
 {
-    "test": "T_E_S_T"
+    "Config": "Config",
+    "Language": "Language",
+    "Search": "Search"
 }
