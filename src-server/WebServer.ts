@@ -164,6 +164,14 @@ export default class WebServer {
             response.end(JSON.stringify(this.initialParams));
             return;
         }
+        if (url?.startsWith('/locales/')) {
+            const translation = readCurrentDirFileSync(url.slice(1));
+            response.writeHead(200, {
+                'Content-Type': 'application/json; charset=UTF-8',
+            });
+            response.end(translation);
+            return;
+        }
         response.writeHead(200, {
             'Content-Type': 'text/html; charset=UTF-8',
         });
