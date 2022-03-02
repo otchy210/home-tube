@@ -1,9 +1,11 @@
+const PREFIX = 'HT-';
+
 const getString = <T extends string>(key: string, defaultValue: T): T => {
-    return (localStorage.getItem(key) as T) ?? defaultValue;
+    return (localStorage.getItem(`${PREFIX}${key}`) as T) ?? defaultValue;
 };
 
-const setString = (key: string, value: string): void => {
-    localStorage.setItem(key, value);
+const setString = <T extends string>(key: string, value: T): void => {
+    localStorage.setItem(`${PREFIX}${key}`, value);
 };
 
 export default {
