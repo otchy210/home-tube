@@ -1,5 +1,6 @@
 {
-    "Config": "Config",
-    "Language": "Language",
-    "Search": "Search"
+    "{{count}} movies found_one": "{{count}} movie found",
+    "{{count}} movies found_other": "{{count}} movies found",
+    "{{count}} movies queued_one": "{{count}} movie queued",
+    "{{count}} movies queued_other": "{{count}} movies queued"
 }

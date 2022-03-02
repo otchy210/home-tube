@@ -1,5 +1,27 @@
 {
+    "{{count}} movies found_other": "{{count}} 件の動画が見つかりました",
+    "{{count}} movies queued_zero": "処理待ちの動画はありません",
+    "{{count}} movies queued_other": "処理待ちの動画が {{count}} 件あります",
+    "Add video storage path": "動画保存フォルダの追加",
+    "Add your video storage path which has your videos": "動画を保存しているフォルダを追加して下さい",
+    "Cancel": "キャンセル",
     "Config": "設定",
+    "Delete": "削除",
+    "enabled": "有効",
+    "ffmpeg path": "ffmepg のパス",
+    "initialized": "初期化済",
     "Language": "言語",
-    "Search": "検索"
+    "Meta data": "メタデータ",
+    "No need to set unless you want to change it from default": "デフォルトから変更しない場合は必要ありません",
+    "reading": "読込中",
+    "Save config": "設定を保存",
+    "Search": "検索",
+    "Searchable videos": "検索可能な動画",
+    "Server status": "サーバステータス",
+    "Snapshot": "スナップショット",
+    "stopped": "停止済",
+    "Storages": "フォルダ",
+    "Thumbnails": "サムネイル",
+    "Video storage path": "動画保存フォルダ",
+    "waiting": "待機中"
 }

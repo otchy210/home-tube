@@ -9,6 +9,12 @@ import { useToast } from '../providers/ToastsProvider';
 import Reload from '../../images/reload.svg';
 import Spinner from '../atoms/Spinner';
 import { waitFor } from '../../utils/TimerUtils';
+import { useI18n } from '../providers/I18nProvider';
+
+/*
+Translations for type StorageMonitorStatus = 'initialized' | 'reading' | 'waiting' | 'stopped';
+t('initialized') t('reading') t('waiting') t('stopped')
+*/
 
 const Title = styled.p.attrs({ className: 'h1 pt-3' })``;
 
@@ -50,6 +56,7 @@ const ConfigPage: React.FC = () => {
     const [updated, setUpdated] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
     const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
+    const { translationReady, t } = useI18n();
     const api = useApi();
     const toast = useToast();
     const loadAppConfig = () => {
@@ -73,10 +80,13 @@ const ConfigPage: React.FC = () => {
         loadAppConfig();
         loadServerStatus();
     }, []);
+    if (!translationReady) {
+        return null;
+    }
     if (!appConfig) {
         return (
             <>
-                <Title>Config</Title>
+                <Title>{t('Config')}</Title>
                 <p>{!hasError && <DelayedSpinner />}</p>
             </>
         );
@@ -147,10 +157,10 @@ const ConfigPage: React.FC = () => {
         <>
             <Row>
                 <Col xs={12} lg={7}>
-                    <Title>Config</Title>
+                    <Title>{t('Config')}</Title>
                     <Form>
-                        <PropertyTitle>Video storage path</PropertyTitle>
-                        <Form.Text className="text-muted">Add your video storage path which has your videos.</Form.Text>
+                        <PropertyTitle>{t('Video storage path')}</PropertyTitle>
+                        <Form.Text className="text-muted">{t('Add your video storage path which has your videos')}</Form.Text>
                         {appConfig.storages.map((storage, i) => {
                             return (
                                 <Stack key={`storage-${i}`}>
@@ -166,7 +176,8 @@ const ConfigPage: React.FC = () => {
                                         />
                                         <Form.Check
                                             type="checkbox"
-                                            label="enabled"
+                                            className="text-nowrap"
+                                            label={t('enabled')}
                                             checked={storage.enabled}
                                             onChange={(e) => {
                                                 updateStorageEnabled(i, e.target.checked);
@@ -176,12 +187,13 @@ const ConfigPage: React.FC = () => {
                                         />
                                         <Button
                                             variant="danger"
+                                            className="text-nowrap"
                                             onClick={() => {
                                                 removeStorage(i);
                                             }}
                                             data-testid={`storage-${i}-delete`}
                                         >
-                                            Delete
+                                            {t('Delete')}
                                         </Button>
                                     </Stack>
                                     {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
@@ -190,12 +202,12 @@ const ConfigPage: React.FC = () => {
                         })}
                         <Stack direction="horizontal" gap={2} className="mt-1">
                             <Button variant="secondary" onClick={addStorage} data-testid={`add-storage`}>
-                                Add video storage path
+                                {t('Add video storage path')}
                             </Button>
                         </Stack>
 
-                        <PropertyTitle>ffmpeg path</PropertyTitle>
-                        <Form.Text className="text-muted">No need to set unless you want to change it from default.</Form.Text>
+                        <PropertyTitle>{t('ffmpeg path')}</PropertyTitle>
+                        <Form.Text className="text-muted">{t('No need to set unless you want to change it from default')}</Form.Text>
                         <Form.Control
                             type="text"
                             value={appConfig.ffmpeg}
@@ -208,7 +220,7 @@ const ConfigPage: React.FC = () => {
 
                         <Stack direction="horizontal" gap={2} className="mt-3">
                             <Button variant="primary" disabled={!updated} data-testid="save-config" onClick={trySubmit}>
-                                Save config
+                                {t('Save config')}
                             </Button>
                             <Button
                                 variant="link"
@@ -218,7 +230,7 @@ const ConfigPage: React.FC = () => {
                                 disabled={!updated}
                                 data-testid="cancel"
                             >
-                                Cancel
+                                {t('Cancel')}
                             </Button>
                         </Stack>
                     </Form>{' '}
@@ -226,14 +238,14 @@ const ConfigPage: React.FC = () => {
                 <Col xs={12} lg={5} className="ps-lg-5">
                     {' '}
                     <Title>
-                        Server status <ReloadIcon onClick={loadServerStatus} />
+                        {t('Server status')} <ReloadIcon onClick={loadServerStatus} />
                     </Title>
                     {!serverStatus && <Spinner />}
                     {serverStatus && (
                         <>
-                            <PropertyTitle>Searchable videos</PropertyTitle>
+                            <PropertyTitle>{t('Searchable videos')}</PropertyTitle>
                             <p>{serverStatus.indexedVideo}</p>
-                            <PropertyTitle>Storages</PropertyTitle>
+                            <PropertyTitle>{t('Storages')}</PropertyTitle>
                             {Object.entries(serverStatus.storages).map(([path, info]) => {
                                 const badgeBg = (() => {
                                     switch (info.status) {
@@ -251,26 +263,26 @@ const ConfigPage: React.FC = () => {
                                     <p key={`storage-${path}`}>
                                         <b>{path}</b>
                                         <br />
-                                        <Badge bg={badgeBg}>{info.status}</Badge> {info.size} movies found
+                                        <Badge bg={badgeBg}>{t(info.status)}</Badge> {t('{{count}} movies found', { count: info.size })}
                                         <br />
                                     </p>
                                 );
                             })}
-                            <PropertyTitle>Meta data</PropertyTitle>
+                            <PropertyTitle>{t('Meta data')}</PropertyTitle>
                             <p>
-                                {serverStatus.meta.count} movies queued.
+                                {t('{{count}} movies queued', { count: serverStatus.meta.count })}
                                 <br />
                                 {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
                             </p>
-                            <PropertyTitle>Thumbnails</PropertyTitle>
+                            <PropertyTitle>{t('Thumbnails')}</PropertyTitle>
                             <p>
-                                {serverStatus.thumbnails.count} movies queued.
+                                {t('{{count}} movies queued', { count: serverStatus.thumbnails.count })}
                                 <br />
                                 {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
                             </p>
-                            <PropertyTitle>Snapshot</PropertyTitle>
+                            <PropertyTitle>{t('Snapshot')}</PropertyTitle>
                             <p>
-                                {serverStatus.snapshot.count} movies queued.
+                                {t('{{count}} movies queued', { count: serverStatus.snapshot.count })}
                                 <br />
                                 {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
                             </p>
