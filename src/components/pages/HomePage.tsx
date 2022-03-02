@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
     const { homePageQuery, setPage } = useHomePageQuery();
     const api = useApi();
     const { reload: reloadAllTags } = useAllTags();
-    const { t } = useI18n();
+    const { translationReady, t } = useI18n();
     useEffect(() => {
         api.search().then((videoSet) => {
             const videos = Array.from(videoSet).map((doc) => doc.values);
@@ -23,6 +23,9 @@ const HomePage: React.FC = () => {
     const onClickPage = (page: number) => {
         setPage(String(page));
     };
+    if (!translationReady) {
+        return null;
+    }
     return (
         <>
             Translation test: {t('test')}

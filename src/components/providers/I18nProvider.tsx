@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
 import ls from '../../utils/LocalStorage';
 import i18next, { TFunction } from 'i18next';
+import HttpApi from 'i18next-http-backend';
 
 type LanguageKey = 'en' | 'ja';
 
@@ -18,6 +19,7 @@ export const LANGUAGES: Language[] = [
 type I18nContextValue = {
     langKey: LanguageKey;
     setLangKey: (langKey: LanguageKey) => void;
+    translationReady: boolean;
     t: TFunction;
 };
 
@@ -40,7 +42,7 @@ const getLangKey = (): LanguageKey => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const I18nContext = createContext<I18nContextValue>({ langKey: getLangKey(), setLangKey: () => {}, t: i18next.t });
+const I18nContext = createContext<I18nContextValue>({ langKey: getLangKey(), setLangKey: () => {}, translationReady: false, t: i18next.t });
 
 export const useI18n = (): I18nContextValue => {
     return useContext(I18nContext);
@@ -52,30 +54,27 @@ type Props = {
 
 const I18nProvider: React.FC<Props> = ({ children }) => {
     const [langKey, setStateLangKey] = useState<LanguageKey>(getLangKey());
+    const [translationReady, setTranslationReady] = useState<boolean>(false);
     const setLangKey = (langKey: LanguageKey) => {
         setStateLangKey(langKey);
         ls.setString(LANG_KEY, langKey);
-        location.reload();
+        i18next.changeLanguage(langKey);
     };
-    i18next.t;
     useEffect(() => {
-        i18next.init({
-            lng: langKey,
-            resources: {
-                en: {
-                    translation: {
-                        test: 'TEST',
-                    },
+        i18next
+            .use(HttpApi)
+            .init({
+                lng: langKey,
+                fallbackLng: ['en'],
+                backend: {
+                    loadPath: '/locales/{{lng}}.json',
                 },
-                ja: {
-                    translation: {
-                        test: 'テスト',
-                    },
-                },
-            },
-        });
-    }, [langKey]);
-    return <I18nContext.Provider value={{ langKey, setLangKey, t: i18next.t }}>{children}</I18nContext.Provider>;
+            })
+            .then(() => {
+                setTranslationReady(true);
+            });
+    }, []);
+    return <I18nContext.Provider value={{ langKey, setLangKey, translationReady, t: i18next.t }}>{children}</I18nContext.Provider>;
 };
 
 export default I18nProvider;

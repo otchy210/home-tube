@@ -1,11 +1,13 @@
+const locales = require('./i18next-locales');
+
 module.exports = {
-    locales: ['en', 'ja'],
+    locales,
     lexers: {
         ts: ['JavascriptLexer'],
         tsx: ['JsxLexer'],
     },
     input: "src/**/*.{ts,tsx}",
-    output: 'src/locales/$LOCALE/$NAMESPACE.json',
+    output: 'src/locales/$LOCALE.json',
     sort: true,
     indentation: 4,
     createOldCatalogs: false,
