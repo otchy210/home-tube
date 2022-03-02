@@ -110,7 +110,7 @@ const Header: React.FC = () => {
                                 return (
                                     <NavDropdown.Item key={`lang-${key}`} onClick={() => setLangKey(key)}>
                                         {key === langKey ? '▸ ' : ''}
-                                        {label}
+                                        {t(label)}
                                     </NavDropdown.Item>
                                 );
                             })}
