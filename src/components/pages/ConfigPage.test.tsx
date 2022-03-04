@@ -4,6 +4,7 @@ import ConfigPage, { validateStorages } from './ConfigPage';
 import createMockedApi from '../../__mocks__/createMockedApi';
 import { AppConfig, ServerStatus } from '@otchy/home-tube-api/dist/types';
 import ApiProvider from '../providers/ApiProvider';
+import * as i18n from '../providers/I18nProvider';
 
 describe('validateStorages', () => {
     it('works properly', () => {
@@ -34,6 +35,7 @@ describe('ConfigPage', () => {
     const mockedApi = createMockedApi();
     const mockedApiGetAppConfig = mockedApi.getAppConfig as jest.Mock;
     const mockedApiGetServerStatus = mockedApi.getServerStatus as jest.Mock;
+    const mockedUseI18n = jest.spyOn(i18n, 'useI18n');
 
     const testWithAppConfig = async (appConfig: AppConfig, test: (renderResult: RenderResult) => Promise<void>, done: jest.DoneCallback) => {
         mockedApiGetAppConfig.mockReturnValue(
@@ -80,7 +82,15 @@ describe('ConfigPage', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+        mockedUseI18n.mockReturnValue({
+            langKey: 'en',
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            setLangKey: () => {},
+            translationReady: true,
+            t: (key: string) => key,
+        });
     });
+
     it('renders initial state properly', (done) => {
         testWithAppConfig(
             { storages: [] },

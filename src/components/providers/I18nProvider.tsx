@@ -4,7 +4,7 @@ import ls from '../../utils/LocalStorage';
 import i18next, { TFunction } from 'i18next';
 import HttpApi from 'i18next-http-backend';
 
-type LanguageKey = 'en' | 'ja';
+export type LanguageKey = 'en' | 'ja';
 
 type Language = {
     key: LanguageKey;
