@@ -24,7 +24,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
         <small
           class="text-muted form-text"
         >
-          Add your video storage path which has your videos
+          Add your video storage path which has your videos.
         </small>
         <div
           class="mt-1 hstack gap-2"
@@ -45,7 +45,7 @@ exports[`ConfigPage renders initial state properly 1`] = `
         <small
           class="text-muted form-text"
         >
-          No need to set unless you want to change it from default
+          No need to set unless you want to change it from default.
         </small>
         <input
           class="mt-1 form-control"

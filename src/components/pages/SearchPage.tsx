@@ -6,6 +6,7 @@ import { useApi } from '../providers/ApiProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
 import ClickableTag from '../atoms/ClickableTag';
+import { useI18n } from '../providers/I18nProvider';
 
 type CandiateTag = {
     tag: string;
@@ -18,6 +19,7 @@ const SearchPage: React.FC = () => {
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
     const [candidateTags, setCandidateTags] = useState<CandiateTag[]>([]);
+    const { translationReady, t } = useI18n();
     const namesRef = useRef<HTMLInputElement>(null);
     const starsRef = useRef<HTMLSelectElement>(null);
     const lengthRef = useRef<HTMLSelectElement>(null);
@@ -93,12 +95,16 @@ const SearchPage: React.FC = () => {
             setCandidateTags(candidateTags);
         });
     }, [searchQuery]);
+
+    if (!translationReady) {
+        return null;
+    }
     return (
         <>
             <Row className="mt-2">
                 <Col xs={12} sm={6} lg={3}>
                     <Form.Group className="mt-2" controlId="names">
-                        <Form.Label>File / directory name</Form.Label>
+                        <Form.Label>{t('File / folder name')}</Form.Label>
                         <Form.Control
                             value={localNames}
                             ref={namesRef}
@@ -109,7 +115,7 @@ const SearchPage: React.FC = () => {
                         />
                     </Form.Group>
                     <Form.Group className="mt-2" controlId="stars">
-                        <Form.Label>Raiting</Form.Label>
+                        <Form.Label>{t('Raiting')}</Form.Label>
                         <Form.Select ref={starsRef} value={searchQuery.stars} onChange={doSearch}>
                             <option value=""></option>
                             {POSSIBLE_STARS.map((stars) => {
@@ -131,7 +137,7 @@ const SearchPage: React.FC = () => {
                 </Col>
                 <Col xs={12} sm={6} lg={3}>
                     <Form.Group className="mt-2" controlId="length">
-                        <Form.Label>Length</Form.Label>
+                        <Form.Label>{t('Length')}</Form.Label>
                         <Form.Select ref={lengthRef} value={searchQuery.length} onChange={doSearch}>
                             <option value=""></option>
                             {LENGTH_TAGS.map(({ tag, label }) => {
@@ -144,7 +150,7 @@ const SearchPage: React.FC = () => {
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className="mt-2" controlId="size">
-                        <Form.Label>Size</Form.Label>
+                        <Form.Label>{t('Size')}</Form.Label>
                         <Form.Select ref={sizeRef} value={searchQuery.size} onChange={doSearch}>
                             <option value=""></option>
                             {SIZE_TAGS.map(({ tag, label }) => {
@@ -159,7 +165,7 @@ const SearchPage: React.FC = () => {
                 </Col>
                 <Col xs={12} sm={4} lg={2}>
                     <Form.Group className="mt-2" controlId="tags">
-                        <Form.Label>Tags</Form.Label>
+                        <Form.Label>{t('Tags')}</Form.Label>
                         {candidateTags && candidateTags.length > 0 ? (
                             <Form.Select
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -176,7 +182,7 @@ const SearchPage: React.FC = () => {
                                 })}
                             </Form.Select>
                         ) : (
-                            <div className="text-muted small">No candidates</div>
+                            <div className="text-muted small">{t('No candidates')}</div>
                         )}
                     </Form.Group>
                 </Col>
@@ -186,7 +192,7 @@ const SearchPage: React.FC = () => {
                             return <ClickableTag tag={tag} onClick={removeTag} key={`tag-${tag}`} />;
                         })}
                     </div>
-                    {searchQuery.tags && searchQuery.tags.length > 0 && <div className="text-muted small">Click to remove</div>}
+                    {searchQuery.tags && searchQuery.tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
                 </Col>
             </Row>
             <VideoAlbum videos={videos} page={parseInt(searchQuery.page ?? '1')} onClickPage={onClickPage} />
