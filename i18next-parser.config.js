@@ -11,4 +11,7 @@ module.exports = {
     sort: true,
     indentation: 4,
     createOldCatalogs: false,
+    namespaceSeparator: ':::',
+    keySeparator: '::',
+    pluralSeparator: '__',
 }

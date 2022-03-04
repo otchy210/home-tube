@@ -74,6 +74,9 @@ const I18nProvider: React.FC<Props> = ({ children }) => {
                     loadPath: '/locales/{{lng}}.json',
                 },
                 returnEmptyString: false,
+                nsSeparator: ':::',
+                keySeparator: '::',
+                pluralSeparator: '__',
             })
             .then(() => {
                 setTranslationReady(true);

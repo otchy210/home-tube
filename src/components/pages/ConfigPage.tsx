@@ -160,7 +160,7 @@ const ConfigPage: React.FC = () => {
                     <Title>{t('Config')}</Title>
                     <Form>
                         <PropertyTitle>{t('Video storage path')}</PropertyTitle>
-                        <Form.Text className="text-muted">{t('Add your video storage path which has your videos')}</Form.Text>
+                        <Form.Text className="text-muted">{t('Add your video storage path which has your videos.')}</Form.Text>
                         {appConfig.storages.map((storage, i) => {
                             return (
                                 <Stack key={`storage-${i}`}>
@@ -207,7 +207,7 @@ const ConfigPage: React.FC = () => {
                         </Stack>
 
                         <PropertyTitle>{t('ffmpeg path')}</PropertyTitle>
-                        <Form.Text className="text-muted">{t('No need to set unless you want to change it from default')}</Form.Text>
+                        <Form.Text className="text-muted">{t('No need to set unless you want to change it from default.')}</Form.Text>
                         <Form.Control
                             type="text"
                             value={appConfig.ffmpeg}
@@ -263,26 +263,26 @@ const ConfigPage: React.FC = () => {
                                     <p key={`storage-${path}`}>
                                         <b>{path}</b>
                                         <br />
-                                        <Badge bg={badgeBg}>{t(info.status)}</Badge> {t('{{count}} movies found', { count: info.size })}
+                                        <Badge bg={badgeBg}>{t(info.status)}</Badge> {t('{{count}} movies found.', { count: info.size })}
                                         <br />
                                     </p>
                                 );
                             })}
                             <PropertyTitle>{t('Meta data')}</PropertyTitle>
                             <p>
-                                {t('{{count}} movies queued', { count: serverStatus.meta.count })}
+                                {t('{{count}} movies queued.', { count: serverStatus.meta.count })}
                                 <br />
                                 {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
                             </p>
                             <PropertyTitle>{t('Thumbnails')}</PropertyTitle>
                             <p>
-                                {t('{{count}} movies queued', { count: serverStatus.thumbnails.count })}
+                                {t('{{count}} movies queued.', { count: serverStatus.thumbnails.count })}
                                 <br />
                                 {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
                             </p>
                             <PropertyTitle>{t('Snapshot')}</PropertyTitle>
                             <p>
-                                {t('{{count}} movies queued', { count: serverStatus.snapshot.count })}
+                                {t('{{count}} movies queued.', { count: serverStatus.snapshot.count })}
                                 <br />
                                 {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
                             </p>
