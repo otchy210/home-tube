@@ -8,6 +8,7 @@ import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
 import ls from '../../utils/LocalStorage';
+import { useI18n } from '../providers/I18nProvider';
 
 const StyledPaginationItem = styled(Pagination.Item)`
     & .page-link {
@@ -116,6 +117,10 @@ type Props = {
 
 const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     const [selectedSortKey, setSelectedSortkey] = useSelectedSortKey();
+    const { translationReady, t } = useI18n();
+    if (!translationReady) {
+        return null;
+    }
     if (!videos) {
         return (
             <Row className="mt-4">
@@ -162,7 +167,7 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
                     </Pagination>
                 </Col>
                 <Col xs={12} sm={6} className="mt-4 px-1 text-end">
-                    Showing {first} - {last} of {total}
+                    {t('Showing {{first}} - {{last}} of {{total}}', { first, last, total })}
                 </Col>
             </Row>
             <VideoTable videos={pagesInfo.slicedVideos} />
