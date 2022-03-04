@@ -21,6 +21,7 @@ import {
     TheaterIcon,
 } from '../atoms/VideoPlayerIcons';
 import SnapshotPreview from './SnapshotPreview';
+import { useI18n } from '../providers/I18nProvider';
 
 const VideoPlayerWrapper = styled.div`
     position: relative;
@@ -202,6 +203,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const hideControlTidRec = useRef<number>(0);
     const videoMouseMoveTidRef = useRef<number>(0);
     const clickHandlersRef = useRef<ClickHandlers>();
+    const { translationReady, t } = useI18n();
     const api = useApi();
     const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
@@ -518,6 +520,9 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             document.body.removeEventListener('keydown', handleShortcuts);
         };
     }, []);
+    if (!translationReady) {
+        return null;
+    }
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <>
@@ -551,25 +556,25 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                     <Stack direction="horizontal" className="m-2">
                         {playing ? (
                             <IconWrapper onClick={onClickPause}>
-                                <FirstIconTooltip>Pause (space)</FirstIconTooltip>
+                                <FirstIconTooltip>{t('Pause (space)')}</FirstIconTooltip>
                                 <PauseIcon />
                             </IconWrapper>
                         ) : (
                             <IconWrapper onClick={onClickPlay}>
-                                <FirstIconTooltip>Play (space)</FirstIconTooltip>
+                                <FirstIconTooltip>{t('Play (space)')}</FirstIconTooltip>
                                 <PlayIcon />
                             </IconWrapper>
                         )}
                         <IconWrapper onClick={onClickRewind}>
-                            <IconTooltip>Rewind (←)</IconTooltip>
+                            <IconTooltip>{t('Rewind (←)')}</IconTooltip>
                             <RewindIcon />
                         </IconWrapper>
                         <IconWrapper onClick={onClickForward}>
-                            <IconTooltip>Forward (→)</IconTooltip>
+                            <IconTooltip>{t('Forward (→)')}</IconTooltip>
                             <ForwardIcon />
                         </IconWrapper>
                         <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
-                            <IconTooltip>Mute (m)</IconTooltip>
+                            <IconTooltip>{t('Mute (m)')}</IconTooltip>
                             <Stack direction="horizontal">
                                 <span onClick={toggleMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
                                 <VolumebarWrapper ref={volumeWrapperRef as any}>
@@ -584,24 +589,24 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                             {formatTimeInSecond(currentTime)}/{duration}
                         </Time>
                         <IconWrapper onClick={onClickSnapshot}>
-                            <IconTooltip>Snapshot</IconTooltip>
+                            <IconTooltip>{t('Snapshot')}</IconTooltip>
                             <SnapshotIcon />
                         </IconWrapper>
                         {mode !== 'normal' && (
                             <IconWrapper onClick={onClickNormal}>
-                                <IconTooltip>Normal (t)</IconTooltip>
+                                <IconTooltip>{t('Normal (t)')}</IconTooltip>
                                 <NormalIcon />
                             </IconWrapper>
                         )}
                         {mode !== 'theater' && (
                             <IconWrapper onClick={onClickTheater}>
-                                <IconTooltip>Theater (t)</IconTooltip>
+                                <IconTooltip>{t('Theater (t)')}</IconTooltip>
                                 <TheaterIcon />
                             </IconWrapper>
                         )}
                         {mode !== 'fullScreen' && (
                             <IconWrapper onClick={onClickFullscreen}>
-                                <LastIconTooltip>Full screen (f)</LastIconTooltip>
+                                <LastIconTooltip>{t('Full screen (f)')}</LastIconTooltip>
                                 <FullScreenIcon />
                             </IconWrapper>
                         )}

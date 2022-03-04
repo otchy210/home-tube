@@ -9,6 +9,7 @@ import Confirm from './Confirm';
 import TagsEditor from '../organisms/TagsEditor';
 import StaticTag from '../atoms/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
+import { useI18n } from '../providers/I18nProvider';
 
 const clickableIconStyles = css`
     cursor: pointer;
@@ -50,6 +51,7 @@ type Props = {
 const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, removeStars, updateTags }: Props) => {
     const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
     const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
+    const { translationReady, t } = useI18n();
     const { allTags } = useAllTags();
     const tags = givenTags
         ? givenTags.sort((left, right) => {
@@ -61,6 +63,9 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
               return left.localeCompare(right);
           })
         : [];
+    if (!translationReady) {
+        return null;
+    }
     return (
         <>
             <Confirm
@@ -79,7 +84,7 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
                     </IconWrapper>
                 )}
                 <div className="ms-3" style={{ lineHeight: '32px' }}>
-                    Tags:
+                    {t('Tags')}:
                 </div>
                 <div>
                     {tags.map((tag) => {
