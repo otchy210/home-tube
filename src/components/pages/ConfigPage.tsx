@@ -263,26 +263,31 @@ const ConfigPage: React.FC = () => {
                                     <p key={`storage-${path}`}>
                                         <b>{path}</b>
                                         <br />
-                                        <Badge bg={badgeBg}>{t(info.status)}</Badge> {t('{{count}} movies found.', { count: info.size })}
+                                        <Badge bg={badgeBg}>{t(info.status)}</Badge>{' '}
+                                        {info.size > 0 ? t('{{count}} movies found.', { count: info.size }) : t('Movies not found.')}
                                         <br />
                                     </p>
                                 );
                             })}
                             <PropertyTitle>{t('Meta data')}</PropertyTitle>
                             <p>
-                                {t('{{count}} movies queued.', { count: serverStatus.meta.count })}
+                                {serverStatus.meta.count > 0 ? t('{{count}} movies queued.', { count: serverStatus.meta.count }) : t('No movies queued.')}
                                 <br />
                                 {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
                             </p>
                             <PropertyTitle>{t('Thumbnails')}</PropertyTitle>
                             <p>
-                                {t('{{count}} movies queued.', { count: serverStatus.thumbnails.count })}
+                                {serverStatus.thumbnails.count > 0
+                                    ? t('{{count}} movies queued.', { count: serverStatus.thumbnails.count })
+                                    : t('No movies queued.')}
                                 <br />
                                 {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
                             </p>
                             <PropertyTitle>{t('Snapshot')}</PropertyTitle>
                             <p>
-                                {t('{{count}} movies queued.', { count: serverStatus.snapshot.count })}
+                                {serverStatus.snapshot.count > 0
+                                    ? t('{{count}} movies queued.', { count: serverStatus.snapshot.count })
+                                    : t('No movies queued.')}
                                 <br />
                                 {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
                             </p>
