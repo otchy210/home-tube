@@ -59,9 +59,10 @@ const I18nProvider: React.FC<Props> = ({ children }) => {
     const [langKey, setStateLangKey] = useState<LanguageKey>(getLangKey());
     const [translationReady, setTranslationReady] = useState<boolean>(false);
     const setLangKey = (langKey: LanguageKey) => {
-        setStateLangKey(langKey);
-        ls.setString(LANG_KEY, langKey);
-        i18next.changeLanguage(langKey);
+        i18next.changeLanguage(langKey).then(() => {
+            setStateLangKey(langKey);
+            ls.setString(LANG_KEY, langKey);
+        });
     };
     useEffect(() => {
         i18next
@@ -72,6 +73,7 @@ const I18nProvider: React.FC<Props> = ({ children }) => {
                 backend: {
                     loadPath: '/locales/{{lng}}.json',
                 },
+                returnEmptyString: false,
             })
             .then(() => {
                 setTranslationReady(true);
