@@ -4,6 +4,7 @@ import { Badge, Button, Col, Container, Image, Modal, Row } from 'react-bootstra
 import styled from 'styled-components';
 import { useApi } from '../providers/ApiProvider';
 import RightArrow from '../../images/right-arrow.svg';
+import { useI18n } from '../providers/I18nProvider';
 
 const ImageHolder = styled.div`
     position: relative;
@@ -60,6 +61,7 @@ type Props = {
 const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updateSnapshot }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
+    const { translationReady, t } = useI18n();
     const api = useApi();
     const snapshotUrl = api.getSnapshotUrl(details.key);
     useEffect(() => {
@@ -95,19 +97,22 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
         onHide();
         return null;
     }
+    if (!translationReady) {
+        return null;
+    }
     return (
         <Modal show={show} onHide={onHide} size="xl">
-            <Modal.Header closeButton>Snapshot preview</Modal.Header>
+            <Modal.Header closeButton>{t('Snapshot preview')}</Modal.Header>
             <Modal.Body>
                 <canvas ref={canvasRef} className="d-none" />
-                <div>Are you sure to update the snapshot representing this video with following image?</div>
+                <div>{t('Are you sure to update the snapshot representing this video with following image?')}</div>
                 <Container className="mt-2">
                     <Row style={{ position: 'relative' }}>
                         <Col xs={6} className="px-1">
                             <ImageHolder>
                                 <Image fluid ref={imageRef} rounded src={snapshotUrl} />
                                 <Badge bg="secondary" className="m-1">
-                                    Current
+                                    {t('Current', { context: 'snapshot' })}
                                 </Badge>
                             </ImageHolder>
                         </Col>
@@ -115,7 +120,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                             <ImageHolder>
                                 <Image fluid ref={imageRef} rounded />
                                 <Badge bg="primary" className="m-1">
-                                    Replacement
+                                    {t('Replacement', { context: 'snapshot' })}
                                 </Badge>
                             </ImageHolder>
                         </Col>
@@ -127,10 +132,10 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Cancel
+                    {t('Cancel')}
                 </Button>
                 <Button variant="primary" onClick={onUpdate}>
-                    Update
+                    {t('Update')}
                 </Button>
             </Modal.Footer>
         </Modal>

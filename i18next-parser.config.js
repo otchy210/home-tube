@@ -14,4 +14,5 @@ module.exports = {
     namespaceSeparator: ':::',
     keySeparator: '::',
     pluralSeparator: '__',
+    contextSeparator: '__',
 }

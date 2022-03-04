@@ -77,6 +77,7 @@ const I18nProvider: React.FC<Props> = ({ children }) => {
                 nsSeparator: ':::',
                 keySeparator: '::',
                 pluralSeparator: '__',
+                contextSeparator: '__',
             })
             .then(() => {
                 setTranslationReady(true);
