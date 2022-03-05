@@ -1,7 +1,9 @@
 import React from 'react';
+import { useI18n } from '../providers/I18nProvider';
 
 const NotFoundPage: React.FC = () => {
-    return <div>not found page</div>;
+    const { t } = useI18n();
+    return <div>{t('Page not found.')}</div>;
 };
 
 export default NotFoundPage;
