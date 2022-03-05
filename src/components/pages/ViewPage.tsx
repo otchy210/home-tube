@@ -149,7 +149,7 @@ const ViewPage: React.FC = () => {
             })
             .catch((e) => {
                 console.error(e);
-                toast.addError(t('Video page'), t(`No video found. key: {{videoKey}}`, { videoKey: key }));
+                toast.addError(t('Video page'), `${t('No videos found.')} key: ${key}`);
                 setHasError(true);
             });
         reloadAllTags();

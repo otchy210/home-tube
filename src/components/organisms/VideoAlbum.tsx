@@ -135,11 +135,10 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
             <Row className="mt-4">
                 <Col xs={12}>
                     <Alert variant="primary">
-                        No videos found. Go to{' '}
+                        {t('No videos found.')}{' '}
                         <LinkContainer to="/">
-                            <Alert.Link>home</Alert.Link>
+                            <Alert.Link>{t('Go to home.')}</Alert.Link>
                         </LinkContainer>
-                        .
                     </Alert>
                 </Col>
             </Row>
