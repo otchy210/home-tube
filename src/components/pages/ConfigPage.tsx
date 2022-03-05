@@ -64,7 +64,7 @@ const ConfigPage: React.FC = () => {
             .then(setAppConfig)
             .catch((e) => {
                 console.error(e);
-                toast.addError('Config', 'Failed to load.');
+                toast.addError(t('Config page'), t('Failed to load.'));
                 setHasError(true);
             });
         setUpdated(false);
@@ -144,13 +144,13 @@ const ConfigPage: React.FC = () => {
         }
         api.postAppConfig(appConfig)
             .then(() => {
-                toast.addSuccess('Config', 'Updated successfully.');
+                toast.addSuccess(t('Config page'), t('Updated successfully.'));
                 setUpdated(false);
                 loadServerStatus();
             })
             .catch((e) => {
                 console.error(e);
-                toast.addError('Config', 'Failed to update.');
+                toast.addError(t('Config page'), t('Failed to update.'));
             });
     };
     return (

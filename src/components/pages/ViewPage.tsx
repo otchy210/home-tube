@@ -13,6 +13,7 @@ import DelayedSpinner from '../molecules/DelayedSpinner';
 import { RemoveStars } from '../molecules/VideoProperties';
 import { useAllTags } from '../providers/AllTagsProvider';
 import styled from 'styled-components';
+import { useI18n } from '../providers/I18nProvider';
 
 const VideoPlayerWrapper = styled.div`
     &.theater {
@@ -43,11 +44,12 @@ const ViewPage: React.FC = () => {
     const viewPageRootRef = useRef<HTMLDivElement>(null);
     const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
     const videoPlayerSpacerRef = useRef<HTMLDivElement>(null);
+    const { translationReady, t } = useI18n();
     const api = useApi();
     const toast = useToast();
     const key = searchParams.get('key');
     if (!key) {
-        toast.addError('Video', 'key parameter is required.');
+        toast.addError(t('Video page'), t('key parameter is required.'));
         return null;
     }
 
@@ -147,7 +149,7 @@ const ViewPage: React.FC = () => {
             })
             .catch((e) => {
                 console.error(e);
-                toast.addError('Video', `No video found. key: ${key}`);
+                toast.addError(t('Video page'), t(`No video found. key: {{videoKey}}`, { videoKey: key }));
                 setHasError(true);
             });
         reloadAllTags();
@@ -156,6 +158,10 @@ const ViewPage: React.FC = () => {
             window.removeEventListener('resize', calcViderPlayerHeight);
         };
     }, []);
+
+    if (!translationReady) {
+        return null;
+    }
 
     if (!details) {
         return (
