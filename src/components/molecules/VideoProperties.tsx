@@ -71,9 +71,9 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
             <Confirm
                 show={showRemovalConfirm}
                 setShow={setShowRemovalConfirm}
-                title="Confirmation"
-                body="Are you sure to remove stars?"
-                submit={{ variant: 'danger', label: 'Remove', onClick: removeStars.do }}
+                title={t('Confirmation')}
+                body={t('Are you sure to remove raiting?')}
+                submit={{ variant: 'danger', label: t('Remove raiting'), onClick: removeStars.do }}
             />
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
             <Stack direction="horizontal" className="align-items-start">
