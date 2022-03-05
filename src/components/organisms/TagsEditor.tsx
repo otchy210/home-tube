@@ -4,6 +4,7 @@ import SelectableTag from '../atoms/SelectableTag';
 import Trashcan from '../../images/trashcan.svg';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useBrowserInfo } from '../../utils/useBowser';
+import { useI18n } from '../providers/I18nProvider';
 
 type TrashcanIconProps = {
     enabled: boolean;
@@ -36,6 +37,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     const tagBoxRef = useRef<HTMLInputElement>(null);
+    const { translationReady, t } = useI18n();
     const { sortedTags } = useAllTags();
     const browserInfo = useBrowserInfo();
     const isMacOS = browserInfo.os.name === 'macOS';
@@ -94,6 +96,9 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         updateTags(tags);
         onHide();
     };
+    if (!translationReady) {
+        return null;
+    }
     return (
         <Modal
             show={show}
@@ -103,7 +108,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                 tagBoxRef.current?.focus();
             }}
         >
-            <Modal.Header closeButton>Edit tags</Modal.Header>
+            <Modal.Header closeButton>{t('Edit tags')}</Modal.Header>
             <Modal.Body>
                 <Stack direction="horizontal">
                     <FormControl list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} />
@@ -117,11 +122,11 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                             })}
                     </datalist>
                     <Button variant="primary" className="ms-2 text-nowrap" onClick={add}>
-                        Add
+                        {t('Add')}
                     </Button>
                     <TrashcanIcon enabled={selectedTags.size > 0} onClick={removeSelectedTags} />
                 </Stack>
-                <div className="text-muted small">{isMacOS ? 'Cmd' : 'Ctrl'}+Enter to submit</div>
+                <div className="text-muted small">{t('{{shortcut}} to save', { shortcut: `${isMacOS ? 'Cmd' : 'Ctrl'}+Enter` })}</div>
                 <Stack direction="horizontal" className="flex-wrap">
                     {tags &&
                         tags.map((tag) => {
@@ -140,10 +145,10 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    Cancel
+                    {t('Cancel')}
                 </Button>
                 <Button variant="primary" onClick={onSubmit}>
-                    Submit
+                    {t('Save tags')}
                 </Button>
             </Modal.Footer>
         </Modal>
