@@ -10,6 +10,7 @@ import Reload from '../../images/reload.svg';
 import Spinner from '../atoms/Spinner';
 import { waitFor } from '../../utils/TimerUtils';
 import { useI18n } from '../providers/I18nProvider';
+import ServerStatusProperty from '../molecules/ServerStatusProperty';
 
 /*
 Translations for type StorageMonitorStatus = 'initialized' | 'reading' | 'waiting' | 'stopped';
@@ -269,28 +270,10 @@ const ConfigPage: React.FC = () => {
                                     </p>
                                 );
                             })}
-                            <PropertyTitle>{t('Meta data')}</PropertyTitle>
-                            <p>
-                                {serverStatus.meta.count > 0 ? t('{{count}} movies queued.', { count: serverStatus.meta.count }) : t('No movies queued.')}
-                                <br />
-                                {serverStatus.meta.current && `${t('Processing')}: "${serverStatus.meta.current}"`}
-                            </p>
-                            <PropertyTitle>{t('Thumbnails')}</PropertyTitle>
-                            <p>
-                                {serverStatus.thumbnails.count > 0
-                                    ? t('{{count}} movies queued.', { count: serverStatus.thumbnails.count })
-                                    : t('No movies queued.')}
-                                <br />
-                                {serverStatus.thumbnails.current && `${t('Processing')}: "${serverStatus.thumbnails.current}"`}
-                            </p>
-                            <PropertyTitle>{t('Snapshot')}</PropertyTitle>
-                            <p>
-                                {serverStatus.snapshot.count > 0
-                                    ? t('{{count}} movies queued.', { count: serverStatus.snapshot.count })
-                                    : t('No movies queued.')}
-                                <br />
-                                {serverStatus.snapshot.current && `${t('Processing')}: "${serverStatus.snapshot.current}"`}
-                            </p>
+                            <ServerStatusProperty title={t('Meta data')} status={serverStatus.meta} />
+                            <ServerStatusProperty title={t('Thumbnails')} status={serverStatus.thumbnails} />
+                            <ServerStatusProperty title={t('Snapshot')} status={serverStatus.snapshot} />
+                            <ServerStatusProperty title={t('Recommended MP4')} status={serverStatus.mp4} />
                         </>
                     )}
                 </Col>

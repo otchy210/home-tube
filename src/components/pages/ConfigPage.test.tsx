@@ -65,6 +65,10 @@ describe('ConfigPage', () => {
                         count: 0,
                         current: null,
                     },
+                    mp4: {
+                        count: 0,
+                        current: null,
+                    },
                 });
             })
         );
