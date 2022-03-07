@@ -273,7 +273,7 @@ const ConfigPage: React.FC = () => {
                             <p>
                                 {serverStatus.meta.count > 0 ? t('{{count}} movies queued.', { count: serverStatus.meta.count }) : t('No movies queued.')}
                                 <br />
-                                {serverStatus.meta.current && `Processing "${serverStatus.meta.current}"`}
+                                {serverStatus.meta.current && `${t('Processing')}: "${serverStatus.meta.current}"`}
                             </p>
                             <PropertyTitle>{t('Thumbnails')}</PropertyTitle>
                             <p>
@@ -281,7 +281,7 @@ const ConfigPage: React.FC = () => {
                                     ? t('{{count}} movies queued.', { count: serverStatus.thumbnails.count })
                                     : t('No movies queued.')}
                                 <br />
-                                {serverStatus.thumbnails.current && `Processing "${serverStatus.thumbnails.current}"`}
+                                {serverStatus.thumbnails.current && `${t('Processing')}: "${serverStatus.thumbnails.current}"`}
                             </p>
                             <PropertyTitle>{t('Snapshot')}</PropertyTitle>
                             <p>
@@ -289,7 +289,7 @@ const ConfigPage: React.FC = () => {
                                     ? t('{{count}} movies queued.', { count: serverStatus.snapshot.count })
                                     : t('No movies queued.')}
                                 <br />
-                                {serverStatus.snapshot.current && `Processing "${serverStatus.snapshot.current}"`}
+                                {serverStatus.snapshot.current && `${t('Processing')}: "${serverStatus.snapshot.current}"`}
                             </p>
                         </>
                     )}
