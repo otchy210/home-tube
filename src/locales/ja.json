@@ -9,6 +9,7 @@
     "Are you sure to remove raiting?": "評価を削除してよろしいですか？",
     "Are you sure to update the snapshot representing this video with following image?": "このビデオを表すスナップショットを以下の画像で更新しますか？",
     "Audio codec": "オーディオコーデック",
+    "Being able to play instead of original.": "オリジナルの代わりに再生可能です。",
     "Cancel": "キャンセル",
     "Click to remove": "クリックで削除",
     "Close": "閉じる",
@@ -17,6 +18,7 @@
     "Confirmation": "確認",
     "Current__snapshot": "現在のスナップショット",
     "Delete": "削除",
+    "Do you want to convert this video to recommended MP4 format?": "この動画を推奨 MP4 形式に変換しますか？",
     "Edit tags": "タグの編集",
     "enabled": "有効",
     "English": "英語 (English)",
@@ -47,6 +49,7 @@
     "Pause (space)": "一時停止 (space)",
     "Play (space)": "再生 (space)",
     "Processing": "処理中",
+    "Processing to convert this video to recommended MP4 format.": "推奨 MP4 形式に変換中です。",
     "Raiting": "評価",
     "reading": "読込中",
     "Recommended MP4": "推奨 MP4",
@@ -72,5 +75,6 @@
     "Video codec": "ビデオコーデック",
     "Video page": "動画ページ",
     "Video storage path": "動画保存フォルダ",
-    "waiting": "待機中"
+    "waiting": "待機中",
+    "Waiting for converting to recommended MP4 format.": "推奨 MP4 形式への変換待ちです。"
 }

@@ -15,7 +15,7 @@ type Props = {
 };
 
 const VideoBasicInfo: React.FC<Props> = ({ details, onStars, removeStars, updateTags }: Props) => {
-    const { name, names, width, height, size, stars, tags } = details;
+    const { name, names, width, height, size, stars, tags, mp4 } = details;
     return (
         <>
             <Stack direction="horizontal">
@@ -23,7 +23,7 @@ const VideoBasicInfo: React.FC<Props> = ({ details, onStars, removeStars, update
                 <VideoSizeBadges {...{ width, height, size }} />
             </Stack>
             <VideoTitle name={name} />
-            <VideoProperties {...{ stars, tags, onStars, removeStars, updateTags }} />
+            <VideoProperties {...{ stars, tags, mp4, onStars, removeStars, updateTags }} />
         </>
     );
 };

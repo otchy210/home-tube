@@ -11,6 +11,7 @@
     "Are you sure to remove raiting?": "",
     "Are you sure to update the snapshot representing this video with following image?": "",
     "Audio codec": "",
+    "Being able to play instead of original.": "",
     "Cancel": "",
     "Click to remove": "",
     "Close": "",
@@ -19,6 +20,7 @@
     "Confirmation": "",
     "Current__snapshot": "",
     "Delete": "",
+    "Do you want to convert this video to recommended MP4 format?": "",
     "Edit tags": "",
     "enabled": "",
     "English": "",
@@ -49,6 +51,7 @@
     "Pause (space)": "",
     "Play (space)": "",
     "Processing": "",
+    "Processing to convert this video to recommended MP4 format.": "",
     "Raiting": "",
     "reading": "",
     "Recommended MP4": "",
@@ -74,5 +77,6 @@
     "Video codec": "",
     "Video page": "",
     "Video storage path": "",
-    "waiting": ""
+    "waiting": "",
+    "Waiting for converting to recommended MP4 format.": ""
 }

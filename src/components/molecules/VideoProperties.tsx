@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Stars } from '@otchy/home-tube-api/dist/types';
+import { Stars, VideoConverterStatus } from '@otchy/home-tube-api/dist/types';
 import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
-import { Stack } from 'react-bootstrap';
+import { Badge, Stack } from 'react-bootstrap';
 import Trashcan from '../../images/trashcan.svg';
 import Edit from '../../images/edit.svg';
 import styled, { css } from 'styled-components';
@@ -43,15 +43,16 @@ export type RemoveStars = {
 type Props = {
     stars: Stars | undefined;
     tags: string[] | undefined;
+    mp4: VideoConverterStatus | undefined;
     onStars: StarsMouseEventHandlers;
     removeStars: RemoveStars;
     updateTags: (tags: string[]) => void;
 };
 
-const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, removeStars, updateTags }: Props) => {
+const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, mp4, onStars, removeStars, updateTags }: Props) => {
     const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
     const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const { allTags } = useAllTags();
     const tags = givenTags
         ? givenTags.sort((left, right) => {
@@ -63,9 +64,18 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
               return left.localeCompare(right);
           })
         : [];
-    if (!translationReady) {
-        return null;
-    }
+    const mp4Bg = (() => {
+        switch (mp4) {
+            case 'available':
+                return 'primary';
+            case 'queued':
+                return 'success';
+            case 'processing':
+                return 'warning';
+            default:
+                return 'secondary';
+        }
+    })();
     return (
         <>
             <Confirm
@@ -91,6 +101,23 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, onStars, rem
                         return <StaticTag tag={tag} count={allTags[tag]} key={`tag-${tag}`} />;
                     })}
                     <EditIcon onClick={() => setShowTagsEditor(true)} />
+                </div>
+            </Stack>
+            <Stack direction="horizontal" className="mt-1">
+                <Badge bg={mp4Bg}>{t('Recommended MP4')}</Badge>
+                <div className="text-mute ms-1">
+                    {(() => {
+                        switch (mp4) {
+                            case 'available':
+                                return t('Being able to play instead of original.');
+                            case 'queued':
+                                return t('Waiting for converting to recommended MP4 format.');
+                            case 'processing':
+                                return t('Processing to convert this video to recommended MP4 format.');
+                            default:
+                                return t('Do you want to convert this video to recommended MP4 format?');
+                        }
+                    })()}
                 </div>
             </Stack>
         </>
