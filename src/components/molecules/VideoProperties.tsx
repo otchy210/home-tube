@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stars, VideoConverterStatus } from '@otchy/home-tube-api/dist/types';
+import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
 import { Badge, Button, Stack } from 'react-bootstrap';
 import Trashcan from '../../images/trashcan.svg';
@@ -10,6 +10,7 @@ import TagsEditor from '../organisms/TagsEditor';
 import StaticTag from '../atoms/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
+import { useApi } from '../providers/ApiProvider';
 
 const clickableIconStyles = css`
     cursor: pointer;
@@ -41,21 +42,21 @@ export type RemoveStars = {
 };
 
 type Props = {
-    stars: Stars | undefined;
-    tags: string[] | undefined;
-    mp4: VideoConverterStatus | undefined;
+    details: VideoDetails;
     onStars: StarsMouseEventHandlers;
     removeStars: RemoveStars;
     updateTags: (tags: string[]) => void;
 };
 
-const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, mp4: givenMp4, onStars, removeStars, updateTags }: Props) => {
+const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updateTags }: Props) => {
+    const { key, stars, tags: givenTags, mp4: givenMp4 } = details;
     const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
     const [showMp4Confirm, setShowMp4Confirm] = useState<boolean>(false);
     const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
     const [mp4, setMp4] = useState<VideoConverterStatus>(givenMp4 ?? 'unavailable');
     const { t } = useI18n();
     const { allTags } = useAllTags();
+    const api = useApi();
     const tags = givenTags
         ? givenTags.sort((left, right) => {
               const leftCount = allTags[left];
@@ -84,8 +85,12 @@ const VideoProperties: React.FC<Props> = ({ stars, tags: givenTags, mp4: givenMp
                 ];
         }
     })();
+
     const concerToMp4 = () => {
-        setMp4('queued');
+        (async () => {
+            const result = await api.postConvert(key, 'mp4');
+            setMp4(result.status);
+        })();
     };
     return (
         <>

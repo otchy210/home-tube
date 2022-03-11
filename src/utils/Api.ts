@@ -1,4 +1,4 @@
-import { AllTags, AppConfig, Json, ServerStatus, VideoDetails, VideoDocument, VideoProperties } from '@otchy/home-tube-api/dist/types';
+import { AllTags, AppConfig, Json, ServerStatus, VideoConverterStatus, VideoDetails, VideoDocument, VideoProperties } from '@otchy/home-tube-api/dist/types';
 import { createSearchParams } from 'react-router-dom';
 import TimeSizeLimitedCache from './TimeSizeLimitedCache';
 
@@ -120,6 +120,9 @@ export class Api {
     postProperties(key: string, properties: VideoProperties): Promise<VideoProperties> {
         this.detailsCache.remove(key);
         return this.post<VideoProperties>('/properties', properties, { key });
+    }
+    postConvert(key: string, type: string): Promise<{ status: VideoConverterStatus }> {
+        return this.post<{ status: VideoConverterStatus }>('/convert', null, { key, type });
     }
     getAllTags(): Promise<AllTags> {
         return this.get<AllTags>('/allTags');
