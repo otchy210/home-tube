@@ -50,8 +50,9 @@ type Props = {
 
 const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updateTags }: Props) => {
     const { key, stars, tags: givenTags, mp4: givenMp4 } = details;
-    const [showRemovalConfirm, setShowRemovalConfirm] = useState<boolean>(false);
+    const [showRatingRemovalConfirm, setShowRatingRemovalConfirm] = useState<boolean>(false);
     const [showMp4Confirm, setShowMp4Confirm] = useState<boolean>(false);
+    const [showMp4RemovalConfirm, setShowMp4RemovalConfirm] = useState<boolean>(false);
     const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
     const [mp4, setMp4] = useState<VideoConverterStatus>(givenMp4 ?? 'unavailable');
     const { t } = useI18n();
@@ -70,7 +71,13 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
     const [mp4Bg, mp4Message, mp4ConvertButton] = (() => {
         switch (mp4) {
             case 'available':
-                return ['primary', t('Being ready to play instead of original.'), null];
+                return [
+                    'primary',
+                    t('Being ready to play instead of original.'),
+                    <Button size="sm" onClick={() => setShowMp4RemovalConfirm(true)}>
+                        {t('Remove MP4')}
+                    </Button>,
+                ];
             case 'queued':
                 return ['warning', t('Waiting for converting to recommended MP4 format.'), null];
             case 'processing':
@@ -86,17 +93,21 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
         }
     })();
 
-    const concerToMp4 = () => {
-        (async () => {
-            const result = await api.postConvert(key, 'mp4');
+    const convertToMp4 = () => {
+        api.postConvert(key, 'mp4').then((result) => {
             setMp4(result.status);
-        })();
+        });
+    };
+    const removeMp4 = () => {
+        api.deleteConvert(key, 'mp4').then((result) => {
+            setMp4(result.status);
+        });
     };
     return (
         <>
             <Confirm
-                show={showRemovalConfirm}
-                setShow={setShowRemovalConfirm}
+                show={showRatingRemovalConfirm}
+                setShow={setShowRatingRemovalConfirm}
                 title={t('Confirmation')}
                 submit={{ variant: 'danger', label: t('Remove raiting'), onClick: removeStars.do }}
             >
@@ -106,7 +117,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 show={showMp4Confirm}
                 setShow={setShowMp4Confirm}
                 title={t('Confirmation')}
-                submit={{ variant: 'primary', label: t('Convert to MP4'), onClick: concerToMp4 }}
+                submit={{ variant: 'primary', label: t('Convert to MP4'), onClick: convertToMp4 }}
             >
                 <p>{t("You're about to start converting this video to MP4. Make sure followings.")}</p>
                 <ul>
@@ -121,12 +132,26 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 </ul>
                 <p className="mb-0">{t('Are you sure to start converting?')}</p>
             </Confirm>
+            <Confirm
+                show={showMp4RemovalConfirm}
+                setShow={setShowMp4RemovalConfirm}
+                title={t('Confirmation')}
+                submit={{ variant: 'danger', label: t('Remove MP4'), onClick: removeMp4 }}
+            >
+                <p>{t("You're about to remove the converted MP4. Make sure followings.")}</p>
+                <ul>
+                    <li>{t('Once you remove the MP4 file, you will see the original video again.')}</li>
+                    <li>{t("You can't cancel this operation.")}</li>
+                    <li>{t('It takes long time again as you may remember if you want to convert this video to MP4 again.')}</li>
+                </ul>
+                <p className="mb-0">{t('Are you sure to remove the converted MP4?')}</p>
+            </Confirm>
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
             <Stack direction="horizontal" className="align-items-start">
                 <StarsIndicator size={30} stars={stars} on={onStars} />
                 {removeStars.able() && (
                     <IconWrapper>
-                        <TrashcanIcon onClick={() => setShowRemovalConfirm(true)} />
+                        <TrashcanIcon onClick={() => setShowRatingRemovalConfirm(true)} />
                     </IconWrapper>
                 )}
                 <div className="ms-3" style={{ lineHeight: '32px' }}>

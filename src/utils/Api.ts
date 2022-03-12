@@ -2,7 +2,7 @@ import { AllTags, AppConfig, Json, ServerStatus, VideoConverterStatus, VideoDeta
 import { createSearchParams } from 'react-router-dom';
 import TimeSizeLimitedCache from './TimeSizeLimitedCache';
 
-type Method = 'GET' | 'POST';
+type Method = 'GET' | 'POST' | 'DELETE';
 
 type FetchOptions = {
     method: Method;
@@ -81,6 +81,9 @@ export class Api {
     private post<T>(apiPath: string, body: Json, params?: Record<string, string | string[]>): Promise<T> {
         return this.call('POST', apiPath, { body, params });
     }
+    private delete<T>(apiPath: string, params?: Record<string, string | string[]>): Promise<T> {
+        return this.call('DELETE', apiPath, { params });
+    }
     getAppConfig(): Promise<AppConfig> {
         return this.get<AppConfig>('/appConfig');
     }
@@ -123,6 +126,9 @@ export class Api {
     }
     postConvert(key: string, type: string): Promise<{ status: VideoConverterStatus }> {
         return this.post<{ status: VideoConverterStatus }>('/convert', null, { key, type });
+    }
+    deleteConvert(key: string, type: string): Promise<{ status: VideoConverterStatus }> {
+        return this.delete<{ status: VideoConverterStatus }>('/convert', { key, type });
     }
     getAllTags(): Promise<AllTags> {
         return this.get<AllTags>('/allTags');
