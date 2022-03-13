@@ -22,6 +22,7 @@ import {
 } from '../atoms/VideoPlayerIcons';
 import SnapshotPreview from './SnapshotPreview';
 import { useI18n } from '../providers/I18nProvider';
+import { useToast } from '../providers/ToastsProvider';
 
 const VideoPlayerWrapper = styled.div`
     position: relative;
@@ -205,6 +206,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const clickHandlersRef = useRef<ClickHandlers>();
     const { t } = useI18n();
     const api = useApi();
+    const toast = useToast();
     const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
     useEffect(() => {
@@ -398,10 +400,20 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     };
     const onClickPlay = () => {
         withCurrent(({ video, indicator }) => {
-            video.play();
-            animateIndicator(indicator);
-            setPlaying(true);
-            showControlTemporary();
+            video
+                .play()
+                .then(() => {
+                    animateIndicator(indicator);
+                    setPlaying(true);
+                    showControlTemporary();
+                })
+                .catch((e) => {
+                    console.error(e);
+                    toast.addError(t('Video page'), [
+                        t('Failed to play the video.'),
+                        t('Consider to convert the video to MP4 if the video is unsupported format.'),
+                    ]);
+                });
         });
     };
     const onClickRewind = () => {

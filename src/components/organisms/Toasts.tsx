@@ -1,6 +1,16 @@
 import React from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
+import styled from 'styled-components';
 import { useToast } from '../providers/ToastsProvider';
+
+const ToastHeader = styled(Toast.Header)`
+    background-color: transparent;
+    color: #fff;
+`;
+
+const ToastBody = styled(Toast.Body)`
+    background-color: rgba(255, 255, 255, 0.85);
+`;
 
 const Toasts: React.FC = () => {
     const { toasts, removeToast } = useToast();
@@ -18,7 +28,9 @@ const Toasts: React.FC = () => {
                             return ['danger', false];
                     }
                 })(toast.type);
-                const toastBody = <>{Array.isArray(toast.body) ? toast.body.map((line) => <div>{line}</div>) : <div>{toast.body}</div>}</>;
+                const toastBody = (
+                    <>{Array.isArray(toast.body) ? toast.body.map((line, i) => <div key={`toast-body-${i}`}>{line}</div>) : <div>{toast.body}</div>}</>
+                );
                 return (
                     <Toast
                         show={toast.show}
@@ -30,10 +42,10 @@ const Toasts: React.FC = () => {
                         key={`toast-${index}`}
                         bg={bg}
                     >
-                        <Toast.Header>
+                        <ToastHeader>
                             <strong className="me-auto">{toast.title}</strong>
-                        </Toast.Header>
-                        <Toast.Body>{toastBody}</Toast.Body>
+                        </ToastHeader>
+                        <ToastBody>{toastBody}</ToastBody>
                     </Toast>
                 );
             })}
