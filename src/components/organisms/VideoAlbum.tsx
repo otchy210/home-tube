@@ -117,10 +117,7 @@ type Props = {
 
 const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     const [selectedSortKey, setSelectedSortkey] = useSelectedSortKey();
-    const { translationReady, t } = useI18n();
-    if (!translationReady) {
-        return null;
-    }
+    const { t } = useI18n();
     if (!videos) {
         return (
             <Row className="mt-4">

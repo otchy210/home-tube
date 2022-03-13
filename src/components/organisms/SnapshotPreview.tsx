@@ -61,7 +61,7 @@ type Props = {
 const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updateSnapshot }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const api = useApi();
     const snapshotUrl = api.getSnapshotUrl(details.key);
     useEffect(() => {
@@ -95,9 +95,6 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
     };
     if (!video) {
         onHide();
-        return null;
-    }
-    if (!translationReady) {
         return null;
     }
     return (

@@ -57,7 +57,7 @@ const ConfigPage: React.FC = () => {
     const [updated, setUpdated] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
     const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const api = useApi();
     const toast = useToast();
     const loadAppConfig = () => {
@@ -81,9 +81,6 @@ const ConfigPage: React.FC = () => {
         loadAppConfig();
         loadServerStatus();
     }, []);
-    if (!translationReady) {
-        return null;
-    }
     if (!appConfig) {
         return (
             <>

@@ -54,7 +54,7 @@ const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInpu
 };
 
 const Header: React.FC = () => {
-    const { langKey, setLangKey, translationReady, t } = useI18n();
+    const { langKey, setLangKey, t } = useI18n();
     const namesRef = useRef<HTMLInputElement>(null);
     const { setPage } = useHomePageQuery();
     const { setSearchQuery } = useSearchQuery();
@@ -76,9 +76,6 @@ const Header: React.FC = () => {
         e.preventDefault();
         doSearch();
     };
-    if (!translationReady) {
-        return null;
-    }
     return (
         <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
             <Container fluid>

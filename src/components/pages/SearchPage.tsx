@@ -19,7 +19,7 @@ const SearchPage: React.FC = () => {
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
     const [candidateTags, setCandidateTags] = useState<CandiateTag[]>([]);
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const namesRef = useRef<HTMLInputElement>(null);
     const starsRef = useRef<HTMLSelectElement>(null);
     const lengthRef = useRef<HTMLSelectElement>(null);
@@ -95,10 +95,6 @@ const SearchPage: React.FC = () => {
             setCandidateTags(candidateTags);
         });
     }, [searchQuery]);
-
-    if (!translationReady) {
-        return null;
-    }
     return (
         <>
             <Row className="mt-2">

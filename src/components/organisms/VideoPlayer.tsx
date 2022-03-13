@@ -203,7 +203,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const hideControlTidRec = useRef<number>(0);
     const videoMouseMoveTidRef = useRef<number>(0);
     const clickHandlersRef = useRef<ClickHandlers>();
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const api = useApi();
     const src = api.getVideoUrl(videoKey);
     const duration = formatTimeInSecond(length);
@@ -520,9 +520,6 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             document.body.removeEventListener('keydown', handleShortcuts);
         };
     }, []);
-    if (!translationReady) {
-        return null;
-    }
     /* eslint-disable  @typescript-eslint/no-explicit-any */
     return (
         <>

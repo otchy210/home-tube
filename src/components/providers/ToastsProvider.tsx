@@ -3,14 +3,14 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 type ToastProperties = {
     type: 'SUCCESS' | 'ERROR';
     title: string;
-    body: string;
+    body: string | string[];
     show: boolean;
 };
 
 type ToastContextValue = {
     toasts: ToastProperties[];
-    addSuccess: (title: string, body: string) => void;
-    addError: (title: string, body: string) => void;
+    addSuccess: (title: string, body: string | string[]) => void;
+    addError: (title: string, body: string | string[]) => void;
     removeToast: (index: number) => void;
 };
 
@@ -31,7 +31,7 @@ const ToastProvider: React.FC<Props> = ({ children }: Props) => {
         const updatedToasts = [...toasts, { ...newToast, show: true }];
         setToasts(updatedToasts);
     };
-    const addSuccess = (title: string, body: string) => {
+    const addSuccess = (title: string, body: string | string[]) => {
         addToast({
             type: 'SUCCESS',
             title,
@@ -39,7 +39,7 @@ const ToastProvider: React.FC<Props> = ({ children }: Props) => {
             show: true,
         });
     };
-    const addError = (title: string, body: string) => {
+    const addError = (title: string, body: string | string[]) => {
         addToast({
             type: 'ERROR',
             title,

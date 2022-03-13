@@ -15,7 +15,7 @@ import ViewPage from './pages/ViewPage';
 import AllTagsProvider from './providers/AllTagsProvider';
 import ApiProvider from './providers/ApiProvider';
 import HomePageQueryProvider from './providers/HomePageQueryProvider';
-import I18nProvider from './providers/I18nProvider';
+import I18nProvider, { useI18n } from './providers/I18nProvider';
 import SearchQueryProvider from './providers/SearchQueryProvider';
 import ToastProvider from './providers/ToastsProvider';
 
@@ -45,18 +45,7 @@ const App: React.FC<Props> = ({ apiHost }) => {
                             <AllTagsProvider>
                                 <HomePageQueryProvider>
                                     <SearchQueryProvider>
-                                        <Header />
-                                        <Toasts />
-                                        <Container className="mb-auto" style={{ marginTop: '60px' }}>
-                                            <Routes>
-                                                <Route path="/" element={<HomePage />} />
-                                                <Route path="/config" element={<ConfigPage />} />
-                                                <Route path="/search" element={<SearchPage />} />
-                                                <Route path="/view" element={<ViewPage />} />
-                                                <Route path="*" element={<NotFoundPage />} />
-                                            </Routes>
-                                        </Container>
-                                        <Footer />
+                                        <Page />
                                     </SearchQueryProvider>
                                 </HomePageQueryProvider>
                             </AllTagsProvider>
@@ -64,6 +53,29 @@ const App: React.FC<Props> = ({ apiHost }) => {
                     </I18nProvider>
                 </ApiProvider>
             </BrowserRouter>
+        </>
+    );
+};
+
+const Page: React.FC = () => {
+    const { translationReady } = useI18n();
+    if (!translationReady) {
+        return null;
+    }
+    return (
+        <>
+            <Header />
+            <Toasts />
+            <Container className="mb-auto" style={{ marginTop: '60px' }}>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/config" element={<ConfigPage />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/view" element={<ViewPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+            </Container>
+            <Footer />
         </>
     );
 };

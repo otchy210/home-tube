@@ -18,6 +18,7 @@ const Toasts: React.FC = () => {
                             return ['danger', false];
                     }
                 })(toast.type);
+                const toastBody = <>{Array.isArray(toast.body) ? toast.body.map((line) => <div>{line}</div>) : <div>{toast.body}</div>}</>;
                 return (
                     <Toast
                         show={toast.show}
@@ -32,7 +33,7 @@ const Toasts: React.FC = () => {
                         <Toast.Header>
                             <strong className="me-auto">{toast.title}</strong>
                         </Toast.Header>
-                        <Toast.Body>{toast.body}</Toast.Body>
+                        <Toast.Body>{toastBody}</Toast.Body>
                     </Toast>
                 );
             })}

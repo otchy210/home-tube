@@ -37,7 +37,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     const tagBoxRef = useRef<HTMLInputElement>(null);
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const { sortedTags } = useAllTags();
     const browserInfo = useBrowserInfo();
     const isMacOS = browserInfo.os.name === 'macOS';
@@ -96,9 +96,6 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         updateTags(tags);
         onHide();
     };
-    if (!translationReady) {
-        return null;
-    }
     return (
         <Modal
             show={show}

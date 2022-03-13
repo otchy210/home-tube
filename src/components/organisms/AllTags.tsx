@@ -6,10 +6,7 @@ import { useI18n } from '../providers/I18nProvider';
 
 const AllTags: React.FC = () => {
     const { allTags, sortedTags } = useAllTags();
-    const { translationReady, t } = useI18n();
-    if (!translationReady) {
-        return null;
-    }
+    const { t } = useI18n();
     return (
         <Row>
             <Col xs={12}>

@@ -10,12 +10,9 @@ type Props = {
 };
 
 const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const { vcodec, acodec, fileSize, mtime } = details;
     const isTheater = mode === 'theater';
-    if (!translationReady) {
-        return null;
-    }
     return (
         <div className={`mt-3 mt-lg-${isTheater ? 3 : 0}`}>
             <div className={`d-flex ${isTheater ? '' : 'flex-lg-column'}`}>
