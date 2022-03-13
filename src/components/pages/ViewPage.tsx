@@ -44,7 +44,7 @@ const ViewPage: React.FC = () => {
     const viewPageRootRef = useRef<HTMLDivElement>(null);
     const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
     const videoPlayerSpacerRef = useRef<HTMLDivElement>(null);
-    const { translationReady, t } = useI18n();
+    const { t } = useI18n();
     const api = useApi();
     const toast = useToast();
     const key = searchParams.get('key');
@@ -147,8 +147,7 @@ const ViewPage: React.FC = () => {
                     image.setAttribute('src', src);
                 }
             })
-            .catch((e) => {
-                console.error(e);
+            .catch(() => {
                 toast.addError(t('Video page'), `${t('No videos found.')} key: ${key}`);
                 setHasError(true);
             });
@@ -158,10 +157,6 @@ const ViewPage: React.FC = () => {
             window.removeEventListener('resize', calcViderPlayerHeight);
         };
     }, []);
-
-    if (!translationReady) {
-        return null;
-    }
 
     if (!details) {
         return (

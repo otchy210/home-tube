@@ -101,11 +101,15 @@ export class Api {
         if (cachedDetails) {
             return Promise.resolve(cachedDetails);
         }
-        return new Promise((resolve) => {
-            this.get<VideoDetails>('/details', { key }).then((videoDetails) => {
-                this.detailsCache.add(key, videoDetails);
-                resolve(videoDetails);
-            });
+        return new Promise((resolve, reject) => {
+            this.get<VideoDetails>('/details', { key })
+                .then((videoDetails) => {
+                    this.detailsCache.add(key, videoDetails);
+                    resolve(videoDetails);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
         });
     }
     getThumbnailsUrl(key: string, minute: string): string {
@@ -125,9 +129,11 @@ export class Api {
         return this.post<VideoProperties>('/properties', properties, { key });
     }
     postConvert(key: string, type: string): Promise<{ status: VideoConverterStatus }> {
+        this.detailsCache.remove(key);
         return this.post<{ status: VideoConverterStatus }>('/convert', null, { key, type });
     }
     deleteConvert(key: string, type: string): Promise<{ status: VideoConverterStatus }> {
+        this.detailsCache.remove(key);
         return this.delete<{ status: VideoConverterStatus }>('/convert', { key, type });
     }
     getAllTags(): Promise<AllTags> {
