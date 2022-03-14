@@ -56,6 +56,7 @@ const ConfigPage: React.FC = () => {
     const [serverStatus, setServerStatus] = useState<ServerStatus>();
     const [updated, setUpdated] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
+    const [submitting, setSubmitting] = useState<boolean>(false);
     const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
     const { t } = useI18n();
     const api = useApi();
@@ -140,6 +141,7 @@ const ConfigPage: React.FC = () => {
         if (storageValidationErrors.size > 0) {
             return;
         }
+        setSubmitting(true);
         api.postAppConfig(appConfig)
             .then(() => {
                 toast.addSuccess(t('Config page'), t('Updated successfully.'));
@@ -149,6 +151,9 @@ const ConfigPage: React.FC = () => {
             .catch((e) => {
                 console.error(e);
                 toast.addError(t('Config page'), t('Failed to update.'));
+            })
+            .finally(() => {
+                setSubmitting(false);
             });
     };
     return (
@@ -217,7 +222,7 @@ const ConfigPage: React.FC = () => {
                         />
 
                         <Stack direction="horizontal" gap={2} className="mt-3">
-                            <Button variant="primary" disabled={!updated} data-testid="save-config" onClick={trySubmit}>
+                            <Button variant="primary" disabled={!updated || submitting} data-testid="save-config" onClick={trySubmit}>
                                 {t('Save config')}
                             </Button>
                             <Button
@@ -225,7 +230,7 @@ const ConfigPage: React.FC = () => {
                                 onClick={() => {
                                     loadAppConfig();
                                 }}
-                                disabled={!updated}
+                                disabled={!updated || submitting}
                                 data-testid="cancel"
                             >
                                 {t('Cancel')}
