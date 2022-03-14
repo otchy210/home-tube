@@ -1,31 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Button, FormControl, Modal, Stack } from 'react-bootstrap';
-import SelectableTag from '../atoms/SelectableTag';
-import Trashcan from '../../images/trashcan.svg';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useBrowserInfo } from '../../utils/useBowser';
 import { useI18n } from '../providers/I18nProvider';
 import SubmitButton from '../atoms/SubmitButton';
-
-type TrashcanIconProps = {
-    enabled: boolean;
-    onClick: React.MouseEventHandler<HTMLElement>;
-};
-const TrashcanIcon: React.FC<TrashcanIconProps> = ({ enabled, onClick }: TrashcanIconProps) => {
-    return (
-        <Trashcan
-            width={32}
-            height={32}
-            className="ms-2"
-            style={{ cursor: enabled ? 'pointer' : 'default', opacity: enabled ? '1' : '0.4' }}
-            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                if (enabled) {
-                    onClick(e);
-                }
-            }}
-        />
-    );
-};
+import ClickableTag from '../atoms/ClickableTag';
 
 type Props = {
     show: boolean;
@@ -36,7 +15,6 @@ type Props = {
 
 const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTags }: Props) => {
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
-    const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
     const [submitting, setSubmitting] = useState<boolean>(false);
     const tagBoxRef = useRef<HTMLInputElement>(null);
     const { t } = useI18n();
@@ -78,21 +56,9 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             return;
         }
     };
-    const onChangeSelected = (tag: string) => {
-        const updatedSelectedTags = new Set(selectedTags);
-        if (selectedTags.has(tag)) {
-            updatedSelectedTags.delete(tag);
-        } else {
-            updatedSelectedTags.add(tag);
-        }
-        setSelectedTags(updatedSelectedTags);
-    };
-    const removeSelectedTags = () => {
-        const updatedTags = tags.filter((tag) => {
-            return !selectedTags.has(tag);
-        });
+    const removeTag = (tagToRemove: string) => {
+        const updatedTags = tags.filter((tag) => tagToRemove !== tag);
         setTags(updatedTags);
-        setSelectedTags(new Set());
     };
     const onSubmit = () => {
         setSubmitting(true);
@@ -126,24 +92,15 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                     <Button variant="primary" className="ms-2 text-nowrap" onClick={add}>
                         {t('Add')}
                     </Button>
-                    <TrashcanIcon enabled={selectedTags.size > 0} onClick={removeSelectedTags} />
                 </Stack>
                 <div className="text-muted small">{t('{{shortcut}} to save', { shortcut: `${isMacOS ? 'Cmd' : 'Ctrl'}+Enter` })}</div>
                 <Stack direction="horizontal" className="flex-wrap">
                     {tags &&
                         tags.map((tag) => {
-                            return (
-                                <SelectableTag
-                                    name={tag}
-                                    checked={selectedTags.has(tag)}
-                                    onChange={() => {
-                                        onChangeSelected(tag);
-                                    }}
-                                    key={`tag-${tag}`}
-                                />
-                            );
+                            return <ClickableTag tag={tag} onClick={removeTag} key={`tag-${tag}`} />;
                         })}
                 </Stack>
+                {tags && tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
