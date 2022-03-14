@@ -5,6 +5,7 @@ import Trashcan from '../../images/trashcan.svg';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useBrowserInfo } from '../../utils/useBowser';
 import { useI18n } from '../providers/I18nProvider';
+import SubmitButton from '../atoms/SubmitButton';
 
 type TrashcanIconProps = {
     enabled: boolean;
@@ -30,12 +31,13 @@ type Props = {
     show: boolean;
     setShow: (show: boolean) => void;
     tags: string[] | undefined;
-    updateTags: (tags: string[]) => void;
+    updateTags: (tags: string[]) => Promise<void>;
 };
 
 const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTags }: Props) => {
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+    const [submitting, setSubmitting] = useState<boolean>(false);
     const tagBoxRef = useRef<HTMLInputElement>(null);
     const { t } = useI18n();
     const { sortedTags } = useAllTags();
@@ -93,8 +95,11 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         setSelectedTags(new Set());
     };
     const onSubmit = () => {
-        updateTags(tags);
-        onHide();
+        setSubmitting(true);
+        updateTags(tags).then(() => {
+            setSubmitting(false);
+            onHide();
+        });
     };
     return (
         <Modal
@@ -144,9 +149,9 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                 <Button variant="secondary" onClick={onHide}>
                     {t('Cancel')}
                 </Button>
-                <Button variant="primary" onClick={onSubmit}>
+                <SubmitButton submitting={submitting} onClick={onSubmit}>
                     {t('Save tags')}
-                </Button>
+                </SubmitButton>
             </Modal.Footer>
         </Modal>
     );

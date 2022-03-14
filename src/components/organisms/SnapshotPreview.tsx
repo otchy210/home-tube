@@ -1,10 +1,11 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Badge, Button, Col, Container, Image, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useApi } from '../providers/ApiProvider';
 import RightArrow from '../../images/right-arrow.svg';
 import { useI18n } from '../providers/I18nProvider';
+import SubmitButton from '../atoms/SubmitButton';
 
 const ImageHolder = styled.div`
     position: relative;
@@ -55,10 +56,11 @@ type Props = {
     setShow: (show: boolean) => void;
     details: VideoDetails;
     video: HTMLVideoElement | null;
-    updateSnapshot: (canvas: HTMLCanvasElement) => void;
+    updateSnapshot: (canvas: HTMLCanvasElement) => Promise<void>;
 };
 
 const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updateSnapshot }) => {
+    const [submitting, setSubmitting] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
     const { t } = useI18n();
@@ -89,9 +91,14 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
     };
     const onUpdate = () => {
         if (canvasRef.current) {
-            updateSnapshot(canvasRef.current);
+            setSubmitting(true);
+            updateSnapshot(canvasRef.current).then(() => {
+                setSubmitting(false);
+                onHide();
+            });
+        } else {
+            onHide();
         }
-        onHide();
     };
     if (!video) {
         onHide();
@@ -131,9 +138,9 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                 <Button variant="secondary" onClick={onHide}>
                     {t('Cancel')}
                 </Button>
-                <Button variant="primary" onClick={onUpdate}>
+                <SubmitButton submitting={submitting} onClick={onUpdate}>
                     {t('Update')}
-                </Button>
+                </SubmitButton>
             </Modal.Footer>
         </Modal>
     );

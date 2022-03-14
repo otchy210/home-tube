@@ -85,11 +85,11 @@ const ViewPage: React.FC = () => {
     };
     const updateTags = (tags: string[]) => {
         if (!details) {
-            return;
+            return Promise.resolve();
         }
         const updatedDetails = { ...details, tags };
         setDetails(updatedDetails);
-        api.postProperties(key, { tags }).then(() => {
+        return api.postProperties(key, { tags }).then(() => {
             reloadAllTags();
         });
     };

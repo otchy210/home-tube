@@ -45,7 +45,7 @@ type Props = {
     details: VideoDetails;
     onStars: StarsMouseEventHandlers;
     removeStars: RemoveStars;
-    updateTags: (tags: string[]) => void;
+    updateTags: (tags: string[]) => Promise<void>;
 };
 
 const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updateTags }: Props) => {

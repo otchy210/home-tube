@@ -11,6 +11,7 @@ import Spinner from '../atoms/Spinner';
 import { waitFor } from '../../utils/TimerUtils';
 import { useI18n } from '../providers/I18nProvider';
 import ServerStatusProperty from '../molecules/ServerStatusProperty';
+import SubmitButton from '../atoms/SubmitButton';
 
 /*
 Translations for type StorageMonitorStatus = 'initialized' | 'reading' | 'waiting' | 'stopped';
@@ -222,9 +223,9 @@ const ConfigPage: React.FC = () => {
                         />
 
                         <Stack direction="horizontal" gap={2} className="mt-3">
-                            <Button variant="primary" disabled={!updated || submitting} data-testid="save-config" onClick={trySubmit}>
+                            <SubmitButton disabled={!updated} submitting={submitting} data-testid="save-config" onClick={trySubmit}>
                                 {t('Save config')}
-                            </Button>
+                            </SubmitButton>
                             <Button
                                 variant="link"
                                 onClick={() => {

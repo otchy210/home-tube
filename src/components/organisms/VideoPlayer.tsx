@@ -462,9 +462,9 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const onClickSnapshot = () => {
         setShowSnapshotPreview(true);
     };
-    const updateSnapshot = (canvas: HTMLCanvasElement) => {
+    const updateSnapshot = (canvas: HTMLCanvasElement): Promise<void> => {
         const dataURL = canvas.toDataURL();
-        api.postSnapshot(videoKey, dataURL);
+        return api.postSnapshot(videoKey, dataURL);
     };
     const onClickNormal = () => {
         setMode('normal');
