@@ -154,7 +154,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                         <TrashcanIcon onClick={() => setShowRatingRemovalConfirm(true)} />
                     </IconWrapper>
                 )}
-                <div className="ms-3" style={{ lineHeight: '32px' }}>
+                <div className="ms-3 text-nowrap" style={{ lineHeight: '32px' }}>
                     {t('Tags')}:
                 </div>
                 <div>
