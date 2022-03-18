@@ -496,6 +496,9 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             if (target && target.tagName === 'INPUT') {
                 return;
             }
+            if (e.metaKey || e.ctrlKey || e.altKey) {
+                return;
+            }
             const clickHandlers = clickHandlersRef.current;
             if (!clickHandlers) {
                 return;
