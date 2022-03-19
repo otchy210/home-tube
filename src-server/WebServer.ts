@@ -79,7 +79,7 @@ export default class WebServer {
     public constructor() {
         const argv = parseArgv();
 
-        this.port = argv.port ?? 80;
+        this.port = argv.port ?? DEFAULT_WEB_PORT;
         this.initialParams = getInitialParams(argv);
         this.apiServer = !argv.apiHost ? new ApiServer(getServerConfig(argv)) : null;
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {

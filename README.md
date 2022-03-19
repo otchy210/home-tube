@@ -8,9 +8,19 @@ HomeTube is a webapp which provides YouTube-ish UI and features for your videos 
 
 ## Install
 
-CAUTION: HomeTube is still pretty early beta versoin. It's not recommended to try if you don't understand what the following commands do. You should consider which ones you _actually_ need to run and even you should consider any options to add.
+**CAUTION:** HomeTube is still pretty early beta versoin. It's not recommended to try if you don't understand what this introduction explains exactly.
 
-Currently HomeTube is tested on Mac only. It may work on Linux but doesn't work on Windows certainly. (Supporting both Linux and Windows is on the TODO list)
+### Requirements
+
+-   `ffmpeg` v4 or later
+    -   HomeTube uses `ffmpeg` command to handle videos. So you need to install it on the server you want to run the HomeTube.
+-   Node.js v12 or later (v14 is recommended)
+    -   HomeTube uses `node` command to run the server.
+
+### List of commands you may want to run on your Mac
+
+Followings are _examples_ of commands on Mac. You should consider which ones you actually need to run and even you should consider any options to add.
+Currently HomeTube is tested on Mac and Linux. It doesn't work on Windows certainly. (Supporting Windows is on the TODO list)
 
 ```
 $ brew install ffmpeg
@@ -20,6 +30,8 @@ $ nvm alias default 14
 $ npm -g install @otchy/home-tube
 $ home-tube
 ```
+
+(Assuming Linux users can understand what to do by above 😉)
 
 ## Development
 
