@@ -32,8 +32,8 @@ export const calcPages = (
     const firstIndex = (page - 1) * maxVideoCount;
     const slicedVideos = videos.slice(firstIndex, firstIndex + maxVideoCount);
     const lastPage = Math.trunc((videos.length - 1) / maxVideoCount) + 1;
-    const firstPagination = Math.max(1, page - 4);
-    const lastPagination = Math.min(page + 4, lastPage);
+    const firstPagination = Math.max(1, page - 3);
+    const lastPagination = Math.min(page + 3, lastPage);
     const visiblePages: number[] = [];
     for (let p = firstPagination; p <= lastPagination; p++) {
         visiblePages.push(p);
