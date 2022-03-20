@@ -13,6 +13,8 @@ import { resolve } from 'path';
 
 const DEFAULT_WEB_PORT = 8080;
 
+const DEFAULT_API_HOST = `{ws-protocol}://{ws-hostname}:${DEFAULT_API_PORT}`;
+
 type Argv = {
     port?: number;
     apiPort?: number;
@@ -21,7 +23,6 @@ type Argv = {
 };
 
 const parseArgv = (): Argv => {
-    const defaultApiHost = `http://localhost:${DEFAULT_API_PORT}`;
     const defaultAppConfig = join(homedir(), DEFAULT_APP_CONFIG_FILE);
     return yargs
         .option('port', {
@@ -38,7 +39,7 @@ const parseArgv = (): Argv => {
         })
         .option('apiHost', {
             type: 'string',
-            description: `API server host, set if you run API server apart from this [default: ${defaultApiHost}]`,
+            description: `API server host, set if you run API server apart from this [default: ${DEFAULT_API_HOST}]`,
         })
         .help().argv as Argv;
 };
@@ -50,7 +51,7 @@ const getInitialParams = (argv: Argv): InitialParams => {
         };
     }
     return {
-        apiHost: `http://localhost:${argv.apiPort ?? DEFAULT_API_PORT}`,
+        apiHost: DEFAULT_API_HOST,
     };
 };
 
