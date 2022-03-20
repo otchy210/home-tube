@@ -8,8 +8,8 @@ import { createServer, IncomingMessage, Server as HttpServer, ServerResponse } f
 import { InitialParams } from './common';
 import * as yargs from 'yargs';
 import { gzip } from 'zlib';
-import { ServerConfig } from '@otchy/home-tube-api/dist/types';
 import { resolve } from 'path';
+import { ApiServerConfig } from '@otchy/home-tube-api/dist/types';
 
 const DEFAULT_WEB_PORT = 8080;
 
@@ -55,10 +55,10 @@ const getInitialParams = (argv: Argv): InitialParams => {
     };
 };
 
-const getServerConfig = (argv: Argv): ServerConfig => {
+const getApiServerConfig = (argv: Argv): ApiServerConfig => {
     return {
         port: argv.apiPort ?? DEFAULT_API_PORT,
-        appConfigPath: argv.appConfig,
+        appConfig: argv.appConfig,
     };
 };
 
@@ -82,7 +82,7 @@ export default class WebServer {
 
         this.port = argv.port ?? DEFAULT_WEB_PORT;
         this.initialParams = getInitialParams(argv);
-        this.apiServer = !argv.apiHost ? new ApiServer(getServerConfig(argv)) : null;
+        this.apiServer = !argv.apiHost ? new ApiServer(getApiServerConfig(argv)) : null;
         this.httpServer = createServer((request: IncomingMessage, response: ServerResponse): void => {
             this.handleRequest(request, response);
         });
