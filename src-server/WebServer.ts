@@ -10,6 +10,7 @@ import * as yargs from 'yargs';
 import { gzip } from 'zlib';
 import { resolve } from 'path';
 import { ApiServerConfig } from '@otchy/home-tube-api/dist/types';
+import { getLocalIpv4Addresses } from '@otchy/home-tube-api/dist/utils/NetworkUtils';
 
 const DEFAULT_WEB_PORT = 8080;
 
@@ -99,10 +100,14 @@ export default class WebServer {
 
     public showInitialMessages() {
         console.log('==== HomeTube ==================================================');
-        console.log(`WebServer running on http://localhost:${this.port}`);
+        console.log('WebServer running on:');
+        getLocalIpv4Addresses().forEach((ipv4) => {
+            const host = ipv4 === '127.0.0.1' ? 'localhost' : ipv4;
+            console.log(`    http://${host}:${this.port}`);
+        });
         if (this.apiServer) {
             const appConfigPath = this.apiServer.getAppConfigPath();
-            console.log(`ApiServer running on ${this.initialParams.apiHost}`);
+            console.log(`ApiServer running on: ${this.initialParams.apiHost}`);
             console.log(`AppConfig: ${appConfigPath}`);
         }
         console.log('Press Ctrl+C to stop the server');
