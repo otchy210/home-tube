@@ -12,6 +12,7 @@ import { waitFor } from '../../utils/TimerUtils';
 import { useI18n } from '../providers/I18nProvider';
 import ServerStatusProperty from '../molecules/ServerStatusProperty';
 import SubmitButton from '../atoms/SubmitButton';
+import { TFunction } from 'i18next';
 
 /*
 Translations for type StorageMonitorStatus = 'initialized' | 'reading' | 'waiting' | 'stopped';
@@ -28,13 +29,13 @@ const ReloadIcon = styled(Reload).attrs({ width: 32, height: 32 })`
 
 type StorageValidatinErrors = Map<number, string>;
 
-export const validateStorages = (storages: Storage[]): StorageValidatinErrors => {
+export const validateStorages = (storages: Storage[], t: TFunction): StorageValidatinErrors => {
     const errors = new Map<number, string>();
     const seenPaths: { [path: string]: number[] } = {};
     storages.forEach((storage, index) => {
         const { path } = storage;
         if (path.length === 0) {
-            errors.set(index, 'Path is empty.');
+            errors.set(index, t('Path is empty.'));
             return;
         }
         if (seenPaths[path] === undefined) {
@@ -46,7 +47,7 @@ export const validateStorages = (storages: Storage[]): StorageValidatinErrors =>
         .filter((indexes) => indexes.length > 1)
         .forEach((indexes) => {
             indexes.forEach((index) => {
-                errors.set(index, 'Path is duplicated.');
+                errors.set(index, t('Path is duplicated.'));
             });
         });
     return errors;
@@ -137,7 +138,7 @@ const ConfigPage: React.FC = () => {
         setUpdated(true);
     };
     const trySubmit = () => {
-        const storageValidationErrors = validateStorages(appConfig.storages);
+        const storageValidationErrors = validateStorages(appConfig.storages, t);
         setStorageValidationErrors(storageValidationErrors);
         if (storageValidationErrors.size > 0) {
             return;

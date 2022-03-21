@@ -53,6 +53,8 @@
     "Normal (t)": "通常表示 (t)",
     "Once you remove the MP4 file, you will see the original video again.": "いったん MP4 ファイルを削除すると再びオリジナルの動画を見ることになります。",
     "Page not found.": "ページが見つかりません。",
+    "Path is duplicated.": "パスが重複しています。",
+    "Path is empty.": "パスが空です。",
     "Pause (space)": "一時停止 (space)",
     "Play (space)": "再生 (space)",
     "Processing": "処理中",
