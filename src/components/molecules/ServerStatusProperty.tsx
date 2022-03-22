@@ -16,7 +16,7 @@ const ServerStatusProperty: React.FC<Props> = ({ title, status }) => {
         <>
             <PropertyTitle>{title}</PropertyTitle>
             <p>
-                <div>{status.count > 0 ? t('{{count}} movies queued.', { count: status.count }) : t('No movies queued.')}</div>
+                {status.count > 0 ? t('{{count}} movies queued.', { count: status.count }) : t('No movies queued.')}
                 <small className="d-block text-muted">{status.current && `${t('Processing')}: "${status.current}"`}</small>
             </p>
         </>
