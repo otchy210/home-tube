@@ -15,6 +15,7 @@ type CandiateTag = {
 
 const SearchPage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
+    const [videoSearchError, setVideoSearchError] = useState<string>();
     const api = useApi();
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
@@ -61,39 +62,43 @@ const SearchPage: React.FC = () => {
     };
 
     useEffect(() => {
-        api.search(searchQuery).then((videoSet) => {
-            const videos = Array.from(videoSet).map((doc) => doc.values);
-            setVideos(videos);
-            const tagsMap = videos
-                .map((video) => {
-                    return video.tags;
-                })
-                .filter((tags) => !!tags)
-                .reduce((map, tags) => {
-                    tags?.forEach((tag) => {
-                        const current = map.get(tag) ?? 0;
-                        map.set(tag, current + 1);
-                    });
-                    return map;
-                }, new Map<string, number>());
-            searchQuery.tags?.forEach((selectedTag) => {
-                tagsMap.delete(selectedTag);
-            });
-            const candidateTags = Array.from(tagsMap.entries())
-                .sort((left, right) => {
-                    const [leftTag, leftCount] = left;
-                    const [rightTag, rightCount] = right;
-                    const diff = rightCount - leftCount;
-                    if (diff !== 0) {
-                        return diff;
-                    }
-                    return leftTag.localeCompare(rightTag);
-                })
-                .map(([tag, count]) => {
-                    return { tag, count };
+        api.search(searchQuery)
+            .then((videoSet) => {
+                const videos = Array.from(videoSet).map((doc) => doc.values);
+                setVideos(videos);
+                const tagsMap = videos
+                    .map((video) => {
+                        return video.tags;
+                    })
+                    .filter((tags) => !!tags)
+                    .reduce((map, tags) => {
+                        tags?.forEach((tag) => {
+                            const current = map.get(tag) ?? 0;
+                            map.set(tag, current + 1);
+                        });
+                        return map;
+                    }, new Map<string, number>());
+                searchQuery.tags?.forEach((selectedTag) => {
+                    tagsMap.delete(selectedTag);
                 });
-            setCandidateTags(candidateTags);
-        });
+                const candidateTags = Array.from(tagsMap.entries())
+                    .sort((left, right) => {
+                        const [leftTag, leftCount] = left;
+                        const [rightTag, rightCount] = right;
+                        const diff = rightCount - leftCount;
+                        if (diff !== 0) {
+                            return diff;
+                        }
+                        return leftTag.localeCompare(rightTag);
+                    })
+                    .map(([tag, count]) => {
+                        return { tag, count };
+                    });
+                setCandidateTags(candidateTags);
+            })
+            .catch(() => {
+                setVideoSearchError(t('Failed to search videos.'));
+            });
     }, [searchQuery]);
     return (
         <>
@@ -191,7 +196,7 @@ const SearchPage: React.FC = () => {
                     {searchQuery.tags && searchQuery.tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
                 </Col>
             </Row>
-            <VideoAlbum videos={videos} page={parseInt(searchQuery.page ?? '1')} onClickPage={onClickPage} />
+            <VideoAlbum videos={videos} error={videoSearchError} page={parseInt(searchQuery.page ?? '1')} onClickPage={onClickPage} />
         </>
     );
 };

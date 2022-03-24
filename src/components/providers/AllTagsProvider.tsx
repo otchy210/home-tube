@@ -24,22 +24,27 @@ const AllTagsProvider: React.FC<Props> = ({ children }: Props) => {
     const [sortedTags, setSortedTags] = useState<string[]>([]);
     const api = useApi();
     const reload = () => {
-        api.getAllTags().then((allTags) => {
-            setAllTags(allTags);
-            const sortedTags = Object.entries(allTags)
-                .sort((left, right) => {
-                    const leftCount = left[1];
-                    const rightCount = right[1];
-                    if (leftCount !== rightCount) {
-                        return rightCount - leftCount;
-                    }
-                    const leftTag = left[0];
-                    const rightTag = right[0];
-                    return leftTag.localeCompare(rightTag);
-                })
-                .map(([tag]) => tag);
-            setSortedTags(sortedTags);
-        });
+        api.getAllTags()
+            .then((allTags) => {
+                setAllTags(allTags);
+                const sortedTags = Object.entries(allTags)
+                    .sort((left, right) => {
+                        const leftCount = left[1];
+                        const rightCount = right[1];
+                        if (leftCount !== rightCount) {
+                            return rightCount - leftCount;
+                        }
+                        const leftTag = left[0];
+                        const rightTag = right[0];
+                        return leftTag.localeCompare(rightTag);
+                    })
+                    .map(([tag]) => tag);
+                setSortedTags(sortedTags);
+            })
+            .catch(() => {
+                setAllTags({});
+                setSortedTags([]);
+            });
     };
     useEffect(() => {
         reload();

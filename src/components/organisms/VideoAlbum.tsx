@@ -111,13 +111,23 @@ const useSelectedSortKey = (): [SortKey, (sortKey: SortKey) => void] => {
 
 type Props = {
     videos: VideoValues[] | undefined;
+    error: string | undefined;
     page: number;
     onClickPage: (page: number) => void;
 };
 
-const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
+const VideoAlbum: React.FC<Props> = ({ videos, error, page, onClickPage }: Props) => {
     const [selectedSortKey, setSelectedSortkey] = useSelectedSortKey();
     const { t } = useI18n();
+    if (error) {
+        return (
+            <Row className="mt-4">
+                <Col xs={12}>
+                    <Alert variant="danger">{error}</Alert>
+                </Col>
+            </Row>
+        );
+    }
     if (!videos) {
         return (
             <Row className="mt-4">
