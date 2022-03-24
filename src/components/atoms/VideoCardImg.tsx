@@ -116,7 +116,10 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
                 maxWidth,
                 maxHeight,
             });
-            setDigestStyle(digestStyle);
+            if (imageRef.current) {
+                // avoid setting state after unmount
+                setDigestStyle(digestStyle);
+            }
             frame++;
         }, sceneFrameSpeed) as unknown as number;
 
@@ -124,8 +127,11 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
             if (mouseOverEvent.target === e.target) {
                 return;
             }
-            setState(false, 1);
-            setDigestStyle({});
+            if (imageRef.current) {
+                // avoid setting state after unmount
+                setState(false, 1);
+                setDigestStyle({});
+            }
             clearInterval(tid);
             document.body.removeEventListener('mousemove', onMouseMove);
         };
