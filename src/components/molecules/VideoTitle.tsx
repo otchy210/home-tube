@@ -7,16 +7,24 @@ import { EditIcon } from '../atoms/ViewPageIcons';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
-type Props = {
-    details: VideoDetails;
+const PROHIBITED_CHARS = ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
+
+const PROHIBITED_FILE_NAME_REFEX = new RegExp(`.*[\\${PROHIBITED_CHARS.join('\\')}].*`);
+
+export const isProhibitedFileBase = (fileName: string): boolean => {
+    return PROHIBITED_FILE_NAME_REFEX.test(fileName);
 };
+
+type SubmissionState = 'none' | 'submitting' | 'saved';
 
 const parseName = (name: string) => {
     const index = name.lastIndexOf('.');
     return [name.slice(0, index), name.slice(index)];
 };
 
-type SubmissionState = 'none' | 'submitting' | 'saved';
+type Props = {
+    details: VideoDetails;
+};
 
 const VideoTitle: React.FC<Props> = ({ details }: Props) => {
     const { name, key } = details;
@@ -24,7 +32,10 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
     const [base, setBase] = useState<string>(givenBase);
     const [show, setShow] = useState<boolean>(false);
     const [submissionState, setSubmissionState] = useState<SubmissionState>('none');
-    const [error, setError] = useState<string>();
+    const [errors, setErrors] = useState<string[]>([]);
+    const setError = (error: string) => {
+        setErrors([error]);
+    };
     const [newKey, setNewKey] = useState<string>('');
     const nameInputRef = useRef<HTMLInputElement>(null);
     const api = useApi();
@@ -37,7 +48,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
             setBase(givenBase);
             setShow(false);
             setSubmissionState('none');
-            setError(undefined);
+            setErrors([]);
         }
     };
     const onSubmit = () => {
@@ -48,6 +59,10 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
         }
         if (trimmedBase === givenBase) {
             setError(t("File name isn't changed."));
+            return;
+        }
+        if (isProhibitedFileBase(trimmedBase)) {
+            setErrors([t('Following letters are prohibited to use for file names.'), PROHIBITED_CHARS.join(' ')]);
             return;
         }
         setSubmissionState('submitting');
@@ -87,9 +102,11 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                                 <FormControl ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} />
                                 <div className="ms-1 fs-5">{ext}</div>
                             </Stack>
-                            {error && (
+                            {errors.length > 0 && (
                                 <Alert variant="danger" className="mt-3 mb-0">
-                                    {error}
+                                    {errors.map((error) => (
+                                        <div>{error}</div>
+                                    ))}
                                 </Alert>
                             )}
                         </>
