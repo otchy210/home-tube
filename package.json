@@ -1,6 +1,6 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.6.10",
+    "version": "0.6.11",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "bin": {
         "home-tube": "bin/home-tube"
@@ -38,7 +38,7 @@
         "access": "public"
     },
     "devDependencies": {
-        "@otchy/home-tube-api": "^0.12.7",
+        "@otchy/home-tube-api": "^0.13.2",
         "@svgr/webpack": "^6.1.2",
         "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^12.1.2",
