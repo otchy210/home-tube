@@ -3,7 +3,7 @@ import React from 'react';
 import { Stack } from 'react-bootstrap';
 import VideoPaths from '../atoms/VideoPaths';
 import VideoSizeBadges from './VideoSizeBadges';
-import VideoTitle from '../atoms/VideoTitle';
+import VideoTitle from './VideoTitle';
 import VideoProperties, { RemoveStars } from './VideoProperties';
 import { StarsMouseEventHandlers } from './StarsIndicator';
 

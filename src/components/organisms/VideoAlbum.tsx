@@ -144,7 +144,7 @@ const VideoAlbum: React.FC<Props> = ({ videos, error, page, onClickPage }: Props
                     <Alert variant="primary">
                         {t('No videos found.')}{' '}
                         <LinkContainer to="/">
-                            <Alert.Link>{t('Go to home.')}</Alert.Link>
+                            <Alert.Link>{t('Go to home')}</Alert.Link>
                         </LinkContainer>
                     </Alert>
                 </Col>

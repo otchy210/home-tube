@@ -2,39 +2,13 @@ import React, { useState } from 'react';
 import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
 import { Badge, Button, Stack } from 'react-bootstrap';
-import Trashcan from '../../images/trashcan.svg';
-import Edit from '../../images/edit.svg';
-import styled, { css } from 'styled-components';
 import Confirm from './Confirm';
 import TagsEditor from '../organisms/TagsEditor';
 import StaticTag from '../atoms/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { useApi } from '../providers/ApiProvider';
-
-const clickableIconStyles = css`
-    cursor: pointer;
-    opacity: 0.5;
-    &:hover {
-        opacity: 1;
-    }
-`;
-
-const ICON_SIZE = 20;
-
-const clickableIconAttrs = { className: 'ms-1', width: ICON_SIZE, height: ICON_SIZE };
-
-const TrashcanIcon = styled(Trashcan).attrs(clickableIconAttrs)`
-    ${clickableIconStyles};
-`;
-
-const EditIcon = styled(Edit).attrs(clickableIconAttrs)`
-    ${clickableIconStyles}
-`;
-
-const IconWrapper = styled.div`
-    min-width: ${ICON_SIZE}px;
-`;
+import { EditIcon, IconWrapper, TrashcanIcon } from '../atoms/ViewPageIcons';
 
 export type RemoveStars = {
     able: () => boolean;
