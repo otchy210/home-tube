@@ -1,11 +1,14 @@
+import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
-import { Button, FormControl, Modal, Stack } from 'react-bootstrap';
+import { Alert, Button, FormControl, Modal, Stack } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import SubmitButton from '../atoms/SubmitButton';
 import { EditIcon } from '../atoms/ViewPageIcons';
+import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
 type Props = {
-    name: string;
+    details: VideoDetails;
 };
 
 const parseName = (name: string) => {
@@ -15,12 +18,16 @@ const parseName = (name: string) => {
 
 type SubmissionState = 'none' | 'submitting' | 'saved';
 
-const VideoTitle: React.FC<Props> = ({ name }: Props) => {
+const VideoTitle: React.FC<Props> = ({ details }: Props) => {
+    const { name, key } = details;
     const [givenBase, ext] = parseName(name);
     const [base, setBase] = useState<string>(givenBase);
     const [show, setShow] = useState<boolean>(false);
     const [submissionState, setSubmissionState] = useState<SubmissionState>('none');
+    const [error, setError] = useState<string>();
+    const [newKey, setNewKey] = useState<string>('');
     const nameInputRef = useRef<HTMLInputElement>(null);
+    const api = useApi();
     const { t } = useI18n();
 
     const closable = submissionState === 'none';
@@ -29,14 +36,30 @@ const VideoTitle: React.FC<Props> = ({ name }: Props) => {
         if (closable) {
             setBase(givenBase);
             setShow(false);
+            setSubmissionState('none');
+            setError(undefined);
         }
     };
     const onSubmit = () => {
+        const trimmedBase = base.trim();
+        if (trimmedBase.length === 0) {
+            setError(t("File name shouldn't be empty."));
+            return;
+        }
+        if (trimmedBase === givenBase) {
+            setError(t("File name isn't changed."));
+            return;
+        }
         setSubmissionState('submitting');
-        // do update
-        setTimeout(() => {
-            setSubmissionState('saved');
-        }, 500);
+        api.postRename(key, `${trimmedBase}${ext}`)
+            .then((values) => {
+                setNewKey(values.key);
+                setSubmissionState('saved');
+            })
+            .catch(() => {
+                setError(t('Failed to update.'));
+                setSubmissionState('none');
+            });
     };
 
     return (
@@ -49,10 +72,10 @@ const VideoTitle: React.FC<Props> = ({ name }: Props) => {
                     nameInputRef.current?.select();
                 }}
             >
-                <Modal.Header closeButton={closable}>{t('Edit name')}</Modal.Header>
+                <Modal.Header closeButton={closable}>{t('Edit file name')}</Modal.Header>
                 <Modal.Body>
                     {submissionState === 'saved' ? (
-                        <>{t('The file name has been updated. So current URL is no longer avaiable.')}</>
+                        <>{t('The file name has been updated. Current URL is no longer avaiable.')}</>
                     ) : (
                         <>
                             <p>
@@ -64,14 +87,28 @@ const VideoTitle: React.FC<Props> = ({ name }: Props) => {
                                 <FormControl ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} />
                                 <div className="ms-1 fs-5">{ext}</div>
                             </Stack>
+                            {error && (
+                                <Alert variant="danger" className="mt-3 mb-0">
+                                    {error}
+                                </Alert>
+                            )}
                         </>
                     )}
                 </Modal.Body>
                 <Modal.Footer>
                     {submissionState === 'saved' ? (
                         <>
-                            <Button variant="link">{t('Go to home')}</Button>
-                            <Button variant="primary">{t('Open new URL')}</Button>
+                            <LinkContainer to="/">
+                                <Button variant="link">{t('Go to home')}</Button>
+                            </LinkContainer>
+                            <Button
+                                variant="primary"
+                                onClick={() => {
+                                    location.replace(`/view?key=${newKey}`);
+                                }}
+                            >
+                                {t('Open new URL')}
+                            </Button>
                         </>
                     ) : (
                         <>
@@ -81,7 +118,7 @@ const VideoTitle: React.FC<Props> = ({ name }: Props) => {
                                 </Button>
                             )}
                             <SubmitButton submitting={submissionState === 'submitting'} onClick={onSubmit}>
-                                {t('Save name')}
+                                {t('Change file name')}
                             </SubmitButton>
                         </>
                     )}
