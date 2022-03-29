@@ -1,6 +1,6 @@
-import Trashcan from '../../images/trashcan.svg';
-import Edit from '../../images/edit.svg';
 import styled, { css } from 'styled-components';
+import Edit from '../../images/edit.svg';
+import Trashcan from '../../images/trashcan.svg';
 
 const clickableIconStyles = css`
     cursor: pointer;

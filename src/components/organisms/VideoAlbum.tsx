@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { Alert, Col, Pagination, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled, { StyledComponent } from 'styled-components';
+import ls from '../../utils/LocalStorage';
 import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
-import ls from '../../utils/LocalStorage';
 import { useI18n } from '../providers/I18nProvider';
 
 const StyledPaginationItem = styled(Pagination.Item)`

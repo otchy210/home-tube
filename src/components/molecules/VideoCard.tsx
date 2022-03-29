@@ -1,5 +1,5 @@
-import React from 'react';
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
+import React from 'react';
 import { Card } from 'react-bootstrap';
 import { createSearchParams, Link } from 'react-router-dom';
 import VideoCardImg from '../atoms/VideoCardImg';

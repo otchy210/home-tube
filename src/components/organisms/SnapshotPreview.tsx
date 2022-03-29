@@ -2,10 +2,10 @@ import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
 import { Badge, Button, Col, Container, Image, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import { useApi } from '../providers/ApiProvider';
 import RightArrow from '../../images/right-arrow.svg';
-import { useI18n } from '../providers/I18nProvider';
 import SubmitButton from '../atoms/SubmitButton';
+import { useApi } from '../providers/ApiProvider';
+import { useI18n } from '../providers/I18nProvider';
 
 const ImageHolder = styled.div`
     position: relative;

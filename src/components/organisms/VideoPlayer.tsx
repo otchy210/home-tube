@@ -1,11 +1,9 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
+import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import React, { useEffect, useRef, useState } from 'react';
 import { Stack } from 'react-bootstrap';
 import styled, { css } from 'styled-components';
 import { VideoViewMode } from '../../types';
-import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
-import VideoThumbnail from '../molecules/VideoThumbnail';
-import { useApi } from '../providers/ApiProvider';
 import {
     ForwardIcon,
     FullScreenIcon,
@@ -20,9 +18,11 @@ import {
     SpeakerIcon,
     TheaterIcon,
 } from '../atoms/VideoPlayerIcons';
-import SnapshotPreview from './SnapshotPreview';
+import VideoThumbnail from '../molecules/VideoThumbnail';
+import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { useToast } from '../providers/ToastsProvider';
+import SnapshotPreview from './SnapshotPreview';
 
 const VideoPlayerWrapper = styled.div`
     position: relative;

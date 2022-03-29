@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Button, FormControl, Modal, Stack } from 'react-bootstrap';
-import { useAllTags } from '../providers/AllTagsProvider';
 import { useBrowserInfo } from '../../utils/useBowser';
-import { useI18n } from '../providers/I18nProvider';
-import SubmitButton from '../atoms/SubmitButton';
 import ClickableTag from '../atoms/ClickableTag';
+import SubmitButton from '../atoms/SubmitButton';
+import { useAllTags } from '../providers/AllTagsProvider';
+import { useI18n } from '../providers/I18nProvider';
 
 type Props = {
     show: boolean;

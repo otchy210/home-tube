@@ -1,16 +1,16 @@
 import React, { useRef } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Button, Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import styled from 'styled-components';
+import Config from '../../images/config.svg';
 import Icon from '../../images/icon.svg';
+import Language from '../../images/language.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
-import Language from '../../images/language.svg';
-import Config from '../../images/config.svg';
-import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
-import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
-import styled from 'styled-components';
+import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
+import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 
 const HomeTubeIcon = styled(Icon)`
     width: 32px;

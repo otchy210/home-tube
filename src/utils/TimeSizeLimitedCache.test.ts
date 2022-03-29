@@ -1,5 +1,5 @@
-import TimeSizeLimitedCache from './TimeSizeLimitedCache';
 import { now } from './DateUtils';
+import TimeSizeLimitedCache from './TimeSizeLimitedCache';
 
 jest.mock('./DateUtils');
 

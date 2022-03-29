@@ -2,18 +2,18 @@ import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
-import VideoPlayer from '../organisms/VideoPlayer';
-import VideoBasicInfo from '../molecules/VideoBasicInfo';
-import { useApi } from '../providers/ApiProvider';
-import { useToast } from '../providers/ToastsProvider';
-import { VideoViewMode } from '../../types';
-import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
-import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
-import DelayedSpinner from '../molecules/DelayedSpinner';
-import { RemoveStars } from '../molecules/VideoProperties';
-import { useAllTags } from '../providers/AllTagsProvider';
 import styled from 'styled-components';
+import { VideoViewMode } from '../../types';
+import DelayedSpinner from '../molecules/DelayedSpinner';
+import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
+import VideoBasicInfo from '../molecules/VideoBasicInfo';
+import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
+import { RemoveStars } from '../molecules/VideoProperties';
+import VideoPlayer from '../organisms/VideoPlayer';
+import { useAllTags } from '../providers/AllTagsProvider';
+import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
+import { useToast } from '../providers/ToastsProvider';
 
 const VideoPlayerWrapper = styled.div`
     &.theater {

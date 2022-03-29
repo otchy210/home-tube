@@ -1,8 +1,8 @@
+import i18next, { TFunction } from 'i18next';
+import HttpApi from 'i18next-http-backend';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
 import ls from '../../utils/LocalStorage';
-import i18next, { TFunction } from 'i18next';
-import HttpApi from 'i18next-http-backend';
 
 export type LanguageKey = 'en' | 'ja';
 

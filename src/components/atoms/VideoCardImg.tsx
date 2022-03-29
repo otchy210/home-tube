@@ -1,10 +1,10 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useState } from 'react';
 import { Badge } from 'react-bootstrap';
-import { useApi } from '../providers/ApiProvider';
 import styled from 'styled-components';
-import Spinner from './Spinner';
 import { getThumbnailStyle, loadAllImages } from '../../utils/ImageUtils';
+import { useApi } from '../providers/ApiProvider';
+import Spinner from './Spinner';
 
 const VideoCardImgWrapper = styled.div`
     position: relative;

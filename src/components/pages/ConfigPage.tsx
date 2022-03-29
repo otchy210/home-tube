@@ -1,18 +1,18 @@
 import { AppConfig, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
+import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { Badge, Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import styled from 'styled-components';
-import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
-import DelayedSpinner from '../molecules/DelayedSpinner';
-import { useApi } from '../providers/ApiProvider';
-import { useToast } from '../providers/ToastsProvider';
 import Reload from '../../images/reload.svg';
-import Spinner from '../atoms/Spinner';
+import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import { waitFor } from '../../utils/TimerUtils';
-import { useI18n } from '../providers/I18nProvider';
-import ServerStatusProperty from '../molecules/ServerStatusProperty';
+import Spinner from '../atoms/Spinner';
 import SubmitButton from '../atoms/SubmitButton';
-import { TFunction } from 'i18next';
+import DelayedSpinner from '../molecules/DelayedSpinner';
+import ServerStatusProperty from '../molecules/ServerStatusProperty';
+import { useApi } from '../providers/ApiProvider';
+import { useI18n } from '../providers/I18nProvider';
+import { useToast } from '../providers/ToastsProvider';
 
 /*
 Translations for type StorageMonitorStatus = 'initialized' | 'reading' | 'waiting' | 'stopped';

@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components';
-import Play from '../../images/play.svg';
-import Pause from '../../images/pause.svg';
-import Rewind from '../../images/rewind.svg';
 import Forward from '../../images/forward.svg';
-import Speaker from '../../images/speaker.svg';
-import Muted from '../../images/muted.svg';
-import Snapshot from '../../images/snapshot.svg';
-import Theater from '../../images/theater.svg';
-import Normal from '../../images/normal.svg';
 import FullScreen from '../../images/full-screen.svg';
+import Muted from '../../images/muted.svg';
+import Normal from '../../images/normal.svg';
+import Pause from '../../images/pause.svg';
+import Play from '../../images/play.svg';
+import Rewind from '../../images/rewind.svg';
+import Snapshot from '../../images/snapshot.svg';
+import Speaker from '../../images/speaker.svg';
+import Theater from '../../images/theater.svg';
 
 const INDICATOR_ICON_SIZE = 48;
 const indicatorIconAttrs = {

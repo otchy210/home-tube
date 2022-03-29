@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
-import TimestampAsc from '../../images/timestamp-asc.svg';
-import TimestampDesc from '../../images/timestamp-desc.svg';
 import NameAsc from '../../images/name-asc.svg';
 import NameDesc from '../../images/name-desc.svg';
+import TimestampAsc from '../../images/timestamp-asc.svg';
+import TimestampDesc from '../../images/timestamp-desc.svg';
 
 const ICON_SIZE = 24;
 const iconAttrs = {

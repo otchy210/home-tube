@@ -2,10 +2,10 @@ import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
 import { Stack } from 'react-bootstrap';
 import VideoPaths from '../atoms/VideoPaths';
+import { StarsMouseEventHandlers } from './StarsIndicator';
+import VideoProperties, { RemoveStars } from './VideoProperties';
 import VideoSizeBadges from './VideoSizeBadges';
 import VideoTitle from './VideoTitle';
-import VideoProperties, { RemoveStars } from './VideoProperties';
-import { StarsMouseEventHandlers } from './StarsIndicator';
 
 type Props = {
     details: VideoDetails;

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
-import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
+import React, { useState } from 'react';
 import { Badge, Button, Stack } from 'react-bootstrap';
-import Confirm from './Confirm';
-import TagsEditor from '../organisms/TagsEditor';
 import StaticTag from '../atoms/StaticTag';
-import { useAllTags } from '../providers/AllTagsProvider';
-import { useI18n } from '../providers/I18nProvider';
-import { useApi } from '../providers/ApiProvider';
 import { EditIcon, IconWrapper, TrashcanIcon } from '../atoms/ViewPageIcons';
+import TagsEditor from '../organisms/TagsEditor';
+import { useAllTags } from '../providers/AllTagsProvider';
+import { useApi } from '../providers/ApiProvider';
+import { useI18n } from '../providers/I18nProvider';
+import Confirm from './Confirm';
+import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
 
 export type RemoveStars = {
     able: () => boolean;

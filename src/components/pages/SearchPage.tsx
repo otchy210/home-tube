@@ -1,12 +1,12 @@
+import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
+import ClickableTag from '../atoms/ClickableTag';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
-import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
-import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
-import ClickableTag from '../atoms/ClickableTag';
 import { useI18n } from '../providers/I18nProvider';
+import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 
 type CandiateTag = {
     tag: string;
