@@ -38,11 +38,20 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
     };
     const [newKey, setNewKey] = useState<string>('');
     const nameInputRef = useRef<HTMLInputElement>(null);
+    const openNewRef = useRef<HTMLButtonElement>(null);
     const api = useApi();
     const { t } = useI18n();
 
     const closable = submissionState === 'none';
 
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        // cannot avoid using deprecated `e.keyCode` due to https://qiita.com/ledsun/items/31e43a97413dd3c8e38e
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            onSubmit();
+            return;
+        }
+    };
     const onHide = () => {
         if (closable) {
             setBase(givenBase);
@@ -70,6 +79,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
             .then((values) => {
                 setNewKey(values.key);
                 setSubmissionState('saved');
+                openNewRef.current?.focus();
             })
             .catch(() => {
                 setError(t('Failed to update.'));
@@ -99,7 +109,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                                 )}
                             </p>
                             <Stack direction="horizontal">
-                                <FormControl ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} />
+                                <FormControl ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} onKeyDown={onKeyDown} />
                                 <div className="ms-1 fs-5">{ext}</div>
                             </Stack>
                             {errors.length > 0 && (
@@ -123,6 +133,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                                 onClick={() => {
                                     location.replace(`/view?key=${newKey}`);
                                 }}
+                                ref={openNewRef}
                             >
                                 {t('Open new URL')}
                             </Button>
