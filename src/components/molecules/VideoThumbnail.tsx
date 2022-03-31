@@ -24,6 +24,9 @@ type Props = {
 
 const VideoThumbnail = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
     const { details, currentTime, display, left } = props;
+    if (Number.isNaN(currentTime)) {
+        return null;
+    }
     const { key: videoKey } = details;
     const api = useApi();
     const sec = Math.trunc(currentTime) % 60;

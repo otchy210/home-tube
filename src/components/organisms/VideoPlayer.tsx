@@ -126,11 +126,13 @@ const IconWrapper = styled.div.attrs({ className: 'm-0 p-1 p-sm-2 rounded-pill',
     position: relative;
     background-color: rgba(255, 255, 255, 0);
     transition: background-color 0.2s;
-    &:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-        transition: background-color 0.2s;
-        & .icon-tooltip {
-            display: block;
+    @media (hover: hover) {
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: background-color 0.2s;
+            & .icon-tooltip {
+                display: block;
+            }
         }
     }
 `;
@@ -138,10 +140,12 @@ const SpeakerIconWrapper = styled(IconWrapper)`
     & .volume-bar {
         display: none;
     }
-    &:hover .volume-bar,
-    &.dragging .volume-bar {
-        width: 100px;
-        display: block;
+    @media (hover: hover) {
+        &:hover .volume-bar,
+        &.dragging .volume-bar {
+            width: 100px;
+            display: block;
+        }
     }
 `;
 
@@ -164,6 +168,10 @@ const Time = styled.div.attrs({ className: 'me-auto p-2 font-monospace text-whit
     font-size: 0.9rem;
     pointer-events: none;
 `;
+
+const isTouchEvent = (e: MouseEvent | TouchEvent): e is TouchEvent => {
+    return 'touches' in e;
+};
 
 type ClickHandlers = {
     togglePlaying: () => void;
@@ -248,26 +256,30 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         let isSeekbarDragging = false;
         let seekbarX = 0;
         let seekbarWidth = 0;
-        let isThubmnailShowing = false;
+        let isThumbnailShowing = false;
         let thumbnailWidth = 0;
         const setSeekbarValues = () => {
             const seekbarRect = seekbarOuter.getBoundingClientRect();
             seekbarX = seekbarRect.left + window.pageXOffset;
             seekbarWidth = seekbarRect.right - seekbarRect.left;
         };
-        const onThumbnailStartShowing = (e: MouseEvent) => {
+        const onThumbnailStartShowing = (e: MouseEvent | Touch) => {
             setThumbnailDisplay('block');
             setSeekbarValues();
             const thumbnailRect = thumbnail.getBoundingClientRect();
             thumbnailWidth = thumbnailRect.right - thumbnailRect.left;
-            isThubmnailShowing = true;
-            onMouseMove(e);
+            isThumbnailShowing = true;
+            onPointerMove(e);
         };
-        const onSeekbarStartDragging = (e: MouseEvent) => {
+        const onSeekbarStartDragging = (e: MouseEvent | TouchEvent) => {
             seekbarWrapper.classList.add('dragging');
             setSeekbarValues();
             isSeekbarDragging = true;
-            onMouseMove(e);
+            if (isTouchEvent(e)) {
+                onTouchMove(e, true);
+            } else {
+                onPointerMove(e);
+            }
         };
         let isVolumeDragging = false;
         let volumeX = 0;
@@ -279,30 +291,45 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             isVolumeDragging = true;
             speakerIcnoWrapper.classList.add('dragging');
             volumeWrapper.classList.add('dragging');
-            onMouseMove(e);
+            onPointerMove(e);
         };
 
-        const onMouseMove = (e: MouseEvent) => {
+        const onPointerMove = (e: MouseEvent | Touch) => {
             const cursorX = e.pageX;
             const calcSeekbarRate = () => {
                 return Math.max(0, Math.min((cursorX - seekbarX) / seekbarWidth, 1));
             };
-            if (isSeekbarDragging) {
+            if (isSeekbarDragging || isThumbnailShowing) {
                 const seekbarRate = calcSeekbarRate();
-                video.currentTime = seekbarRate * length;
-                updateCurrent();
-            }
-            if (isThubmnailShowing) {
-                const seekbarRate = calcSeekbarRate();
-                const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
-                setThumbnailLeft(thumbnailLeft);
-                setThumbnailCurrentTime(seekbarRate * length);
+                const currentTime = seekbarRate * length;
+                if (isSeekbarDragging) {
+                    if (!Number.isNaN(currentTime)) {
+                        video.currentTime = currentTime;
+                    }
+                    updateCurrent();
+                }
+                if (isThumbnailShowing) {
+                    const thumbnailLeft = Math.max(0, Math.min(seekbarRate * seekbarWidth - thumbnailWidth / 2, seekbarWidth - thumbnailWidth));
+                    setThumbnailLeft(thumbnailLeft);
+                    setThumbnailCurrentTime(currentTime);
+                }
             }
             if (isVolumeDragging) {
                 const volume = Math.max(0, Math.min((cursorX - volumeX) / volumeWidth, 1));
                 video.volume = volume;
                 updateVolume();
             }
+        };
+        const onTouchMove = (e: TouchEvent, touchStart = false) => {
+            if (e.touches.length !== 1) {
+                return;
+            }
+            e.preventDefault();
+            const touch = e.touches[0];
+            if (touchStart) {
+                onThumbnailStartShowing(touch);
+            }
+            onPointerMove(touch);
         };
         const onMouseOut = (e: MouseEvent) => {
             if (!e.target) {
@@ -318,8 +345,10 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         const onStopThumbnailShowing = () => {
             setThumbnailDisplay('none');
         };
-        const onStopDragging = (e: MouseEvent) => {
-            onMouseMove(e);
+        const onStopDragging = (e: MouseEvent | TouchEvent) => {
+            if (!isTouchEvent(e)) {
+                onPointerMove(e);
+            }
             isSeekbarDragging = false;
             isVolumeDragging = false;
             seekbarWrapper.classList.remove('dragging');
@@ -328,11 +357,14 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         };
         seekbarWrapper.addEventListener('mouseover', onThumbnailStartShowing);
         seekbarWrapper.addEventListener('mousedown', onSeekbarStartDragging);
+        seekbarWrapper.addEventListener('touchstart', onSeekbarStartDragging);
         seekbarWrapper.addEventListener('mouseout', onStopThumbnailShowing);
         volumeWrapper.addEventListener('mousedown', onVolumeStartDragging);
-        document.body.addEventListener('mousemove', onMouseMove);
+        document.body.addEventListener('mousemove', onPointerMove);
+        document.body.addEventListener('touchmove', onTouchMove, { passive: false });
         document.body.addEventListener('mouseout', onMouseOut);
         document.body.addEventListener('mouseup', onStopDragging);
+        document.body.addEventListener('touchend', onStopDragging);
         return () => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
@@ -340,11 +372,14 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             clearInterval(iid);
             seekbarWrapper.removeEventListener('mouseover', onThumbnailStartShowing);
             seekbarWrapper.removeEventListener('mousedown', onSeekbarStartDragging);
+            seekbarWrapper.removeEventListener('touchstart', onSeekbarStartDragging);
             seekbarWrapper.removeEventListener('mouseout', onStopThumbnailShowing);
             volumeWrapper.removeEventListener('mousedown', onVolumeStartDragging);
-            document.body.removeEventListener('mousemove', onMouseMove);
+            document.body.removeEventListener('mousemove', onPointerMove);
+            document.body.removeEventListener('touchmove', onTouchMove);
             document.body.removeEventListener('mouseout', onStopDragging);
             document.body.removeEventListener('mouseup', onStopDragging);
+            document.body.removeEventListener('touchend', onStopDragging);
         };
     }, [src]);
 
