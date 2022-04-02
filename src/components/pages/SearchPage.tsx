@@ -8,6 +8,11 @@ import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 
+/*
+Translations for type labels of LENGTH_TAGS
+t('Moment (<=30s)') t('Short (<=5m)') t('Middle (<=20m)') t('Long (<=1h)') t('Movie (1h+)')
+*/
+
 type CandiateTag = {
     tag: string;
     count: number;
@@ -144,7 +149,7 @@ const SearchPage: React.FC = () => {
                             {LENGTH_TAGS.map(({ tag, label }) => {
                                 return (
                                     <option value={tag} key={`length-${tag}`}>
-                                        {label}
+                                        {t(label)}
                                     </option>
                                 );
                             })}
