@@ -6,12 +6,14 @@ import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { useI18n } from '../providers/I18nProvider';
+import { useToast } from '../providers/ToastsProvider';
 
 const HomePage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
-    const [videoSearchError, setVideoSearchError] = useState<string>();
+    const [failed, setFailed] = useState<boolean>(false);
     const { homePageQuery, setPage } = useHomePageQuery();
     const api = useApi();
+    const toast = useToast();
     const { t } = useI18n();
     const { reload: reloadAllTags } = useAllTags();
     useEffect(() => {
@@ -21,7 +23,8 @@ const HomePage: React.FC = () => {
                 setVideos(videos);
             })
             .catch(() => {
-                setVideoSearchError(t('Failed to load videos.'));
+                toast.addError(t('Home page'), t('Failed to load.'));
+                setFailed(true);
             });
         reloadAllTags();
     }, []);
@@ -30,7 +33,7 @@ const HomePage: React.FC = () => {
     };
     return (
         <>
-            <VideoAlbum videos={videos} error={videoSearchError} page={homePageQuery.page ? parseInt(homePageQuery.page) : 1} onClickPage={onClickPage} />
+            {!failed && <VideoAlbum videos={videos} page={homePageQuery.page ? parseInt(homePageQuery.page) : 1} onClickPage={onClickPage} />}
             {videos && <AllTags />}
         </>
     );

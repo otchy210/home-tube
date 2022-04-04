@@ -7,6 +7,7 @@ import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
+import { useToast } from '../providers/ToastsProvider';
 
 /*
 Translations for type labels of LENGTH_TAGS
@@ -20,8 +21,9 @@ type CandiateTag = {
 
 const SearchPage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
-    const [videoSearchError, setVideoSearchError] = useState<string>();
+    const [failed, setFailed] = useState<boolean>(false);
     const api = useApi();
+    const toast = useToast();
     const { searchQuery, setSearchQuery, setPage } = useSearchQuery();
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
     const [candidateTags, setCandidateTags] = useState<CandiateTag[]>([]);
@@ -102,7 +104,8 @@ const SearchPage: React.FC = () => {
                 setCandidateTags(candidateTags);
             })
             .catch(() => {
-                setVideoSearchError(t('Failed to search videos.'));
+                toast.addError(t('Search page'), t('Failed to load.'));
+                setFailed(true);
             });
     }, [searchQuery]);
     return (
@@ -201,7 +204,7 @@ const SearchPage: React.FC = () => {
                     {searchQuery.tags && searchQuery.tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
                 </Col>
             </Row>
-            <VideoAlbum videos={videos} error={videoSearchError} page={parseInt(searchQuery.page ?? '1')} onClickPage={onClickPage} />
+            {!failed && <VideoAlbum videos={videos} page={parseInt(searchQuery.page ?? '1')} onClickPage={onClickPage} />}
         </>
     );
 };
