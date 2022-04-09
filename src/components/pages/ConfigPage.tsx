@@ -3,6 +3,7 @@ import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { Badge, Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import styled from 'styled-components';
+import { useSetTitle } from '../../hooks/useSetTitle';
 import Reload from '../../images/reload.svg';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import { waitFor } from '../../utils/TimerUtils';
@@ -63,6 +64,7 @@ const ConfigPage: React.FC = () => {
     const { t } = useI18n();
     const api = useApi();
     const toast = useToast();
+    useSetTitle(t('Config'));
     const loadAppConfig = () => {
         api.getAppConfig()
             .then(setAppConfig)

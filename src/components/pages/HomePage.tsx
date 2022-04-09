@@ -1,5 +1,6 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
+import { useSetTitle } from '../../hooks/useSetTitle';
 import AllTags from '../organisms/AllTags';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useAllTags } from '../providers/AllTagsProvider';
@@ -16,6 +17,7 @@ const HomePage: React.FC = () => {
     const toast = useToast();
     const { t } = useI18n();
     const { reload: reloadAllTags } = useAllTags();
+    useSetTitle();
     useEffect(() => {
         api.search()
             .then((videoSet) => {

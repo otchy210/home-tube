@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSetTitle } from '../../hooks/useSetTitle';
 import { VideoViewMode } from '../../types';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
@@ -48,6 +49,15 @@ const ViewPage: React.FC = () => {
     const api = useApi();
     const toast = useToast();
     const key = searchParams.get('key');
+    useSetTitle(() => {
+        if (!key || hasError) {
+            return t('Error');
+        }
+        if (!details) {
+            return t('Video loading');
+        }
+        return details.name;
+    }, [key, hasError, details]);
     if (!key) {
         toast.addError(t('Video page'), t('key parameter is required.'));
         return null;

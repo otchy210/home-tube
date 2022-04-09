@@ -2,6 +2,7 @@ import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dis
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
+import { useSetTitle } from '../../hooks/useSetTitle';
 import ClickableTag from '../atoms/ClickableTag';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
@@ -33,6 +34,7 @@ const SearchPage: React.FC = () => {
     const lengthRef = useRef<HTMLSelectElement>(null);
     const sizeRef = useRef<HTMLSelectElement>(null);
     const tagsRef = useRef<string[]>(searchQuery?.tags ?? []);
+    useSetTitle(t('Search'));
     const onClickPage = (page: number) => {
         setPage(String(page));
     };
