@@ -9,7 +9,7 @@ type Props = {
 
 const VideoSizeBadges: React.FC<Props> = ({ width, height, size }: Props) => {
     return (
-        <div>
+        <div className="text-nowrap">
             {width && height && (
                 <Badge bg="secondary">
                     {width}x{height}

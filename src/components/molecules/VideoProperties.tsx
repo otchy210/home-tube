@@ -48,7 +48,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 return [
                     'primary',
                     t('Being ready to play instead of original.'),
-                    <Button size="sm" onClick={() => setShowMp4RemovalConfirm(true)}>
+                    <Button size="sm" className="text-nowrap" onClick={() => setShowMp4RemovalConfirm(true)}>
                         {t('Remove MP4')}
                     </Button>,
                 ];
@@ -60,7 +60,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 return [
                     'secondary',
                     t('Do you want to convert this video to recommended MP4 format?'),
-                    <Button size="sm" onClick={() => setShowMp4Confirm(true)}>
+                    <Button size="sm" className="text-nowrap" onClick={() => setShowMp4Confirm(true)}>
                         {t('Try MP4')}
                     </Button>,
                 ];
