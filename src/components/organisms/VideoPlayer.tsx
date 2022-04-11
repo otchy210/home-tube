@@ -179,6 +179,7 @@ type ClickHandlers = {
     onClickForward: () => void;
     toggleMute: () => void;
     toggleTheaterMode: () => void;
+    onClickNormal: () => void;
     onClickFullscreen: () => void;
 };
 
@@ -237,16 +238,16 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
             clearInterval(iid);
         };
         const onFullscreenChange = () => {
-            // TODO: handle mode
-            if (document.fullscreenElement) {
-                // fullscreen
-            } else {
-                // back to normal
+            if (!document.fullscreenElement) {
+                const clickHandlers = clickHandlersRef.current;
+                if (clickHandlers) {
+                    clickHandlers.onClickNormal();
+                }
             }
         };
         video.addEventListener('play', onPlay);
         video.addEventListener('pause', onPause);
-        video.addEventListener('fullscreenchange', onFullscreenChange);
+        document.addEventListener('fullscreenchange', onFullscreenChange);
 
         const updateVolume = () => {
             const volume = video.volume;
@@ -368,7 +369,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         return () => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
-            video.removeEventListener('fullscreenchange', onFullscreenChange);
+            document.removeEventListener('fullscreenchange', onFullscreenChange);
             clearInterval(iid);
             seekbarWrapper.removeEventListener('mouseover', onThumbnailStartShowing);
             seekbarWrapper.removeEventListener('mousedown', onSeekbarStartDragging);
@@ -503,9 +504,11 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     };
     const onClickNormal = () => {
         setMode('normal');
+        document.exitFullscreen();
     };
     const onClickTheater = () => {
         setMode('theater');
+        document.exitFullscreen();
     };
     const toggleTheaterMode = () => {
         if (mode !== 'theater') {
@@ -515,7 +518,8 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         }
     };
     const onClickFullscreen = () => {
-        videoRef.current?.requestFullscreen();
+        videoPlayerWrapperRef.current?.requestFullscreen();
+        setMode('fullScreen');
     };
     clickHandlersRef.current = {
         togglePlaying,
@@ -523,6 +527,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         onClickForward,
         toggleMute,
         toggleTheaterMode,
+        onClickNormal,
         onClickFullscreen,
     };
     useEffect(() => {
@@ -635,10 +640,12 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                         <Time>
                             {formatTimeInSecond(currentTime)}/{duration}
                         </Time>
-                        <IconWrapper onClick={onClickSnapshot}>
-                            <IconTooltip>{t('Snapshot')}</IconTooltip>
-                            <SnapshotIcon />
-                        </IconWrapper>
+                        {mode !== 'fullScreen' && (
+                            <IconWrapper onClick={onClickSnapshot}>
+                                <IconTooltip>{t('Snapshot')}</IconTooltip>
+                                <SnapshotIcon />
+                            </IconWrapper>
+                        )}
                         {mode !== 'normal' && (
                             <IconWrapper onClick={onClickNormal}>
                                 <IconTooltip>{t('Normal (t)')}</IconTooltip>
