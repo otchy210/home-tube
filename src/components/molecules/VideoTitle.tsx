@@ -37,8 +37,8 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
         setErrors([error]);
     };
     const [newKey, setNewKey] = useState<string>('');
-    const nameInputRef = useRef<HTMLInputElement>(null);
-    const openNewRef = useRef<HTMLButtonElement>(null);
+    const nameInputRef = useRef<HTMLInputElement>(null!);
+    const openNewRef = useRef<HTMLButtonElement>(null!);
     const api = useApi();
     const { t } = useI18n();
 
@@ -79,7 +79,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
             .then((values) => {
                 setNewKey(values.key);
                 setSubmissionState('saved');
-                openNewRef.current?.focus();
+                openNewRef.current.focus();
             })
             .catch(() => {
                 setError(t('Failed to update.'));
@@ -94,7 +94,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                 onHide={onHide}
                 size="lg"
                 onShow={() => {
-                    nameInputRef.current?.select();
+                    nameInputRef.current.select();
                 }}
             >
                 <Modal.Header closeButton={closable}>{t('Edit file name')}</Modal.Header>

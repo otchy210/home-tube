@@ -42,9 +42,9 @@ const ViewPage: React.FC = () => {
     const [searchParams] = useSearchParams();
     const [hasError, setHasError] = useState<boolean>(false);
     const { reload: reloadAllTags } = useAllTags();
-    const viewPageRootRef = useRef<HTMLDivElement>(null);
-    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
-    const videoPlayerSpacerRef = useRef<HTMLDivElement>(null);
+    const viewPageRootRef = useRef<HTMLDivElement>(null!);
+    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null!);
+    const videoPlayerSpacerRef = useRef<HTMLDivElement>(null!);
     const { t } = useI18n();
     const api = useApi();
     const toast = useToast();
@@ -104,17 +104,14 @@ const ViewPage: React.FC = () => {
         });
     };
 
-    const calcViderPlayerHeight = () => {
-        const page = viewPageRootRef.current;
+    const calcVideoPlayerHeight = () => {
         const wrapper = videoPlayerWrapperRef.current;
-        const spacer = videoPlayerSpacerRef.current;
-        if (!page || !wrapper || !spacer) {
-            return;
-        }
         const video = wrapper.querySelector('video');
         if (!video) {
             return;
         }
+        const page = viewPageRootRef.current;
+        const spacer = videoPlayerSpacerRef.current;
         const [videoWidth, videoHeight] = [video.videoWidth, video.videoHeight];
         let theaterViewHeight;
         if (wrapper.classList.contains('theater')) {
@@ -139,7 +136,7 @@ const ViewPage: React.FC = () => {
         wrapper.style.height = theaterViewHeight;
         spacer.style.height = theaterViewHeight;
     };
-    setTimeout(calcViderPlayerHeight, 10);
+    setTimeout(calcVideoPlayerHeight, 10);
 
     useEffect(() => {
         api.getDetails(key)
@@ -162,9 +159,9 @@ const ViewPage: React.FC = () => {
                 setHasError(true);
             });
         reloadAllTags();
-        window.addEventListener('resize', calcViderPlayerHeight);
+        window.addEventListener('resize', calcVideoPlayerHeight);
         return () => {
-            window.removeEventListener('resize', calcViderPlayerHeight);
+            window.removeEventListener('resize', calcVideoPlayerHeight);
         };
     }, []);
 

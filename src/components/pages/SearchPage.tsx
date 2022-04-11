@@ -29,10 +29,10 @@ const SearchPage: React.FC = () => {
     const [localNames, setLocalNames] = useState<string>(searchQuery?.names?.join(' ') ?? '');
     const [candidateTags, setCandidateTags] = useState<CandiateTag[]>([]);
     const { t } = useI18n();
-    const namesRef = useRef<HTMLInputElement>(null);
-    const starsRef = useRef<HTMLSelectElement>(null);
-    const lengthRef = useRef<HTMLSelectElement>(null);
-    const sizeRef = useRef<HTMLSelectElement>(null);
+    const namesRef = useRef<HTMLInputElement>(null!);
+    const starsRef = useRef<HTMLSelectElement>(null!);
+    const lengthRef = useRef<HTMLSelectElement>(null!);
+    const sizeRef = useRef<HTMLSelectElement>(null!);
     const tagsRef = useRef<string[]>(searchQuery?.tags ?? []);
     useSetTitle(t('Search'));
     const onClickPage = (page: number) => {
@@ -55,10 +55,10 @@ const SearchPage: React.FC = () => {
         doSearch();
     };
     const doSearch = () => {
-        const names = namesRef.current?.value?.split(/\s/);
-        const stars = starsRef.current?.value;
-        const size = sizeRef.current?.value;
-        const length = lengthRef.current?.value;
+        const names = namesRef.current.value.split(/\s/);
+        const stars = starsRef.current.value;
+        const length = lengthRef.current.value;
+        const size = sizeRef.current.value;
         const tags = tagsRef.current;
         const searchQuery: SearchQuery = {
             names,

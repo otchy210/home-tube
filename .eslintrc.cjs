@@ -31,6 +31,7 @@ module.exports = {
                 "alphabetize": { "order": "asc", "caseInsensitive": true },
             }
         ],
-        "unused-imports/no-unused-imports": "error"
+        "unused-imports/no-unused-imports": "error",
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 };

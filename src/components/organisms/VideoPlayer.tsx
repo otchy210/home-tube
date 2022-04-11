@@ -201,15 +201,15 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const [muted, setMuted] = useState<boolean>(false);
     const [volumePercentage, setVolumePercentage] = useState<string>('100%');
     const [showSnapshotPreview, setShowSnapshotPreview] = useState<boolean>(false);
-    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null);
-    const videoPlayIndicatorRef = useRef<HTMLDivElement>(null);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const seekbarWrapperRef = useRef<HTMLDivElement>(null);
-    const seekbarOuterRef = useRef<HTMLDivElement>(null);
-    const thumbnailRef = useRef<HTMLDivElement>(null);
-    const speakerIcnoWrapperRef = useRef<HTMLDivElement>(null);
-    const volumeWrapperRef = useRef<HTMLDivElement>(null);
-    const volumeOuterRef = useRef<HTMLDivElement>(null);
+    const videoPlayerWrapperRef = useRef<HTMLDivElement>(null!);
+    const videoPlayIndicatorRef = useRef<HTMLDivElement>(null!);
+    const videoRef = useRef<HTMLVideoElement>(null!);
+    const seekbarWrapperRef = useRef<HTMLDivElement>(null!);
+    const seekbarOuterRef = useRef<HTMLDivElement>(null!);
+    const thumbnailRef = useRef<HTMLDivElement>(null!);
+    const speakerIcnoWrapperRef = useRef<HTMLDivElement>(null!);
+    const volumeWrapperRef = useRef<HTMLDivElement>(null!);
+    const volumeOuterRef = useRef<HTMLDivElement>(null!);
     const hideControlTidRec = useRef<number>(0);
     const videoMouseMoveTidRef = useRef<number>(0);
     const clickHandlersRef = useRef<ClickHandlers>();
@@ -226,9 +226,6 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         const volumeOuter = volumeOuterRef.current;
         const speakerIcnoWrapper = speakerIcnoWrapperRef.current;
         const volumeWrapper = volumeWrapperRef.current;
-        if (!video || !seekbarOuter || !thumbnail || !seekbarWrapper || !volumeOuter || !speakerIcnoWrapper || !volumeWrapper) {
-            return;
-        }
         let iid: number;
         updateCurrent();
         const onPlay = () => {
@@ -384,30 +381,19 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         };
     }, [src]);
 
-    const withCurrent = (func: (values: { video: HTMLVideoElement; playerWrapper: HTMLDivElement; indicator: HTMLDivElement }) => void) => {
-        const video = videoRef.current;
-        const playerWrapper = videoPlayerWrapperRef.current;
-        const indicator = videoPlayIndicatorRef.current;
-        if (!video || !playerWrapper || !indicator) {
-            return;
-        }
-        func({ video, playerWrapper, indicator });
-    };
     const hideControl = () => {
-        withCurrent(({ playerWrapper }) => {
-            playerWrapper.classList.add('hide-control');
-            hideControlTidRec.current = setTimeout(() => {
-                playerWrapper.classList.add('remove-control');
-            }, 200) as unknown as number;
-        });
+        const playerWrapper = videoPlayerWrapperRef.current;
+        playerWrapper.classList.add('hide-control');
+        hideControlTidRec.current = setTimeout(() => {
+            playerWrapper.classList.add('remove-control');
+        }, 200) as unknown as number;
     };
     const showControl = () => {
         clearTimeout(hideControlTidRec.current);
         clearTimeout(videoMouseMoveTidRef.current);
-        withCurrent(({ playerWrapper }) => {
-            playerWrapper.classList.remove('hide-control');
-            playerWrapper.classList.remove('remove-control');
-        });
+        const playerWrapper = videoPlayerWrapperRef.current;
+        playerWrapper.classList.remove('hide-control');
+        playerWrapper.classList.remove('remove-control');
     };
     const animateIndicator = (indicator: HTMLDivElement) => {
         indicator.style.display = 'block';
@@ -420,56 +406,46 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         }, 510);
     };
     const updateCurrent = () => {
-        withCurrent(({ video }) => {
-            const currentTime = video.currentTime;
-            setCurrentTime(currentTime);
-            setCurrentPercentage(`${(currentTime / length) * 100}%`);
-        });
+        const currentTime = videoRef.current.currentTime;
+        setCurrentTime(currentTime);
+        setCurrentPercentage(`${(currentTime / length) * 100}%`);
     };
     const onClickPause = () => {
-        withCurrent(({ video, indicator }) => {
-            video.pause();
-            animateIndicator(indicator);
-            setPlaying(false);
-            showControl();
-        });
+        videoRef.current.pause();
+        animateIndicator(videoPlayIndicatorRef.current);
+        setPlaying(false);
+        showControl();
     };
     const onClickPlay = () => {
-        withCurrent(({ video, indicator }) => {
-            video
-                .play()
-                .then(() => {
-                    animateIndicator(indicator);
-                    setPlaying(true);
-                    showControlTemporary();
-                })
-                .catch((e) => {
-                    console.error(e);
-                    toast.addError(t('Video page'), [
-                        t('Failed to play the video.'),
-                        t('Consider to convert the video to MP4 if the video is unsupported format.'),
-                    ]);
-                });
-        });
+        videoRef.current
+            .play()
+            .then(() => {
+                animateIndicator(videoPlayIndicatorRef.current);
+                setPlaying(true);
+                showControlTemporary();
+            })
+            .catch((e) => {
+                console.error(e);
+                toast.addError(t('Video page'), [
+                    t('Failed to play the video.'),
+                    t('Consider to convert the video to MP4 if the video is unsupported format.'),
+                ]);
+            });
     };
     const onClickRewind = () => {
-        withCurrent(({ video }) => {
-            video.currentTime = Math.max(video.currentTime - 10, 0);
-            updateCurrent();
-        });
+        const video = videoRef.current;
+        video.currentTime = Math.max(video.currentTime - 10, 0);
+        updateCurrent();
     };
     const onClickForward = () => {
-        withCurrent(({ video }) => {
-            video.currentTime = Math.min(video.currentTime + 30, details.length ?? 0);
-            updateCurrent();
-        });
+        const video = videoRef.current;
+        video.currentTime = Math.min(video.currentTime + 30, details.length ?? 0);
+        updateCurrent();
     };
     const toggleMute = () => {
-        withCurrent(({ video }) => {
-            video.muted = !muted;
-            setMuted(!muted);
-            onVideoMouseMove();
-        });
+        videoRef.current.muted = !muted;
+        setMuted(!muted);
+        onVideoMouseMove();
     };
     const togglePlaying = () => {
         if (playing) {
@@ -481,7 +457,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
     const showControlTemporary = () => {
         showControl();
         videoMouseMoveTidRef.current = setTimeout(() => {
-            if (seekbarWrapperRef.current?.classList.contains('dragging') || thumbnailDisplay === 'block') {
+            if (seekbarWrapperRef.current.classList.contains('dragging') || thumbnailDisplay === 'block') {
                 // don't hide control while dragging seekbar or showing thumbnail even no pointer move
                 showControlTemporary();
                 return;
@@ -518,7 +494,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
         }
     };
     const onClickFullscreen = () => {
-        videoPlayerWrapperRef.current?.requestFullscreen();
+        videoPlayerWrapperRef.current.requestFullscreen();
         setMode('fullScreen');
     };
     clickHandlersRef.current = {

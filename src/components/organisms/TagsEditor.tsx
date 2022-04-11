@@ -16,7 +16,7 @@ type Props = {
 const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTags }: Props) => {
     const [tags, setTags] = useState<string[]>(givenTags ?? []);
     const [submitting, setSubmitting] = useState<boolean>(false);
-    const tagBoxRef = useRef<HTMLInputElement>(null);
+    const tagBoxRef = useRef<HTMLInputElement>(null!);
     const { t } = useI18n();
     const { sortedTags } = useAllTags();
     const browserInfo = useBrowserInfo();
@@ -26,9 +26,6 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         setShow(false);
     };
     const add = (): void => {
-        if (!tagBoxRef.current) {
-            return;
-        }
         const tag = tagBoxRef.current.value.trim() ?? '';
         if (tag.length === 0) {
             return;
@@ -73,7 +70,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             onHide={onHide}
             size="lg"
             onShow={() => {
-                tagBoxRef.current?.focus();
+                tagBoxRef.current.focus();
             }}
         >
             <Modal.Header closeButton>{t('Edit tags')}</Modal.Header>

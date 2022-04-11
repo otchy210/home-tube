@@ -35,7 +35,7 @@ type Props = {
 };
 
 const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
-    const wrapperRef = useRef<HTMLDivElement>();
+    const wrapperRef = useRef<HTMLDivElement>(null!);
     if (on === undefined) {
         return (
             <Wrapper>
@@ -53,7 +53,7 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
         return s <= stars ? 'selected' : 'unselected';
     });
     const getHoverStars = (e: MouseEvent): Stars => {
-        const parentX = wrapperRef.current?.getBoundingClientRect().x ?? 0;
+        const parentX = wrapperRef.current.getBoundingClientRect().x ?? 0;
         const hoveredStars = Math.trunc((e.clientX - parentX) / size) + 1;
         return hoveredStars as Stars;
     };
@@ -67,14 +67,10 @@ const StarsIndicator: React.FC<Props> = ({ size, stars, on }: Props) => {
         const onMouseClick = (e: MouseEvent) => {
             on.click(getHoverStars(e));
         };
-        wrapperRef.current?.addEventListener('mousemove', onMouseMove);
-        wrapperRef.current?.addEventListener('mouseout', onMouseOut);
-        wrapperRef.current?.addEventListener('click', onMouseClick);
-        return () => {
-            wrapperRef.current?.removeEventListener('mousemove', onMouseMove);
-            wrapperRef.current?.removeEventListener('mouseout', onMouseOut);
-            wrapperRef.current?.removeEventListener('click', onMouseClick);
-        };
+        // event lisners will be removed when the component gets ummounted
+        wrapperRef.current.addEventListener('mousemove', onMouseMove);
+        wrapperRef.current.addEventListener('mouseout', onMouseOut);
+        wrapperRef.current.addEventListener('click', onMouseClick);
     }, [on]);
     return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
