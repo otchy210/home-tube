@@ -58,8 +58,14 @@ const ViewPage: React.FC = () => {
         }
         return details.name;
     }, [key, hasError, details]);
+
+    useEffect(() => {
+        if (!key) {
+            toast.addError(t('Video page'), t('key parameter is required.'));
+        }
+    }, [key]);
+
     if (!key) {
-        toast.addError(t('Video page'), t('key parameter is required.'));
         return null;
     }
 
