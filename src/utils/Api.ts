@@ -1,6 +1,7 @@
 import {
     AllTags,
     AppConfig,
+    AppConfigValidationError,
     Json,
     ServerStatus,
     VideoConverterStatus,
@@ -97,7 +98,7 @@ export class Api {
     getAppConfig(): Promise<AppConfig> {
         return this.get<AppConfig>('/appConfig');
     }
-    postAppConfig(appConfig: AppConfig): Promise<AppConfig> {
+    postAppConfig(appConfig: AppConfig): Promise<AppConfig | AppConfigValidationError[]> {
         return this.post<AppConfig>('/appConfig', appConfig);
     }
     getServerStatus(): Promise<ServerStatus> {

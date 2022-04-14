@@ -1,4 +1,4 @@
-import { AppConfig, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
+import { AppConfig, AppConfigValidationError, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { Badge, Button, Col, Form, Row, Stack } from 'react-bootstrap';
@@ -20,6 +20,11 @@ Translations for type StorageMonitorStatus = 'initialized' | 'reading' | 'waitin
 t('initialized') t('reading') t('waiting') t('stopped')
 */
 
+/*
+Translations for updating AppConfig error messages
+t("Storage doesn't exist") t("ffmpeg command doesn't exist")
+*/
+
 const Title = styled.p.attrs({ className: 'h1 pt-3' })``;
 
 const PropertyTitle = styled.p.attrs({ className: 'h5 mt-3' })``;
@@ -27,6 +32,10 @@ const PropertyTitle = styled.p.attrs({ className: 'h5 mt-3' })``;
 const ReloadIcon = styled(Reload).attrs({ width: 32, height: 32 })`
     cursor: pointer;
 `;
+
+const isAppConfigValidationErrors = (results: AppConfig | AppConfigValidationError[]): results is AppConfigValidationError[] => {
+    return Array.isArray(results);
+};
 
 type StorageValidatinErrors = Map<number, string>;
 
@@ -147,10 +156,19 @@ const ConfigPage: React.FC = () => {
         }
         setSubmitting(true);
         api.postAppConfig(appConfig)
-            .then(() => {
-                toast.addSuccess(t('Config page'), t('Updated successfully.'));
-                setUpdated(false);
-                loadServerStatus();
+            .then((results) => {
+                if (isAppConfigValidationErrors(results)) {
+                    toast.addError(
+                        t('Config page'),
+                        results.map((result) => {
+                            return `${t(result.message)}: ${result.source}`;
+                        })
+                    );
+                } else {
+                    toast.addSuccess(t('Config page'), t('Updated successfully.'));
+                    setUpdated(false);
+                    loadServerStatus();
+                }
             })
             .catch((e) => {
                 console.error(e);
