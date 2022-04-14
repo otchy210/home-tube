@@ -1,8 +1,9 @@
 import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Badge, Button, Stack } from 'react-bootstrap';
+import { Badge, Stack } from 'react-bootstrap';
 import StaticTag from '../atoms/StaticTag';
 import { EditIcon, IconWrapper, TrashcanIcon } from '../atoms/ViewPageIcons';
+import { PrimaryButton } from '../common/buttons';
 import TagsEditor from '../organisms/TagsEditor';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
@@ -48,9 +49,9 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 return [
                     'primary',
                     t('Being ready to play instead of original.'),
-                    <Button size="sm" className="text-nowrap" onClick={() => setShowMp4RemovalConfirm(true)}>
+                    <PrimaryButton size="sm" onClick={() => setShowMp4RemovalConfirm(true)}>
                         {t('Remove MP4')}
-                    </Button>,
+                    </PrimaryButton>,
                 ];
             case 'queued':
                 return ['warning', t('Waiting for converting to recommended MP4 format.'), null];
@@ -60,9 +61,9 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 return [
                     'secondary',
                     t('Do you want to convert this video to recommended MP4 format?'),
-                    <Button size="sm" className="text-nowrap" onClick={() => setShowMp4Confirm(true)}>
+                    <PrimaryButton size="sm" onClick={() => setShowMp4Confirm(true)}>
                         {t('Try MP4')}
-                    </Button>,
+                    </PrimaryButton>,
                 ];
         }
     })();

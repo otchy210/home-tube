@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import { ButtonVariant } from 'react-bootstrap/esm/types';
+import { Modal } from 'react-bootstrap';
+import { DangerButton, PrimaryButton, SecondaryButton } from '../common/buttons';
 import { useI18n } from '../providers/I18nProvider';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
     title?: string;
     children?: ReactNode;
     submit?: {
-        variant: ButtonVariant;
+        variant: 'primary' | 'danger';
         label: string;
         onClick: () => void;
     };
@@ -27,14 +27,9 @@ const Confirm: React.FC<Props> = ({ show, setShow, title, children, submit }: Pr
             <Modal.Header closeButton>{title && <Modal.Title>{title}</Modal.Title>}</Modal.Header>
             {children && <Modal.Body>{children}</Modal.Body>}
             <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>
-                    {t('Close')}
-                </Button>
-                {submit && (
-                    <Button variant={submit.variant} onClick={onSubmit}>
-                        {submit.label}
-                    </Button>
-                )}
+                <SecondaryButton onClick={onHide}>{t('Close')}</SecondaryButton>
+                {submit && submit.variant === 'primary' && <PrimaryButton onClick={onSubmit}>{submit.label}</PrimaryButton>}
+                {submit && submit.variant === 'danger' && <DangerButton onClick={onSubmit}>{submit.label}</DangerButton>}
             </Modal.Footer>
         </Modal>
     );

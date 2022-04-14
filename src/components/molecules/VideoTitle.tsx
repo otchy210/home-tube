@@ -1,9 +1,9 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
-import { Alert, Button, FormControl, Modal, Stack } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import SubmitButton from '../atoms/SubmitButton';
+import { Alert, FormControl, Modal, Stack } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { EditIcon } from '../atoms/ViewPageIcons';
+import { LinkButton, PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -41,6 +41,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
     const openNewRef = useRef<HTMLButtonElement>(null!);
     const api = useApi();
     const { t } = useI18n();
+    const navigate = useNavigate();
 
     const closable = submissionState === 'none';
 
@@ -125,26 +126,19 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                 <Modal.Footer>
                     {submissionState === 'saved' ? (
                         <>
-                            <LinkContainer to="/">
-                                <Button variant="link">{t('Go to home')}</Button>
-                            </LinkContainer>
-                            <Button
-                                variant="primary"
+                            <LinkButton onClick={() => navigate('/')}>{t('Go to home')}</LinkButton>
+                            <PrimaryButton
                                 onClick={() => {
                                     location.replace(`/view?key=${newKey}`);
                                 }}
                                 ref={openNewRef}
                             >
                                 {t('Open new URL')}
-                            </Button>
+                            </PrimaryButton>
                         </>
                     ) : (
                         <>
-                            {closable && (
-                                <Button variant="secondary" onClick={onHide}>
-                                    {t('Cancel')}
-                                </Button>
-                            )}
+                            {closable && <SecondaryButton onClick={onHide}>{t('Cancel')}</SecondaryButton>}
                             <SubmitButton submitting={submissionState === 'submitting'} onClick={onSubmit}>
                                 {t('Change file name')}
                             </SubmitButton>

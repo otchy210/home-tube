@@ -1,9 +1,9 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
-import { Badge, Button, Col, Container, Image, Modal, Row } from 'react-bootstrap';
+import { Badge, Col, Container, Image, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import RightArrow from '../../images/right-arrow.svg';
-import SubmitButton from '../atoms/SubmitButton';
+import { SecondaryButton, SubmitButton } from '../common/buttons';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -135,9 +135,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>
-                    {t('Cancel')}
-                </Button>
+                <SecondaryButton onClick={onHide}>{t('Cancel')}</SecondaryButton>
                 <SubmitButton submitting={submitting} onClick={onUpdate}>
                     {t('Update')}
                 </SubmitButton>

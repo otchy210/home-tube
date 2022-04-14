@@ -1,14 +1,14 @@
 import { AppConfig, AppConfigValidationError, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Badge, Button, Col, Form, Row, Stack } from 'react-bootstrap';
+import { Badge, Col, Form, Row, Stack } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import Reload from '../../images/reload.svg';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import { waitFor } from '../../utils/TimerUtils';
 import Spinner from '../atoms/Spinner';
-import SubmitButton from '../atoms/SubmitButton';
+import { DangerButton, LinkButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import ServerStatusProperty from '../molecules/ServerStatusProperty';
 import { useApi } from '../providers/ApiProvider';
@@ -210,25 +210,23 @@ const ConfigPage: React.FC = () => {
                                             id={`storage-${i}-enabled`}
                                             data-testid={`storage-${i}-enabled`}
                                         />
-                                        <Button
-                                            variant="danger"
-                                            className="text-nowrap"
+                                        <DangerButton
                                             onClick={() => {
                                                 removeStorage(i);
                                             }}
                                             data-testid={`storage-${i}-delete`}
                                         >
                                             {t('Delete')}
-                                        </Button>
+                                        </DangerButton>
                                     </Stack>
                                     {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
                                 </Stack>
                             );
                         })}
                         <Stack direction="horizontal" gap={2} className="mt-1">
-                            <Button variant="secondary" onClick={addStorage} data-testid={`add-storage`}>
+                            <SecondaryButton onClick={addStorage} data-testid={`add-storage`}>
                                 {t('Add video storage path')}
-                            </Button>
+                            </SecondaryButton>
                         </Stack>
 
                         <PropertyTitle>{t('ffmpeg path')}</PropertyTitle>
@@ -247,8 +245,7 @@ const ConfigPage: React.FC = () => {
                             <SubmitButton disabled={!updated} submitting={submitting} data-testid="save-config" onClick={trySubmit}>
                                 {t('Save config')}
                             </SubmitButton>
-                            <Button
-                                variant="link"
+                            <LinkButton
                                 onClick={() => {
                                     loadAppConfig();
                                 }}
@@ -256,7 +253,7 @@ const ConfigPage: React.FC = () => {
                                 data-testid="cancel"
                             >
                                 {t('Cancel')}
-                            </Button>
+                            </LinkButton>
                         </Stack>
                     </Form>{' '}
                 </Col>

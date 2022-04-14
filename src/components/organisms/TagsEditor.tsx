@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
-import { Button, FormControl, Modal, Stack } from 'react-bootstrap';
+import { FormControl, Modal, Stack } from 'react-bootstrap';
 import { useBrowserInfo } from '../../utils/useBowser';
 import ClickableTag from '../atoms/ClickableTag';
-import SubmitButton from '../atoms/SubmitButton';
+import { PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -86,9 +86,9 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                                 return <option value={tag} key={`tag-opt-${tag}`} />;
                             })}
                     </datalist>
-                    <Button variant="primary" className="ms-2 text-nowrap" onClick={add}>
+                    <PrimaryButton className="ms-2" onClick={add}>
                         {t('Add')}
-                    </Button>
+                    </PrimaryButton>
                 </Stack>
                 <div className="text-muted small">{t('{{shortcut}} to save', { shortcut: `${isMacOS ? 'Cmd' : 'Ctrl'}+Enter` })}</div>
                 <Stack direction="horizontal" className="flex-wrap">
@@ -100,9 +100,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                 {tags && tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>
-                    {t('Cancel')}
-                </Button>
+                <SecondaryButton onClick={onHide}>{t('Cancel')}</SecondaryButton>
                 <SubmitButton submitting={submitting} onClick={onSubmit}>
                     {t('Save tags')}
                 </SubmitButton>

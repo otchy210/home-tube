@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Button, Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -8,6 +8,7 @@ import Language from '../../images/language.svg';
 import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
+import { PrimaryButton } from '../common/buttons';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
@@ -88,10 +89,10 @@ const Header: React.FC = () => {
                     <Nav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
                             <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
-                            <Button className="ms-2 text-nowrap" onClick={onSearchSubmit}>
+                            <PrimaryButton className="ms-2" onClick={onSearchSubmit}>
                                 <SearchIcon />
                                 <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">{t('Search')}</span>
-                            </Button>
+                            </PrimaryButton>
                         </Form>
                     </Nav>
                     <Nav className="ms-2 mt-2 mt-sm-0">
