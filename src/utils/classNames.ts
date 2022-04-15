@@ -1,4 +1,4 @@
-type Arg = undefined | null | string | Arg[];
+export type Arg = undefined | null | string | Arg[];
 
 const MAX_DEPTH = 5;
 
@@ -46,7 +46,7 @@ class ClassNames {
 
     build() {
         if (this.classNames.size === 0) {
-            return null;
+            return undefined;
         }
         return Array.from(this.classNames).sort().join(' ');
     }

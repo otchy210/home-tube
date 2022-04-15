@@ -1,11 +1,11 @@
-import { classNames } from './classNames';
+import { classNames, Arg } from './classNames';
 
 describe('classNames', () => {
     it('returns null when no valid values added', () => {
-        expect(classNames().build()).toBeNull();
-        expect(classNames().add().build()).toBeNull();
-        expect(classNames().add(null, undefined, '', []).build()).toBeNull();
-        expect(classNames(' ', '   ', [null, undefined, ' '], [[[]]]).build()).toBeNull();
+        expect(classNames().build()).toBeUndefined();
+        expect(classNames().add().build()).toBeUndefined();
+        expect(classNames().add(null, undefined, '', []).build()).toBeUndefined();
+        expect(classNames(' ', '   ', [null, undefined, ' '], [[[]]]).build()).toBeUndefined();
     });
 
     it('returns single className when one valid value added', () => {
@@ -33,7 +33,7 @@ describe('classNames', () => {
 
     it('throws error when the argument array is nested too many', () => {
         expect(() => classNames([[[[[[[[[[]]]]]]]]]])).toThrowError();
-        const arr = ['a'] as Array<any>;
+        const arr = ['a'] as Arg[];
         arr.push(arr);
         expect(() => classNames(arr)).toThrowError();
     });

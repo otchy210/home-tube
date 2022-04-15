@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
+import { classNames } from '../../utils/classNames';
 import Spinner from '../atoms/Spinner';
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link';
@@ -12,15 +13,12 @@ interface InnerProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>,
 }
 
 const InnerButton = forwardRef<HTMLButtonElement, InnerProps>(({ children, variant, size, className, ...rest }, ref) => {
-    const classNames = ['btn', `btn-${variant}`, 'text-nowrap'];
+    const classes = classNames(className, 'btn', `btn-${variant}`, 'text-nowrap');
     if (size) {
-        classNames.push(`btn-${size}`);
-    }
-    if (className) {
-        classNames.push(className);
+        classes.add(`btn-${size}`);
     }
     return (
-        <button type="button" className={classNames.join(' ')} {...rest} ref={ref}>
+        <button type="button" className={classes.build()} {...rest} ref={ref}>
             {children}
         </button>
     );
