@@ -8,9 +8,8 @@ class ClassNames {
     }
 
     private addSingle(arg: string) {
-        const className = arg.trim();
-        if (className.length > 0) {
-            this.classNames.add(className);
+        if (arg.length > 0) {
+            this.classNames.add(arg);
         }
     }
 
