@@ -1,10 +1,12 @@
 type Arg = undefined | null | string | Arg[];
 
+const MAX_DEPTH = 5;
+
 class ClassNames {
     private classNames = new Set<string>();
 
     constructor(...args: Arg[]) {
-        this.addArray(args);
+        this.addArray(args, 0);
     }
 
     private addSingle(arg: string) {
@@ -24,10 +26,13 @@ class ClassNames {
         }
     }
 
-    private addArray(args: Arg[]) {
+    private addArray(args: Arg[], depth: number) {
+        if (depth >= MAX_DEPTH) {
+            throw new Error(`The argument array is nested over ${MAX_DEPTH} times`);
+        }
         args.forEach((arg) => {
             if (Array.isArray(arg)) {
-                this.addArray(arg);
+                this.addArray(arg, depth + 1);
             } else if (typeof arg === 'string') {
                 this.addString(arg);
             }
@@ -35,7 +40,7 @@ class ClassNames {
     }
 
     add(...args: Arg[]) {
-        this.addArray(args);
+        this.addArray(args, 0);
         return this;
     }
 

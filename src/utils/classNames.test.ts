@@ -5,7 +5,7 @@ describe('classNames', () => {
         expect(classNames().build()).toBeNull();
         expect(classNames().add().build()).toBeNull();
         expect(classNames().add(null, undefined, '', []).build()).toBeNull();
-        expect(classNames(' ', '   ', [null, undefined, ' '], [[[[]]]]).build()).toBeNull();
+        expect(classNames(' ', '   ', [null, undefined, ' '], [[[]]]).build()).toBeNull();
     });
 
     it('returns single className when one valid value added', () => {
@@ -29,5 +29,12 @@ describe('classNames', () => {
                 .add([[[null, ['a']]]])
                 .build()
         ).toBe('a b c');
+    });
+
+    it('throws error when the argument array is nested too many', () => {
+        expect(() => classNames([[[[[[[[[[]]]]]]]]]])).toThrowError();
+        const arr = ['a'] as Array<any>;
+        arr.push(arr);
+        expect(() => classNames(arr)).toThrowError();
     });
 });
