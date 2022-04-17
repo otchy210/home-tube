@@ -1,9 +1,10 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
-import { Alert, FormControl, Modal, Stack } from 'react-bootstrap';
+import { Alert, FormControl, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { EditIcon } from '../atoms/ViewPageIcons';
 import { LinkButton, PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import { HorizontalStack } from '../common/layouts';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -109,10 +110,10 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                                     "You're about to change the file name. Make sure this operation will actually change the file name on the storage and move meta data files appropriately."
                                 )}
                             </p>
-                            <Stack direction="horizontal">
+                            <HorizontalStack>
                                 <FormControl ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} onKeyDown={onKeyDown} />
                                 <div className="ms-1 fs-5">{ext}</div>
-                            </Stack>
+                            </HorizontalStack>
                             {errors.length > 0 && (
                                 <Alert variant="danger" className="mt-3 mb-0">
                                     {errors.map((error) => (

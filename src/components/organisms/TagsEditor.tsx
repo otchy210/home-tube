@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { FormControl, Modal, Stack } from 'react-bootstrap';
+import { FormControl, Modal } from 'react-bootstrap';
 import { useBrowserInfo } from '../../utils/useBowser';
 import ClickableTag from '../atoms/ClickableTag';
 import { PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import { HorizontalStack } from '../common/layouts';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -75,7 +76,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
         >
             <Modal.Header closeButton>{t('Edit tags')}</Modal.Header>
             <Modal.Body>
-                <Stack direction="horizontal">
+                <HorizontalStack>
                     <FormControl list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} />
                     <datalist id="all-tags">
                         {sortedTags
@@ -89,14 +90,14 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                     <PrimaryButton className="ms-2" onClick={add}>
                         {t('Add')}
                     </PrimaryButton>
-                </Stack>
+                </HorizontalStack>
                 <div className="text-muted small">{t('{{shortcut}} to save', { shortcut: `${isMacOS ? 'Cmd' : 'Ctrl'}+Enter` })}</div>
-                <Stack direction="horizontal" className="flex-wrap">
+                <HorizontalStack className="flex-wrap">
                     {tags &&
                         tags.map((tag) => {
                             return <ClickableTag tag={tag} onClick={removeTag} key={`tag-${tag}`} />;
                         })}
-                </Stack>
+                </HorizontalStack>
                 {tags && tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
             </Modal.Body>
             <Modal.Footer>

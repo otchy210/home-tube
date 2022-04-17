@@ -3,14 +3,10 @@ import styled from 'styled-components';
 import { classNames } from '../../utils/classNames';
 import Spinner from '../atoms/Spinner';
 
-type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link';
-
-type ButtonSize = 'sm' | 'lg';
-
-interface InnerProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
-    variant: ButtonVariant;
-    size?: ButtonSize;
-}
+type InnerProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
+    variant: 'primary' | 'secondary' | 'danger' | 'link';
+    size?: 'sm' | 'lg';
+};
 
 const InnerButton = forwardRef<HTMLButtonElement, InnerProps>(({ children, variant, size, className, ...rest }, ref) => {
     const classes = classNames(className, 'btn', `btn-${variant}`, 'text-nowrap');
@@ -24,38 +20,22 @@ const InnerButton = forwardRef<HTMLButtonElement, InnerProps>(({ children, varia
     );
 });
 
-type Props = Omit<InnerProps, 'variant'>;
+type ButtonProps = Omit<InnerProps, 'variant'>;
 
-export const PrimaryButton = forwardRef<HTMLButtonElement, Props>(({ children, ...rest }, ref) => {
-    return (
-        <InnerButton variant="primary" {...rest} ref={ref}>
-            {children}
-        </InnerButton>
-    );
+export const PrimaryButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+    return <InnerButton variant="primary" ref={ref} {...props} />;
 });
 
-export const SecondaryButton = forwardRef<HTMLButtonElement, Props>(({ children, ...rest }, ref) => {
-    return (
-        <InnerButton variant="secondary" {...rest} ref={ref}>
-            {children}
-        </InnerButton>
-    );
+export const SecondaryButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+    return <InnerButton variant="secondary" ref={ref} {...props} />;
 });
 
-export const DangerButton = forwardRef<HTMLButtonElement, Props>(({ children, ...rest }, ref) => {
-    return (
-        <InnerButton variant="danger" {...rest} ref={ref}>
-            {children}
-        </InnerButton>
-    );
+export const DangerButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+    return <InnerButton variant="danger" ref={ref} {...props} />;
 });
 
-export const LinkButton = forwardRef<HTMLButtonElement, Props>(({ children, ...rest }, ref) => {
-    return (
-        <InnerButton variant="link" {...rest} ref={ref}>
-            {children}
-        </InnerButton>
-    );
+export const LinkButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+    return <InnerButton variant="link" ref={ref} {...props} />;
 });
 
 const SpinnerWrapper = styled.span`
@@ -66,7 +46,7 @@ const SpinnerWrapper = styled.span`
     transform: translate(-50%, -50%);
 `;
 
-interface SubmitButtonProps extends Omit<Props, 'style'> {
+interface SubmitButtonProps extends Omit<ButtonProps, 'style'> {
     submitting: boolean;
 }
 

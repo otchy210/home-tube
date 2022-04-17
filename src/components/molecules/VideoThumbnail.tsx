@@ -2,9 +2,9 @@ import { THUMBNAIL } from '@otchy/home-tube-api/dist/const';
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import React from 'react';
-import { Stack } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getThumbnailStyle } from '../../utils/ImageUtils';
+import { VerticalStack } from '../common/layouts';
 import { useApi } from '../providers/ApiProvider';
 
 const Outer = styled.div.attrs({ className: 'p-2 rounded' })`
@@ -45,10 +45,10 @@ const VideoThumbnail = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
         <>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
             <Outer ref={ref as any} style={{ display, left: `${left}px` }}>
-                <Stack>
+                <VerticalStack>
                     <Image style={imageStyle} />
                     <div className="text-center text-white">{formatTimeInSecond(currentTime)}</div>
-                </Stack>
+                </VerticalStack>
             </Outer>
         </>
     );

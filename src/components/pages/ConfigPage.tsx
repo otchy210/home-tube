@@ -1,7 +1,7 @@
 import { AppConfig, AppConfigValidationError, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Badge, Col, Form, Row, Stack } from 'react-bootstrap';
+import { Badge, Col, Form, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import Reload from '../../images/reload.svg';
@@ -9,6 +9,7 @@ import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import { waitFor } from '../../utils/TimerUtils';
 import Spinner from '../atoms/Spinner';
 import { DangerButton, LinkButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import { HorizontalStack, VerticalStack } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import ServerStatusProperty from '../molecules/ServerStatusProperty';
 import { useApi } from '../providers/ApiProvider';
@@ -188,8 +189,8 @@ const ConfigPage: React.FC = () => {
                         <Form.Text className="text-muted">{t('Add your video storage path which has your videos.')}</Form.Text>
                         {appConfig.storages.map((storage, i) => {
                             return (
-                                <Stack key={`storage-${i}`}>
-                                    <Stack direction="horizontal" gap={2} className="mt-1">
+                                <VerticalStack key={`storage-${i}`}>
+                                    <HorizontalStack gap={2} className="mt-1">
                                         <Form.Control
                                             type="text"
                                             value={storage.path}
@@ -218,16 +219,16 @@ const ConfigPage: React.FC = () => {
                                         >
                                             {t('Delete')}
                                         </DangerButton>
-                                    </Stack>
+                                    </HorizontalStack>
                                     {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
-                                </Stack>
+                                </VerticalStack>
                             );
                         })}
-                        <Stack direction="horizontal" gap={2} className="mt-1">
+                        <HorizontalStack gap={2} className="mt-1">
                             <SecondaryButton onClick={addStorage} data-testid={`add-storage`}>
                                 {t('Add video storage path')}
                             </SecondaryButton>
-                        </Stack>
+                        </HorizontalStack>
 
                         <PropertyTitle>{t('ffmpeg path')}</PropertyTitle>
                         <Form.Text className="text-muted">{t('No need to set unless you want to change it from default.')}</Form.Text>
@@ -241,7 +242,7 @@ const ConfigPage: React.FC = () => {
                             data-testid={`ffmpeg`}
                         />
 
-                        <Stack direction="horizontal" gap={2} className="mt-3">
+                        <HorizontalStack gap={2} className="mt-3">
                             <SubmitButton disabled={!updated} submitting={submitting} data-testid="save-config" onClick={trySubmit}>
                                 {t('Save config')}
                             </SubmitButton>
@@ -254,7 +255,7 @@ const ConfigPage: React.FC = () => {
                             >
                                 {t('Cancel')}
                             </LinkButton>
-                        </Stack>
+                        </HorizontalStack>
                     </Form>{' '}
                 </Col>
                 <Col xs={12} lg={5} className="ps-lg-5">

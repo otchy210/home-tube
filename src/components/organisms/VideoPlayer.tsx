@@ -18,6 +18,7 @@ import {
     SpeakerIcon,
     TheaterIcon,
 } from '../atoms/VideoPlayerIcons';
+import { HorizontalStack } from '../common/layouts';
 import VideoThumbnail from '../molecules/VideoThumbnail';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -581,7 +582,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                             <BarHandle style={{ left: currentPercentage }} />
                         </BarOuter>
                     </SeekbarWrapper>
-                    <Stack direction="horizontal" className="m-2">
+                    <HorizontalStack className="m-2">
                         {playing ? (
                             <IconWrapper onClick={onClickPause}>
                                 <FirstIconTooltip>{t('Pause (space)')}</FirstIconTooltip>
@@ -603,7 +604,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                         </IconWrapper>
                         <SpeakerIconWrapper ref={speakerIcnoWrapperRef as any}>
                             <IconTooltip>{t('Mute (m)')}</IconTooltip>
-                            <Stack direction="horizontal">
+                            <HorizontalStack>
                                 <span onClick={toggleMute}>{muted ? <MutedIcon /> : <SpeakerIcon />}</span>
                                 <VolumebarWrapper ref={volumeWrapperRef as any}>
                                     <BarOuter ref={volumeOuterRef as any}>
@@ -611,7 +612,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                                         <BarHandle style={{ left: volumePercentage }} />
                                     </BarOuter>
                                 </VolumebarWrapper>
-                            </Stack>
+                            </HorizontalStack>
                         </SpeakerIconWrapper>
                         <Time>
                             {formatTimeInSecond(currentTime)}/{duration}
@@ -640,7 +641,7 @@ const VideoPlayer: React.FC<Props> = ({ details, mode, setMode }: Props) => {
                                 <FullScreenIcon />
                             </IconWrapper>
                         )}
-                    </Stack>
+                    </HorizontalStack>
                 </VideoControl>
             </VideoPlayerWrapper>
         </>

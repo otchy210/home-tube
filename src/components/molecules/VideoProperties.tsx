@@ -1,9 +1,10 @@
 import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Badge, Stack } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
 import StaticTag from '../atoms/StaticTag';
 import { EditIcon, IconWrapper, TrashcanIcon } from '../atoms/ViewPageIcons';
 import { PrimaryButton } from '../common/buttons';
+import { HorizontalStack } from '../common/layouts';
 import TagsEditor from '../organisms/TagsEditor';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
@@ -122,7 +123,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 <p className="mb-0">{t('Are you sure to remove the converted MP4?')}</p>
             </Confirm>
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
-            <Stack direction="horizontal" className="align-items-start">
+            <HorizontalStack className="align-items-start">
                 <StarsIndicator size={30} stars={stars} on={onStars} />
                 {removeStars.able() && (
                     <IconWrapper>
@@ -138,12 +139,12 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                     })}
                     <EditIcon onClick={() => setShowTagsEditor(true)} />
                 </div>
-            </Stack>
-            <Stack direction="horizontal" className="mt-1">
+            </HorizontalStack>
+            <HorizontalStack className="mt-1">
                 <Badge bg={mp4Bg}>{t('Recommended MP4')}</Badge>
                 <div className="text-mute ms-1">{mp4Message}</div>
                 {mp4ConvertButton}
-            </Stack>
+            </HorizontalStack>
         </>
     );
 };
