@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge } from 'react-bootstrap';
+import { SecondaryBadge } from '../common/badges';
 
 type Props = {
     width: number | undefined;
@@ -11,15 +11,11 @@ const VideoSizeBadges: React.FC<Props> = ({ width, height, size }: Props) => {
     return (
         <div className="text-nowrap">
             {width && height && (
-                <Badge bg="secondary">
+                <SecondaryBadge>
                     {width}x{height}
-                </Badge>
+                </SecondaryBadge>
             )}
-            {size && (
-                <Badge bg="secondary" className="ms-1 text-uppercase">
-                    {size}
-                </Badge>
-            )}
+            {size && <SecondaryBadge className="ms-1 text-uppercase">{size}</SecondaryBadge>}
         </div>
     );
 };

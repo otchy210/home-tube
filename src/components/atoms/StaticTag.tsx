@@ -1,7 +1,7 @@
 import React from 'react';
-import { Badge } from 'react-bootstrap';
 import { createSearchParams } from 'react-router-dom';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
+import { SuccessBadge } from '../common/badges';
 import { useSearchQuery } from '../providers/SearchQueryProvider';
 
 type Props = {
@@ -21,9 +21,7 @@ const StaticTag: React.FC<Props> = ({ tag, count }: Props) => {
                 setSearchQuery({ tags: [tag] });
             })}
         >
-            <Badge bg="success" className="ms-1 mt-1 fs-6">
-                {`${tag} (${count})`}
-            </Badge>
+            <SuccessBadge className="ms-1 mt-1 fs-6">{`${tag} (${count})`}</SuccessBadge>
         </a>
     );
 };

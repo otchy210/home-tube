@@ -1,8 +1,8 @@
 import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Badge } from 'react-bootstrap';
 import StaticTag from '../atoms/StaticTag';
 import { EditIcon, IconWrapper, TrashcanIcon } from '../atoms/ViewPageIcons';
+import { Badge, BadgeVariant } from '../common/badges';
 import { PrimaryButton } from '../common/buttons';
 import { HorizontalStack } from '../common/layouts';
 import TagsEditor from '../organisms/TagsEditor';
@@ -44,23 +44,23 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
               return left.localeCompare(right);
           })
         : [];
-    const [mp4Bg, mp4Message, mp4ConvertButton] = (() => {
+    const [mp4Variant, mp4Message, mp4ConvertButton] = (() => {
         switch (mp4) {
             case 'available':
                 return [
-                    'primary',
+                    'primary' as BadgeVariant,
                     t('Being ready to play instead of original.'),
                     <PrimaryButton size="sm" onClick={() => setShowMp4RemovalConfirm(true)}>
                         {t('Remove MP4')}
                     </PrimaryButton>,
                 ];
             case 'queued':
-                return ['warning', t('Waiting for converting to recommended MP4 format.'), null];
+                return ['warning' as BadgeVariant, t('Waiting for converting to recommended MP4 format.'), null];
             case 'processing':
-                return ['warning', t('Processing to convert this video to recommended MP4 format.'), null];
+                return ['warning' as BadgeVariant, t('Processing to convert this video to recommended MP4 format.'), null];
             default:
                 return [
-                    'secondary',
+                    'secondary' as BadgeVariant,
                     t('Do you want to convert this video to recommended MP4 format?'),
                     <PrimaryButton size="sm" onClick={() => setShowMp4Confirm(true)}>
                         {t('Try MP4')}
@@ -141,7 +141,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
                 </div>
             </HorizontalStack>
             <HorizontalStack className="mt-1">
-                <Badge bg={mp4Bg}>{t('Recommended MP4')}</Badge>
+                <Badge variant={mp4Variant}>{t('Recommended MP4')}</Badge>
                 <div className="text-mute ms-1">{mp4Message}</div>
                 {mp4ConvertButton}
             </HorizontalStack>

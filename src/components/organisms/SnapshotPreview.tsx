@@ -1,8 +1,9 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
-import { Badge, Col, Container, Image, Modal, Row } from 'react-bootstrap';
+import { Col, Container, Image, Modal, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import RightArrow from '../../images/right-arrow.svg';
+import { PrimaryBadge, SecondaryBadge } from '../common/badges';
 import { SecondaryButton, SubmitButton } from '../common/buttons';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -115,17 +116,13 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                         <Col xs={6} className="px-1">
                             <ImageHolder>
                                 <Image fluid ref={imageRef} rounded src={snapshotUrl} />
-                                <Badge bg="secondary" className="m-1">
-                                    {t('Current', { context: 'snapshot' })}
-                                </Badge>
+                                <SecondaryBadge className="m-1">{t('Current', { context: 'snapshot' })}</SecondaryBadge>
                             </ImageHolder>
                         </Col>
                         <Col xs={6} className="px-1">
                             <ImageHolder>
                                 <Image fluid ref={imageRef} rounded />
-                                <Badge bg="primary" className="m-1">
-                                    {t('Replacement', { context: 'snapshot' })}
-                                </Badge>
+                                <PrimaryBadge className="m-1">{t('Replacement', { context: 'snapshot' })}</PrimaryBadge>
                             </ImageHolder>
                         </Col>
                         <ArrowHolder>

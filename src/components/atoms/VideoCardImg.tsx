@@ -1,8 +1,8 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useState } from 'react';
-import { Badge } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getThumbnailStyle, loadAllImages } from '../../utils/ImageUtils';
+import { SecondaryBadge } from '../common/badges';
 import { useApi } from '../providers/ApiProvider';
 import Spinner from './Spinner';
 
@@ -36,7 +36,7 @@ const BadgeHolder = styled.div.attrs({ className: 'hstack m-1' })`
     pointer-events: none;
 `;
 
-const SmallBadge = styled(Badge).attrs({ className: 'ms-1 bg-secondary fw-normal text-uppercase' })``;
+const SmallBadge = styled(SecondaryBadge).attrs({ className: 'ms-1 fw-normal text-uppercase' })``;
 
 const SpinnerWrapper = styled.div`
     position: absolute;

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Badge } from 'react-bootstrap';
 import styled from 'styled-components';
+import { SuccessBadge } from '../common/badges';
 
-const ClickableBadge = styled(Badge)`
+const ClickableBadge = styled(SuccessBadge)`
     cursor: pointer;
 `;
 
@@ -14,7 +14,6 @@ type Props = {
 const ClickableTag: React.FC<Props> = ({ tag, onClick }: Props) => {
     return (
         <ClickableBadge
-            bg="success"
             className="me-1 mt-1 fs-6"
             onClick={() => {
                 onClick(tag);

@@ -1,13 +1,14 @@
 import { AppConfig, AppConfigValidationError, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Badge, Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import Reload from '../../images/reload.svg';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import { waitFor } from '../../utils/TimerUtils';
 import Spinner from '../atoms/Spinner';
+import { Badge } from '../common/badges';
 import { DangerButton, LinkButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { HorizontalStack, VerticalStack } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
@@ -270,7 +271,7 @@ const ConfigPage: React.FC = () => {
                             <p>{serverStatus.indexedVideo}</p>
                             <PropertyTitle>{t('Storages')}</PropertyTitle>
                             {Object.entries(serverStatus.storages).map(([path, info]) => {
-                                const badgeBg = (() => {
+                                const badgeVariant = (() => {
                                     switch (info.status) {
                                         case 'initialized':
                                             return 'primary';
@@ -286,7 +287,7 @@ const ConfigPage: React.FC = () => {
                                     <p key={`storage-${path}`}>
                                         <b>{path}</b>
                                         <br />
-                                        <Badge bg={badgeBg}>{t(info.status)}</Badge>{' '}
+                                        <Badge variant={badgeVariant}>{t(info.status)}</Badge>{' '}
                                         {info.size > 0 ? t('{{count}} movies found.', { count: info.size }) : t('Movies not found.')}
                                         <br />
                                     </p>

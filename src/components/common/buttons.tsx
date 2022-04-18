@@ -8,16 +8,12 @@ type InnerProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & 
     size?: 'sm' | 'lg';
 };
 
-const InnerButton = forwardRef<HTMLButtonElement, InnerProps>(({ children, variant, size, className, ...rest }, ref) => {
+const InnerButton = forwardRef<HTMLButtonElement, InnerProps>(({ variant, size, className, ...rest }, ref) => {
     const classes = classNames(className, 'btn', `btn-${variant}`, 'text-nowrap');
     if (size) {
         classes.add(`btn-${size}`);
     }
-    return (
-        <button type="button" className={classes.build()} {...rest} ref={ref}>
-            {children}
-        </button>
-    );
+    return <button type="button" className={classes.build()} {...rest} ref={ref} />;
 });
 
 type ButtonProps = Omit<InnerProps, 'variant'>;
