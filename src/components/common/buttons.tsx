@@ -2,8 +2,9 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../utils/classNames';
 import Spinner from '../atoms/Spinner';
+import { HTMLButtonProps } from './types';
 
-type InnerProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> & {
+type InnerProps = Omit<HTMLButtonProps, 'type'> & {
     variant: 'primary' | 'secondary' | 'danger' | 'link';
     size?: 'sm' | 'lg';
 };

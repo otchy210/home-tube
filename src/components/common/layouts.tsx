@@ -1,9 +1,10 @@
 import React from 'react';
 import { classNames } from '../../utils/classNames';
+import { HTMLDivProps } from './types';
 
 type StackGap = 0 | 1 | 2 | 3 | 4 | 5;
 
-type InnerStackProps = React.HTMLAttributes<HTMLDivElement> & {
+type InnerStackProps = HTMLDivProps & {
     gap?: StackGap;
     direction: 'h' | 'v';
 };

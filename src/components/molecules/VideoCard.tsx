@@ -1,8 +1,8 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
-import { Card } from 'react-bootstrap';
 import { createSearchParams, Link } from 'react-router-dom';
 import VideoCardImg from '../atoms/VideoCardImg';
+import { Card, CardBody, CardSubtitle, CardTitle } from '../common/card';
 import StarsIndicator from './StarsIndicator';
 
 const noDecorationStyle = { textDecoration: 'none', color: 'inherit' };
@@ -20,16 +20,16 @@ const VideoCard: React.FC<Props> = ({ video }: Props) => {
             <Link to={viewUrl} style={noDecorationStyle}>
                 <VideoCardImg video={video} />
             </Link>
-            <Card.Body>
-                <Card.Title className="fs-6 text-truncate" title={name}>
+            <CardBody>
+                <CardTitle className="fs-6 text-truncate" title={name}>
                     <Link to={viewUrl} style={noDecorationStyle}>
                         {name}
                     </Link>
-                </Card.Title>
-                <Card.Subtitle className="text-muted">
+                </CardTitle>
+                <CardSubtitle className="text-muted">
                     <StarsIndicator size={16} stars={stars} />
-                </Card.Subtitle>
-            </Card.Body>
+                </CardSubtitle>
+            </CardBody>
         </Card>
     );
 };

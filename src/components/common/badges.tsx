@@ -1,15 +1,15 @@
 import React from 'react';
-import { classNames } from '../../utils/classNames';
+import { ClassModifiedDiv } from './shared';
+import { HTMLDivProps } from './types';
 
 export type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
 
-type BadgeProps = React.HTMLAttributes<HTMLDivElement> & {
+type BadgeProps = HTMLDivProps & {
     variant: BadgeVariant;
 };
 
-export const Badge: React.FC<BadgeProps> = ({ variant, className, ...rest }) => {
-    const classes = classNames('badge', `bg-${variant}`, className);
-    return <div className={classes.build()} {...rest} />;
+export const Badge: React.FC<BadgeProps> = ({ variant, ...rest }) => {
+    return <ClassModifiedDiv classModifier={`badge bg-${variant}`} {...rest} />;
 };
 
 type ColoredBadgeProps = Omit<BadgeProps, 'variant'>;
