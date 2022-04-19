@@ -1,7 +1,6 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import { formatTimeInSecond } from '@otchy/home-tube-api/dist/utils/TimeUtils';
 import React, { useEffect, useRef, useState } from 'react';
-import { Stack } from 'react-bootstrap';
 import styled, { css } from 'styled-components';
 import { VideoViewMode } from '../../types';
 import {
@@ -18,7 +17,7 @@ import {
     SpeakerIcon,
     TheaterIcon,
 } from '../atoms/VideoPlayerIcons';
-import { HorizontalStack } from '../common/layouts';
+import { HorizontalStack, VerticalStack } from '../common/layouts';
 import VideoThumbnail from '../molecules/VideoThumbnail';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -75,7 +74,7 @@ const Video = styled.video.attrs({ crossOrigin: 'anonymous' })`
     height: inherit;
 `;
 
-const VideoControl = styled(Stack).attrs({ className: 'video-control' })`
+const VideoControl = styled(VerticalStack).attrs({ className: 'video-control' })`
     position: absolute;
     bottom: 0;
     width: 100%;

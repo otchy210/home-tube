@@ -45,9 +45,11 @@ const VideoThumbnail = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
         <>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
             <Outer ref={ref as any} style={{ display, left: `${left}px` }}>
-                <VerticalStack>
+                <VerticalStack gap={2}>
                     <Image style={imageStyle} />
-                    <div className="text-center text-white">{formatTimeInSecond(currentTime)}</div>
+                    <div className="text-center text-white" style={{ lineHeight: '1em' }}>
+                        {formatTimeInSecond(currentTime)}
+                    </div>
                 </VerticalStack>
             </Outer>
         </>
