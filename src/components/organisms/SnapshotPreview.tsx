@@ -1,10 +1,11 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
-import { Col, Container, Image, Modal, Row } from 'react-bootstrap';
+import { Image, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 import RightArrow from '../../images/right-arrow.svg';
 import { PrimaryBadge, SecondaryBadge } from '../common/badges';
 import { SecondaryButton, SubmitButton } from '../common/buttons';
+import { Container, HalfWidthCol, Row } from '../common/layouts';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -113,18 +114,18 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                 <div>{t('Are you sure to update the snapshot representing this video with following image?')}</div>
                 <Container className="mt-2">
                     <Row style={{ position: 'relative' }}>
-                        <Col xs={6} className="px-1">
+                        <HalfWidthCol className="px-1">
                             <ImageHolder>
                                 <Image fluid ref={imageRef} rounded src={snapshotUrl} />
                                 <SecondaryBadge className="m-1">{t('Current', { context: 'snapshot' })}</SecondaryBadge>
                             </ImageHolder>
-                        </Col>
-                        <Col xs={6} className="px-1">
+                        </HalfWidthCol>
+                        <HalfWidthCol className="px-1">
                             <ImageHolder>
                                 <Image fluid ref={imageRef} rounded />
                                 <PrimaryBadge className="m-1">{t('Replacement', { context: 'snapshot' })}</PrimaryBadge>
                             </ImageHolder>
-                        </Col>
+                        </HalfWidthCol>
                         <ArrowHolder>
                             <RightArrowIcon />
                         </ArrowHolder>

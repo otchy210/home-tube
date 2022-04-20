@@ -1,10 +1,10 @@
 import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import { VideoViewMode } from '../../types';
+import { FullWidthCol, Row, Col } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
 import VideoBasicInfo from '../molecules/VideoBasicInfo';
@@ -174,21 +174,21 @@ const ViewPage: React.FC = () => {
     if (!details) {
         return (
             <Row className="pt-4">
-                <Col xs={12}>{!hasError && <DelayedSpinner />}</Col>
+                <FullWidthCol>{!hasError && <DelayedSpinner />}</FullWidthCol>
             </Row>
         );
     }
 
     return (
         <Row className={mode === 'theater' ? '' : 'pt-4'} ref={viewPageRootRef}>
-            <Col xs={12} lg={mode === 'theater' ? 12 : 9}>
+            <Col width={[12, 12, 12, mode === 'theater' ? 12 : 9]}>
                 <VideoPlayerWrapper className={mode} ref={videoPlayerWrapperRef}>
                     <VideoPlayer details={details} {...{ mode, setMode }} />
                 </VideoPlayerWrapper>
                 <VideoPlayerSpacer className={mode} ref={videoPlayerSpacerRef} />
                 <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
             </Col>
-            <Col xs={12} lg={mode === 'theater' ? 12 : 3}>
+            <Col width={[12, 12, 12, mode === 'theater' ? 12 : 3]}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />
             </Col>
         </Row>

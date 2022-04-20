@@ -1,5 +1,6 @@
 import React from 'react';
-import { Col, Pagination, Row } from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
+import { FullWidthCol, Row } from '../common/layouts';
 
 type Props = {
     currentPage: number;
@@ -17,7 +18,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
     };
     return (
         <Row>
-            <Col xs={12} className="mt-4">
+            <FullWidthCol className="mt-4">
                 <Pagination className="justify-content-center my-0">
                     <Pagination.First
                         disabled={currentPage === 1}
@@ -70,7 +71,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                         data-testid="page-last"
                     />
                 </Pagination>
-            </Col>
+            </FullWidthCol>
         </Row>
     );
 };

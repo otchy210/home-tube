@@ -1,10 +1,11 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Alert, Col, Pagination, Row } from 'react-bootstrap';
+import { Alert, Pagination } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled, { StyledComponent } from 'styled-components';
 import ls from '../../utils/LocalStorage';
 import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
+import { FullWidthCol, Row, Col } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
@@ -121,23 +122,23 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     if (!videos) {
         return (
             <Row className="mt-4">
-                <Col xs={12}>
+                <FullWidthCol>
                     <DelayedSpinner />
-                </Col>
+                </FullWidthCol>
             </Row>
         );
     }
     if (videos.length === 0) {
         return (
             <Row className="mt-4">
-                <Col xs={12}>
+                <FullWidthCol>
                     <Alert variant="primary">
                         {t('No videos found.')}{' '}
                         <LinkContainer to="/">
                             <Alert.Link>{t('Go to home')}</Alert.Link>
                         </LinkContainer>
                     </Alert>
-                </Col>
+                </FullWidthCol>
             </Row>
         );
     }
@@ -148,9 +149,9 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     const last = Math.min(first + MAX_VIDEO_COUNT - 1, total);
     return (
         <>
-            <Row>
-                <Col xs={12} sm={6} className="mt-4 px-1">
-                    <Pagination>
+            <Row className="mt-4">
+                <Col width={[12, 12, 6]} className="px-1">
+                    <Pagination className="m-0">
                         {sortOptions.map((sortOption) => {
                             const { key, Icon } = sortOption;
                             const isSelected = key === selectedSortKey;
@@ -162,7 +163,7 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
                         })}
                     </Pagination>
                 </Col>
-                <Col xs={12} sm={6} className="mt-4 px-1 text-end">
+                <Col width={[12, 12, 6]} className="px-1 text-end">
                     {t('Showing {{first}} - {{last}} of {{total}}', { first, last, total })}
                 </Col>
             </Row>

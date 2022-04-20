@@ -14,7 +14,7 @@ const InnerButton = forwardRef<HTMLButtonElement, InnerProps>(({ variant, size, 
     if (size) {
         classes.add(`btn-${size}`);
     }
-    return <button type="button" className={classes.build()} {...rest} ref={ref} />;
+    return <button type="button" className={classes.build()} ref={ref} {...rest} />;
 });
 
 type ButtonProps = Omit<InnerProps, 'variant'>;

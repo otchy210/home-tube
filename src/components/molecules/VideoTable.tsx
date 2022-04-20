@@ -1,6 +1,6 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row } from '../common/layouts';
 import VideoCard from './VideoCard';
 
 type Props = {
@@ -12,7 +12,7 @@ const VideoTable: React.FC<Props> = ({ videos }: Props) => {
         <Row>
             {videos.map((video) => {
                 return (
-                    <Col xs={12} md={6} lg={4} xxl={3} className="px-1" key={`video-card-${video.key}`}>
+                    <Col width={[12, 12, 6, 4, 4, 3]} className="px-1" key={`video-card-${video.key}`}>
                         <VideoCard video={video} />
                     </Col>
                 );

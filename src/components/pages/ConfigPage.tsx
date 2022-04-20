@@ -1,7 +1,7 @@
 import { AppConfig, AppConfigValidationError, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import Reload from '../../images/reload.svg';
@@ -11,6 +11,7 @@ import Spinner from '../atoms/Spinner';
 import { Badge } from '../common/badges';
 import { DangerButton, LinkButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { HorizontalStack, VerticalStack } from '../common/layouts';
+import { Row, Col } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import ServerStatusProperty from '../molecules/ServerStatusProperty';
 import { useApi } from '../providers/ApiProvider';
@@ -183,7 +184,7 @@ const ConfigPage: React.FC = () => {
     return (
         <>
             <Row>
-                <Col xs={12} lg={7}>
+                <Col width={[12, 12, 12, 7]}>
                     <Title>{t('Config')}</Title>
                     <Form>
                         <PropertyTitle>{t('Video storage path')}</PropertyTitle>
@@ -259,7 +260,7 @@ const ConfigPage: React.FC = () => {
                         </HorizontalStack>
                     </Form>{' '}
                 </Col>
-                <Col xs={12} lg={5} className="ps-lg-5">
+                <Col width={[12, 12, 12, 5]} className="ps-lg-5">
                     {' '}
                     <Title>
                         {t('Server status')} <ReloadIcon onClick={loadServerStatus} />

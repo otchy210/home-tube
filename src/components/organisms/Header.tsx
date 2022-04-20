@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -9,6 +9,7 @@ import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
 import { PrimaryButton } from '../common/buttons';
+import { FluidContainer } from '../common/layouts';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
@@ -79,7 +80,7 @@ const Header: React.FC = () => {
     };
     return (
         <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
-            <Container fluid>
+            <FluidContainer>
                 <Navbar.Brand className="me-auto" href="/" onClick={partiallyPreventDefault(() => setPage('1'))}>
                     <HomeTubeIcon className="d-inline d-sm-none" />
                     <HomeTubeLogo className="d-none d-sm-inline" />
@@ -123,7 +124,7 @@ const Header: React.FC = () => {
                         </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
-            </Container>
+            </FluidContainer>
         </Navbar>
     );
 };

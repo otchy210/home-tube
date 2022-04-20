@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { Api } from '../utils/Api';
+import { Container } from './common/layouts';
 import Footer from './organisms/Footer';
 import Header from './organisms/Header';
 import Toasts from './organisms/Toasts';

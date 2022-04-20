@@ -1,9 +1,10 @@
 import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import ClickableTag from '../atoms/ClickableTag';
+import { Row, Col } from '../common/layouts';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -113,7 +114,7 @@ const SearchPage: React.FC = () => {
     return (
         <>
             <Row className="mt-2">
-                <Col xs={12} sm={6} lg={3}>
+                <Col width={[12, 6, 6, 3]}>
                     <Form.Group className="mt-2" controlId="names">
                         <Form.Label>{t('File / folder name')}</Form.Label>
                         <Form.Control
@@ -146,7 +147,7 @@ const SearchPage: React.FC = () => {
                         </Form.Select>
                     </Form.Group>
                 </Col>
-                <Col xs={12} sm={6} lg={3}>
+                <Col width={[12, 6, 6, 3]}>
                     <Form.Group className="mt-2" controlId="length">
                         <Form.Label>{t('Length')}</Form.Label>
                         <Form.Select ref={lengthRef} value={searchQuery.length} onChange={doSearch}>
@@ -174,7 +175,7 @@ const SearchPage: React.FC = () => {
                         </Form.Select>
                     </Form.Group>
                 </Col>
-                <Col xs={12} sm={4} lg={2}>
+                <Col width={[12, 4, 4, 2]}>
                     <Form.Group className="mt-2" controlId="tags">
                         <Form.Label>{t('Tags')}</Form.Label>
                         {candidateTags && candidateTags.length > 0 ? (
@@ -197,7 +198,7 @@ const SearchPage: React.FC = () => {
                         )}
                     </Form.Group>
                 </Col>
-                <Col xs={12} sm={8} lg={4}>
+                <Col width={[12, 8, 8, 4]}>
                     <div className="mt-2">
                         {searchQuery.tags?.map((tag) => {
                             return <ClickableTag tag={tag} onClick={removeTag} key={`tag-${tag}`} />;
