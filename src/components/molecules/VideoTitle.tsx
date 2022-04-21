@@ -1,9 +1,10 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
-import { Alert, FormControl, Modal } from 'react-bootstrap';
+import { Alert, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { EditIcon } from '../atoms/ViewPageIcons';
 import { LinkButton, PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import { FormTextInput } from '../common/form';
 import { HorizontalStack } from '../common/layouts';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -111,7 +112,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                                 )}
                             </p>
                             <HorizontalStack>
-                                <FormControl ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} onKeyDown={onKeyDown} />
+                                <FormTextInput ref={nameInputRef} value={base} onChange={(e) => setBase(e.target.value)} onKeyDown={onKeyDown} />
                                 <div className="ms-1 fs-5">{ext}</div>
                             </HorizontalStack>
                             {errors.length > 0 && (

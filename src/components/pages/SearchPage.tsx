@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import ClickableTag from '../atoms/ClickableTag';
+import { FormTextInput } from '../common/form';
 import { Row, Col } from '../common/layouts';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
@@ -117,7 +118,7 @@ const SearchPage: React.FC = () => {
                 <Col width={[12, 6, 6, 3]}>
                     <Form.Group className="mt-2" controlId="names">
                         <Form.Label>{t('File / folder name')}</Form.Label>
-                        <Form.Control
+                        <FormTextInput
                             value={localNames}
                             ref={namesRef}
                             onChange={(e) => {

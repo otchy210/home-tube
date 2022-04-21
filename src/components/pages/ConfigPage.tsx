@@ -10,6 +10,7 @@ import { waitFor } from '../../utils/TimerUtils';
 import Spinner from '../atoms/Spinner';
 import { Badge } from '../common/badges';
 import { DangerButton, LinkButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import { FormTextInput } from '../common/form';
 import { HorizontalStack, VerticalStack } from '../common/layouts';
 import { Row, Col } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
@@ -193,8 +194,7 @@ const ConfigPage: React.FC = () => {
                             return (
                                 <VerticalStack key={`storage-${i}`}>
                                     <HorizontalStack gap={2} className="mt-1">
-                                        <Form.Control
-                                            type="text"
+                                        <FormTextInput
                                             value={storage.path}
                                             isInvalid={storageValidationErrors.get(i) !== undefined}
                                             onChange={(e) => {
@@ -234,8 +234,7 @@ const ConfigPage: React.FC = () => {
 
                         <PropertyTitle>{t('ffmpeg path')}</PropertyTitle>
                         <Form.Text className="text-muted">{t('No need to set unless you want to change it from default.')}</Form.Text>
-                        <Form.Control
-                            type="text"
+                        <FormTextInput
                             value={appConfig.ffmpeg}
                             className="mt-1"
                             onChange={(e) => {

@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { FormControl, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { useBrowserInfo } from '../../utils/useBowser';
 import ClickableTag from '../atoms/ClickableTag';
 import { PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import { FormTextInput } from '../common/form';
 import { HorizontalStack } from '../common/layouts';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -77,7 +78,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
             <Modal.Header closeButton>{t('Edit tags')}</Modal.Header>
             <Modal.Body>
                 <HorizontalStack>
-                    <FormControl list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} />
+                    <FormTextInput list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} />
                     <datalist id="all-tags">
                         {sortedTags
                             .filter((tag) => {

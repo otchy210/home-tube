@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -9,6 +9,7 @@ import Logo from '../../images/logo.svg';
 import Search from '../../images/search.svg';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
 import { PrimaryButton } from '../common/buttons';
+import { Form, FormSearchInput } from '../common/form';
 import { FluidContainer } from '../common/layouts';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
@@ -89,7 +90,7 @@ const Header: React.FC = () => {
                 <Navbar.Collapse className="justify-content-end mt-3 mt-sm-0">
                     <Nav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
-                            <FormControl type="search" onKeyDown={onQueryKeyDown} ref={namesRef} />
+                            <FormSearchInput onKeyDown={onQueryKeyDown} ref={namesRef} />
                             <PrimaryButton className="ms-2" onClick={onSearchSubmit}>
                                 <SearchIcon />
                                 <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">{t('Search')}</span>
