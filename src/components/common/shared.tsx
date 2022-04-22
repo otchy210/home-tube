@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { classNames } from '../../utils/classNames';
-import { HTMLDivProps, HTMLInputProps } from './types';
+import { HTMLDivProps, HTMLInputProps, HTMLLabelProps, HTMLSelectProps } from './types';
 
 type ClassModifiedDivProps = HTMLDivProps & {
     classModifier: string;
@@ -23,3 +23,21 @@ export const ClassModifiedInput = forwardRef<HTMLInputElement, ClassModifiedInpu
     }
     return <input type={type} className={classes.build()} ref={ref} {...rest} />;
 });
+
+type ClassModifiedSelectProps = HTMLSelectProps & {
+    classModifier: string;
+};
+
+export const ClassModifiedSelect = forwardRef<HTMLSelectElement, ClassModifiedSelectProps>(({ classModifier, className, ...rest }, ref) => {
+    const classes = classNames(classModifier, className);
+    return <select className={classes.build()} ref={ref} {...rest} />;
+});
+
+type ClassModifiedLabelProps = HTMLLabelProps & {
+    classModifier: string;
+};
+
+export const ClassModifiedLabel: React.FC<ClassModifiedLabelProps> = ({ classModifier, className, ...rest }) => {
+    const classes = classNames(classModifier, className);
+    return <label className={classes.build()} {...rest} />;
+};

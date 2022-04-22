@@ -1,11 +1,11 @@
 import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dist/const';
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
-import { Form } from 'react-bootstrap';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import ClickableTag from '../atoms/ClickableTag';
-import { FormTextInput } from '../common/form';
+import { FormLabel, FormSelect, FormTextInput } from '../common/form';
 import { Row, Col } from '../common/layouts';
+import { HTMLDivProps } from '../common/types';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -16,6 +16,10 @@ import { useToast } from '../providers/ToastsProvider';
 Translations for type labels of LENGTH_TAGS
 t('Moment (<=30s)') t('Short (<=5m)') t('Middle (<=20m)') t('Long (<=1h)') t('Movie (1h+)')
 */
+
+const FormWrapper: React.FC<HTMLDivProps> = (props) => {
+    return <div className="mt-2" {...props} />;
+};
 
 type CandiateTag = {
     tag: string;
@@ -116,9 +120,10 @@ const SearchPage: React.FC = () => {
         <>
             <Row className="mt-2">
                 <Col width={[12, 6, 6, 3]}>
-                    <Form.Group className="mt-2" controlId="names">
-                        <Form.Label>{t('File / folder name')}</Form.Label>
+                    <FormWrapper>
+                        <FormLabel htmlFor="names">{t('File / folder name')}</FormLabel>
                         <FormTextInput
+                            id="names"
                             value={localNames}
                             ref={namesRef}
                             onChange={(e) => {
@@ -126,10 +131,10 @@ const SearchPage: React.FC = () => {
                             }}
                             onKeyDown={onNamesKeyDown}
                         />
-                    </Form.Group>
-                    <Form.Group className="mt-2" controlId="stars">
-                        <Form.Label>{t('Raiting')}</Form.Label>
-                        <Form.Select ref={starsRef} value={searchQuery.stars} onChange={doSearch}>
+                    </FormWrapper>
+                    <FormWrapper>
+                        <FormLabel htmlFor="stars">{t('Raiting')}</FormLabel>
+                        <FormSelect id="stars" ref={starsRef} value={searchQuery.stars} onChange={doSearch}>
                             <option value=""></option>
                             {POSSIBLE_STARS.map((stars) => {
                                 const starArray: string[] = [];
@@ -145,13 +150,13 @@ const SearchPage: React.FC = () => {
                                     </option>
                                 );
                             }).reverse()}
-                        </Form.Select>
-                    </Form.Group>
+                        </FormSelect>
+                    </FormWrapper>
                 </Col>
                 <Col width={[12, 6, 6, 3]}>
-                    <Form.Group className="mt-2" controlId="length">
-                        <Form.Label>{t('Length')}</Form.Label>
-                        <Form.Select ref={lengthRef} value={searchQuery.length} onChange={doSearch}>
+                    <FormWrapper>
+                        <FormLabel htmlFor="length">{t('Length')}</FormLabel>
+                        <FormSelect id="length" ref={lengthRef} value={searchQuery.length} onChange={doSearch}>
                             <option value=""></option>
                             {LENGTH_TAGS.map(({ tag, label }) => {
                                 return (
@@ -160,11 +165,11 @@ const SearchPage: React.FC = () => {
                                     </option>
                                 );
                             })}
-                        </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mt-2" controlId="size">
-                        <Form.Label>{t('Size')}</Form.Label>
-                        <Form.Select ref={sizeRef} value={searchQuery.size} onChange={doSearch}>
+                        </FormSelect>
+                    </FormWrapper>
+                    <FormWrapper>
+                        <FormLabel htmlFor="size">{t('Size')}</FormLabel>
+                        <FormSelect id="size" ref={sizeRef} value={searchQuery.size} onChange={doSearch}>
                             <option value=""></option>
                             {SIZE_TAGS.map(({ tag, label }) => {
                                 return (
@@ -173,14 +178,15 @@ const SearchPage: React.FC = () => {
                                     </option>
                                 );
                             })}
-                        </Form.Select>
-                    </Form.Group>
+                        </FormSelect>
+                    </FormWrapper>
                 </Col>
                 <Col width={[12, 4, 4, 2]}>
-                    <Form.Group className="mt-2" controlId="tags">
-                        <Form.Label>{t('Tags')}</Form.Label>
+                    <FormWrapper>
+                        <FormLabel htmlFor="tags">{t('Tags')}</FormLabel>
                         {candidateTags && candidateTags.length > 0 ? (
-                            <Form.Select
+                            <FormSelect
+                                id="tags"
                                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                                     addTag(e.target.value);
                                 }}
@@ -193,18 +199,18 @@ const SearchPage: React.FC = () => {
                                         </option>
                                     );
                                 })}
-                            </Form.Select>
+                            </FormSelect>
                         ) : (
                             <div className="text-muted small">{t('No candidates')}</div>
                         )}
-                    </Form.Group>
+                    </FormWrapper>
                 </Col>
                 <Col width={[12, 8, 8, 4]}>
-                    <div className="mt-2">
+                    <FormWrapper>
                         {searchQuery.tags?.map((tag) => {
                             return <ClickableTag tag={tag} onClick={removeTag} key={`tag-${tag}`} />;
                         })}
-                    </div>
+                    </FormWrapper>
                     {searchQuery.tags && searchQuery.tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
                 </Col>
             </Row>

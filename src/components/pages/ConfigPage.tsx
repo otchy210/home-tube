@@ -1,7 +1,6 @@
 import { AppConfig, AppConfigValidationError, ServerStatus, Storage } from '@otchy/home-tube-api/dist/types';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import Reload from '../../images/reload.svg';
@@ -10,7 +9,7 @@ import { waitFor } from '../../utils/TimerUtils';
 import Spinner from '../atoms/Spinner';
 import { Badge } from '../common/badges';
 import { DangerButton, LinkButton, SecondaryButton, SubmitButton } from '../common/buttons';
-import { FormTextInput } from '../common/form';
+import { Form, FormCheckbox, FormText, FormTextInput } from '../common/form';
 import { HorizontalStack, VerticalStack } from '../common/layouts';
 import { Row, Col } from '../common/layouts';
 import DelayedSpinner from '../molecules/DelayedSpinner';
@@ -189,7 +188,7 @@ const ConfigPage: React.FC = () => {
                     <Title>{t('Config')}</Title>
                     <Form>
                         <PropertyTitle>{t('Video storage path')}</PropertyTitle>
-                        <Form.Text className="text-muted">{t('Add your video storage path which has your videos.')}</Form.Text>
+                        <FormText className="text-muted">{t('Add your video storage path which has your videos.')}</FormText>
                         {appConfig.storages.map((storage, i) => {
                             return (
                                 <VerticalStack key={`storage-${i}`}>
@@ -202,8 +201,7 @@ const ConfigPage: React.FC = () => {
                                             }}
                                             data-testid={`storage-${i}-path`}
                                         />
-                                        <Form.Check
-                                            type="checkbox"
+                                        <FormCheckbox
                                             className="text-nowrap"
                                             label={t('enabled')}
                                             checked={storage.enabled}
@@ -222,7 +220,7 @@ const ConfigPage: React.FC = () => {
                                             {t('Delete')}
                                         </DangerButton>
                                     </HorizontalStack>
-                                    {storageValidationErrors.has(i) ? <Form.Text className="text-danger">{storageValidationErrors.get(i)}</Form.Text> : null}
+                                    {storageValidationErrors.has(i) ? <FormText className="text-danger">{storageValidationErrors.get(i)}</FormText> : null}
                                 </VerticalStack>
                             );
                         })}
@@ -233,7 +231,7 @@ const ConfigPage: React.FC = () => {
                         </HorizontalStack>
 
                         <PropertyTitle>{t('ffmpeg path')}</PropertyTitle>
-                        <Form.Text className="text-muted">{t('No need to set unless you want to change it from default.')}</Form.Text>
+                        <FormText className="text-muted">{t('No need to set unless you want to change it from default.')}</FormText>
                         <FormTextInput
                             value={appConfig.ffmpeg}
                             className="mt-1"
