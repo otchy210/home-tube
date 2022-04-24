@@ -35,7 +35,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title fs-6 text-truncate"
+            class="card-title dXpXWj fs-6 sc-pVTFL"
             title="Video-1"
           >
             <a
@@ -111,7 +111,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title fs-6 text-truncate"
+            class="card-title dXpXWj fs-6 sc-pVTFL"
             title="Video-2"
           >
             <a
@@ -187,7 +187,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title fs-6 text-truncate"
+            class="card-title dXpXWj fs-6 sc-pVTFL"
             title="Video-3"
           >
             <a
@@ -263,7 +263,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title fs-6 text-truncate"
+            class="card-title dXpXWj fs-6 sc-pVTFL"
             title="Video-4"
           >
             <a
@@ -339,7 +339,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title fs-6 text-truncate"
+            class="card-title dXpXWj fs-6 sc-pVTFL"
             title="Video-5"
           >
             <a
@@ -415,7 +415,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title fs-6 text-truncate"
+            class="card-title dXpXWj fs-6 sc-pVTFL"
             title="Video-6"
           >
             <a
