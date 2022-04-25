@@ -1,7 +1,6 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
 import { useSetTitle } from '../../hooks/useSetTitle';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import AllTags from '../organisms/AllTags';
 import VideoAlbum from '../organisms/VideoAlbum';
 import { useAllTags } from '../providers/AllTagsProvider';
@@ -11,9 +10,6 @@ import { useI18n } from '../providers/I18nProvider';
 import { useToast } from '../providers/ToastsProvider';
 
 const HomePage: React.FC = () => {
-    /* DEBUG DEBUG DEBUG */
-    const [modalDebug, setModalDebug] = useState<boolean>(false);
-    /* DEBUG DEBUG DEBUG */
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
     const [failed, setFailed] = useState<boolean>(false);
     const { homePageQuery, setPage } = useHomePageQuery();
@@ -39,14 +35,6 @@ const HomePage: React.FC = () => {
     };
     return (
         <>
-            {/* DEBUG DEBUG DEBUG */}
-            {<button onClick={() => setModalDebug(!modalDebug)}>Modal test</button>}
-            <Modal show={modalDebug} onHide={() => setModalDebug(false)}>
-                <ModalHeader closeButton>Header</ModalHeader>
-                <ModalBody>Body</ModalBody>
-                <ModalFooter>Footer</ModalFooter>
-            </Modal>
-            {/* DEBUG DEBUG DEBUG */}
             {!failed && <VideoAlbum videos={videos} page={homePageQuery.page ? parseInt(homePageQuery.page) : 1} onClickPage={onClickPage} />}
             {videos && <AllTags />}
         </>
