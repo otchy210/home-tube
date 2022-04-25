@@ -4,31 +4,11 @@ import '@testing-library/jest-dom';
 const mockFC = (path: string): void => {
     const names = path.split('/');
     const fileName = names[names.length - 1];
-    const componentName = fileName
-        .split(/[._-]/)
-        .map((str) => {
-            const firstChar = str.charAt(0).toUpperCase();
-            const leftStr = str.substring(1);
-            return `${firstChar}${leftStr}`;
-        })
-        .join('');
-    const mockName = `Mocked${componentName}`;
+    const componentName = fileName.split(/[._-]/).join('-');
+    const mockName = `mocked-${componentName}`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     jest.mock(path, () => (props?: Record<string, any>) => {
-        const propsStr = !props
-            ? ''
-            : ` ${Object.entries(props)
-                  .map(([name, value]) => {
-                      switch (typeof value) {
-                          case 'function':
-                              return `${name}={fn}`;
-                          case 'object':
-                              return `${name}={obj}`;
-                      }
-                      return `${name}="${value.toString()}"`;
-                  })
-                  .join(' ')}`;
-        return <>{`[${mockName}${propsStr} /]`}</>;
+        return React.createElement(mockName, props);
     });
 };
 
