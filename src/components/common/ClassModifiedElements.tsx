@@ -18,9 +18,8 @@ export const ClassModifiedElement = forwardRef<HTMLElement, ClassModifiedElement
 
 type ClassModifiedDivProps = HTMLDivProps & ClassModifierProps;
 
-export const ClassModifiedDiv = forwardRef<HTMLDivElement, ClassModifiedDivProps>(({ classModifier, className, ...rest }, ref) => {
-    const classes = classNames(classModifier, className);
-    return <div className={classes.build()} ref={ref} {...rest} />;
+export const ClassModifiedDiv = forwardRef<HTMLDivElement, ClassModifiedDivProps>((props, ref) => {
+    return <ClassModifiedElement as="div" ref={ref} {...props} />;
 });
 
 type ClassModifiedInputProps = HTMLInputProps &
@@ -28,26 +27,24 @@ type ClassModifiedInputProps = HTMLInputProps &
         type: React.HTMLInputTypeAttribute;
     };
 
-export const ClassModifiedInput = forwardRef<HTMLInputElement, ClassModifiedInputProps>(({ classModifier, type, isInvalid, className, ...rest }, ref) => {
-    const classes = classNames(classModifier, className);
+export const ClassModifiedInput = forwardRef<HTMLInputElement, ClassModifiedInputProps>(({ isInvalid, className, ...rest }, ref) => {
+    const classes = classNames(className);
     if (isInvalid) {
         classes.add('is-invalid');
     }
-    return <input type={type} className={classes.build()} ref={ref} {...rest} />;
+    return <ClassModifiedElement as="input" className={classes.build()} ref={ref} {...rest} />;
 });
 
 type ClassModifiedSelectProps = HTMLSelectProps & ClassModifierProps;
 
-export const ClassModifiedSelect = forwardRef<HTMLSelectElement, ClassModifiedSelectProps>(({ classModifier, className, ...rest }, ref) => {
-    const classes = classNames(classModifier, className);
-    return <select className={classes.build()} ref={ref} {...rest} />;
+export const ClassModifiedSelect = forwardRef<HTMLSelectElement, ClassModifiedSelectProps>((props, ref) => {
+    return <ClassModifiedElement as="select" ref={ref} {...props} />;
 });
 
 type ClassModifiedLabelProps = HTMLLabelProps & ClassModifierProps;
 
-export const ClassModifiedLabel: React.FC<ClassModifiedLabelProps> = ({ classModifier, className, ...rest }) => {
-    const classes = classNames(classModifier, className);
-    return <label className={classes.build()} {...rest} />;
+export const ClassModifiedLabel: React.FC<ClassModifiedLabelProps> = (props) => {
+    return <ClassModifiedElement as="label" {...props} />;
 };
 
 type ClassModifiedUlProps = HTMLUlProps & ClassModifierProps;
