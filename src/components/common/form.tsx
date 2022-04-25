@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { classNames } from '../../utils/classNames';
-import { ClassModifiedDiv, ClassModifiedInput, ClassModifiedLabel, ClassModifiedSelect } from './shared';
+import { ClassModifiedDiv, ClassModifiedInput, ClassModifiedLabel, ClassModifiedSelect } from './ClassModifiedElements';
 import { HTMLCheckboxProps, HTMLElementProps, HTMLFormProps, HTMLInputProps, HTMLLabelProps, HTMLSelectProps } from './types';
 
 export const Form: React.FC<HTMLFormProps> = (props) => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pagination } from 'react-bootstrap';
 import { FullWidthCol, Row } from '../common/layouts';
+import { PageItem, PageItemEllipsis, PageItemFirst, PageItemLast, PageItemNext, PageItemPrev, Pagination } from '../common/pagination';
 
 type Props = {
     currentPage: number;
@@ -20,7 +20,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
         <Row>
             <FullWidthCol className="mt-4">
                 <Pagination className="justify-content-center my-0">
-                    <Pagination.First
+                    <PageItemFirst
                         disabled={currentPage === 1}
                         onClick={() => {
                             internalOnClick(1);
@@ -28,7 +28,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                         key="page-first"
                         data-testid="page-first"
                     />
-                    <Pagination.Prev
+                    <PageItemPrev
                         disabled={currentPage === 1}
                         onClick={() => {
                             internalOnClick(currentPage - 1);
@@ -36,10 +36,10 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                         key="page-prev"
                         data-testid="page-prev"
                     />
-                    {firstVisiblePage > 1 && <Pagination.Ellipsis disabled key="page-ellipsis-start" data-testid="page-ellipsis-start" />}
+                    {firstVisiblePage > 1 && <PageItemEllipsis disabled key="page-ellipsis-start" data-testid="page-ellipsis-start" />}
                     {visiblePages.map((page) => {
                         return (
-                            <Pagination.Item
+                            <PageItem
                                 active={currentPage === page}
                                 onClick={() => {
                                     if (currentPage !== page) {
@@ -50,11 +50,11 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                                 data-testid="page-visible"
                             >
                                 {page}
-                            </Pagination.Item>
+                            </PageItem>
                         );
                     })}
-                    {lastVisiblePage < lastPage && <Pagination.Ellipsis disabled key="page-ellipsis-end" data-testid="page-ellipsis-end" />}
-                    <Pagination.Next
+                    {lastVisiblePage < lastPage && <PageItemEllipsis disabled key="page-ellipsis-end" data-testid="page-ellipsis-end" />}
+                    <PageItemNext
                         disabled={currentPage === lastPage}
                         onClick={() => {
                             internalOnClick(currentPage + 1);
@@ -62,7 +62,7 @@ const VideoPagination: React.FC<Props> = ({ currentPage, visiblePages, lastPage,
                         key="page-next"
                         data-testid="page-next"
                     />
-                    <Pagination.Last
+                    <PageItemLast
                         disabled={currentPage === lastPage}
                         onClick={() => {
                             internalOnClick(lastPage);

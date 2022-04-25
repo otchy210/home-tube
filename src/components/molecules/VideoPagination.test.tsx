@@ -9,15 +9,15 @@ describe('VideoPagination', () => {
         const { queryByTestId, getByTestId, getAllByTestId } = render(
             <VideoPagination currentPage={1} visiblePages={[1]} lastPage={1} onClick={mockedOnClick} />
         );
-        expect(getByTestId('page-first').parentElement).toHaveClass('disabled');
-        expect(getByTestId('page-prev').parentElement).toHaveClass('disabled');
+        expect(getByTestId('page-first')).toHaveClass('disabled');
+        expect(getByTestId('page-prev')).toHaveClass('disabled');
         expect(queryByTestId('page-ellipsis-start')).toBeNull();
         const allVisiblePages = getAllByTestId('page-visible');
         expect(allVisiblePages.length).toBe(1);
-        expect(allVisiblePages[0].parentElement).toHaveClass('active');
+        expect(allVisiblePages[0]).toHaveClass('active');
         expect(queryByTestId('page-ellipsis-end')).toBeNull();
-        expect(getByTestId('page-next').parentElement).toHaveClass('disabled');
-        expect(getByTestId('page-last').parentElement).toHaveClass('disabled');
+        expect(getByTestId('page-next')).toHaveClass('disabled');
+        expect(getByTestId('page-last')).toHaveClass('disabled');
     });
 
     it.each([
@@ -29,23 +29,23 @@ describe('VideoPagination', () => {
             <VideoPagination currentPage={currentPage} visiblePages={[1, 2, 3]} lastPage={3} onClick={mockedOnClick} />
         );
         if (prevButtonDisabled) {
-            expect(getByTestId('page-first').parentElement).toHaveClass('disabled');
-            expect(getByTestId('page-prev').parentElement).toHaveClass('disabled');
+            expect(getByTestId('page-first')).toHaveClass('disabled');
+            expect(getByTestId('page-prev')).toHaveClass('disabled');
         } else {
-            expect(getByTestId('page-first').parentElement).not.toHaveClass('disabled');
-            expect(getByTestId('page-prev').parentElement).not.toHaveClass('disabled');
+            expect(getByTestId('page-first')).not.toHaveClass('disabled');
+            expect(getByTestId('page-prev')).not.toHaveClass('disabled');
         }
         expect(queryByTestId('page-ellipsis-start')).toBeNull();
         const allVisiblePages = getAllByTestId('page-visible');
         expect(allVisiblePages.length).toBe(3);
-        expect(allVisiblePages[currentPage - 1].parentElement).toHaveClass('active');
+        expect(allVisiblePages[currentPage - 1]).toHaveClass('active');
         expect(queryByTestId('page-ellipsis-end')).toBeNull();
         if (nextButtonDisabled) {
-            expect(getByTestId('page-next').parentElement).toHaveClass('disabled');
-            expect(getByTestId('page-last').parentElement).toHaveClass('disabled');
+            expect(getByTestId('page-next')).toHaveClass('disabled');
+            expect(getByTestId('page-last')).toHaveClass('disabled');
         } else {
-            expect(getByTestId('page-next').parentElement).not.toHaveClass('disabled');
-            expect(getByTestId('page-last').parentElement).not.toHaveClass('disabled');
+            expect(getByTestId('page-next')).not.toHaveClass('disabled');
+            expect(getByTestId('page-last')).not.toHaveClass('disabled');
         }
     });
 

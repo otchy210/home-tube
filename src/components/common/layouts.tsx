@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { classNames } from '../../utils/classNames';
-import { ClassModifiedDiv } from './shared';
+import { ClassModifiedDiv } from './ClassModifiedElements';
 import { HTMLDivProps } from './types';
 
 type StackGap = 0 | 1 | 2 | 3 | 4 | 5;

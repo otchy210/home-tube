@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClassModifiedDiv } from './shared';
+import { ClassModifiedDiv } from './ClassModifiedElements';
 import { HTMLDivProps } from './types';
 
 export type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';

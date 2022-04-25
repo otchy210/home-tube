@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClassModifiedDiv } from './shared';
+import { ClassModifiedDiv } from './ClassModifiedElements';
 import { HTMLDivProps } from './types';
 
 export const Card: React.FC<HTMLDivProps> = (props) => {

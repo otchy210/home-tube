@@ -1,17 +1,18 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Alert, Pagination } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled, { StyledComponent } from 'styled-components';
 import ls from '../../utils/LocalStorage';
 import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
 import { FullWidthCol, Row, Col } from '../common/layouts';
+import { PageItem, Pagination } from '../common/pagination';
 import DelayedSpinner from '../molecules/DelayedSpinner';
 import VideoPagination from '../molecules/VideoPagination';
 import VideoTable from '../molecules/VideoTable';
 import { useI18n } from '../providers/I18nProvider';
 
-const StyledPaginationItem = styled(Pagination.Item)`
+const StyledPageItem = styled(PageItem)`
     & .page-link {
         padding: 0.25rem;
     }
@@ -156,9 +157,9 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
                             const { key, Icon } = sortOption;
                             const isSelected = key === selectedSortKey;
                             return (
-                                <StyledPaginationItem active={isSelected} onClick={() => !isSelected && setSelectedSortkey(key)} key={`sort-option-${key}`}>
+                                <StyledPageItem active={isSelected} onClick={() => !isSelected && setSelectedSortkey(key)} key={`sort-option-${key}`}>
                                     <Icon />
-                                </StyledPaginationItem>
+                                </StyledPageItem>
                             );
                         })}
                     </Pagination>
