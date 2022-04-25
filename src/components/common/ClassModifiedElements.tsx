@@ -1,6 +1,16 @@
 import React, { forwardRef } from 'react';
 import { classNames } from '../../utils/classNames';
-import { HTMLAnchorProps, HTMLDivProps, HTMLElementProps, HTMLInputProps, HTMLLabelProps, HTMLLiProps, HTMLSelectProps, HTMLUlProps } from './types';
+import {
+    HTMLAnchorProps,
+    HTMLButtonProps,
+    HTMLDivProps,
+    HTMLElementProps,
+    HTMLInputProps,
+    HTMLLabelProps,
+    HTMLLiProps,
+    HTMLSelectProps,
+    HTMLUlProps,
+} from './types';
 
 type ClassModifierProps = {
     classModifier: string;
@@ -63,4 +73,10 @@ type ClassModifiedAnchorProps = HTMLAnchorProps & ClassModifierProps;
 
 export const ClassModifiedA: React.FC<ClassModifiedAnchorProps> = (props) => {
     return <ClassModifiedElement as="a" {...props} />;
+};
+
+type ClassModifiedButtonProps = HTMLButtonProps & ClassModifierProps;
+
+export const ClassModifiedButton: React.FC<ClassModifiedButtonProps> = (props) => {
+    return <ClassModifiedElement as="button" {...props} />;
 };

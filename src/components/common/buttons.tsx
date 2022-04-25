@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../utils/classNames';
 import Spinner from '../atoms/Spinner';
+import { ClassModifiedButton } from './ClassModifiedElements';
 import { HTMLButtonProps } from './types';
 
 type InnerProps = Omit<HTMLButtonProps, 'type'> & {
@@ -34,6 +35,12 @@ export const DangerButton = forwardRef<HTMLButtonElement, ButtonProps>((props, r
 export const LinkButton = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     return <InnerButton variant="link" ref={ref} {...props} />;
 });
+
+type CloseButtonProps = Omit<HTMLButtonProps, 'type'>;
+
+export const CloseButton: React.FC<CloseButtonProps> = (props) => {
+    return <ClassModifiedButton classModifier="btn-close" type="button" {...props} />;
+};
 
 const SpinnerWrapper = styled.span`
     position: absolute;
