@@ -1,11 +1,12 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
-import { Image, Modal } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 import styled from 'styled-components';
 import RightArrow from '../../images/right-arrow.svg';
 import { PrimaryBadge, SecondaryBadge } from '../common/badges';
 import { SecondaryButton, SubmitButton } from '../common/buttons';
 import { Container, HalfWidthCol, Row } from '../common/layouts';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -67,7 +68,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
     const imageRef = useRef<HTMLImageElement>(null);
     const { t } = useI18n();
     const api = useApi();
-    const snapshotUrl = api.getSnapshotUrl(details.key);
+    const [snapshotUrl, setSnapshotUrl] = useState<string>(api.getSnapshotUrl(details.key));
     useEffect(() => {
         let count = 0;
         const drawCanvas = () => {
@@ -97,6 +98,7 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
             updateSnapshot(canvasRef.current).then(() => {
                 setSubmitting(false);
                 onHide();
+                setSnapshotUrl(canvasRef.current!.toDataURL());
             });
         } else {
             onHide();
@@ -108,15 +110,15 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
     }
     return (
         <Modal show={show} onHide={onHide} size="xl">
-            <Modal.Header closeButton>{t('Snapshot preview')}</Modal.Header>
-            <Modal.Body>
+            <ModalHeader closeButton>{t('Snapshot preview')}</ModalHeader>
+            <ModalBody>
                 <canvas ref={canvasRef} className="d-none" />
                 <div>{t('Are you sure to update the snapshot representing this video with following image?')}</div>
                 <Container className="mt-2">
                     <Row style={{ position: 'relative' }}>
                         <HalfWidthCol className="px-1">
                             <ImageHolder>
-                                <Image fluid ref={imageRef} rounded src={snapshotUrl} />
+                                <Image fluid rounded src={snapshotUrl} />
                                 <SecondaryBadge className="m-1">{t('Current', { context: 'snapshot' })}</SecondaryBadge>
                             </ImageHolder>
                         </HalfWidthCol>
@@ -131,13 +133,13 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                         </ArrowHolder>
                     </Row>
                 </Container>
-            </Modal.Body>
-            <Modal.Footer>
+            </ModalBody>
+            <ModalFooter>
                 <SecondaryButton onClick={onHide}>{t('Cancel')}</SecondaryButton>
                 <SubmitButton submitting={submitting} onClick={onUpdate}>
                     {t('Update')}
                 </SubmitButton>
-            </Modal.Footer>
+            </ModalFooter>
         </Modal>
     );
 };

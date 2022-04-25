@@ -1,12 +1,12 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
-import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { EditIcon } from '../atoms/ViewPageIcons';
 import { DangerAlert } from '../common/alert';
 import { LinkButton, PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { FormTextInput } from '../common/form';
 import { HorizontalStack } from '../common/layouts';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -101,8 +101,8 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                     nameInputRef.current.select();
                 }}
             >
-                <Modal.Header closeButton={closable}>{t('Edit file name')}</Modal.Header>
-                <Modal.Body>
+                <ModalHeader closeButton={closable}>{t('Edit file name')}</ModalHeader>
+                <ModalBody>
                     {submissionState === 'saved' ? (
                         <>{t('The file name has been updated. Current URL is no longer avaiable.')}</>
                     ) : (
@@ -125,8 +125,8 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                             )}
                         </>
                     )}
-                </Modal.Body>
-                <Modal.Footer>
+                </ModalBody>
+                <ModalFooter>
                     {submissionState === 'saved' ? (
                         <>
                             <LinkButton onClick={() => navigate('/')}>{t('Go to home')}</LinkButton>
@@ -147,7 +147,7 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                             </SubmitButton>
                         </>
                     )}
-                </Modal.Footer>
+                </ModalFooter>
             </Modal>
             <div className="fs-4">
                 {name}{' '}
