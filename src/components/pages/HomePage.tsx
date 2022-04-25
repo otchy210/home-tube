@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
     return (
         <>
             {/* DEBUG DEBUG DEBUG */}
-            {false && <button onClick={() => setModalDebug(!modalDebug)}>Modal test</button>}
+            {<button onClick={() => setModalDebug(!modalDebug)}>Modal test</button>}
             <Modal show={modalDebug} onHide={() => setModalDebug(false)}>
                 <ModalHeader closeButton>Header</ModalHeader>
                 <ModalBody>Body</ModalBody>

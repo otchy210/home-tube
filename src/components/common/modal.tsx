@@ -11,21 +11,31 @@ type ModalProps = HTMLDivProps & {
 
 export const Modal: React.FC<ModalProps> = ({ show, onHide, children, ...rest }) => {
     const modalRef = useRef<HTMLDivElement>(null);
+    const bsModalRef = useRef<bootstrap.Modal>();
     useEffect(() => {
         const modalEl = modalRef.current!;
         const bsModal = new bootstrap.Modal(modalEl);
+        bsModalRef.current = bsModal;
         const onHideModal = () => {
             onHide && onHide();
         };
         modalEl.addEventListener('hidden.bs.modal', onHideModal);
+        return () => {
+            modalEl.removeEventListener('hidden.bs.modal', onHideModal);
+            bsModal.dispose();
+        };
+    }, [modalRef]);
+    useEffect(() => {
+        const bsModal = bsModalRef.current;
+        if (!bsModal) {
+            return;
+        }
         if (show) {
             bsModal.show();
+        } else {
+            bsModal.hide();
         }
-        return () => {
-            bsModal.dispose();
-            modalEl.removeEventListener('hidden.bs.modal', onHideModal);
-        };
-    }, [modalRef, show]);
+    }, [bsModalRef, show]);
     return (
         <ClassModifiedDiv classModifier="modal fade" ref={modalRef} {...rest}>
             <ClassModifiedDiv classModifier="modal-dialog">
