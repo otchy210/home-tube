@@ -21,3 +21,5 @@ export type HTMLSelectProps = React.SelectHTMLAttributes<HTMLSelectElement>;
 export type HTMLUlProps = React.HTMLAttributes<HTMLUListElement>;
 
 export type HTMLLiProps = React.LiHTMLAttributes<HTMLLIElement>;
+
+export type HTMLAnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;

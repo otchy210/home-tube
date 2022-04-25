@@ -1,10 +1,10 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { Alert } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled, { StyledComponent } from 'styled-components';
 import ls from '../../utils/LocalStorage';
 import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
+import { AlertLink, PrimaryAlert } from '../common/alert';
 import { FullWidthCol, Row, Col } from '../common/layouts';
 import { PageItem, Pagination } from '../common/pagination';
 import DelayedSpinner from '../molecules/DelayedSpinner';
@@ -133,12 +133,12 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
         return (
             <Row className="mt-4">
                 <FullWidthCol>
-                    <Alert variant="primary">
+                    <PrimaryAlert>
                         {t('No videos found.')}{' '}
                         <LinkContainer to="/">
-                            <Alert.Link>{t('Go to home')}</Alert.Link>
+                            <AlertLink>{t('Go to home')}</AlertLink>
                         </LinkContainer>
-                    </Alert>
+                    </PrimaryAlert>
                 </FullWidthCol>
             </Row>
         );

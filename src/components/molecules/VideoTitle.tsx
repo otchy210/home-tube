@@ -1,8 +1,9 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
-import { Alert, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { EditIcon } from '../atoms/ViewPageIcons';
+import { DangerAlert } from '../common/alert';
 import { LinkButton, PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { FormTextInput } from '../common/form';
 import { HorizontalStack } from '../common/layouts';
@@ -116,11 +117,11 @@ const VideoTitle: React.FC<Props> = ({ details }: Props) => {
                                 <div className="ms-1 fs-5">{ext}</div>
                             </HorizontalStack>
                             {errors.length > 0 && (
-                                <Alert variant="danger" className="mt-3 mb-0">
+                                <DangerAlert className="mt-3 mb-0">
                                     {errors.map((error) => (
                                         <div>{error}</div>
                                     ))}
-                                </Alert>
+                                </DangerAlert>
                             )}
                         </>
                     )}
