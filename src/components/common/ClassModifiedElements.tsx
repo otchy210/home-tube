@@ -5,6 +5,7 @@ import {
     HTMLButtonProps,
     HTMLDivProps,
     HTMLElementProps,
+    HTMLImgProps,
     HTMLInputProps,
     HTMLLabelProps,
     HTMLLiProps,
@@ -80,3 +81,9 @@ type ClassModifiedButtonProps = HTMLButtonProps & ClassModifierProps;
 export const ClassModifiedButton: React.FC<ClassModifiedButtonProps> = (props) => {
     return <ClassModifiedElement as="button" {...props} />;
 };
+
+type ClassModifiedImgProps = HTMLImgProps & ClassModifierProps;
+
+export const ClassModifiedImg = forwardRef<HTMLImageElement, ClassModifiedImgProps>((props, ref) => {
+    return <ClassModifiedElement as="img" ref={ref} {...props} />;
+});

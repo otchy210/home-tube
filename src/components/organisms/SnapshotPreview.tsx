@@ -1,10 +1,10 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
-import { Image } from 'react-bootstrap';
 import styled from 'styled-components';
 import RightArrow from '../../images/right-arrow.svg';
 import { PrimaryBadge, SecondaryBadge } from '../common/badges';
 import { SecondaryButton, SubmitButton } from '../common/buttons';
+import { FluidImg } from '../common/image';
 import { Container, HalfWidthCol, Row } from '../common/layouts';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useApi } from '../providers/ApiProvider';
@@ -118,13 +118,13 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
                     <Row style={{ position: 'relative' }}>
                         <HalfWidthCol className="px-1">
                             <ImageHolder>
-                                <Image fluid rounded src={snapshotUrl} />
+                                <FluidImg rounded src={snapshotUrl} />
                                 <SecondaryBadge className="m-1">{t('Current', { context: 'snapshot' })}</SecondaryBadge>
                             </ImageHolder>
                         </HalfWidthCol>
                         <HalfWidthCol className="px-1">
                             <ImageHolder>
-                                <Image fluid ref={imageRef} rounded />
+                                <FluidImg rounded ref={imageRef} />
                                 <PrimaryBadge className="m-1">{t('Replacement', { context: 'snapshot' })}</PrimaryBadge>
                             </ImageHolder>
                         </HalfWidthCol>
