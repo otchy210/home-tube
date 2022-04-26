@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
 import { useBrowserInfo } from '../../utils/useBowser';
 import ClickableTag from '../atoms/ClickableTag';
 import { PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { FormTextInput } from '../common/form';
 import { HorizontalStack } from '../common/layouts';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -75,8 +75,8 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                 tagBoxRef.current.focus();
             }}
         >
-            <Modal.Header closeButton>{t('Edit tags')}</Modal.Header>
-            <Modal.Body>
+            <ModalHeader closeButton>{t('Edit tags')}</ModalHeader>
+            <ModalBody>
                 <HorizontalStack>
                     <FormTextInput list="all-tags" ref={tagBoxRef} onKeyDown={onTagBoxKeyDown} />
                     <datalist id="all-tags">
@@ -100,13 +100,13 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                         })}
                 </HorizontalStack>
                 {tags && tags.length > 0 && <div className="text-muted small">{t('Click to remove')}</div>}
-            </Modal.Body>
-            <Modal.Footer>
+            </ModalBody>
+            <ModalFooter>
                 <SecondaryButton onClick={onHide}>{t('Cancel')}</SecondaryButton>
                 <SubmitButton submitting={submitting} onClick={onSubmit}>
                     {t('Save tags')}
                 </SubmitButton>
-            </Modal.Footer>
+            </ModalFooter>
         </Modal>
     );
 };
