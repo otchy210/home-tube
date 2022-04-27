@@ -1,16 +1,6 @@
 import React from 'react';
-import { Toast, ToastContainer } from 'react-bootstrap';
-import styled from 'styled-components';
+import { Toast, ToastBody, ToastContainer, ToastHeader, ToastVariant } from '../common/toast';
 import { useToast } from '../providers/ToastsProvider';
-
-const ToastHeader = styled(Toast.Header)`
-    background-color: transparent;
-    color: #fff;
-`;
-
-const ToastBody = styled(Toast.Body)`
-    background-color: rgba(255, 255, 255, 0.85);
-`;
 
 const Toasts: React.FC = () => {
     const { toasts, removeToast } = useToast();
@@ -18,14 +8,14 @@ const Toasts: React.FC = () => {
         return null;
     }
     return (
-        <ToastContainer position="top-end" className="me-3" style={{ marginTop: '80px', zIndex: 9 }}>
+        <ToastContainer className="me-3" style={{ marginTop: '80px', zIndex: 9 }}>
             {toasts.map((toast, index) => {
                 const [bg, autohide] = ((type) => {
                     switch (type) {
                         case 'SUCCESS':
-                            return ['primary', true];
+                            return ['primary' as ToastVariant, true];
                         case 'ERROR':
-                            return ['danger', false];
+                            return ['danger' as ToastVariant, false];
                     }
                 })(toast.type);
                 const toastBody = (
@@ -39,8 +29,8 @@ const Toasts: React.FC = () => {
                         onClose={() => {
                             removeToast(index);
                         }}
-                        key={`toast-${index}`}
-                        bg={bg}
+                        key={toast.key}
+                        variant={bg}
                     >
                         <ToastHeader>
                             <strong className="me-auto">{toast.title}</strong>

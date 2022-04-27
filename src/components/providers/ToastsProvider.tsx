@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 type ToastProperties = {
     type: 'SUCCESS' | 'ERROR';
+    key: string;
     title: string;
     body: string | string[];
     show: boolean;
@@ -31,9 +32,11 @@ const ToastProvider: React.FC<Props> = ({ children }: Props) => {
         const updatedToasts = [...toasts, { ...newToast, show: true }];
         setToasts(updatedToasts);
     };
+    const key = `toast-${Date.now()}`;
     const addSuccess = (title: string, body: string | string[]) => {
         addToast({
             type: 'SUCCESS',
+            key,
             title,
             body,
             show: true,
@@ -42,27 +45,24 @@ const ToastProvider: React.FC<Props> = ({ children }: Props) => {
     const addError = (title: string, body: string | string[]) => {
         addToast({
             type: 'ERROR',
+            key,
             title,
             body,
             show: true,
         });
     };
     const cleanUpHiddenToast = () => {
-        const updatedToasts = toasts.filter((toast) => {
-            return toast.show;
-        });
-        if (updatedToasts.length > 0) {
-            return;
-        }
-        setToasts([]);
+        setToasts((toasts) => toasts.filter((toast) => toast.show));
     };
     const removeToast = (index: number) => {
-        const updatedToasts = [...toasts];
-        if (index > updatedToasts.length - 1) {
-            return;
-        }
-        updatedToasts[index].show = false;
-        setToasts(updatedToasts);
+        setToasts((toasts) => {
+            const updatedToasts = [...toasts];
+            if (index > updatedToasts.length - 1) {
+                return toasts;
+            }
+            updatedToasts[index].show = false;
+            return updatedToasts;
+        });
         setTimeout(cleanUpHiddenToast, 1000);
     };
     return <ToastContext.Provider value={{ toasts, addSuccess, addError, removeToast }}>{children}</ToastContext.Provider>;
