@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Nav, Navbar as NV, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -11,6 +11,7 @@ import { partiallyPreventDefault } from '../../utils/EventUtils';
 import { PrimaryButton } from '../common/buttons';
 import { Form, FormSearchInput } from '../common/form';
 import { FluidContainer } from '../common/layouts';
+import { Navbar, NavbarBrand } from '../common/navbar';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
@@ -80,14 +81,14 @@ const Header: React.FC = () => {
         doSearch();
     };
     return (
-        <Navbar bg="light" variant="light" className="border-bottom" fixed="top" expand="sm">
+        <Navbar>
             <FluidContainer>
-                <Navbar.Brand className="me-auto" href="/" onClick={partiallyPreventDefault(() => setPage('1'))}>
+                <NavbarBrand className="me-auto" href="/" onClick={partiallyPreventDefault(() => setPage('1'))}>
                     <HomeTubeIcon className="d-inline d-sm-none" />
                     <HomeTubeLogo className="d-none d-sm-inline" />
-                </Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse className="justify-content-end mt-3 mt-sm-0">
+                </NavbarBrand>
+                <NV.Toggle />
+                <NV.Collapse className="justify-content-end mt-3 mt-sm-0">
                     <Nav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
                             <FormSearchInput onKeyDown={onQueryKeyDown} ref={namesRef} />
@@ -124,7 +125,7 @@ const Header: React.FC = () => {
                             </Nav.Link>
                         </LinkContainer>
                     </Nav>
-                </Navbar.Collapse>
+                </NV.Collapse>
             </FluidContainer>
         </Navbar>
     );
