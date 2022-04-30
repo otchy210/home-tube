@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Nav, Navbar as NV, NavDropdown } from 'react-bootstrap';
+import { NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -11,7 +11,7 @@ import { partiallyPreventDefault } from '../../utils/EventUtils';
 import { PrimaryButton } from '../common/buttons';
 import { Form, FormSearchInput } from '../common/form';
 import { FluidContainer } from '../common/layouts';
-import { Navbar, NavbarBrand } from '../common/navbar';
+import { Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarToggler, NavLink } from '../common/navbar';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
@@ -87,9 +87,9 @@ const Header: React.FC = () => {
                     <HomeTubeIcon className="d-inline d-sm-none" />
                     <HomeTubeLogo className="d-none d-sm-inline" />
                 </NavbarBrand>
-                <NV.Toggle />
-                <NV.Collapse className="justify-content-end mt-3 mt-sm-0">
-                    <Nav>
+                <NavbarToggler />
+                <NavbarCollapse className="justify-content-end mt-3 mt-sm-0">
+                    <NavbarNav>
                         <Form className="d-flex" onSubmit={onSearchSubmit}>
                             <FormSearchInput onKeyDown={onQueryKeyDown} ref={namesRef} />
                             <PrimaryButton className="ms-2" onClick={onSearchSubmit}>
@@ -97,8 +97,8 @@ const Header: React.FC = () => {
                                 <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">{t('Search')}</span>
                             </PrimaryButton>
                         </Form>
-                    </Nav>
-                    <Nav className="ms-2 mt-2 mt-sm-0">
+                    </NavbarNav>
+                    <NavbarNav className="ms-2 mt-2 mt-sm-0">
                         <NavDropdown
                             title={
                                 <>
@@ -116,16 +116,16 @@ const Header: React.FC = () => {
                                 );
                             })}
                         </NavDropdown>
-                    </Nav>
-                    <Nav className="ms-2 mt-2 mt-sm-0">
+                    </NavbarNav>
+                    <NavbarNav className="ms-2 mt-2 mt-sm-0">
                         <LinkContainer to="/config">
-                            <Nav.Link className="p-0">
+                            <NavLink className="p-0">
                                 <ConfigIcon />
                                 <IconLabel>{t('Config')}</IconLabel>
-                            </Nav.Link>
+                            </NavLink>
                         </LinkContainer>
-                    </Nav>
-                </NV.Collapse>
+                    </NavbarNav>
+                </NavbarCollapse>
             </FluidContainer>
         </Navbar>
     );
