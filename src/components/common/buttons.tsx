@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { classNames } from '../../utils/classNames';
-import Spinner from '../atoms/Spinner';
 import { ClassModifiedButton } from './ClassModifiedElements';
+import Spinner from './Spinner';
 import { HTMLButtonProps } from './types';
 
 type InnerProps = Omit<HTMLButtonProps, 'type'> & {

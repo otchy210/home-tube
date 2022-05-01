@@ -4,17 +4,17 @@ import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
 import { VideoViewMode } from '../../types';
+import DelayedSpinner from '../common/DelayedSpinner';
 import { FullWidthCol, Row, Col } from '../common/layouts';
-import DelayedSpinner from '../molecules/DelayedSpinner';
-import { StarsMouseEventHandlers } from '../molecules/StarsIndicator';
-import VideoBasicInfo from '../molecules/VideoBasicInfo';
-import VideoDetailedInfo from '../molecules/VideoDetailedInfo';
-import { RemoveStars } from '../molecules/VideoProperties';
-import VideoPlayer from '../organisms/VideoPlayer';
+import { StarsMouseEventHandlers } from '../common/StarsIndicator';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { useToast } from '../providers/ToastsProvider';
+import VideoPlayer from '../video-player/VideoPlayer';
+import VideoBasicInfo from '../view-page/VideoBasicInfo';
+import VideoDetailedInfo from '../view-page/VideoDetailedInfo';
+import { RemoveStars } from '../view-page/VideoProperties';
 
 const VideoPlayerWrapper = styled.div`
     &.theater {

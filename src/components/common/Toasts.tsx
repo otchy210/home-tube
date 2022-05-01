@@ -1,6 +1,6 @@
 import React from 'react';
-import { Toast, ToastBody, ToastContainer, ToastHeader, ToastVariant } from '../common/toast';
 import { useToast } from '../providers/ToastsProvider';
+import { Toast, ToastBody, ToastContainer, ToastHeader, ToastVariant } from './toast';
 
 const Toasts: React.FC = () => {
     const { toasts, removeToast } = useToast();

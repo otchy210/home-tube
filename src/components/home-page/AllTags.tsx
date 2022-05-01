@@ -1,6 +1,6 @@
 import React from 'react';
-import StaticTag from '../atoms/StaticTag';
 import { FullWidthCol, Row } from '../common/layouts';
+import StaticTag from '../common/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
 

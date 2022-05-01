@@ -1,7 +1,6 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EditIcon } from '../atoms/ViewPageIcons';
 import { DangerAlert } from '../common/alert';
 import { LinkButton, PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import { FormTextInput } from '../common/form';
@@ -9,6 +8,7 @@ import { HorizontalStack } from '../common/layouts';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
+import { EditIcon } from './ViewPageIcons';
 
 const PROHIBITED_CHARS = ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
 

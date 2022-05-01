@@ -1,7 +1,7 @@
 import { Stars } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import StarIcon, { StarIconVariant } from '../atoms/StarIcon';
+import StarIcon, { StarIconVariant } from './StarIcon';
 
 const POSSIBLE_STARS = [1, 2, 3, 4, 5] as Stars[];
 

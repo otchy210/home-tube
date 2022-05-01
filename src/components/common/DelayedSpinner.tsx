@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Spinner from '../atoms/Spinner';
+import Spinner from './Spinner';
 
 type Props = {
     delay?: number;

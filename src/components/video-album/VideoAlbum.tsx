@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled, { StyledComponent } from 'styled-components';
 import ls from '../../utils/LocalStorage';
-import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from '../atoms/VideoAlbumIcons';
 import { AlertLink, PrimaryAlert } from '../common/alert';
+import DelayedSpinner from '../common/DelayedSpinner';
 import { FullWidthCol, Row, Col } from '../common/layouts';
 import { PageItem, Pagination } from '../common/pagination';
-import DelayedSpinner from '../molecules/DelayedSpinner';
-import VideoPagination from '../molecules/VideoPagination';
-import VideoTable from '../molecules/VideoTable';
 import { useI18n } from '../providers/I18nProvider';
+import VideoPagination from '../video-album/VideoPagination';
+import VideoTable from '../video-album/VideoTable';
+import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from './VideoAlbumIcons';
 
 const StyledPageItem = styled(PageItem)`
     & .page-link {

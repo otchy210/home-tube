@@ -1,8 +1,8 @@
 import React from 'react';
 import { createSearchParams } from 'react-router-dom';
 import { partiallyPreventDefault } from '../../utils/EventUtils';
-import { SuccessBadge } from '../common/badges';
 import { useSearchQuery } from '../providers/SearchQueryProvider';
+import { SuccessBadge } from './badges';
 
 type Props = {
     tag: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SuccessBadge } from '../common/badges';
+import { SuccessBadge } from './badges';
 
 const ClickableBadge = styled(SuccessBadge)`
     cursor: pointer;

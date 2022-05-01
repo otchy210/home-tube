@@ -1,16 +1,16 @@
 import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import StaticTag from '../atoms/StaticTag';
-import { EditIcon, IconWrapper, TrashcanIcon } from '../atoms/ViewPageIcons';
 import { Badge, BadgeVariant } from '../common/badges';
 import { PrimaryButton } from '../common/buttons';
+import Confirm from '../common/Confirm';
 import { HorizontalStack } from '../common/layouts';
-import TagsEditor from '../organisms/TagsEditor';
+import StarsIndicator, { StarsMouseEventHandlers } from '../common/StarsIndicator';
+import StaticTag from '../common/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
-import Confirm from './Confirm';
-import StarsIndicator, { StarsMouseEventHandlers } from './StarsIndicator';
+import TagsEditor from './TagsEditor';
+import { EditIcon, IconWrapper, TrashcanIcon } from './ViewPageIcons';
 
 export type RemoveStars = {
     able: () => boolean;

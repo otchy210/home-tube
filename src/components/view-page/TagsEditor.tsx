@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useBrowserInfo } from '../../utils/useBowser';
-import ClickableTag from '../atoms/ClickableTag';
 import { PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
+import ClickableTag from '../common/ClickableTag';
 import { FormTextInput } from '../common/form';
 import { HorizontalStack } from '../common/layouts';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';

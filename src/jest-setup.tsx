@@ -13,7 +13,7 @@ const mockFC = (path: string): void => {
 };
 
 // async components
-mockFC('./components/molecules/DelayedSpinner');
+mockFC('./components/common/DelayedSpinner');
 
 // svg image components
 mockFC('./images/icon.svg');

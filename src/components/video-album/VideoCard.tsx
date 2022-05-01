@@ -2,9 +2,9 @@ import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import VideoCardImg from '../atoms/VideoCardImg';
 import { Card, CardBody, CardSubtitle, CardTitle } from '../common/card';
-import StarsIndicator from './StarsIndicator';
+import StarsIndicator from '../common/StarsIndicator';
+import VideoCardImg from './VideoCardImg';
 
 const TextTruncateCardTitle = styled(CardTitle)`
     @media (min-width: 768px) {

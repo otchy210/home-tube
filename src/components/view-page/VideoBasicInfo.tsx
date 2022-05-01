@@ -1,8 +1,8 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
-import VideoPaths from '../atoms/VideoPaths';
 import { HorizontalStack } from '../common/layouts';
-import { StarsMouseEventHandlers } from './StarsIndicator';
+import { StarsMouseEventHandlers } from '../common/StarsIndicator';
+import VideoPaths from './VideoPaths';
 import VideoProperties, { RemoveStars } from './VideoProperties';
 import VideoSizeBadges from './VideoSizeBadges';
 import VideoTitle from './VideoTitle';

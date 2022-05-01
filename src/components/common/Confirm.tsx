@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import { DangerButton, PrimaryButton, SecondaryButton } from '../common/buttons';
-import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from '../common/modal';
 import { useI18n } from '../providers/I18nProvider';
+import { DangerButton, PrimaryButton, SecondaryButton } from './buttons';
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from './modal';
 
 type Props = {
     show: boolean;

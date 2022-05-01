@@ -2,15 +2,15 @@ import { LENGTH_TAGS, POSSIBLE_STARS, SIZE_TAGS } from '@otchy/home-tube-api/dis
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSetTitle } from '../../hooks/useSetTitle';
-import ClickableTag from '../atoms/ClickableTag';
+import ClickableTag from '../common/ClickableTag';
 import { FormLabel, FormSelect, FormTextInput } from '../common/form';
-import { Row, Col } from '../common/layouts';
+import { Col, Row } from '../common/layouts';
 import { HTMLDivProps } from '../common/types';
-import VideoAlbum from '../organisms/VideoAlbum';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
 import { useToast } from '../providers/ToastsProvider';
+import VideoAlbum from '../video-album/VideoAlbum';
 
 /*
 Translations for type labels of LENGTH_TAGS

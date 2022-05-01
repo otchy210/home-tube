@@ -3,8 +3,8 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getThumbnailStyle, loadAllImages } from '../../utils/ImageUtils';
 import { SecondaryBadge } from '../common/badges';
+import Spinner from '../common/Spinner';
 import { useApi } from '../providers/ApiProvider';
-import Spinner from './Spinner';
 
 const VideoCardImgWrapper = styled.div`
     position: relative;

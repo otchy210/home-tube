@@ -1,13 +1,13 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
 import React, { useEffect, useState } from 'react';
 import { useSetTitle } from '../../hooks/useSetTitle';
-import AllTags from '../organisms/AllTags';
-import VideoAlbum from '../organisms/VideoAlbum';
+import AllTags from '../home-page/AllTags';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { useToast } from '../providers/ToastsProvider';
+import VideoAlbum from '../video-album/VideoAlbum';
 
 const HomePage: React.FC = () => {
     const [videos, setVideos] = useState<VideoValues[] | undefined>();
