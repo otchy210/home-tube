@@ -1,5 +1,5 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
-import React from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import { AlertLink, PrimaryAlert } from '../common/alert';
@@ -47,6 +47,20 @@ export const calcPages = (
     };
 };
 
+type VideoAlbumContextValue = {
+    hoveringCardImg: Element | null;
+};
+const VideoAlbumContext = createContext<VideoAlbumContextValue>({ hoveringCardImg: null });
+export const useVideoAlbumContext = (): VideoAlbumContextValue => {
+    return useContext(VideoAlbumContext);
+};
+
+type Point = [x: number, y: number];
+
+const asPoint = (x: number, y: number): Point => {
+    return [x, y] as Point;
+};
+
 type Props = {
     videos: VideoValues[] | undefined;
     page: number;
@@ -55,7 +69,45 @@ type Props = {
 
 const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     const [selectedSortKey, setSelectedSortkey] = useSelectedSortKey();
+    const [hoveringCardImg, setHoveringCardImg] = useState<Element | null>(null);
     const { t } = useI18n();
+    useEffect(() => {
+        let lastScroll = asPoint(window.scrollX, window.scrollY);
+        let lastPos = asPoint(0, 0);
+        let target: Element | null = null;
+        const onHoverVideo = (point: Point) => {
+            const elem = document.elementFromPoint(point[0] - window.scrollX, point[1] - window.scrollY);
+            if (elem === null) {
+                target = null;
+                return;
+            }
+            if (elem === target) {
+                return;
+            }
+            if (elem.classList.contains('card-img-top')) {
+                target = elem;
+            } else {
+                target = null;
+            }
+            setHoveringCardImg(target);
+        };
+        const onMouseMove = (e: MouseEvent) => {
+            lastScroll = asPoint(window.scrollX, window.scrollY);
+            lastPos = asPoint(e.pageX, e.pageY);
+            onHoverVideo(lastPos);
+        };
+        const onScroll = () => {
+            const scrollDiff = asPoint(window.scrollX - lastScroll[0], window.scrollY - lastScroll[1]);
+            const currentPos = asPoint(lastPos[0] + scrollDiff[0], lastPos[1] + scrollDiff[1]);
+            onHoverVideo(currentPos);
+        };
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [videos, page]);
     if (!videos) {
         return (
             <Row className="mt-4">
@@ -84,8 +136,12 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
     const total = videos.length;
     const first = (page - 1) * MAX_VIDEO_COUNT + 1;
     const last = Math.min(first + MAX_VIDEO_COUNT - 1, total);
+
+    const context = {
+        hoveringCardImg,
+    };
     return (
-        <>
+        <VideoAlbumContext.Provider value={context}>
             <Row className="mt-4">
                 <Col width={[12, 12, 6]} className="px-1">
                     <Pagination className="m-0">
@@ -106,7 +162,7 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
             </Row>
             <VideoTable videos={pagesInfo.slicedVideos} />
             <VideoPagination currentPage={pagesInfo.page} visiblePages={pagesInfo.visiblePages} lastPage={pagesInfo.lastPage} onClick={onClickPage} />
-        </>
+        </VideoAlbumContext.Provider>
     );
 };
 

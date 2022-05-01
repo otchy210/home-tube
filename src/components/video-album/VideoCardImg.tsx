@@ -1,10 +1,11 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getThumbnailStyle, loadAllImages } from '../../utils/ImageUtils';
 import { SecondaryBadge } from '../common/badges';
 import Spinner from '../common/Spinner';
 import { useApi } from '../providers/ApiProvider';
+import { useVideoAlbumContext } from './VideoAlbum';
 
 const VideoCardImgWrapper = styled.div`
     position: relative;
@@ -47,9 +48,9 @@ const SpinnerWrapper = styled.div`
     pointer-events: none;
 `;
 
-const maxScenes = 8;
-const maxSceneFrames = 4;
-const sceneFrameSpeed = 250;
+const MAX_SCENES = 8;
+const MAX_SCENE_FRAMES = 4;
+const SCENE_FRAME_SPEED = 250;
 
 type Props = {
     video: VideoValues;
@@ -61,11 +62,40 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
     const [opacity, setOpacity] = useState<number>(1);
     const [digestStyle, setDigestStyle] = useState<React.CSSProperties>();
     const imageRef = useRef<HTMLImageElement>(null);
+    const cardImgRef = useRef<HTMLDivElement>(null);
     const api = useApi();
+    const { hoveringCardImg } = useVideoAlbumContext();
     const setState = (loading: boolean, opacity: number) => {
         setLoading(loading);
         setOpacity(opacity);
     };
+    const srcList = useMemo(() => {
+        const eachMinute = (() => {
+            for (let i = 1; i < 150; i++) {
+                const min = i * MAX_SCENES + 1;
+                const sec = 60 * min;
+                if (length < sec) {
+                    return i;
+                }
+            }
+            return 150;
+        })();
+        return Array(Math.trunc((length - 1) / 60) + 1)
+            .fill('')
+            .map((_, minute) => minute)
+            .filter((minute) => minute % eachMinute === 0)
+            .map((minute) => {
+                return api.getThumbnailsUrl(key, minute.toString());
+            })
+            .slice(0, MAX_SCENES);
+    }, [key]);
+
+    useEffect(() => {
+        if (hoveringCardImg === cardImgRef.current) {
+            // console.log(video.name);
+        }
+    }, [hoveringCardImg]);
+
     const onMouseOver = async (mouseOverEvent: MouseEvent) => {
         const image = imageRef.current;
         if (!image) {
@@ -82,31 +112,13 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
             setState(false, 1);
             return;
         }
-        const eachMinute = (() => {
-            for (let i = 1; i < 150; i++) {
-                const min = i * maxScenes + 1;
-                const sec = 60 * min;
-                if (length < sec) {
-                    return i;
-                }
-            }
-            return 150;
-        })();
-        const srcList = Array(Math.trunc((length - 1) / 60) + 1)
-            .fill('')
-            .map((_, minute) => minute)
-            .filter((minute) => minute % eachMinute === 0)
-            .map((minute) => {
-                return api.getThumbnailsUrl(key, minute.toString());
-            })
-            .slice(0, maxScenes);
         await loadAllImages(srcList);
         setState(false, 0);
 
         let frame = 0;
         const tid = setInterval(() => {
-            const sec = frame % maxSceneFrames;
-            const srcIndex = Math.trunc(frame / maxSceneFrames) % srcList.length;
+            const sec = frame % MAX_SCENE_FRAMES;
+            const srcIndex = Math.trunc(frame / MAX_SCENE_FRAMES) % srcList.length;
             const src = srcList[srcIndex];
             const digestStyle = getThumbnailStyle({
                 src,
@@ -121,7 +133,7 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
                 setDigestStyle(digestStyle);
             }
             frame++;
-        }, sceneFrameSpeed) as unknown as number;
+        }, SCENE_FRAME_SPEED) as unknown as number;
 
         const onMouseMove = (e: MouseEvent) => {
             if (mouseOverEvent.target === e.target) {
@@ -139,7 +151,7 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
     };
     return (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <VideoCardImgWrapper className="card-img-top" onMouseOver={onMouseOver as any}>
+        <VideoCardImgWrapper className="card-img-top" onMouseOver={onMouseOver as any} ref={cardImgRef}>
             <Digest style={digestStyle} />
             <Image src={api.getSnapshotUrl(key)} style={{ opacity }} ref={imageRef} />
             <BadgeHolder>

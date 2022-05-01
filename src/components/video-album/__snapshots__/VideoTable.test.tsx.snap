@@ -16,18 +16,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-hKwDye ebaTeS card-img-top"
+            class="sc-furwcr fVLpJB card-img-top"
           >
             <div
-              class="sc-eCImPb dRVsMw"
+              class="sc-pVTFL cyHGvI"
             />
             <img
-              class="sc-jRQBWg dYYByu"
+              class="sc-jrQzAO kNhoaI"
               src="http://dummy-api-host/snapshot?key=key-1"
               style="opacity: 1;"
             />
             <div
-              class="sc-gKclnd hRvASy hstack m-1"
+              class="sc-kDTinF ihyLWR hstack m-1"
             />
           </div>
         </a>
@@ -35,7 +35,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title dXpXWj fs-6 sc-pVTFL"
+            class="card-title eglWpm fs-6 sc-egiyK"
             title="Video-1"
           >
             <a
@@ -107,18 +107,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-hKwDye ebaTeS card-img-top"
+            class="sc-furwcr fVLpJB card-img-top"
           >
             <div
-              class="sc-eCImPb dRVsMw"
+              class="sc-pVTFL cyHGvI"
             />
             <img
-              class="sc-jRQBWg dYYByu"
+              class="sc-jrQzAO kNhoaI"
               src="http://dummy-api-host/snapshot?key=key-2"
               style="opacity: 1;"
             />
             <div
-              class="sc-gKclnd hRvASy hstack m-1"
+              class="sc-kDTinF ihyLWR hstack m-1"
             />
           </div>
         </a>
@@ -126,7 +126,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title dXpXWj fs-6 sc-pVTFL"
+            class="card-title eglWpm fs-6 sc-egiyK"
             title="Video-2"
           >
             <a
@@ -198,18 +198,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-hKwDye ebaTeS card-img-top"
+            class="sc-furwcr fVLpJB card-img-top"
           >
             <div
-              class="sc-eCImPb dRVsMw"
+              class="sc-pVTFL cyHGvI"
             />
             <img
-              class="sc-jRQBWg dYYByu"
+              class="sc-jrQzAO kNhoaI"
               src="http://dummy-api-host/snapshot?key=key-3"
               style="opacity: 1;"
             />
             <div
-              class="sc-gKclnd hRvASy hstack m-1"
+              class="sc-kDTinF ihyLWR hstack m-1"
             />
           </div>
         </a>
@@ -217,7 +217,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title dXpXWj fs-6 sc-pVTFL"
+            class="card-title eglWpm fs-6 sc-egiyK"
             title="Video-3"
           >
             <a
@@ -289,18 +289,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-hKwDye ebaTeS card-img-top"
+            class="sc-furwcr fVLpJB card-img-top"
           >
             <div
-              class="sc-eCImPb dRVsMw"
+              class="sc-pVTFL cyHGvI"
             />
             <img
-              class="sc-jRQBWg dYYByu"
+              class="sc-jrQzAO kNhoaI"
               src="http://dummy-api-host/snapshot?key=key-4"
               style="opacity: 1;"
             />
             <div
-              class="sc-gKclnd hRvASy hstack m-1"
+              class="sc-kDTinF ihyLWR hstack m-1"
             />
           </div>
         </a>
@@ -308,7 +308,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title dXpXWj fs-6 sc-pVTFL"
+            class="card-title eglWpm fs-6 sc-egiyK"
             title="Video-4"
           >
             <a
@@ -380,18 +380,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-hKwDye ebaTeS card-img-top"
+            class="sc-furwcr fVLpJB card-img-top"
           >
             <div
-              class="sc-eCImPb dRVsMw"
+              class="sc-pVTFL cyHGvI"
             />
             <img
-              class="sc-jRQBWg dYYByu"
+              class="sc-jrQzAO kNhoaI"
               src="http://dummy-api-host/snapshot?key=key-5"
               style="opacity: 1;"
             />
             <div
-              class="sc-gKclnd hRvASy hstack m-1"
+              class="sc-kDTinF ihyLWR hstack m-1"
             />
           </div>
         </a>
@@ -399,7 +399,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title dXpXWj fs-6 sc-pVTFL"
+            class="card-title eglWpm fs-6 sc-egiyK"
             title="Video-5"
           >
             <a
@@ -471,18 +471,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-hKwDye ebaTeS card-img-top"
+            class="sc-furwcr fVLpJB card-img-top"
           >
             <div
-              class="sc-eCImPb dRVsMw"
+              class="sc-pVTFL cyHGvI"
             />
             <img
-              class="sc-jRQBWg dYYByu"
+              class="sc-jrQzAO kNhoaI"
               src="http://dummy-api-host/snapshot?key=key-6"
               style="opacity: 1;"
             />
             <div
-              class="sc-gKclnd hRvASy hstack m-1"
+              class="sc-kDTinF ihyLWR hstack m-1"
             />
           </div>
         </a>
@@ -490,7 +490,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title dXpXWj fs-6 sc-pVTFL"
+            class="card-title eglWpm fs-6 sc-egiyK"
             title="Video-6"
           >
             <a

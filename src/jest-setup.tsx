@@ -28,3 +28,7 @@ mockFC('./images/reload.svg');
 mockFC('./images/spinner.svg');
 mockFC('./images/edit.svg');
 mockFC('./images/trashcan.svg');
+mockFC('./images/name-asc.svg');
+mockFC('./images/name-desc.svg');
+mockFC('./images/timestamp-asc.svg');
+mockFC('./images/timestamp-desc.svg');
