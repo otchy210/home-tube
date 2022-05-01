@@ -1,6 +1,6 @@
 {
     "name": "@otchy/home-tube",
-    "version": "0.7.31",
+    "version": "0.8.0",
     "description": "HomeTube provides YouTube-ish UI and features for your videos in your local storage and local network.",
     "bin": {
         "home-tube": "bin/home-tube"
@@ -47,7 +47,6 @@
         "@types/i18next": "^13.0.0",
         "@types/jest": "^27.4.0",
         "@types/react": "^17.0.38",
-        "@types/react-bootstrap": "^0.32.29",
         "@types/react-dom": "^17.0.11",
         "@types/react-router-bootstrap": "^0.24.5",
         "@types/styled-components": "^5.1.20",
@@ -79,7 +78,6 @@
         "bowser": "^2.11.0",
         "i18next": "^21.6.12",
         "react": "^17.0.2",
-        "react-bootstrap": "^2.1.0",
         "react-dom": "^17.0.2",
         "react-router-bootstrap": "^0.26.0",
         "react-router-dom": "^6.2.1",
