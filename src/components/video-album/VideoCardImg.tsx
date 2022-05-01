@@ -1,5 +1,5 @@
-import { VideoValues } from '@otchy/home-tube-api/dist/types';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { VideoDetails, VideoValues } from '@otchy/home-tube-api/dist/types';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getThumbnailStyle, loadAllImages } from '../../utils/ImageUtils';
 import { SecondaryBadge } from '../common/badges';
@@ -52,24 +52,60 @@ const MAX_SCENES = 8;
 const MAX_SCENE_FRAMES = 4;
 const SCENE_FRAME_SPEED = 250;
 
+type DigestState = 'none' | 'started' | 'loading' | 'playing';
+
+const OPACITY_MAP: Record<DigestState, number> = {
+    none: 1,
+    started: 0.5,
+    loading: 0.5,
+    playing: 0,
+};
+
 type Props = {
     video: VideoValues;
 };
 
 const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
     const { key, duration, size } = video;
-    const [loading, setLoading] = useState<boolean>(false);
-    const [opacity, setOpacity] = useState<number>(1);
+    const [digestState, setDigestState] = useState<DigestState>('none');
+    const [details, setDetails] = useState<VideoDetails>();
     const [digestStyle, setDigestStyle] = useState<React.CSSProperties>();
+    const [srcList, setSrcList] = useState<string[]>();
     const imageRef = useRef<HTMLImageElement>(null);
     const cardImgRef = useRef<HTMLDivElement>(null);
     const api = useApi();
     const { hoveringCardImg } = useVideoAlbumContext();
-    const setState = (loading: boolean, opacity: number) => {
-        setLoading(loading);
-        setOpacity(opacity);
-    };
-    const srcList = useMemo(() => {
+
+    useEffect(() => {
+        if (hoveringCardImg === cardImgRef.current) {
+            if (srcList) {
+                setDigestState('playing');
+            } else {
+                setDigestState('started');
+            }
+        } else {
+            setDigestState('none');
+            setDigestStyle({});
+        }
+    }, [hoveringCardImg]);
+
+    useEffect(() => {
+        if (digestState !== 'started') {
+            return;
+        }
+        setDigestState('loading');
+        api.getDetails(key).then(setDetails);
+    }, [digestState]);
+
+    useEffect(() => {
+        if (digestState !== 'loading' || !details) {
+            return;
+        }
+        const length = details.length;
+        if (!length) {
+            setDigestState('none');
+            return;
+        }
         const eachMinute = (() => {
             for (let i = 1; i < 150; i++) {
                 const min = i * MAX_SCENES + 1;
@@ -80,7 +116,7 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
             }
             return 150;
         })();
-        return Array(Math.trunc((length - 1) / 60) + 1)
+        const srcList = Array(Math.trunc((length - 1) / 60) + 1)
             .fill('')
             .map((_, minute) => minute)
             .filter((minute) => minute % eachMinute === 0)
@@ -88,32 +124,20 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
                 return api.getThumbnailsUrl(key, minute.toString());
             })
             .slice(0, MAX_SCENES);
-    }, [key]);
+        loadAllImages(srcList).then(() => {
+            setDigestState('playing');
+            setSrcList(srcList);
+        });
+    }, [digestState, details]);
 
     useEffect(() => {
-        if (hoveringCardImg === cardImgRef.current) {
-            // console.log(video.name);
-        }
-    }, [hoveringCardImg]);
-
-    const onMouseOver = async (mouseOverEvent: MouseEvent) => {
-        const image = imageRef.current;
-        if (!image) {
+        if (digestState !== 'playing' || !details || !srcList || !imageRef.current) {
             return;
         }
-        const rect = image.getBoundingClientRect();
+
+        const rect = imageRef.current.getBoundingClientRect();
         const maxWidth = rect.right - rect.left;
         const maxHeight = rect.bottom - rect.top;
-
-        setState(true, 0.5);
-        const details = await api.getDetails(key);
-        const length = details.length;
-        if (!length) {
-            setState(false, 1);
-            return;
-        }
-        await loadAllImages(srcList);
-        setState(false, 0);
 
         let frame = 0;
         const tid = setInterval(() => {
@@ -128,37 +152,23 @@ const VideoCardImg: React.FC<Props> = ({ video }: Props) => {
                 maxWidth,
                 maxHeight,
             });
-            if (imageRef.current) {
-                // avoid setting state after unmount
-                setDigestStyle(digestStyle);
-            }
+            setDigestStyle(digestStyle);
             frame++;
         }, SCENE_FRAME_SPEED) as unknown as number;
-
-        const onMouseMove = (e: MouseEvent) => {
-            if (mouseOverEvent.target === e.target) {
-                return;
-            }
-            if (imageRef.current) {
-                // avoid setting state after unmount
-                setState(false, 1);
-                setDigestStyle({});
-            }
+        return () => {
             clearInterval(tid);
-            document.body.removeEventListener('mousemove', onMouseMove);
         };
-        document.body.addEventListener('mousemove', onMouseMove);
-    };
+    }, [srcList, digestState]);
+
     return (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <VideoCardImgWrapper className="card-img-top" onMouseOver={onMouseOver as any} ref={cardImgRef}>
+        <VideoCardImgWrapper className="card-img-top" ref={cardImgRef}>
             <Digest style={digestStyle} />
-            <Image src={api.getSnapshotUrl(key)} style={{ opacity }} ref={imageRef} />
+            <Image src={api.getSnapshotUrl(key)} style={{ opacity: OPACITY_MAP[digestState] }} ref={imageRef} />
             <BadgeHolder>
                 {duration && <SmallBadge>{duration}</SmallBadge>}
                 {size && <SmallBadge>{size}</SmallBadge>}
             </BadgeHolder>
-            {loading && (
+            {(digestState === 'started' || digestState === 'loading') && (
                 <SpinnerWrapper>
                     <Spinner />
                 </SpinnerWrapper>
