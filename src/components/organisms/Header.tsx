@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -11,7 +10,8 @@ import { partiallyPreventDefault } from '../../utils/EventUtils';
 import { PrimaryButton } from '../common/buttons';
 import { Form, FormSearchInput } from '../common/form';
 import { FluidContainer } from '../common/layouts';
-import { Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarToggler, NavLink } from '../common/navbar';
+import { NavItem, NavLink, NavItemDropdown, NavLinkDropdown, DropdownMenu, DropdownItem } from '../common/nav';
+import { Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarToggler } from '../common/navbar';
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
@@ -90,40 +90,39 @@ const Header: React.FC = () => {
                 <NavbarToggler />
                 <NavbarCollapse className="justify-content-end mt-3 mt-sm-0">
                     <NavbarNav>
-                        <Form className="d-flex" onSubmit={onSearchSubmit}>
-                            <FormSearchInput onKeyDown={onQueryKeyDown} ref={namesRef} />
-                            <PrimaryButton className="ms-2" onClick={onSearchSubmit}>
-                                <SearchIcon />
-                                <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">{t('Search')}</span>
-                            </PrimaryButton>
-                        </Form>
-                    </NavbarNav>
-                    <NavbarNav className="ms-2 mt-2 mt-sm-0">
-                        <NavDropdown
-                            title={
-                                <>
-                                    <LanguageIcon />
-                                    <IconLabel>{t('Language')}</IconLabel>
-                                </>
-                            }
-                        >
-                            {LANGUAGES.map(({ key, label }) => {
-                                return (
-                                    <NavDropdown.Item key={`lang-${key}`} onClick={() => setLangKey(key)}>
-                                        {key === langKey ? '▸ ' : ''}
-                                        {t(label)}
-                                    </NavDropdown.Item>
-                                );
-                            })}
-                        </NavDropdown>
-                    </NavbarNav>
-                    <NavbarNav className="ms-2 mt-2 mt-sm-0">
-                        <LinkContainer to="/config">
-                            <NavLink className="p-0">
-                                <ConfigIcon />
-                                <IconLabel>{t('Config')}</IconLabel>
-                            </NavLink>
-                        </LinkContainer>
+                        <NavItem>
+                            <Form className="d-flex" onSubmit={onSearchSubmit}>
+                                <FormSearchInput onKeyDown={onQueryKeyDown} ref={namesRef} />
+                                <PrimaryButton className="ms-2" onClick={onSearchSubmit}>
+                                    <SearchIcon />
+                                    <span className="d-inline d-sm-none d-md-inline ms-1 ms-sm-0 ms-lg-1 align-middle">{t('Search')}</span>
+                                </PrimaryButton>
+                            </Form>
+                        </NavItem>
+                        <NavItemDropdown className="ms-2 mt-2 mt-sm-0">
+                            <NavLinkDropdown className="p-1">
+                                <LanguageIcon />
+                                <IconLabel>{t('Language')}</IconLabel>
+                            </NavLinkDropdown>
+                            <DropdownMenu position="end">
+                                {LANGUAGES.map(({ key, label }) => {
+                                    return (
+                                        <DropdownItem key={`lang-${key}`} onClick={() => setLangKey(key)}>
+                                            {key === langKey ? '▸ ' : ''}
+                                            {t(label)}
+                                        </DropdownItem>
+                                    );
+                                })}
+                            </DropdownMenu>
+                        </NavItemDropdown>
+                        <NavItem className="ms-2 mt-2 mt-sm-0">
+                            <LinkContainer to="/config">
+                                <NavLink className="p-1">
+                                    <ConfigIcon />
+                                    <IconLabel>{t('Config')}</IconLabel>
+                                </NavLink>
+                            </LinkContainer>
+                        </NavItem>
                     </NavbarNav>
                 </NavbarCollapse>
             </FluidContainer>

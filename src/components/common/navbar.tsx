@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
-import { ClassModifiedA, ClassModifiedButton, ClassModifiedDiv } from './ClassModifiedElements';
-import { HTMLAnchorProps, HTMLButtonProps, HTMLDivProps } from './types';
+import { ClassModifiedA, ClassModifiedButton, ClassModifiedDiv, ClassModifiedUl } from './ClassModifiedElements';
+import { HTMLAnchorProps, HTMLButtonProps, HTMLDivProps, HTMLUlProps } from './types';
 
 type NavBarContextProps = {
     collapseId: string;
@@ -38,10 +38,6 @@ export const NavbarCollapse: React.FC<NavbarCollapseProps> = (props) => {
     return <ClassModifiedDiv id={collapseId} classModifier="navbar-collapse collapse" {...props} />;
 };
 
-export const NavbarNav: React.FC<HTMLDivProps> = (props) => {
-    return <ClassModifiedDiv classModifier="navbar-nav" {...props} />;
-};
-
-export const NavLink: React.FC<HTMLAnchorProps> = (props) => {
-    return <ClassModifiedA classModifier="nav-link" {...props} />;
+export const NavbarNav: React.FC<HTMLUlProps> = (props) => {
+    return <ClassModifiedUl classModifier="navbar-nav" {...props} />;
 };
