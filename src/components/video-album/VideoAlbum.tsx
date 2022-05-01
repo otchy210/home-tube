@@ -1,8 +1,7 @@
 import { VideoValues } from '@otchy/home-tube-api/dist/types';
-import React, { useState } from 'react';
+import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import styled, { StyledComponent } from 'styled-components';
-import ls from '../../utils/LocalStorage';
+import styled from 'styled-components';
 import { AlertLink, PrimaryAlert } from '../common/alert';
 import DelayedSpinner from '../common/DelayedSpinner';
 import { FullWidthCol, Row, Col } from '../common/layouts';
@@ -10,7 +9,7 @@ import { PageItem, Pagination } from '../common/pagination';
 import { useI18n } from '../providers/I18nProvider';
 import VideoPagination from '../video-album/VideoPagination';
 import VideoTable from '../video-album/VideoTable';
-import { NameAscIcon, NameDescIcon, TimestampAscIcon, TimestampDescIcon } from './VideoAlbumIcons';
+import { getSortedVideos, sortOptions, useSelectedSortKey } from './videoSort';
 
 const StyledPageItem = styled(PageItem)`
     & .page-link {
@@ -48,69 +47,6 @@ export const calcPages = (
     };
 };
 
-type SortKey = 'timestamp-asc' | 'timestamp-desc' | 'name-asc' | 'name-desc';
-
-type SortOption = {
-    key: SortKey;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Icon: StyledComponent<any, any>;
-    compare: (left: VideoValues, right: VideoValues) => number;
-};
-
-const compareNameAsc = (left: VideoValues, right: VideoValues): number => {
-    const nameDiff = left.name.localeCompare(right.name);
-    if (nameDiff !== 0) {
-        return nameDiff;
-    }
-    return left.path.localeCompare(right.path);
-};
-const compareNameDesc = (left: VideoValues, right: VideoValues): number => {
-    return compareNameAsc(right, left);
-};
-const compareMtimeAsc = (left: VideoValues, right: VideoValues): number => {
-    if (left.mtime && right.mtime) {
-        const mtimeDiff = left.mtime - right.mtime;
-        if (mtimeDiff !== 0) {
-            return mtimeDiff;
-        }
-    }
-    if (!left.mtime && !right.mtime) {
-        return compareNameAsc(left, right);
-    }
-    if (left.mtime) {
-        return -1;
-    } else {
-        return 1;
-    }
-};
-const compareMtimeDesc = (left: VideoValues, right: VideoValues): number => {
-    return compareMtimeAsc(right, left);
-};
-
-const sortOptions: SortOption[] = [
-    { key: 'name-asc', Icon: NameAscIcon, compare: compareNameAsc },
-    { key: 'name-desc', Icon: NameDescIcon, compare: compareNameDesc },
-    { key: 'timestamp-asc', Icon: TimestampAscIcon, compare: compareMtimeAsc },
-    { key: 'timestamp-desc', Icon: TimestampDescIcon, compare: compareMtimeDesc },
-];
-const sortOptionsMap: Map<SortKey, SortOption> = sortOptions.reduce((map, option) => {
-    map.set(option.key, option);
-    return map;
-}, new Map<SortKey, SortOption>());
-
-const SORT_KEY = 'SORT_KEY';
-
-const useSelectedSortKey = (): [SortKey, (sortKey: SortKey) => void] => {
-    const [selectedSortKey, setSelectedSortKey] = useState<SortKey>(ls.getString<SortKey>(SORT_KEY, sortOptions[0].key));
-    return [
-        selectedSortKey,
-        (sortKey: SortKey) => {
-            setSelectedSortKey(sortKey);
-            ls.setString(SORT_KEY, sortKey);
-        },
-    ];
-};
-
 type Props = {
     videos: VideoValues[] | undefined;
     page: number;
@@ -143,7 +79,7 @@ const VideoAlbum: React.FC<Props> = ({ videos, page, onClickPage }: Props) => {
             </Row>
         );
     }
-    const sortedVideos = [...videos].sort(sortOptionsMap.get(selectedSortKey)?.compare);
+    const sortedVideos = getSortedVideos(videos, selectedSortKey);
     const pagesInfo = calcPages(sortedVideos, page);
     const total = videos.length;
     const first = (page - 1) * MAX_VIDEO_COUNT + 1;
