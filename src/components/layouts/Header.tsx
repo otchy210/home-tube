@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components';
 import Config from '../../images/config.svg';
@@ -15,6 +15,7 @@ import { Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarToggler } from '.
 import { useHomePageQuery } from '../providers/HomePageQueryProvider';
 import { LANGUAGES, useI18n } from '../providers/I18nProvider';
 import { SearchQuery, useSearchQuery } from '../providers/SearchQueryProvider';
+import { Shortcut, useShortcut } from '../providers/ShortcutProvider';
 
 const HomeTubeIcon = styled(Icon)`
     width: 32px;
@@ -58,6 +59,7 @@ const getSearchQueryFromRefs = (refs: { [name: string]: React.RefObject<HTMLInpu
 };
 
 const Header: React.FC = () => {
+    const { registerShortcut, unregisterShortcut } = useShortcut();
     const { langKey, setLangKey, t } = useI18n();
     const namesRef = useRef<HTMLInputElement>(null);
     const { setPage } = useHomePageQuery();
@@ -80,6 +82,18 @@ const Header: React.FC = () => {
         e.preventDefault();
         doSearch();
     };
+    useEffect(() => {
+        const focusSearchInput: Shortcut = {
+            keyCode: 191,
+            fn: () => {
+                namesRef.current?.focus();
+            },
+        };
+        registerShortcut(focusSearchInput);
+        return () => {
+            unregisterShortcut(focusSearchInput);
+        };
+    });
     return (
         <Navbar>
             <FluidContainer>

@@ -17,6 +17,7 @@ import ApiProvider from './providers/ApiProvider';
 import HomePageQueryProvider from './providers/HomePageQueryProvider';
 import I18nProvider, { useI18n } from './providers/I18nProvider';
 import SearchQueryProvider from './providers/SearchQueryProvider';
+import { ShortcutProvider } from './providers/ShortcutProvider';
 import ToastProvider from './providers/ToastsProvider';
 
 const GlobalStyle = createGlobalStyle`
@@ -42,13 +43,15 @@ const App: React.FC<Props> = ({ apiHost }) => {
                 <ApiProvider api={new Api(apiHost)}>
                     <I18nProvider>
                         <ToastProvider>
-                            <AllTagsProvider>
-                                <HomePageQueryProvider>
-                                    <SearchQueryProvider>
-                                        <Page />
-                                    </SearchQueryProvider>
-                                </HomePageQueryProvider>
-                            </AllTagsProvider>
+                            <ShortcutProvider>
+                                <AllTagsProvider>
+                                    <HomePageQueryProvider>
+                                        <SearchQueryProvider>
+                                            <Page />
+                                        </SearchQueryProvider>
+                                    </HomePageQueryProvider>
+                                </AllTagsProvider>
+                            </ShortcutProvider>
                         </ToastProvider>
                     </I18nProvider>
                 </ApiProvider>
