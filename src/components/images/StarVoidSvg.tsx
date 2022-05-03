@@ -1,6 +1,8 @@
 import React from 'react';
 
-export const StarVoidSvg: React.FC = (props) => {
+type SvgProps = React.SVGAttributes<HTMLOrSVGElement>;
+
+export const StarVoidSvg: React.FC<SvgProps> = (props) => {
     return (
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" version="1.1" {...props}>
             <path

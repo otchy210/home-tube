@@ -28,7 +28,9 @@ const generateSvgComponent = (src, destDir) => {
     const destSvg = `
 import React from 'react';
 
-export const ${componentName}: React.FC = (props) => {
+type SvgProps = React.SVGAttributes<HTMLOrSVGElement>;
+
+export const ${componentName}: React.FC<SvgProps> = (props) => {
     return (
         ${srcSvg}
     );

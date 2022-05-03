@@ -1,6 +1,8 @@
 import React from 'react';
 
-export const LogoSvg: React.FC = (props) => {
+type SvgProps = React.SVGAttributes<HTMLOrSVGElement>;
+
+export const LogoSvg: React.FC<SvgProps> = (props) => {
     return (
         <svg viewBox="0 0 2560 512" xmlns="http://www.w3.org/2000/svg" version="1.1" {...props}>
             <path

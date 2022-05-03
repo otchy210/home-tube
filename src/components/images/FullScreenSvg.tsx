@@ -1,6 +1,8 @@
 import React from 'react';
 
-export const FullScreenSvg: React.FC = (props) => {
+type SvgProps = React.SVGAttributes<HTMLOrSVGElement>;
+
+export const FullScreenSvg: React.FC<SvgProps> = (props) => {
     return (
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" version="1.1" {...props}>
             <path
