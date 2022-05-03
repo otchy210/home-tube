@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import SelectedStar from '../../images/star-selected.svg';
-import UnselectedStar from '../../images/star-unselected.svg';
-import VoidStar from '../../images/star-void.svg';
+import { StarSelectedSvg } from '../images/StarSelectedSvg';
+import { StarUnselectedSvg } from '../images/StarUnselectedSvg';
+import { StarVoidSvg } from '../images/StarVoidSvg';
 
 const IconWrapper = styled.div`
     display: inline-box;
@@ -22,19 +22,19 @@ const StarIcon: React.FC<Props> = ({ variant, size }: Props) => {
         case 'selected':
             return (
                 <IconWrapper>
-                    <SelectedStar {...sizes} />
+                    <StarSelectedSvg {...sizes} />
                 </IconWrapper>
             );
         case 'unselected':
             return (
                 <IconWrapper>
-                    <UnselectedStar {...sizes} />
+                    <StarUnselectedSvg {...sizes} />
                 </IconWrapper>
             );
         case 'void':
             return (
                 <IconWrapper>
-                    <VoidStar {...sizes} />
+                    <StarVoidSvg {...sizes} />
                 </IconWrapper>
             );
     }

@@ -1,12 +1,12 @@
 import { VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import RightArrow from '../../images/right-arrow.svg';
 import { PrimaryBadge, SecondaryBadge } from '../common/badges';
 import { SecondaryButton, SubmitButton } from '../common/buttons';
 import { FluidImg } from '../common/image';
 import { Container, HalfWidthCol, Row } from '../common/layouts';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
+import { RightArrowSvg } from '../images/RightArrowSvg';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -35,7 +35,7 @@ const ArrowHolder = styled.div`
     box-sizing: content-box;
 `;
 
-const RightArrowIcon = styled(RightArrow)`
+const RightArrowIcon = styled(RightArrowSvg)`
     width: 24px;
     height: 24px;
     margin: 4px;

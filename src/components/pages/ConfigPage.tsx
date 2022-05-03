@@ -3,7 +3,6 @@ import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSetTitle } from '../../hooks/useSetTitle';
-import Reload from '../../images/reload.svg';
 import { getAppConfigDeepCopy } from '../../utils/ObjectUtils';
 import { waitFor } from '../../utils/TimerUtils';
 import { Badge } from '../common/badges';
@@ -13,6 +12,7 @@ import { Form, FormCheckbox, FormText, FormTextInput } from '../common/form';
 import { Row, Col, VerticalStack, HorizontalStack } from '../common/layouts';
 import Spinner from '../common/Spinner';
 import ServerStatusProperty from '../config-page/ServerStatusProperty';
+import { ReloadSvg } from '../images/ReloadSvg';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import { useToast } from '../providers/ToastsProvider';
@@ -31,7 +31,7 @@ const Title = styled.p.attrs({ className: 'h1 pt-3' })``;
 
 const PropertyTitle = styled.p.attrs({ className: 'h5 mt-3' })``;
 
-const ReloadIcon = styled(Reload).attrs({ width: 32, height: 32 })`
+const ReloadIcon = styled(ReloadSvg).attrs({ width: 32, height: 32 })`
     cursor: pointer;
 `;
 

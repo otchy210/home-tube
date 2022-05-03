@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import Edit from '../../images/edit.svg';
-import Trashcan from '../../images/trashcan.svg';
+import { EditSvg } from '../images/EditSvg';
+import { TrashcanSvg } from '../images/TrashcanSvg';
 
 const clickableIconStyles = css`
     cursor: pointer;
@@ -14,11 +14,11 @@ const ICON_SIZE = 20;
 
 const clickableIconAttrs = { className: 'ms-1', width: ICON_SIZE, height: ICON_SIZE };
 
-export const TrashcanIcon = styled(Trashcan).attrs(clickableIconAttrs)`
+export const TrashcanIcon = styled(TrashcanSvg).attrs(clickableIconAttrs)`
     ${clickableIconStyles};
 `;
 
-export const EditIcon = styled(Edit).attrs(clickableIconAttrs)`
+export const EditIcon = styled(EditSvg).attrs(clickableIconAttrs)`
     ${clickableIconStyles}
 `;
 

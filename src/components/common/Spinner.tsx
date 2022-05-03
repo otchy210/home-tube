@@ -1,7 +1,7 @@
 import { Property } from 'csstype';
 import React from 'react';
 import styled from 'styled-components';
-import SpinnerSvg from '../../images/spinner.svg';
+import { SpinnerSvg } from '../images/SpinnerSvg';
 
 const SpinnerIcon = styled(SpinnerSvg)`
     & > path {
