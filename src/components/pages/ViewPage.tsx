@@ -6,7 +6,6 @@ import { useSetTitle } from '../../hooks/useSetTitle';
 import { VideoViewMode } from '../../types';
 import DelayedSpinner from '../common/DelayedSpinner';
 import { FullWidthCol, Row, Col } from '../common/layouts';
-import { StarsMouseEventHandlers } from '../common/StarsIndicator';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
@@ -76,18 +75,10 @@ const ViewPage: React.FC = () => {
         const updatedDetails = { ...details, stars };
         setDetails(updatedDetails);
     };
-    const onStars: StarsMouseEventHandlers = {
-        click: (stars: Stars) => {
-            setStars(stars);
-            orgStars.current = stars;
-            api.postProperties(key, { stars });
-        },
-        hover: (stars: Stars) => {
-            setStars(stars);
-        },
-        out: () => {
-            setStars(orgStars.current);
-        },
+    const onSaveStars = (stars: Stars) => {
+        setStars(stars);
+        orgStars.current = stars;
+        api.postProperties(key, { stars });
     };
     const removeStars: RemoveStars = {
         able: () => {
@@ -186,7 +177,7 @@ const ViewPage: React.FC = () => {
                     <VideoPlayer details={details} {...{ mode, setMode }} />
                 </VideoPlayerWrapper>
                 <VideoPlayerSpacer className={mode} ref={videoPlayerSpacerRef} />
-                <VideoBasicInfo {...{ details, onStars, removeStars, updateTags }} />
+                <VideoBasicInfo {...{ details, onSaveStars, removeStars, updateTags }} />
             </Col>
             <Col width={[12, 12, 12, mode === 'theater' ? 12 : 3]}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />

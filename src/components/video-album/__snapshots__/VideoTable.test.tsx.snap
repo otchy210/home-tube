@@ -16,18 +16,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-furwcr fVLpJB card-img-top"
+            class="sc-egiyK cnaupT card-img-top"
           >
             <div
-              class="sc-pVTFL cyHGvI"
+              class="sc-bqiRlB Ukvuy"
             />
             <img
-              class="sc-jrQzAO kNhoaI"
+              class="sc-ksdxgE cUbyMb"
               src="http://dummy-api-host/snapshot?key=key-1"
               style="opacity: 1;"
             />
             <div
-              class="sc-kDTinF ihyLWR hstack m-1"
+              class="sc-hBUSln eWwYsN hstack m-1"
             />
           </div>
         </a>
@@ -35,7 +35,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title eglWpm fs-6 sc-egiyK"
+            class="card-title dgMXsH fs-6 sc-bkkeKt"
             title="Video-1"
           >
             <a
@@ -48,50 +48,21 @@ exports[`VideoTable renders properly 1`] = `
           <div
             class="card-subtitle text-muted"
           >
-            <div
-              class="sc-gsDKAQ gasfEg"
-            >
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-            </div>
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
           </div>
         </div>
       </div>
@@ -107,18 +78,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-furwcr fVLpJB card-img-top"
+            class="sc-egiyK cnaupT card-img-top"
           >
             <div
-              class="sc-pVTFL cyHGvI"
+              class="sc-bqiRlB Ukvuy"
             />
             <img
-              class="sc-jrQzAO kNhoaI"
+              class="sc-ksdxgE cUbyMb"
               src="http://dummy-api-host/snapshot?key=key-2"
               style="opacity: 1;"
             />
             <div
-              class="sc-kDTinF ihyLWR hstack m-1"
+              class="sc-hBUSln eWwYsN hstack m-1"
             />
           </div>
         </a>
@@ -126,7 +97,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title eglWpm fs-6 sc-egiyK"
+            class="card-title dgMXsH fs-6 sc-bkkeKt"
             title="Video-2"
           >
             <a
@@ -139,50 +110,21 @@ exports[`VideoTable renders properly 1`] = `
           <div
             class="card-subtitle text-muted"
           >
-            <div
-              class="sc-gsDKAQ gasfEg"
-            >
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-            </div>
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
           </div>
         </div>
       </div>
@@ -198,18 +140,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-furwcr fVLpJB card-img-top"
+            class="sc-egiyK cnaupT card-img-top"
           >
             <div
-              class="sc-pVTFL cyHGvI"
+              class="sc-bqiRlB Ukvuy"
             />
             <img
-              class="sc-jrQzAO kNhoaI"
+              class="sc-ksdxgE cUbyMb"
               src="http://dummy-api-host/snapshot?key=key-3"
               style="opacity: 1;"
             />
             <div
-              class="sc-kDTinF ihyLWR hstack m-1"
+              class="sc-hBUSln eWwYsN hstack m-1"
             />
           </div>
         </a>
@@ -217,7 +159,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title eglWpm fs-6 sc-egiyK"
+            class="card-title dgMXsH fs-6 sc-bkkeKt"
             title="Video-3"
           >
             <a
@@ -230,50 +172,21 @@ exports[`VideoTable renders properly 1`] = `
           <div
             class="card-subtitle text-muted"
           >
-            <div
-              class="sc-gsDKAQ gasfEg"
-            >
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-            </div>
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
           </div>
         </div>
       </div>
@@ -289,18 +202,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-furwcr fVLpJB card-img-top"
+            class="sc-egiyK cnaupT card-img-top"
           >
             <div
-              class="sc-pVTFL cyHGvI"
+              class="sc-bqiRlB Ukvuy"
             />
             <img
-              class="sc-jrQzAO kNhoaI"
+              class="sc-ksdxgE cUbyMb"
               src="http://dummy-api-host/snapshot?key=key-4"
               style="opacity: 1;"
             />
             <div
-              class="sc-kDTinF ihyLWR hstack m-1"
+              class="sc-hBUSln eWwYsN hstack m-1"
             />
           </div>
         </a>
@@ -308,7 +221,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title eglWpm fs-6 sc-egiyK"
+            class="card-title dgMXsH fs-6 sc-bkkeKt"
             title="Video-4"
           >
             <a
@@ -321,50 +234,21 @@ exports[`VideoTable renders properly 1`] = `
           <div
             class="card-subtitle text-muted"
           >
-            <div
-              class="sc-gsDKAQ gasfEg"
-            >
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-            </div>
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
           </div>
         </div>
       </div>
@@ -380,18 +264,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-furwcr fVLpJB card-img-top"
+            class="sc-egiyK cnaupT card-img-top"
           >
             <div
-              class="sc-pVTFL cyHGvI"
+              class="sc-bqiRlB Ukvuy"
             />
             <img
-              class="sc-jrQzAO kNhoaI"
+              class="sc-ksdxgE cUbyMb"
               src="http://dummy-api-host/snapshot?key=key-5"
               style="opacity: 1;"
             />
             <div
-              class="sc-kDTinF ihyLWR hstack m-1"
+              class="sc-hBUSln eWwYsN hstack m-1"
             />
           </div>
         </a>
@@ -399,7 +283,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title eglWpm fs-6 sc-egiyK"
+            class="card-title dgMXsH fs-6 sc-bkkeKt"
             title="Video-5"
           >
             <a
@@ -412,50 +296,21 @@ exports[`VideoTable renders properly 1`] = `
           <div
             class="card-subtitle text-muted"
           >
-            <div
-              class="sc-gsDKAQ gasfEg"
-            >
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-            </div>
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
           </div>
         </div>
       </div>
@@ -471,18 +326,18 @@ exports[`VideoTable renders properly 1`] = `
           style="text-decoration: none;"
         >
           <div
-            class="sc-furwcr fVLpJB card-img-top"
+            class="sc-egiyK cnaupT card-img-top"
           >
             <div
-              class="sc-pVTFL cyHGvI"
+              class="sc-bqiRlB Ukvuy"
             />
             <img
-              class="sc-jrQzAO kNhoaI"
+              class="sc-ksdxgE cUbyMb"
               src="http://dummy-api-host/snapshot?key=key-6"
               style="opacity: 1;"
             />
             <div
-              class="sc-kDTinF ihyLWR hstack m-1"
+              class="sc-hBUSln eWwYsN hstack m-1"
             />
           </div>
         </a>
@@ -490,7 +345,7 @@ exports[`VideoTable renders properly 1`] = `
           class="card-body"
         >
           <div
-            class="card-title eglWpm fs-6 sc-egiyK"
+            class="card-title dgMXsH fs-6 sc-bkkeKt"
             title="Video-6"
           >
             <a
@@ -503,50 +358,21 @@ exports[`VideoTable renders properly 1`] = `
           <div
             class="card-subtitle text-muted"
           >
-            <div
-              class="sc-gsDKAQ gasfEg"
-            >
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-              <div
-                class="sc-bdvvtL imDser"
-              >
-                <mocked-star-void-svg
-                  height="16"
-                  width="16"
-                />
-              </div>
-            </div>
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
+            <mocked-star-void-svg
+              classname="sc-iCfMLu cJfMAM"
+            />
           </div>
         </div>
       </div>

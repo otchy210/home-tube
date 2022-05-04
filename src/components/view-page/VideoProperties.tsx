@@ -1,10 +1,10 @@
-import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
+import { Stars, VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
 import { Badge, BadgeVariant } from '../common/badges';
 import { PrimaryButton } from '../common/buttons';
 import Confirm from '../common/Confirm';
 import { HorizontalStack } from '../common/layouts';
-import StarsIndicator, { StarsMouseEventHandlers } from '../common/StarsIndicator';
+import { EditableStars } from '../common/Stars';
 import StaticTag from '../common/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
@@ -19,12 +19,12 @@ export type RemoveStars = {
 
 type Props = {
     details: VideoDetails;
-    onStars: StarsMouseEventHandlers;
+    onSaveStars: (stars: Stars) => void;
     removeStars: RemoveStars;
     updateTags: (tags: string[]) => Promise<void>;
 };
 
-const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updateTags }: Props) => {
+const VideoProperties: React.FC<Props> = ({ details, onSaveStars, removeStars, updateTags }: Props) => {
     const { key, stars, tags: givenTags, mp4: givenMp4 } = details;
     const [showRatingRemovalConfirm, setShowRatingRemovalConfirm] = useState<boolean>(false);
     const [showMp4Confirm, setShowMp4Confirm] = useState<boolean>(false);
@@ -124,7 +124,7 @@ const VideoProperties: React.FC<Props> = ({ details, onStars, removeStars, updat
             </Confirm>
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
             <HorizontalStack className="align-items-start">
-                <StarsIndicator size={30} stars={stars} on={onStars} />
+                <EditableStars stars={stars} onSaveStars={onSaveStars} />
                 {removeStars.able() && (
                     <IconWrapper>
                         <TrashcanIcon onClick={() => setShowRatingRemovalConfirm(true)} />

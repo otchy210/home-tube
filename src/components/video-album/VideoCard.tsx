@@ -3,7 +3,7 @@ import React from 'react';
 import { createSearchParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Card, CardBody, CardSubtitle, CardTitle } from '../common/card';
-import StarsIndicator from '../common/StarsIndicator';
+import { SmallReadonlyStars } from '../common/Stars';
 import VideoCardImg from './VideoCardImg';
 
 const TextTruncateCardTitle = styled(CardTitle)`
@@ -36,7 +36,7 @@ const VideoCard: React.FC<Props> = ({ video }: Props) => {
                     </Link>
                 </TextTruncateCardTitle>
                 <CardSubtitle className="text-muted">
-                    <StarsIndicator size={16} stars={stars} />
+                    <SmallReadonlyStars stars={stars} />
                 </CardSubtitle>
             </CardBody>
         </Card>
