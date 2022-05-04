@@ -3,6 +3,7 @@ import { createContext, useContext } from 'react';
 
 export type Shortcut = {
     keyCode: number;
+    shiftKey?: boolean;
     metaKey?: boolean;
     ctrlKey?: boolean;
     altKey?: boolean;
@@ -10,12 +11,12 @@ export type Shortcut = {
     fn: (e: KeyboardEvent) => void;
 };
 
-const getShortcutKey = ({ keyCode, metaKey, ctrlKey, altKey }: Shortcut) => {
-    return `${keyCode}-${metaKey ?? false}-${ctrlKey ?? false}-${altKey ?? false}`;
+const getShortcutKey = ({ keyCode, shiftKey, metaKey, ctrlKey, altKey }: Shortcut) => {
+    return `${keyCode}-${shiftKey ?? false}-${metaKey ?? false}-${ctrlKey ?? false}-${altKey ?? false}`;
 };
 
-const getEventKey = ({ keyCode, metaKey, ctrlKey, altKey }: KeyboardEvent) => {
-    return `${keyCode}-${metaKey ?? false}-${ctrlKey ?? false}-${altKey ?? false}`;
+const getEventKey = ({ keyCode, shiftKey, metaKey, ctrlKey, altKey }: KeyboardEvent) => {
+    return `${keyCode}-${shiftKey ?? false}-${metaKey ?? false}-${ctrlKey ?? false}-${altKey ?? false}`;
 };
 
 type ShortcutContextValue = {
