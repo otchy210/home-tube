@@ -4,6 +4,10 @@ import styled, { css } from 'styled-components';
 import { StarSelectedSvg } from '../images/StarSelectedSvg';
 import { StarUnselectedSvg } from '../images/StarUnselectedSvg';
 import { StarVoidSvg } from '../images/StarVoidSvg';
+import { TrashcanSvg } from '../images/TrashcanSvg';
+import { useI18n } from '../providers/I18nProvider';
+import Confirm from './Confirm';
+import { HorizontalStack } from './layouts';
 
 const POSSIBLE_STARS = [1, 2, 3, 4, 5] as Stars[];
 
@@ -32,14 +36,27 @@ const HoveringStarsWrapper = styled.div`
     top: 0;
     pointer-events: none;
 `;
+const TrashcanIcon = styled(TrashcanSvg)`
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+    cursor: pointer;
+    &:hover {
+        opacity: 1;
+    }
+`;
+const TrashcanIconWrapper = styled.div.attrs({ className: 'ms-1' })``;
 
 type EditableStarsProps = {
     stars: Stars | undefined;
-    onSaveStars: (stars: Stars) => void;
+    saveStars: (stars: Stars) => void;
+    removeStars: () => void;
 };
-export const EditableStars: React.FC<EditableStarsProps> = ({ stars, onSaveStars }: EditableStarsProps) => {
+export const EditableStars: React.FC<EditableStarsProps> = ({ stars, saveStars, removeStars }: EditableStarsProps) => {
     const [hoveringStars, setHoveringStars] = useState<Stars>();
+    const [showConfirm, setShowConfirm] = useState<boolean>(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const { t } = useI18n();
     const onMouseMove: React.MouseEventHandler<HTMLDivElement> = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const rect = wrapperRef.current!.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -51,24 +68,41 @@ export const EditableStars: React.FC<EditableStarsProps> = ({ stars, onSaveStars
     };
     const onClick = () => {
         if (hoveringStars) {
-            onSaveStars(hoveringStars);
+            saveStars(hoveringStars);
         }
     };
     return (
-        <StarsWrapper onMouseMove={onMouseMove} onMouseOut={onMouseOut} onClick={onClick} ref={wrapperRef}>
-            {stars
-                ? POSSIBLE_STARS.map((star) => {
-                      return star <= stars ? <StarSelectedIcon key={`star-${star}`} /> : <StarUnselectedIcon key={`star-${star}`} />;
-                  })
-                : POSSIBLE_STARS.map((star) => <StarVoidIcon key={`star-${star}`} />)}
-            {hoveringStars && (
-                <HoveringStarsWrapper>
-                    {POSSIBLE_STARS.map((star) => {
-                        return star <= hoveringStars ? <StarSelectedIcon key={`star-${star}`} /> : <StarUnselectedIcon key={`star-${star}`} />;
-                    })}
-                </HoveringStarsWrapper>
-            )}
-        </StarsWrapper>
+        <>
+            <Confirm
+                show={showConfirm}
+                setShow={setShowConfirm}
+                title={t('Confirmation')}
+                submit={{ variant: 'danger', label: t('Remove raiting'), onClick: removeStars }}
+            >
+                {t('Are you sure to remove raiting?')}
+            </Confirm>
+            <HorizontalStack>
+                <StarsWrapper onMouseMove={onMouseMove} onMouseOut={onMouseOut} onClick={onClick} ref={wrapperRef}>
+                    {stars
+                        ? POSSIBLE_STARS.map((star) => {
+                              return star <= stars ? <StarSelectedIcon key={`star-${star}`} /> : <StarUnselectedIcon key={`star-${star}`} />;
+                          })
+                        : POSSIBLE_STARS.map((star) => <StarVoidIcon key={`star-${star}`} />)}
+                    {hoveringStars && (
+                        <HoveringStarsWrapper>
+                            {POSSIBLE_STARS.map((star) => {
+                                return star <= hoveringStars ? <StarSelectedIcon key={`star-${star}`} /> : <StarUnselectedIcon key={`star-${star}`} />;
+                            })}
+                        </HoveringStarsWrapper>
+                    )}
+                </StarsWrapper>
+                {stars && (
+                    <TrashcanIconWrapper onClick={() => setShowConfirm(true)}>
+                        <TrashcanIcon />
+                    </TrashcanIconWrapper>
+                )}
+            </HorizontalStack>
+        </>
     );
 };
 

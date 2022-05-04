@@ -13,7 +13,6 @@ import { useToast } from '../providers/ToastsProvider';
 import VideoPlayer from '../video-player/VideoPlayer';
 import VideoBasicInfo from '../view-page/VideoBasicInfo';
 import VideoDetailedInfo from '../view-page/VideoDetailedInfo';
-import { RemoveStars } from '../view-page/VideoProperties';
 
 const VideoPlayerWrapper = styled.div`
     &.theater {
@@ -75,20 +74,15 @@ const ViewPage: React.FC = () => {
         const updatedDetails = { ...details, stars };
         setDetails(updatedDetails);
     };
-    const onSaveStars = (stars: Stars) => {
+    const saveStars = (stars: Stars) => {
         setStars(stars);
         orgStars.current = stars;
         api.postProperties(key, { stars });
     };
-    const removeStars: RemoveStars = {
-        able: () => {
-            return orgStars.current ? true : false;
-        },
-        do: () => {
-            setStars(undefined);
-            orgStars.current = undefined;
-            api.postProperties(key, { stars: null });
-        },
+    const removeStars = () => {
+        setStars(undefined);
+        orgStars.current = undefined;
+        api.postProperties(key, { stars: null });
     };
     const updateTags = (tags: string[]) => {
         if (!details) {
@@ -177,7 +171,7 @@ const ViewPage: React.FC = () => {
                     <VideoPlayer details={details} {...{ mode, setMode }} />
                 </VideoPlayerWrapper>
                 <VideoPlayerSpacer className={mode} ref={videoPlayerSpacerRef} />
-                <VideoBasicInfo {...{ details, onSaveStars, removeStars, updateTags }} />
+                <VideoBasicInfo {...{ details, saveStars, removeStars, updateTags }} />
             </Col>
             <Col width={[12, 12, 12, mode === 'theater' ? 12 : 3]}>
                 <VideoDetailedInfo {...{ details, mode, setMode }} />

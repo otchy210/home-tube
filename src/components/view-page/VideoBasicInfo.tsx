@@ -2,18 +2,18 @@ import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React from 'react';
 import { HorizontalStack } from '../common/layouts';
 import VideoPaths from './VideoPaths';
-import VideoProperties, { RemoveStars } from './VideoProperties';
+import VideoProperties from './VideoProperties';
 import VideoSizeBadges from './VideoSizeBadges';
 import VideoTitle from './VideoTitle';
 
 type Props = {
     details: VideoDetails;
-    onSaveStars: (stars: Stars) => void;
-    removeStars: RemoveStars;
+    saveStars: (stars: Stars) => void;
+    removeStars: () => void;
     updateTags: (tags: string[]) => Promise<void>;
 };
 
-const VideoBasicInfo: React.FC<Props> = ({ details, onSaveStars, removeStars, updateTags }: Props) => {
+const VideoBasicInfo: React.FC<Props> = ({ details, saveStars, removeStars, updateTags }: Props) => {
     const { names, width, height, size } = details;
     return (
         <>
@@ -22,7 +22,7 @@ const VideoBasicInfo: React.FC<Props> = ({ details, onSaveStars, removeStars, up
                 <VideoSizeBadges {...{ width, height, size }} />
             </HorizontalStack>
             <VideoTitle details={details} />
-            <VideoProperties {...{ details, onSaveStars, removeStars, updateTags }} />
+            <VideoProperties {...{ details, saveStars, removeStars, updateTags }} />
         </>
     );
 };

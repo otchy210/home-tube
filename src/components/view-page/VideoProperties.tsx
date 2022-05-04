@@ -10,23 +10,17 @@ import { useAllTags } from '../providers/AllTagsProvider';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 import TagsEditor from './TagsEditor';
-import { EditIcon, IconWrapper, TrashcanIcon } from './ViewPageIcons';
-
-export type RemoveStars = {
-    able: () => boolean;
-    do: () => void;
-};
+import { EditIcon } from './ViewPageIcons';
 
 type Props = {
     details: VideoDetails;
-    onSaveStars: (stars: Stars) => void;
-    removeStars: RemoveStars;
+    saveStars: (stars: Stars) => void;
+    removeStars: () => void;
     updateTags: (tags: string[]) => Promise<void>;
 };
 
-const VideoProperties: React.FC<Props> = ({ details, onSaveStars, removeStars, updateTags }: Props) => {
+const VideoProperties: React.FC<Props> = ({ details, saveStars, removeStars, updateTags }: Props) => {
     const { key, stars, tags: givenTags, mp4: givenMp4 } = details;
-    const [showRatingRemovalConfirm, setShowRatingRemovalConfirm] = useState<boolean>(false);
     const [showMp4Confirm, setShowMp4Confirm] = useState<boolean>(false);
     const [showMp4RemovalConfirm, setShowMp4RemovalConfirm] = useState<boolean>(false);
     const [showTagsEditor, setShowTagsEditor] = useState<boolean>(false);
@@ -82,14 +76,6 @@ const VideoProperties: React.FC<Props> = ({ details, onSaveStars, removeStars, u
     return (
         <>
             <Confirm
-                show={showRatingRemovalConfirm}
-                setShow={setShowRatingRemovalConfirm}
-                title={t('Confirmation')}
-                submit={{ variant: 'danger', label: t('Remove raiting'), onClick: removeStars.do }}
-            >
-                {t('Are you sure to remove raiting?')}
-            </Confirm>
-            <Confirm
                 show={showMp4Confirm}
                 setShow={setShowMp4Confirm}
                 title={t('Confirmation')}
@@ -124,12 +110,7 @@ const VideoProperties: React.FC<Props> = ({ details, onSaveStars, removeStars, u
             </Confirm>
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
             <HorizontalStack className="align-items-start">
-                <EditableStars stars={stars} onSaveStars={onSaveStars} />
-                {removeStars.able() && (
-                    <IconWrapper>
-                        <TrashcanIcon onClick={() => setShowRatingRemovalConfirm(true)} />
-                    </IconWrapper>
-                )}
+                <EditableStars stars={stars} saveStars={saveStars} removeStars={removeStars} />
                 <div className="ms-3 text-nowrap" style={{ lineHeight: '32px' }}>
                     {t('Tags')}:
                 </div>
