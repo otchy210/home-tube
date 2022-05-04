@@ -58,13 +58,13 @@ export const EditableStars: React.FC<EditableStarsProps> = ({ stars, onSaveStars
         <StarsWrapper onMouseMove={onMouseMove} onMouseOut={onMouseOut} onClick={onClick} ref={wrapperRef}>
             {stars
                 ? POSSIBLE_STARS.map((star) => {
-                      return star <= stars ? <StarSelectedIcon /> : <StarUnselectedIcon />;
+                      return star <= stars ? <StarSelectedIcon key={`star-${star}`} /> : <StarUnselectedIcon key={`star-${star}`} />;
                   })
-                : POSSIBLE_STARS.map(() => <StarVoidIcon />)}
+                : POSSIBLE_STARS.map((star) => <StarVoidIcon key={`star-${star}`} />)}
             {hoveringStars && (
                 <HoveringStarsWrapper>
                     {POSSIBLE_STARS.map((star) => {
-                        return star <= hoveringStars ? <StarSelectedIcon /> : <StarUnselectedIcon />;
+                        return star <= hoveringStars ? <StarSelectedIcon key={`star-${star}`} /> : <StarUnselectedIcon key={`star-${star}`} />;
                     })}
                 </HoveringStarsWrapper>
             )}
@@ -94,9 +94,9 @@ export const SmallReadonlyStars: React.FC<ReadonlyStarsProps> = ({ stars }: Read
         <>
             {stars
                 ? POSSIBLE_STARS.map((star) => {
-                      return star <= stars ? <SmallStarSelectedIcon /> : <SmallStarUnselectedIcon />;
+                      return star <= stars ? <SmallStarSelectedIcon key={`star-${star}`} /> : <SmallStarUnselectedIcon key={`star-${star}`} />;
                   })
-                : POSSIBLE_STARS.map(() => <SmallStarVoidIcon />)}
+                : POSSIBLE_STARS.map((star) => <SmallStarVoidIcon key={`star-${star}`} />)}
         </>
     );
 };
