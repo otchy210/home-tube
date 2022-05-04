@@ -1,34 +1,47 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 
-const mockFC = (path: string): void => {
-    const names = path.split('/');
-    const fileName = names[names.length - 1];
-    const componentName = fileName.split(/[._-]/).join('-');
-    const mockName = `mocked-${componentName}`;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jest.mock(path, () => (props?: Record<string, any>) => {
-        return React.createElement(mockName, props);
-    });
+const CODE_A = 'A'.charCodeAt(0);
+const CODE_Z = 'Z'.charCodeAt(0);
+
+const isUpperCase = (ch: string) => {
+    const code = ch.charCodeAt(0);
+    return CODE_A <= code && code <= CODE_Z;
+};
+
+const mockFC = (path: string, componentName?: string): void => {
+    if (componentName) {
+        const mockName = `mocked${componentName
+            .split('')
+            .map((ch, i) => {
+                if (i === 0 || isUpperCase(ch)) {
+                    return `-${ch.toLowerCase()}`;
+                }
+                return ch;
+            })
+            .join('')}`;
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const module = require(path);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        jest.spyOn(module, componentName).mockImplementation((props?: any) => {
+            return React.createElement(mockName, props);
+        });
+    } else {
+        const names = path.split('/');
+        const fileName = names[names.length - 1];
+        const componentName = fileName.split(/[._-]/).join('-');
+        const mockName = `mocked-${componentName}`;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        jest.mock(path, () => (props?: any) => {
+            return React.createElement(mockName, props);
+        });
+    }
 };
 
 // async components
 mockFC('./components/common/DelayedSpinner');
 
-// svg image components
-mockFC('./images/icon.svg');
-mockFC('./images/logo.svg');
-mockFC('./images/search.svg');
-mockFC('./images/language.svg');
-mockFC('./images/config.svg');
-mockFC('./images/star-selected.svg');
-mockFC('./images/star-unselected.svg');
-mockFC('./images/star-void.svg');
-mockFC('./images/reload.svg');
-mockFC('./images/spinner.svg');
-mockFC('./images/edit.svg');
-mockFC('./images/trashcan.svg');
-mockFC('./images/name-asc.svg');
-mockFC('./images/name-desc.svg');
-mockFC('./images/timestamp-asc.svg');
-mockFC('./images/timestamp-desc.svg');
+// svg components
+mockFC('./components/images/StarSelectedSvg', 'StarSelectedSvg');
+mockFC('./components/images/StarUnselectedSvg', 'StarUnselectedSvg');
+mockFC('./components/images/StarVoidSvg', 'StarVoidSvg');
