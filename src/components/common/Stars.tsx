@@ -12,7 +12,7 @@ import { HorizontalStack } from './layouts';
 const POSSIBLE_STARS = [1, 2, 3, 4, 5] as Stars[];
 
 const ICON_SIZE = 30;
-const StarsWrapper = styled.div`
+const StarsWrapper = styled.div.attrs({ className: 'text-nowrap' })`
     position: relative;
     cursor: pointer;
 `;

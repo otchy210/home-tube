@@ -1,6 +1,6 @@
 import { Stars, VideoDetails } from '@otchy/home-tube-api/dist/types';
 import React, { useState } from 'react';
-import { HorizontalStack } from '../common/layouts';
+import { Col, Container, HorizontalStack, Row } from '../common/layouts';
 import { EditableStars } from '../common/Stars';
 import StaticTag from '../common/StaticTag';
 import { useAllTags } from '../providers/AllTagsProvider';
@@ -33,18 +33,27 @@ const VideoProperties: React.FC<Props> = ({ details, saveStars, removeStars, upd
     return (
         <>
             <TagsEditor show={showTagsEditor} setShow={setShowTagsEditor} {...{ tags, updateTags }} />
-            <HorizontalStack className="align-items-start">
-                <EditableStars stars={stars} saveStars={saveStars} removeStars={removeStars} />
-                <div className="ms-3 text-nowrap" style={{ lineHeight: '32px' }}>
-                    {t('Tags')}:
-                </div>
-                <div>
-                    {tags.map((tag) => {
-                        return <StaticTag tag={tag} count={allTags[tag]} key={`tag-${tag}`} />;
-                    })}
-                    <EditIcon onClick={() => setShowTagsEditor(true)} />
-                </div>
-            </HorizontalStack>
+            <Container className="p-0">
+                <Row>
+                    <Col width={[12, 12, 3]}>
+                        <EditableStars stars={stars} saveStars={saveStars} removeStars={removeStars} />
+                    </Col>
+                    <Col width={[12, 12, 9]}>
+                        <HorizontalStack>
+                            <div className="text-nowrap" style={{ lineHeight: '32px' }}>
+                                {t('Tags')}:
+                            </div>
+                            <div>
+                                {tags.map((tag) => {
+                                    return <StaticTag tag={tag} count={allTags[tag]} key={`tag-${tag}`} />;
+                                })}
+                                <EditIcon onClick={() => setShowTagsEditor(true)} />
+                            </div>
+                        </HorizontalStack>
+                    </Col>
+                </Row>
+            </Container>
+            <HorizontalStack></HorizontalStack>
         </>
     );
 };
