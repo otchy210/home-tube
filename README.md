@@ -1,6 +1,6 @@
 # HomeTube
 
-![HomeTube](src/images/logo.svg)
+![HomeTube](resources/svg/logo.svg)
 
 English | [日本語](README.ja.md)
 
