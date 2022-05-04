@@ -19,6 +19,26 @@ const generateSvgComponent = (src, destDir) => {
             return line.replace(' xmlns:xlink="http://www.w3.org/1999/xlink"', '').replace('>', ' {...props}>');
         })
         .map((line) => {
+            return line.replaceAll(/([a-z-]+)(="[^"]+")/g, (matched, svgProp, value) => {
+                if (!svgProp.includes('-')) {
+                    return matched;
+                }
+                const dashIndex = new Set();
+                const componentProp = svgProp.split('').map((ch, i) => {
+                    if (ch === '-') {
+                        dashIndex.add(i);
+                        return '';
+                    }
+                    const wasDash = dashIndex.has(i - 1);
+                    if (wasDash) {
+                        return ch.toUpperCase();
+                    }
+                    return ch;
+                }).join('');
+                return `${componentProp}${value}`;
+            });
+        })
+        .map((line) => {
             return `        ${line}`;
         })
         .filter((line) => {
