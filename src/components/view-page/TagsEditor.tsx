@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { useBrowserInfo } from '../../utils/useBowser';
 import { PrimaryButton, SecondaryButton, SubmitButton } from '../common/buttons';
 import ClickableTag from '../common/ClickableTag';
 import { FormTextInput } from '../common/form';
@@ -7,6 +6,16 @@ import { HorizontalStack } from '../common/layouts';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useAllTags } from '../providers/AllTagsProvider';
 import { useI18n } from '../providers/I18nProvider';
+
+const { isMacOS, isSafari } = (() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMacOS = userAgent.includes('mac os x');
+    const isSafari =
+        ['edge', 'firefox', 'chrome', 'chromium'].filter((nonSafari) => {
+            return userAgent.includes(nonSafari);
+        }).length === 0 && userAgent.includes('safari');
+    return { isMacOS, isSafari };
+})();
 
 type Props = {
     show: boolean;
@@ -21,9 +30,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
     const tagBoxRef = useRef<HTMLInputElement>(null!);
     const { t } = useI18n();
     const { sortedTags } = useAllTags();
-    const browserInfo = useBrowserInfo();
-    const isMacOS = browserInfo.os.name === 'macOS';
-    const isSafari = browserInfo.browser.name === 'Safari';
+    console.log({ isMacOS, isSafari });
     const onHide = () => {
         setShow(false);
     };
