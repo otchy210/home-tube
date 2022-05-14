@@ -99,7 +99,7 @@ const TagsEditor: React.FC<Props> = ({ show, setShow, tags: givenTags, updateTag
                         {t('Add')}
                     </PrimaryButton>
                 </HorizontalStack>
-                <div className="text-muted small">{t('{{shortcut}} to save', { shortcut: `${isMacOS ? 'Cmd' : 'Ctrl'}+Enter` })}</div>
+                <div className="text-muted small">{t('{{shortcut}} to save', { shortcut: `${isMacOS ? '⌘' : 'Ctrl'}+Enter` })}</div>
                 <HorizontalStack className="flex-wrap">
                     {tags &&
                         tags.map((tag) => {
