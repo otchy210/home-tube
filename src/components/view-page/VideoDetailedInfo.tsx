@@ -29,6 +29,8 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
     const [selectedFolder, setSelectedFolder] = useState<string>('');
     const [folderData, setFolderData] = useState<TreeNode[]>([]);
     const [loadingFolders, setLoadingFolders] = useState<boolean>(false);
+    const [movingFile, setMovingFile] = useState<boolean>(false);
+    const [moveSuccess, setMoveSuccess] = useState<boolean>(false);
     const api = useApi();
     const { t } = useI18n();
 
@@ -57,6 +59,34 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
                 });
         }
     }, [showMoveFileModal, folderData.length, api]);
+
+    const handleMoveFile = () => {
+        if (!selectedFolder) {
+            return;
+        }
+
+        setMovingFile(true);
+        setMoveSuccess(false);
+
+        api.postMove(key, selectedFolder)
+            .then((result) => {
+                setMoveSuccess(true);
+                setMovingFile(false);
+            })
+            .catch((error) => {
+                console.error('Failed to move file:', error);
+                setMovingFile(false);
+                // You might want to show an error toast here
+            });
+    };
+
+    const handleCloseModal = () => {
+        if (!movingFile) {
+            setShowMoveFileModal(false);
+            setSelectedFolder('');
+            setMoveSuccess(false);
+        }
+    };
 
     const [mp4Variant, mp4Message, mp4ConvertButton] = (() => {
         switch (mp4) {
@@ -96,41 +126,85 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
     const isTheater = mode === 'theater';
     return (
         <>
-            <Modal show={showMoveFileModal} onHide={() => setShowMoveFileModal(false)} size="lg">
-                <ModalHeader closeButton>{t('Move file')}</ModalHeader>
+            <Modal show={showMoveFileModal} onHide={handleCloseModal} size="lg">
+                <ModalHeader closeButton={!movingFile}>{t('Move file')}</ModalHeader>
                 <ModalBody>
-                    <p>{t('Select destination folder:')}</p>
-                    <div className="border rounded p-2" style={{ maxHeight: '300px', overflow: 'auto' }}>
-                        {loadingFolders ? (
-                            <div className="text-center py-3">
-                                <div className="spinner-border spinner-border-sm me-2" role="status">
-                                    <span className="visually-hidden">{t('Loading...')}</span>
-                                </div>
-                                {t('Loading folders...')}
+                    {moveSuccess ? (
+                        <div className="text-center py-4">
+                            <div className="text-success mb-3">
+                                <i className="bi bi-check-circle-fill fs-1"></i>
                             </div>
-                        ) : folderData.length > 0 ? (
-                            <Tree
-                                treeData={folderData}
-                                onSelect={(selectedKeys) => {
-                                    if (selectedKeys.length > 0) {
-                                        setSelectedFolder(selectedKeys[0] as string);
-                                    }
-                                }}
-                                showIcon
-                                defaultExpandAll
-                                icon={({ expanded }) => <span className="fs-6">{expanded ? '📂' : '📁'}</span>}
-                            />
-                        ) : (
-                            <div className="text-center py-3 text-muted">{t('No folders available')}</div>
-                        )}
-                    </div>
-                    <div className="mt-3 p-2 bg-light rounded">
-                        <strong>{t('Selected folder:')}</strong> {selectedFolder || t('None selected')}
-                    </div>
+                            <h5>{t('File moved successfully!')}</h5>
+                            <p className="text-muted">{t('The file has been moved to the selected destination.')}</p>
+                        </div>
+                    ) : (
+                        <>
+                            <p>{t('Select destination folder:')}</p>
+                            <div className="border rounded p-2" style={{ maxHeight: '300px', overflow: 'auto' }}>
+                                {loadingFolders ? (
+                                    <div className="text-center py-3">
+                                        <div className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">{t('Loading...')}</span>
+                                        </div>
+                                        {t('Loading folders...')}
+                                    </div>
+                                ) : folderData.length > 0 ? (
+                                    <Tree
+                                        treeData={folderData}
+                                        onSelect={(selectedKeys) => {
+                                            if (selectedKeys.length > 0) {
+                                                setSelectedFolder(selectedKeys[0] as string);
+                                            }
+                                        }}
+                                        showIcon
+                                        defaultExpandAll
+                                        icon={({ expanded }) => <span className="fs-6">{expanded ? '📂' : '📁'}</span>}
+                                    />
+                                ) : (
+                                    <div className="text-center py-3 text-muted">{t('No folders available')}</div>
+                                )}
+                            </div>
+                            <div className="mt-3 p-2 bg-light rounded">
+                                <strong>{t('Selected folder:')}</strong> {selectedFolder || t('None selected')}
+                            </div>
+                            {movingFile && (
+                                <div className="mt-3 p-3 bg-info bg-opacity-10 rounded">
+                                    <div className="d-flex align-items-center">
+                                        <div className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">{t('Moving...')}</span>
+                                        </div>
+                                        <div>
+                                            <strong>{t('Moving file...')}</strong>
+                                            <div className="text-muted small">{t('This may take a while if moving between different disks.')}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </ModalBody>
                 <ModalFooter>
-                    <SecondaryButton onClick={() => setShowMoveFileModal(false)}>{t('Cancel')}</SecondaryButton>
-                    <PrimaryButton disabled={!selectedFolder}>{t('Move file')}</PrimaryButton>
+                    {moveSuccess ? (
+                        <PrimaryButton onClick={handleCloseModal}>{t('Close')}</PrimaryButton>
+                    ) : (
+                        <>
+                            <SecondaryButton onClick={handleCloseModal} disabled={movingFile}>
+                                {t('Cancel')}
+                            </SecondaryButton>
+                            <PrimaryButton onClick={handleMoveFile} disabled={!selectedFolder || movingFile}>
+                                {movingFile ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">{t('Moving...')}</span>
+                                        </span>
+                                        {t('Moving...')}
+                                    </>
+                                ) : (
+                                    t('Move file')
+                                )}
+                            </PrimaryButton>
+                        </>
+                    )}
                 </ModalFooter>
             </Modal>
             <Confirm

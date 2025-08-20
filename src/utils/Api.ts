@@ -157,4 +157,8 @@ export class Api {
     getFolders(): Promise<FolderData[]> {
         return this.get<FolderData[]>('/folders');
     }
+    postMove(key: string, dest: string): Promise<VideoValues> {
+        this.detailsCache.remove(key);
+        return this.post<VideoValues>('/move', {}, { key, dest });
+    }
 }
