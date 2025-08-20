@@ -92,6 +92,19 @@ const SnapshotPreview: React.FC<Props> = ({ show, setShow, details, video, updat
     const onHide = () => {
         setShow(false);
     };
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onHide();
+            }
+        };
+        if (show) {
+            document.addEventListener('keydown', onKeyDown);
+        }
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [show]);
     const onUpdate = () => {
         if (canvasRef.current) {
             setSubmitting(true);
