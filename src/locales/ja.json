@@ -88,6 +88,8 @@
     "Search": "検索",
     "Search page": "検索ページ",
     "Searchable videos": "検索可能な動画",
+    "Select destination folder:": "移動先フォルダを選択:",
+    "Selected folder:": "選択されたフォルダ:",
     "Server status": "サーバステータス",
     "Short (<=5m)": "ショート (5 分以下)",
     "Showing {{first}} - {{last}} of {{total}}": "{{total}} 件中 {{first}} - {{last}} 件",
