@@ -11,6 +11,7 @@ import {
     VideoValues,
 } from '@otchy/home-tube-api/dist/types';
 import { createSearchParams } from 'react-router-dom';
+import { FolderData } from '../types';
 import TimeSizeLimitedCache from './TimeSizeLimitedCache';
 
 type Method = 'GET' | 'POST' | 'DELETE';
@@ -152,5 +153,12 @@ export class Api {
     }
     postRename(key: string, name: string): Promise<VideoValues> {
         return this.post<VideoValues>('/rename', {}, { key, name });
+    }
+    getFolders(): Promise<FolderData[]> {
+        return this.get<FolderData[]>('/folders');
+    }
+    postMove(key: string, dest: string): Promise<VideoValues> {
+        this.detailsCache.remove(key);
+        return this.post<VideoValues>('/move', {}, { key, dest });
     }
 }

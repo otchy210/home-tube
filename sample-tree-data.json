@@ -1,0 +1,88 @@
+[
+  {
+    "path": "/Users/otchy/Desktop/test-movie",
+    "name": "test-movie",
+    "folders": []
+  },
+  {
+    "path": "/Users/otchy/localtmp/db",
+    "name": "db",
+    "folders": [
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-18",
+        "name": "FC2-18",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-19",
+        "name": "FC2-19",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-20",
+        "name": "FC2-20",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-21",
+        "name": "FC2-21",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-22",
+        "name": "FC2-22",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-23",
+        "name": "FC2-23",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-24",
+        "name": "FC2-24",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-25",
+        "name": "FC2-25",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-26",
+        "name": "FC2-26",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-27",
+        "name": "FC2-27",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-28",
+        "name": "FC2-28",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-29",
+        "name": "FC2-29",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-30",
+        "name": "FC2-30",
+        "folders": []
+      },
+      {
+        "path": "/Users/otchy/localtmp/db/FC2-30.0-4",
+        "name": "FC2-30.0-4",
+        "folders": []
+      }
+    ]
+  },
+  {
+    "path": "/Users/otchy/localtmp/db-selected",
+    "name": "db-selected",
+    "folders": []
+  }
+]

@@ -1,12 +1,15 @@
-import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
-import React, { useState } from 'react';
+import { VideoConverterStatus, VideoDetails, VideoValues } from '@otchy/home-tube-api/dist/types';
+import Tree from 'rc-tree';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { VideoViewMode } from '../../types';
+import 'rc-tree/assets/index.css';
+import { VideoViewMode, FolderData, TreeNode } from '../../types';
 import { formatFileSize, formatTime } from '../../utils/StringUtils';
 import { Badge, BadgeVariant } from '../common/badges';
-import { PrimaryButton } from '../common/buttons';
+import { PrimaryButton, SecondaryButton, LinkButton } from '../common/buttons';
 import Confirm from '../common/Confirm';
 import { Col, Container, Row } from '../common/layouts';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -22,8 +25,72 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
     const [mp4, setMp4] = useState<VideoConverterStatus>(givenMp4 ?? 'unavailable');
     const [showMp4Confirm, setShowMp4Confirm] = useState<boolean>(false);
     const [showMp4RemovalConfirm, setShowMp4RemovalConfirm] = useState<boolean>(false);
+    const [showMoveFileModal, setShowMoveFileModal] = useState<boolean>(false);
+    const [selectedFolder, setSelectedFolder] = useState<string>('');
+    const [folderData, setFolderData] = useState<TreeNode[]>([]);
+    const [loadingFolders, setLoadingFolders] = useState<boolean>(false);
+    const [movingFile, setMovingFile] = useState<boolean>(false);
+    const [moveSuccess, setMoveSuccess] = useState<boolean>(false);
+    const [newKey, setNewKey] = useState<string>('');
+    const openNewRef = useRef<HTMLButtonElement>(null!);
     const api = useApi();
     const { t } = useI18n();
+
+    const transformFolderData = (folders: FolderData[], isRoot = true): TreeNode[] => {
+        return folders.map((folder) => ({
+            key: folder.path,
+            title: isRoot ? folder.path : folder.name,
+            children: folder.folders.length > 0 ? transformFolderData(folder.folders, false) : undefined,
+        }));
+    };
+
+    useEffect(() => {
+        if (showMoveFileModal && folderData.length === 0) {
+            setLoadingFolders(true);
+            api.getFolders()
+                .then((folders) => {
+                    const transformedData = transformFolderData(folders);
+                    setFolderData(transformedData);
+                })
+                .catch((error) => {
+                    console.error('Failed to load folders:', error);
+                    setFolderData([]);
+                })
+                .finally(() => {
+                    setLoadingFolders(false);
+                });
+        }
+    }, [showMoveFileModal, folderData.length, api]);
+
+    const handleMoveFile = () => {
+        if (!selectedFolder) {
+            return;
+        }
+
+        setMovingFile(true);
+        setMoveSuccess(false);
+
+        api.postMove(key, selectedFolder)
+            .then((result: VideoValues) => {
+                setNewKey(result.key);
+                setMoveSuccess(true);
+                setMovingFile(false);
+                openNewRef.current.focus();
+            })
+            .catch((error) => {
+                console.error('Failed to move file:', error);
+                setMovingFile(false);
+                // You might want to show an error toast here
+            });
+    };
+
+    const handleCloseModal = () => {
+        if (!movingFile) {
+            setShowMoveFileModal(false);
+            setSelectedFolder('');
+            setMoveSuccess(false);
+        }
+    };
 
     const [mp4Variant, mp4Message, mp4ConvertButton] = (() => {
         switch (mp4) {
@@ -59,9 +126,101 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
             setMp4(result.status);
         });
     };
+
     const isTheater = mode === 'theater';
     return (
         <>
+            <Modal show={showMoveFileModal} onHide={handleCloseModal} size="lg">
+                <ModalHeader closeButton={!movingFile}>{t('Move file')}</ModalHeader>
+                <ModalBody>
+                    {moveSuccess ? (
+                        <div className="text-center py-4">
+                            <div className="text-success mb-3">
+                                <i className="bi bi-check-circle-fill fs-1"></i>
+                            </div>
+                            <h5>{t('File moved successfully!')}</h5>
+                            <p className="text-muted">{t('The file has been moved. Current URL is no longer available.')}</p>
+                        </div>
+                    ) : (
+                        <>
+                            <p>{t('Select destination folder:')}</p>
+                            <div className="border rounded p-2" style={{ maxHeight: '300px', overflow: 'auto' }}>
+                                {loadingFolders ? (
+                                    <div className="text-center py-3">
+                                        <div className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">{t('Loading...')}</span>
+                                        </div>
+                                        {t('Loading folders...')}
+                                    </div>
+                                ) : folderData.length > 0 ? (
+                                    <Tree
+                                        treeData={folderData}
+                                        onSelect={(selectedKeys) => {
+                                            if (selectedKeys.length > 0) {
+                                                setSelectedFolder(selectedKeys[0] as string);
+                                            }
+                                        }}
+                                        showIcon
+                                        defaultExpandAll
+                                        icon={({ expanded }) => <span className="fs-6">{expanded ? '📂' : '📁'}</span>}
+                                    />
+                                ) : (
+                                    <div className="text-center py-3 text-muted">{t('No folders available')}</div>
+                                )}
+                            </div>
+                            <div className="mt-3 p-2 bg-light rounded">
+                                <strong>{t('Selected folder:')}</strong> {selectedFolder || t('None selected')}
+                            </div>
+                            {movingFile && (
+                                <div className="mt-3 p-3 bg-info bg-opacity-10 rounded">
+                                    <div className="d-flex align-items-center">
+                                        <div className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">{t('Moving...')}</span>
+                                        </div>
+                                        <div>
+                                            <strong>{t('Moving file...')}</strong>
+                                            <div className="text-muted small">{t('This may take a while if moving between different disks.')}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </ModalBody>
+                <ModalFooter>
+                    {moveSuccess ? (
+                        <>
+                            <LinkButton onClick={() => (window.location.href = '/')}>{t('Go to home')}</LinkButton>
+                            <PrimaryButton
+                                onClick={() => {
+                                    window.location.replace(`/view?key=${newKey}`);
+                                }}
+                                ref={openNewRef}
+                            >
+                                {t('Open new URL')}
+                            </PrimaryButton>
+                        </>
+                    ) : (
+                        <>
+                            <SecondaryButton onClick={handleCloseModal} disabled={movingFile}>
+                                {t('Cancel')}
+                            </SecondaryButton>
+                            <PrimaryButton onClick={handleMoveFile} disabled={!selectedFolder || movingFile}>
+                                {movingFile ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">{t('Moving...')}</span>
+                                        </span>
+                                        {t('Moving...')}
+                                    </>
+                                ) : (
+                                    t('Move file')
+                                )}
+                            </PrimaryButton>
+                        </>
+                    )}
+                </ModalFooter>
+            </Modal>
             <Confirm
                 show={showMp4Confirm}
                 setShow={setShowMp4Confirm}
@@ -112,6 +271,16 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
                                 <dd>{vcodec ?? '-'}</dd>
                                 <dt>{t('Audio codec')}</dt>
                                 <dd>{acodec ?? '-'}</dd>
+                            </DataList>
+                        </Col>
+                        <Col width={[12, 12, 6, isTheater ? 6 : 12]}>
+                            <DataList>
+                                <dt>{t('File Control')}</dt>
+                                <dd>
+                                    <PrimaryButton size="sm" onClick={() => setShowMoveFileModal(true)}>
+                                        {t('Move')}
+                                    </PrimaryButton>
+                                </dd>
                             </DataList>
                         </Col>
                         <Col width={[12, 12, 6, isTheater ? 6 : 12]}>
