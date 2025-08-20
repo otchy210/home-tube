@@ -35,30 +35,13 @@ const ReloadIcon = styled(ReloadSvg).attrs({ width: 32, height: 32 })`
     cursor: pointer;
 `;
 
-const filterValidationErrors = (errors: AppConfigValidationError[], config: AppConfig): AppConfigValidationError[] => {
-    return errors.filter((error) => {
-        if (error.message === "Storage doesn't exist") {
-            const storage = config.storages.find((s) => s.path === error.source);
-            if (storage && !storage.enabled) {
-                return false;
-            }
-        }
-        return true;
-    });
+const isAppConfigValidationErrors = (results: AppConfig | AppConfigValidationError[]): results is AppConfigValidationError[] => {
+    return Array.isArray(results);
 };
 
-const isAppConfigValidationErrors = (results: AppConfig | AppConfigValidationError[], config: AppConfig): results is AppConfigValidationError[] => {
-    if (!Array.isArray(results)) {
-        return false;
-    }
-    const filtered = filterValidationErrors(results, config);
-    results.splice(0, results.length, ...filtered);
-    return filtered.length > 0;
-};
+type StorageValidatinErrors = Map<number, string>;
 
-type StorageValidationErrors = Map<number, string>;
-
-export const validateStorages = (storages: Storage[], t: TFunction): StorageValidationErrors => {
+export const validateStorages = (storages: Storage[], t: TFunction): StorageValidatinErrors => {
     const errors = new Map<number, string>();
     const seenPaths: { [path: string]: number[] } = {};
     storages.forEach((storage, index) => {
@@ -88,7 +71,7 @@ const ConfigPage: React.FC = () => {
     const [updated, setUpdated] = useState<boolean>(false);
     const [hasError, setHasError] = useState<boolean>(false);
     const [submitting, setSubmitting] = useState<boolean>(false);
-    const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidationErrors>(new Map<number, string>());
+    const [storageValidationErrors, setStorageValidationErrors] = useState<StorageValidatinErrors>(new Map<number, string>());
     const { t } = useI18n();
     const api = useApi();
     const toast = useToast();
@@ -176,7 +159,7 @@ const ConfigPage: React.FC = () => {
         setSubmitting(true);
         api.postAppConfig(appConfig)
             .then((results) => {
-                if (isAppConfigValidationErrors(results, appConfig)) {
+                if (isAppConfigValidationErrors(results)) {
                     toast.addError(
                         t('Config page'),
                         results.map((result) => {
