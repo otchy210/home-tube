@@ -1,12 +1,12 @@
-import { VideoConverterStatus, VideoDetails } from '@otchy/home-tube-api/dist/types';
+import { VideoConverterStatus, VideoDetails, VideoValues } from '@otchy/home-tube-api/dist/types';
 import Tree from 'rc-tree';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import 'rc-tree/assets/index.css';
 import { VideoViewMode, FolderData, TreeNode } from '../../types';
 import { formatFileSize, formatTime } from '../../utils/StringUtils';
 import { Badge, BadgeVariant } from '../common/badges';
-import { PrimaryButton, SecondaryButton } from '../common/buttons';
+import { PrimaryButton, SecondaryButton, LinkButton } from '../common/buttons';
 import Confirm from '../common/Confirm';
 import { Col, Container, Row } from '../common/layouts';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
@@ -31,6 +31,8 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
     const [loadingFolders, setLoadingFolders] = useState<boolean>(false);
     const [movingFile, setMovingFile] = useState<boolean>(false);
     const [moveSuccess, setMoveSuccess] = useState<boolean>(false);
+    const [newKey, setNewKey] = useState<string>('');
+    const openNewRef = useRef<HTMLButtonElement>(null!);
     const api = useApi();
     const { t } = useI18n();
 
@@ -69,9 +71,11 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
         setMoveSuccess(false);
 
         api.postMove(key, selectedFolder)
-            .then((result) => {
+            .then((result: VideoValues) => {
+                setNewKey(result.key);
                 setMoveSuccess(true);
                 setMovingFile(false);
+                openNewRef.current.focus();
             })
             .catch((error) => {
                 console.error('Failed to move file:', error);
@@ -135,7 +139,7 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
                                 <i className="bi bi-check-circle-fill fs-1"></i>
                             </div>
                             <h5>{t('File moved successfully!')}</h5>
-                            <p className="text-muted">{t('The file has been moved to the selected destination.')}</p>
+                            <p className="text-muted">{t('The file has been moved. Current URL is no longer available.')}</p>
                         </div>
                     ) : (
                         <>
@@ -185,7 +189,17 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
                 </ModalBody>
                 <ModalFooter>
                     {moveSuccess ? (
-                        <PrimaryButton onClick={handleCloseModal}>{t('Close')}</PrimaryButton>
+                        <>
+                            <LinkButton onClick={() => (window.location.href = '/')}>{t('Go to home')}</LinkButton>
+                            <PrimaryButton
+                                onClick={() => {
+                                    window.location.replace(`/view?key=${newKey}`);
+                                }}
+                                ref={openNewRef}
+                            >
+                                {t('Open new URL')}
+                            </PrimaryButton>
+                        </>
                     ) : (
                         <>
                             <SecondaryButton onClick={handleCloseModal} disabled={movingFile}>

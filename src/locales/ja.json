@@ -106,7 +106,7 @@
     "Storage doesn't exist": "フォルダが存在しません",
     "Storages": "フォルダ",
     "Tags": "タグ",
-    "The file has been moved to the selected destination.": "ファイルが選択された移動先に移動されました。",
+    "The file has been moved. Current URL is no longer available.": "ファイルが移動されました。現在の URL は無効になっています。",
     "The file name has been updated. Current URL is no longer avaiable.": "ファイル名が変更されました。現在の URL は無効になっています。",
     "The original file will remain as is. The process will make a MP4 format copy.": "元の動画はそのまま残ります。この動画変換では MP4 形式のコピーを作ります。",
     "The process will take possibly very long time depending on the performance of the machine you're using. It typically takes more time than the video length.": "この動画変換はお使いのマシンの性能によっては非常に長い時間がかかります。たいていの場合、動画自体の長さよりも長い時間です。",
