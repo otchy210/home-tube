@@ -38,7 +38,7 @@
         "access": "public"
     },
     "devDependencies": {
-        "@otchy/home-tube-api": "^0.13.9",
+        "@otchy/home-tube-api": "^0.15.2",
         "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^12.1.2",
         "@types/bootstrap": "^5.1.8",
