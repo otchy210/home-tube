@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import { VideoViewMode } from '../../types';
 import { formatFileSize, formatTime } from '../../utils/StringUtils';
 import { Badge, BadgeVariant } from '../common/badges';
-import { PrimaryButton } from '../common/buttons';
+import { PrimaryButton, SecondaryButton } from '../common/buttons';
 import Confirm from '../common/Confirm';
 import { Col, Container, Row } from '../common/layouts';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from '../common/modal';
 import { useApi } from '../providers/ApiProvider';
 import { useI18n } from '../providers/I18nProvider';
 
@@ -22,6 +23,7 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
     const [mp4, setMp4] = useState<VideoConverterStatus>(givenMp4 ?? 'unavailable');
     const [showMp4Confirm, setShowMp4Confirm] = useState<boolean>(false);
     const [showMp4RemovalConfirm, setShowMp4RemovalConfirm] = useState<boolean>(false);
+    const [showMoveFileModal, setShowMoveFileModal] = useState<boolean>(false);
     const api = useApi();
     const { t } = useI18n();
 
@@ -59,9 +61,20 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
             setMp4(result.status);
         });
     };
+
     const isTheater = mode === 'theater';
     return (
         <>
+            <Modal show={showMoveFileModal} onHide={() => setShowMoveFileModal(false)} size="lg">
+                <ModalHeader closeButton>{t('Move file')}</ModalHeader>
+                <ModalBody>
+                    <p>{t('Move file functionality will be implemented here.')}</p>
+                </ModalBody>
+                <ModalFooter>
+                    <SecondaryButton onClick={() => setShowMoveFileModal(false)}>{t('Cancel')}</SecondaryButton>
+                    <PrimaryButton>{t('Move file')}</PrimaryButton>
+                </ModalFooter>
+            </Modal>
             <Confirm
                 show={showMp4Confirm}
                 setShow={setShowMp4Confirm}
@@ -118,7 +131,9 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
                             <DataList>
                                 <dt>{t('File Control')}</dt>
                                 <dd>
-                                    <PrimaryButton size="sm">{t('Move')}</PrimaryButton>
+                                    <PrimaryButton size="sm" onClick={() => setShowMoveFileModal(true)}>
+                                        {t('Move')}
+                                    </PrimaryButton>
                                 </dd>
                             </DataList>
                         </Col>
