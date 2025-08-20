@@ -116,6 +116,14 @@ const VideoDetailedInfo: React.FC<Props> = ({ details, mode }: Props) => {
                         </Col>
                         <Col width={[12, 12, 6, isTheater ? 6 : 12]}>
                             <DataList>
+                                <dt>{t('File Control')}</dt>
+                                <dd>
+                                    <PrimaryButton size="sm">{t('Move')}</PrimaryButton>
+                                </dd>
+                            </DataList>
+                        </Col>
+                        <Col width={[12, 12, 6, isTheater ? 6 : 12]}>
+                            <DataList>
                                 <dt>
                                     <Badge variant={mp4Variant}>{t('Recommended MP4')}</Badge>
                                 </dt>
