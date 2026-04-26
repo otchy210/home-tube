@@ -19,8 +19,8 @@
         "i18next": "npx i18next",
         "test": "jest",
         "test:u": "jest -u",
-        "lint": "eslint --no-error-on-unmatched-pattern src/*",
-        "lint:fix": "eslint --fix --no-error-on-unmatched-pattern src/*",
+        "lint": "eslint --no-error-on-unmatched-pattern \"src/**/*.{js,jsx,ts,tsx}\"",
+        "lint:fix": "eslint --fix --no-error-on-unmatched-pattern \"src/**/*.{js,jsx,ts,tsx}\"",
         "prepare": "npm run build",
         "start": "node bin/home-tube"
     },
